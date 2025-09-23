@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-swimming.jpg";
-import gabrielHeadshot from "@/assets/gabriel-headshot.webp";
+import gabrielAvatar from "@/assets/gabriel-avatar.jpg";
 
 const HeroSection = () => {
   return (
@@ -47,7 +47,7 @@ const HeroSection = () => {
           {/* Circular Avatar */}
           <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white/30 shadow-lg flex-shrink-0">
             <img 
-              src={gabrielHeadshot} 
+              src={gabrielAvatar} 
               alt="Gabriel Mangabeira" 
               className="w-full h-full object-cover object-center"
             />
