@@ -33,12 +33,14 @@ const HeroSection = () => {
         
         {/* Subheadline - First Person, Approachable */}
         <div className="max-w-3xl mx-auto mb-12">
-          <p 
-            className="font-body font-medium text-white-soft text-lg sm:text-xl md:text-2xl lg:text-3xl leading-relaxed"
-            style={{ textShadow: 'var(--text-shadow-subtle)' }}
-          >
-            I apply Olympic-level discipline to SEO, Paid Media, Web3 & AI strategy—turning data-driven insights into measurable growth.
-          </p>
+          <div className="bg-navy-deep/25 backdrop-blur-sm rounded-lg px-6 py-4 border border-white/10">
+            <p 
+              className="font-body font-medium text-white-soft text-base sm:text-lg md:text-xl leading-loose"
+              style={{ textShadow: 'var(--text-shadow-subtle)' }}
+            >
+              I apply Olympic-level discipline to SEO, Paid Media, Web3 & AI strategy, turning data-driven insights into measurable growth.
+            </p>
+          </div>
         </div>
         
         {/* Credibility Badges - Pill-shaped Semi-transparent Backdrop */}
