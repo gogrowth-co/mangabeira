@@ -60,9 +60,12 @@ export default {
           DEFAULT: "hsl(var(--hero-gold))",
           olympic: "hsl(var(--hero-gold))",
           hover: "hsl(var(--hero-gold-hover))",
+          orange: "hsl(var(--hero-orange))",
         },
         charcoal: "hsl(var(--charcoal))",
         "gray-light": "hsl(var(--gray-light))",
+        "white-pure": "hsl(var(--white-pure))",
+        "white-soft": "hsl(var(--white-soft))",
       },
       fontFamily: {
         hero: ["var(--font-hero)", "sans-serif"],
@@ -71,6 +74,7 @@ export default {
       },
       backgroundImage: {
         "gradient-hero": "var(--gradient-hero)",
+        "gradient-cta": "var(--gradient-cta)",
         "gradient-gold": "var(--gradient-gold)",
       },
       boxShadow: {
@@ -80,6 +84,7 @@ export default {
       textShadow: {
         "hero": "var(--text-shadow-hero)",
         "subtle": "var(--text-shadow-subtle)",
+        "light": "var(--text-shadow-light)",
       },
       borderRadius: {
         lg: "var(--radius)",

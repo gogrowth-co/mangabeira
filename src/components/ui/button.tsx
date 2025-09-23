@@ -16,8 +16,8 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         // Hero button variants for mangabeira.net
-        hero: "bg-gradient-gold text-white font-hero font-bold shadow-button hover:shadow-button-hover hover:scale-105 active:scale-95",
-        "hero-outline": "border-2 border-white bg-transparent text-white font-hero font-semibold hover:bg-white hover:text-navy-deep",
+        hero: "bg-gradient-cta text-white font-hero font-bold shadow-button hover:shadow-button-hover hover:scale-105 active:scale-95",
+        "hero-outline": "border-2 border-white bg-transparent text-white font-hero font-semibold hover:bg-white hover:text-navy-deep hover:shadow-[0_0_20px_rgba(31,182,255,0.5)] transition-all duration-300",
       },
       size: {
         default: "h-10 px-4 py-2 text-sm",
