@@ -66,6 +66,10 @@ export default {
         "gray-light": "hsl(var(--gray-light))",
         "white-pure": "hsl(var(--white-pure))",
         "white-soft": "hsl(var(--white-soft))",
+        // Accent colors for key term highlighting
+        "accent-orange": "hsl(var(--accent-orange))",
+        "accent-blue": "hsl(var(--accent-blue))",
+        "accent-green": "hsl(var(--accent-green))",
       },
       fontFamily: {
         hero: ["var(--font-hero)", "sans-serif"],

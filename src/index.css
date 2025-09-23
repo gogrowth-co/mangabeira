@@ -50,9 +50,14 @@
     --white-pure: 0 0% 100%;         /* #FFFFFF - Pure white for headline */
     --white-soft: 0 0% 95%;          /* #F2F2F2 - Soft white for subheadline */
     
-    /* Gradients - Dark to transparent from bottom to top */
-    --gradient-hero: linear-gradient(0deg, hsl(var(--navy-deep) / 0.9) 0%, hsl(var(--navy-deep) / 0.4) 40%, transparent 100%);
-    --gradient-cta: linear-gradient(135deg, hsl(var(--hero-gold)), hsl(var(--hero-orange)));
+    /* Accent colors for highlighting key terms */
+    --accent-orange: 22 100% 55%;    /* #FF8533 - For SEO highlighting */
+    --accent-blue: 200 100% 60%;     /* #33B8FF - For Web3 & AI highlighting */
+    --accent-green: 120 60% 50%;     /* #4CAF50 - For growth highlighting */
+    
+    /* Gradients - Top to bottom for improved readability */
+    --gradient-hero: linear-gradient(180deg, hsl(var(--navy-deep) / 0.8) 0%, hsl(var(--navy-deep) / 0.3) 50%, transparent 100%);
+    --gradient-cta: linear-gradient(135deg, hsl(var(--hero-orange)), hsl(var(--hero-gold)));
     --gradient-gold: linear-gradient(135deg, hsl(var(--hero-gold)), hsl(var(--hero-gold-hover)));
     
     /* Typography scale */
