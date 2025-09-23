@@ -50,15 +50,15 @@
     --white-pure: 0 0% 100%;         /* #FFFFFF - Pure white for headline */
     --white-soft: 0 0% 95%;          /* #F2F2F2 - Soft white for subheadline */
     
-    /* Gradients - Dark to transparent from top */
-    --gradient-hero: linear-gradient(180deg, hsl(var(--navy-deep) / 0.85) 0%, hsl(var(--navy-deep) / 0.4) 50%, transparent 100%);
+    /* Gradients - Dark to transparent from bottom to top */
+    --gradient-hero: linear-gradient(0deg, hsl(var(--navy-deep) / 0.9) 0%, hsl(var(--navy-deep) / 0.4) 40%, transparent 100%);
     --gradient-cta: linear-gradient(135deg, hsl(var(--hero-gold)), hsl(var(--hero-orange)));
     --gradient-gold: linear-gradient(135deg, hsl(var(--hero-gold)), hsl(var(--hero-gold-hover)));
     
     /* Typography scale */
-    --font-hero: 'Montserrat', sans-serif;
+    --font-hero: 'Poppins', sans-serif;
     --font-body: 'Inter', sans-serif;
-    --font-accent: 'Playfair Display', serif;
+    --font-accent: 'Montserrat', serif;
     
     /* Text shadows for maximum readability */
     --text-shadow-hero: 0 2px 8px rgba(11, 29, 58, 0.9), 0 0 20px rgba(11, 29, 58, 0.5);

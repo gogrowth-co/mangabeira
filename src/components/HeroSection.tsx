@@ -31,55 +31,58 @@ const HeroSection = () => {
           </span>
         </h1>
         
-        {/* Subheadline - Soft White with Medium Weight */}
+        {/* Subheadline - First Person, Approachable */}
         <div className="max-w-3xl mx-auto mb-12">
           <p 
             className="font-body font-medium text-white-soft text-lg sm:text-xl md:text-2xl lg:text-3xl leading-relaxed"
             style={{ textShadow: 'var(--text-shadow-subtle)' }}
           >
-            Gabriel Mangabeira applies Olympic-level discipline to SEO, Paid Media, Web3 & AI strategy,
-            turning data-driven insights into measurable growth.
+            I apply Olympic-level discipline to SEO, Paid Media, Web3 & AI strategy—turning data-driven insights into measurable growth.
           </p>
         </div>
         
-        {/* Credibility Badges - Horizontal on Desktop, Stacked on Mobile */}
-        <div 
-          className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 mb-16 text-white-pure text-base sm:text-lg lg:text-xl"
-          style={{ textShadow: 'var(--text-shadow-light)' }}
-        >
-          <div className="flex items-center gap-3">
-            <span className="text-2xl">🏅</span>
-            <span className="font-body font-medium">Olympic Athlete</span>
-          </div>
-          
-          <div className="hidden md:block text-white-soft/70 text-2xl">•</div>
-          
-          <div className="flex items-center gap-3">
-            <span className="text-2xl">📈</span>
-            <span className="font-body font-medium">1M+ SEO Readers</span>
-          </div>
-          
-          <div className="hidden md:block text-white-soft/70 text-2xl">•</div>
-          
-          <div className="flex items-center gap-3">
-            <span className="text-2xl">🌐</span>
-            <span className="font-body font-medium">Web3 & AI Strategist</span>
+        {/* Credibility Badges - Pill-shaped Semi-transparent Backdrop */}
+        <div className="mb-16 flex justify-center">
+          <div className="bg-navy-deep/30 backdrop-blur-sm rounded-full px-8 py-4 border border-white/20">
+            <div 
+              className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 text-white-pure text-sm sm:text-base lg:text-lg"
+              style={{ textShadow: 'var(--text-shadow-light)' }}
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-xl">🏅</span>
+                <span className="font-body font-light">Olympic Athlete</span>
+              </div>
+              
+              <div className="hidden md:block text-white-soft/50 text-lg">•</div>
+              
+              <div className="flex items-center gap-2">
+                <span className="text-xl">📈</span>
+                <span className="font-body font-light">1M+ SEO Readers</span>
+              </div>
+              
+              <div className="hidden md:block text-white-soft/50 text-lg">•</div>
+              
+              <div className="flex items-center gap-2">
+                <span className="text-xl">🌐</span>
+                <span className="font-body font-light">Web3 & AI Strategist</span>
+              </div>
+            </div>
           </div>
         </div>
         
-        {/* Call-to-Action Buttons - Mobile-First Stacked Layout */}
-        <div className="flex flex-col sm:flex-row gap-6 items-center justify-center max-w-lg mx-auto">
+        {/* Call-to-Action Buttons - Side by Side on Desktop, Stacked on Mobile */}
+        <div className="flex flex-col sm:flex-row gap-4 items-center justify-center max-w-lg mx-auto">
           <Button 
             variant="hero" 
             size="hero" 
-            className="w-full sm:w-auto px-12"
+            className="w-full sm:w-auto px-8 py-4 font-bold"
           >
             Work With Me
           </Button>
           <Button 
             variant="hero-outline" 
             size="hero" 
-            className="w-full sm:w-auto px-12"
+            className="w-full sm:w-auto px-8 py-4"
           >
             Explore My Work
           </Button>
