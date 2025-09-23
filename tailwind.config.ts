@@ -47,16 +47,35 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        sidebar: {
-          DEFAULT: "hsl(var(--sidebar-background))",
-          foreground: "hsl(var(--sidebar-foreground))",
-          primary: "hsl(var(--sidebar-primary))",
-          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
-          accent: "hsl(var(--sidebar-accent))",
-          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-          border: "hsl(var(--sidebar-border))",
-          ring: "hsl(var(--sidebar-ring))",
+        // Brand-specific colors
+        navy: {
+          DEFAULT: "hsl(var(--navy-deep))",
+          deep: "hsl(var(--navy-deep))",
         },
+        aqua: {
+          DEFAULT: "hsl(var(--aqua-bright))",
+          bright: "hsl(var(--aqua-bright))",
+        },
+        gold: {
+          DEFAULT: "hsl(var(--hero-gold))",
+          olympic: "hsl(var(--hero-gold))",
+          hover: "hsl(var(--hero-gold-hover))",
+        },
+        charcoal: "hsl(var(--charcoal))",
+        "gray-light": "hsl(var(--gray-light))",
+      },
+      fontFamily: {
+        hero: ["var(--font-hero)", "sans-serif"],
+        body: ["var(--font-body)", "sans-serif"],
+        accent: ["var(--font-accent)", "serif"],
+      },
+      backgroundImage: {
+        "gradient-hero": "var(--gradient-hero)",
+        "gradient-gold": "var(--gradient-gold)",
+      },
+      boxShadow: {
+        "button": "var(--shadow-button)",
+        "button-hover": "var(--shadow-button-hover)",
       },
       borderRadius: {
         lg: "var(--radius)",
