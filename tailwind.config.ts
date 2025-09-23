@@ -77,6 +77,10 @@ export default {
         "button": "var(--shadow-button)",
         "button-hover": "var(--shadow-button-hover)",
       },
+      textShadow: {
+        "hero": "var(--text-shadow-hero)",
+        "subtle": "var(--text-shadow-subtle)",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
