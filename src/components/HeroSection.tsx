@@ -42,10 +42,10 @@ const HeroSection = () => {
           </p>
         </div>
         
-        {/* Identity Strip - Avatar and Name Centered */}
-        <div className="mb-10 flex flex-col items-center gap-4 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+        {/* Identity Strip - Avatar and Name Side-Docked */}
+        <div className="mb-10 flex items-center justify-center gap-4 animate-fade-in" style={{ animationDelay: '0.4s' }}>
           {/* Circular Avatar */}
-          <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-white/30 shadow-lg">
+          <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white/30 shadow-lg flex-shrink-0">
             <img 
               src={gabrielAvatar} 
               alt="Gabriel Mangabeira" 
@@ -55,7 +55,7 @@ const HeroSection = () => {
           
           {/* Identity Text */}
           <p 
-            className="font-body text-white-pure text-base sm:text-lg font-medium text-center"
+            className="font-body text-white-pure text-base sm:text-lg font-medium text-left"
             style={{ textShadow: 'var(--text-shadow-light)' }}
           >
             Gabriel Mangabeira – Olympian & Growth Marketing Strategist
