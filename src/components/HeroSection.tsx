@@ -14,8 +14,8 @@ const HeroSection = () => {
         }}
       />
       
-      {/* Top-to-bottom Dark Gradient Overlay for Text Readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-navy-deep/20 via-transparent to-transparent" />
+      {/* Top-to-Center Dark Gradient Overlay for Text Readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-transparent" />
       
       {/* Content - Mobile-first Design */}
       <div className="relative z-10 container mx-auto px-4 py-12 text-center max-w-4xl">
