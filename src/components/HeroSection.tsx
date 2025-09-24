@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Medal, TrendingUp, Globe } from "lucide-react";
 import heroImage from "@/assets/hero-swimming.jpg";
 import gabrielAvatar from "@/assets/gabriel-avatar.jpg";
 
@@ -68,7 +69,12 @@ const HeroSection = () => {
             <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-white-pure">
               {/* Olympic Athlete */}
               <div className="flex items-center gap-2 animate-fade-in" style={{ animationDelay: '0.8s' }}>
-                <span className="text-2xl">🏅</span>
+                <Medal 
+                  size={20} 
+                  color="#FFC107" 
+                  strokeWidth={2} 
+                  className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" 
+                />
                 <span 
                   className="font-body font-light text-sm sm:text-base"
                   style={{ textShadow: 'var(--text-shadow-light)' }}
@@ -82,7 +88,12 @@ const HeroSection = () => {
               
               {/* SEO Readers */}
               <div className="flex items-center gap-2 animate-fade-in" style={{ animationDelay: '0.95s' }}>
-                <span className="text-2xl">📈</span>
+                <TrendingUp 
+                  size={20} 
+                  color="#FFC107" 
+                  strokeWidth={2} 
+                  className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" 
+                />
                 <span 
                   className="font-body font-light text-sm sm:text-base"
                   style={{ textShadow: 'var(--text-shadow-light)' }}
@@ -96,7 +107,12 @@ const HeroSection = () => {
               
               {/* Web3 & AI */}
               <div className="flex items-center gap-2 animate-fade-in" style={{ animationDelay: '1.1s' }}>
-                <span className="text-2xl">🌐</span>
+                <Globe 
+                  size={20} 
+                  color="#FFC107" 
+                  strokeWidth={2} 
+                  className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" 
+                />
                 <span 
                   className="font-body font-light text-sm sm:text-base"
                   style={{ textShadow: 'var(--text-shadow-light)' }}
