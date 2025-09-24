@@ -1,9 +1,7 @@
 import { Button } from "@/components/ui/button";
+import { Medal, TrendingUp, Globe } from "lucide-react";
 import heroImage from "@/assets/hero-swimming.jpg";
 import gabrielAvatar from "@/assets/gabriel-avatar.jpg";
-import medalIcon from "@/assets/medal-icon.png";
-import trendingIcon from "@/assets/trending-icon.png";
-import globeIcon from "@/assets/globe-icon.png";
 
 const HeroSection = () => {
   return (
@@ -71,9 +69,10 @@ const HeroSection = () => {
             <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-white-pure">
               {/* Olympic Athlete */}
               <div className="flex items-center gap-2 animate-fade-in" style={{ animationDelay: '0.8s' }}>
-                <img 
-                  src={medalIcon} 
-                  alt="Medal icon" 
+                <Medal 
+                  size={20} 
+                  color="#FFC107" 
+                  strokeWidth={2} 
                   className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" 
                 />
                 <span 
@@ -89,9 +88,10 @@ const HeroSection = () => {
               
               {/* SEO Readers */}
               <div className="flex items-center gap-2 animate-fade-in" style={{ animationDelay: '0.95s' }}>
-                <img 
-                  src={trendingIcon} 
-                  alt="Trending up icon" 
+                <TrendingUp 
+                  size={20} 
+                  color="#FFC107" 
+                  strokeWidth={2} 
                   className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" 
                 />
                 <span 
@@ -107,9 +107,10 @@ const HeroSection = () => {
               
               {/* Web3 & AI */}
               <div className="flex items-center gap-2 animate-fade-in" style={{ animationDelay: '1.1s' }}>
-                <img 
-                  src={globeIcon} 
-                  alt="Globe icon" 
+                <Globe 
+                  size={20} 
+                  color="#FFC107" 
+                  strokeWidth={2} 
                   className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" 
                 />
                 <span 
