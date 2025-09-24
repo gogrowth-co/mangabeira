@@ -1,6 +1,6 @@
 import { Medal, TrendingUp, DollarSign, Globe } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import gabrielProfessional from "@/assets/gabriel-professional.webp";
+import gabrielProfessional from "@/assets/gabriel-professional-new.webp";
 
 const AboutSection = () => {
   const authoritySignals = [
@@ -51,22 +51,22 @@ const AboutSection = () => {
             {/* Headline */}
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-hero font-bold text-foreground leading-tight mb-6 animate-fade-in">
               From chasing{" "}
-              <span className="text-gold-olympic">Olympic dreams</span> to helping
+              <span className="text-gold-olympic font-extrabold animate-pulse">Olympic dreams</span> to helping
               brands grow — my journey is fueled by the same{" "}
-              <span className="text-accent-blue">discipline</span>,{" "}
-              <span className="text-accent-green">resilience</span>, and love for{" "}
-              <span className="text-accent-orange">progress</span>.
+              <span className="text-accent-blue font-semibold">discipline</span>,{" "}
+              <span className="text-accent-green font-semibold">resilience</span>, and love for{" "}
+              <span className="text-accent-orange font-semibold">progress</span>.
             </h2>
 
             {/* Narrative */}
             <div className="text-lg md:text-xl text-muted-foreground font-body leading-relaxed mb-8 animate-fade-in">
               <p>
                 I grew up in the water, chasing hundredths of a second. That pursuit of
-                excellence took me to the Olympics, where I learned that discipline,
-                resilience, and focus are everything. When I transitioned from the pool to
+                excellence took me to the <span className="text-gold-olympic font-medium">Olympics</span>, where I learned that <span className="text-accent-blue font-medium">discipline</span>,
+                <span className="text-accent-green font-medium"> resilience</span>, and focus are everything. When I transitioned from the pool to
                 the world of digital marketing, I brought those same principles with me —
                 only now, instead of chasing gold medals, I help businesses chase
-                measurable growth.
+                <span className="text-accent-orange font-medium"> measurable growth</span>.
               </p>
             </div>
 
@@ -75,14 +75,14 @@ const AboutSection = () => {
               {authoritySignals.map((signal, index) => (
                 <Card
                   key={index}
-                  className="group p-6 bg-card border border-border hover:border-gold-olympic/30 hover:shadow-lg transition-all duration-300 cursor-pointer hover:scale-105"
+                  className="group p-6 bg-card border border-border hover:border-gold-olympic/30 hover:shadow-xl transition-all duration-500 cursor-pointer hover:scale-110 hover:bg-gradient-to-br hover:from-background hover:to-gray-light animate-fade-in"
                   style={{
-                    animationDelay: `${index * 150}ms`,
+                    animationDelay: `${index * 100}ms`,
                   }}
                 >
                   <div className="flex items-start gap-4">
                     <div className="flex-shrink-0">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gold-olympic to-gold-orange flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gold-olympic to-gold-orange flex items-center justify-center group-hover:scale-125 group-hover:shadow-lg group-hover:shadow-gold-olympic/30 transition-all duration-500">
                         <signal.Icon
                           className="w-6 h-6 text-white"
                           strokeWidth={2}
@@ -90,7 +90,7 @@ const AboutSection = () => {
                       </div>
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-hero font-semibold text-foreground mb-1 group-hover:text-gold-olympic transition-colors">
+                      <h3 className="font-hero font-semibold text-foreground mb-1 group-hover:text-gold-olympic transition-colors duration-300">
                         {signal.title}
                       </h3>
                       <p className="text-sm text-muted-foreground leading-relaxed">
