@@ -2,6 +2,7 @@ import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
 import SocialProofSection from "@/components/SocialProofSection";
 import ServicesSection from "@/components/ServicesSection";
+import MethodsSection from "@/components/MethodsSection";
 
 const Index = () => {
   return (
@@ -10,6 +11,7 @@ const Index = () => {
       <AboutSection />
       <SocialProofSection />
       <ServicesSection />
+      <MethodsSection />
     </main>
   );
 };
