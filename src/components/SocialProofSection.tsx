@@ -51,25 +51,32 @@ const SocialProofSection = () => {
 
   const testimonials = [
     {
-      quote: "Gabriel's versatility and growth mindset have been instrumental in our long-term collaboration. His ability to adapt and deliver results across different projects is remarkable.",
+      quote: "Gabriel has been a phenomenal team member for the last 5 years. From PPC to blogging, sales calls to project management, he excelled in every role. His unmatched hunger to learn and grow made him an asset to our team — and will make him an asset anywhere.",
       name: "Will Russell",
-      role: "Founder",
+      role: "CEO",
       company: "Russell Marketing",
       avatar: willRussellAvatar,
     },
     {
-      quote: "Working with Gabriel on our Olympic crowdfunding campaign was a game-changer. His strategic approach and understanding of both sports and business made all the difference.",
+      quote: "Gabriel is an excellent professional who works with a fantastic mission: helping social entrepreneurs. He's a high-performance guy and highly recommended, without a doubt!",
+      name: "Lucas Bhering",
+      role: "Growth Marketing Specialist",
+      company: "",
+      avatar: lucasBheringAvatar,
+    },
+    {
+      quote: "Gabriel's Olympian vision was crucial to the success of our Rio Olympics crowdfunding program across seven countries. Talented, adaptable, and always open to learning — a true partner in growth.",
       name: "Lambert Sechet",
-      role: "Olympic Athlete",
-      company: "Crowdfunding Success",
+      role: "Principal PM",
+      company: "Vimeo",
       avatar: lambertSechetAvatar,
     },
     {
-      quote: "Gabriel traz uma perspectiva única para empreendedores sociais. Sua experiência olímpica combinada com estratégia digital é poderosa.",
-      name: "Lucas Bhering",
-      role: "Social Entrepreneur",
-      company: "Impact Ventures",
-      avatar: lucasBheringAvatar,
+      quote: "A great professional with excellent ideas and strategies. From approach to activation, he always brought value and a clear vision.",
+      name: "Jonathan Guimarães",
+      role: "Sports Marketing",
+      company: "One9 Content",
+      avatar: null,
     },
   ];
 
@@ -216,12 +223,18 @@ const SocialProofSection = () => {
                 <div key={index} className="w-full flex-shrink-0 px-4">
                   <Card className="p-8 bg-card border border-border text-center">
                     <div className="flex flex-col items-center">
-                      <div className="w-16 h-16 rounded-full overflow-hidden mb-6 shadow-lg">
-                        <img
-                          src={testimonial.avatar}
-                          alt={testimonial.name}
-                          className="w-full h-full object-cover"
-                        />
+                      <div className="w-16 h-16 rounded-full overflow-hidden mb-6 shadow-lg bg-muted flex items-center justify-center">
+                        {testimonial.avatar ? (
+                          <img
+                            src={testimonial.avatar}
+                            alt={testimonial.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-gold-olympic to-gold-orange flex items-center justify-center text-white font-hero font-bold text-lg">
+                            {testimonial.name.split(' ').map(n => n[0]).join('')}
+                          </div>
+                        )}
                       </div>
                       <blockquote className="text-lg md:text-xl text-muted-foreground font-body italic leading-relaxed mb-6 max-w-2xl">
                         "{testimonial.quote}"
@@ -231,7 +244,7 @@ const SocialProofSection = () => {
                           {testimonial.name}
                         </div>
                         <div className="text-muted-foreground font-body">
-                          {testimonial.role} • {testimonial.company}
+                          {testimonial.role}{testimonial.company && ` • ${testimonial.company}`}
                         </div>
                       </div>
                     </div>
