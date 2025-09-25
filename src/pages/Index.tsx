@@ -4,6 +4,7 @@ import SocialProofSection from "@/components/SocialProofSection";
 import ServicesSection from "@/components/ServicesSection";
 import MethodsSection from "@/components/MethodsSection";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
+import ToolsSection from "@/components/ToolsSection";
 
 const Index = () => {
   return (
@@ -14,6 +15,7 @@ const Index = () => {
       <ServicesSection />
       <MethodsSection />
       <CaseStudiesSection />
+      <ToolsSection />
     </main>
   );
 };
