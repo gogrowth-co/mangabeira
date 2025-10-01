@@ -17,9 +17,9 @@ const HeroSection = () => {
       {/* Strong Dark Overlay (75-80%) */}
       <div className="absolute inset-0 bg-gradient-to-b from-[rgba(10,15,26,0.80)] via-[rgba(10,15,26,0.78)] to-[rgba(10,15,26,0.75)]" />
       
-      {/* Content - Left-Aligned Layout with Right Headshot */}
-      <div className="relative z-10 container mx-auto px-4 py-16 max-w-7xl">
-        <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between gap-12 lg:gap-16">
+      {/* Content - Centered Layout with Balanced Spacing */}
+      <div className="relative z-10 container mx-auto px-6 sm:px-8 lg:px-16 xl:px-20 py-16 max-w-7xl">
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 xl:gap-16">
           
           {/* Text Content - Left Aligned */}
           <div className="order-2 lg:order-1 text-center lg:text-left max-w-[720px]">
