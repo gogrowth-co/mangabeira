@@ -48,7 +48,7 @@ const HeroSection = () => {
                 </div>
                 <div className="flex items-center gap-1.5 sm:gap-2 px-3.5 py-2.5 sm:px-5 sm:py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
                   <Globe size={18} strokeWidth={2} className="flex-shrink-0 text-[#FFB400] sm:w-6 sm:h-6" />
-                  <span className="font-body font-medium whitespace-nowrap text-[11px] sm:text-base"><span className="font-bold">$3.3M+</span> Crowdfunded</span>
+                  <span className="font-body font-medium whitespace-nowrap text-[11px] sm:text-base"><span className="font-bold">$3.3M+</span> Raised</span>
                 </div>
                 <div className="flex items-center gap-1.5 sm:gap-2 px-3.5 py-2.5 sm:px-5 sm:py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300 col-span-2 sm:col-span-1 justify-center sm:justify-start">
                   <TrendingUp size={18} strokeWidth={2} className="flex-shrink-0 text-[#FFB400] sm:w-6 sm:h-6" />
