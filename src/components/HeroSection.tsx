@@ -21,8 +21,8 @@ const HeroSection = () => {
       <div className="relative z-10 container mx-auto px-6 sm:px-8 lg:px-16 xl:px-20 py-16 max-w-7xl">
         <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-10 xl:gap-12">
           
-          {/* Text Content - Left Aligned */}
-          <div className="order-2 lg:order-1 text-center lg:text-left max-w-[720px]">
+          {/* Text Content - Left Aligned with Glassmorphism */}
+          <div className="order-2 lg:order-1 text-center lg:text-left max-w-[720px] backdrop-blur-md bg-white/10 rounded-2xl border border-white/20 p-8 sm:p-10 lg:p-12 transition-all duration-300 hover:bg-white/15">
             {/* Main Headline - Name */}
             <h1 
               className="text-white mb-4 leading-tight animate-fade-in text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
@@ -33,7 +33,7 @@ const HeroSection = () => {
             
             {/* Subtitle */}
             <h2 
-              className="font-body font-medium text-[#CCCCCC] mb-5 animate-fade-in text-lg sm:text-xl md:text-2xl"
+              className="font-body font-medium text-white/90 mb-5 animate-fade-in text-lg sm:text-xl md:text-2xl"
               style={{ animationDelay: '0.1s' }}
             >
               Olympian & Growth Marketing Strategist
@@ -41,27 +41,25 @@ const HeroSection = () => {
             
             {/* Tagline */}
             <p 
-              className="font-body text-white text-base sm:text-lg md:text-xl mb-6 leading-relaxed animate-fade-in"
+              className="font-body text-white/95 text-base sm:text-lg md:text-xl mb-6 leading-relaxed animate-fade-in"
               style={{ animationDelay: '0.2s', lineHeight: '1.8' }}
             >
               Turning Olympic discipline into measurable digital growth.
             </p>
             
-            {/* Metrics Row */}
+            {/* Metrics Row - Pill-shaped Glassy Cards */}
             <div className="mb-7 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-              <div className="flex flex-col sm:flex-row items-center lg:items-start lg:justify-start justify-center gap-4 sm:gap-6 text-white text-sm sm:text-base">
-                <div className="flex items-center gap-2.5">
-                  <Medal size={22} strokeWidth={2} className="flex-shrink-0 text-[#FFB400]" />
+              <div className="flex flex-col sm:flex-row items-center lg:items-start lg:justify-start justify-center gap-3 text-white text-sm sm:text-base">
+                <div className="backdrop-blur-sm bg-white/15 rounded-full px-4 py-2.5 border border-white/30 flex items-center gap-2.5 hover:bg-white/20 transition-all duration-300">
+                  <Medal size={20} strokeWidth={2} className="flex-shrink-0 text-[#FFB400]" />
                   <span className="font-body"><span className="font-bold">1M+</span> SEO Readers</span>
                 </div>
-                <span className="hidden sm:inline text-white/30 px-2">|</span>
-                <div className="flex items-center gap-2.5">
-                  <Globe size={22} strokeWidth={2} className="flex-shrink-0 text-[#FFB400]" />
+                <div className="backdrop-blur-sm bg-white/15 rounded-full px-4 py-2.5 border border-white/30 flex items-center gap-2.5 hover:bg-white/20 transition-all duration-300">
+                  <Globe size={20} strokeWidth={2} className="flex-shrink-0 text-[#FFB400]" />
                   <span className="font-body"><span className="font-bold">$3.3M+</span> Crowdfunded</span>
                 </div>
-                <span className="hidden sm:inline text-white/30 px-2">|</span>
-                <div className="flex items-center gap-2.5">
-                  <TrendingUp size={22} strokeWidth={2} className="flex-shrink-0 text-[#FFB400]" />
+                <div className="backdrop-blur-sm bg-white/15 rounded-full px-4 py-2.5 border border-white/30 flex items-center gap-2.5 hover:bg-white/20 transition-all duration-300">
+                  <TrendingUp size={20} strokeWidth={2} className="flex-shrink-0 text-[#FFB400]" />
                   <span className="font-body"><span className="font-bold">Millions</span> Managed</span>
                 </div>
               </div>
@@ -78,7 +76,7 @@ const HeroSection = () => {
               <Button 
                 variant="outline"
                 size="lg"
-                className="w-full sm:w-auto px-8 py-6 text-lg bg-transparent border-2 border-white text-white hover:bg-[rgba(33,150,243,0.15)] hover:border-[#2196f3] rounded-lg transition-all duration-300"
+                className="w-full sm:w-auto px-8 py-6 text-lg bg-white/10 backdrop-blur-sm border-2 border-white/80 text-white hover:bg-white/20 hover:border-white rounded-lg transition-all duration-300"
               >
                 See My Results
               </Button>
