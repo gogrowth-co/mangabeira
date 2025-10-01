@@ -15,17 +15,17 @@ const HeroSection = () => {
       />
       
       {/* Strong Dark Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[rgba(10,15,26,0.85)] via-[rgba(10,15,26,0.83)] to-[rgba(10,15,26,0.80)]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[rgba(10,15,26,0.88)] via-[rgba(10,15,26,0.86)] to-[rgba(10,15,26,0.84)]" />
       
       {/* Content - Centered Layout with Balanced Spacing */}
       <div className="relative z-10 container mx-auto px-6 sm:px-8 lg:px-16 xl:px-20 py-16 max-w-7xl">
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-10 xl:gap-12">
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 xl:gap-20">
           
           {/* Text Content - Left Aligned */}
           <div className="order-2 lg:order-1 text-center lg:text-left max-w-[720px]">
             {/* Main Headline - Name */}
             <h1 
-              className="text-white mb-4 leading-tight animate-fade-in text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
+              className="text-white mb-4 leading-tight animate-fade-in text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight"
             >
               <span className="font-accent font-bold">Gabriel</span>{" "}
               <span className="font-accent font-extrabold">Mangabeira</span>
@@ -33,7 +33,7 @@ const HeroSection = () => {
             
             {/* Subtitle */}
             <h2 
-              className="font-body font-medium text-[#CCCCCC] mb-5 animate-fade-in text-lg sm:text-xl md:text-2xl"
+              className="font-body font-semibold text-[#CCCCCC] mb-5 animate-fade-in text-xl sm:text-2xl md:text-3xl"
               style={{ animationDelay: '0.1s' }}
             >
               Olympian & Growth Marketing Strategist
@@ -41,28 +41,26 @@ const HeroSection = () => {
             
             {/* Tagline */}
             <p 
-              className="font-body text-white text-base sm:text-lg md:text-xl mb-6 leading-relaxed animate-fade-in"
+              className="font-body text-white/95 text-base sm:text-lg md:text-xl mb-7 leading-relaxed animate-fade-in font-normal"
               style={{ animationDelay: '0.2s', lineHeight: '1.8' }}
             >
-              Turning Olympic discipline into measurable digital growth.
+              Turning Olympic discipline into championship-level digital growth.
             </p>
             
             {/* Metrics Row */}
-            <div className="mb-7 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-              <div className="flex flex-col sm:flex-row items-center lg:items-start lg:justify-start justify-center gap-4 sm:gap-6 text-white text-sm sm:text-base">
-                <div className="flex items-center gap-2.5">
-                  <Medal size={22} strokeWidth={2} className="flex-shrink-0 text-[#FFB400]" />
-                  <span className="font-body"><span className="font-bold">1M+</span> SEO Readers</span>
+            <div className="mb-8 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+              <div className="flex flex-col sm:flex-row items-center lg:items-start lg:justify-start justify-center gap-3 sm:gap-4 text-white text-sm sm:text-base">
+                <div className="flex items-center gap-2.5 px-5 py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
+                  <Medal size={24} strokeWidth={2} className="flex-shrink-0 text-[#FFB400]" />
+                  <span className="font-body font-medium"><span className="font-bold">1M+</span> SEO Readers</span>
                 </div>
-                <span className="hidden sm:inline text-white/30 px-2">|</span>
-                <div className="flex items-center gap-2.5">
-                  <Globe size={22} strokeWidth={2} className="flex-shrink-0 text-[#FFB400]" />
-                  <span className="font-body"><span className="font-bold">$3.3M+</span> Crowdfunded</span>
+                <div className="flex items-center gap-2.5 px-5 py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
+                  <Globe size={24} strokeWidth={2} className="flex-shrink-0 text-[#FFB400]" />
+                  <span className="font-body font-medium"><span className="font-bold">$3.3M+</span> Crowdfunded</span>
                 </div>
-                <span className="hidden sm:inline text-white/30 px-2">|</span>
-                <div className="flex items-center gap-2.5">
-                  <TrendingUp size={22} strokeWidth={2} className="flex-shrink-0 text-[#FFB400]" />
-                  <span className="font-body"><span className="font-bold">Millions</span> Managed</span>
+                <div className="flex items-center gap-2.5 px-5 py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
+                  <TrendingUp size={24} strokeWidth={2} className="flex-shrink-0 text-[#FFB400]" />
+                  <span className="font-body font-medium"><span className="font-bold">Millions</span> Managed</span>
                 </div>
               </div>
             </div>
@@ -78,7 +76,7 @@ const HeroSection = () => {
               <Button 
                 variant="outline"
                 size="lg"
-                className="w-full sm:w-auto px-8 py-6 text-lg bg-transparent border-2 border-white text-white hover:bg-[rgba(33,150,243,0.15)] hover:border-[#2196f3] rounded-lg transition-all duration-300"
+                className="w-full sm:w-auto px-8 py-6 text-lg bg-transparent border-2 border-white/80 text-white hover:bg-white hover:text-[#0a0f1a] hover:border-white rounded-lg transition-all duration-300 font-semibold"
               >
                 See My Results
               </Button>
@@ -87,7 +85,7 @@ const HeroSection = () => {
 
           {/* Headshot - Right Side Desktop, Top on Mobile */}
           <div className="order-1 lg:order-2 animate-fade-in">
-            <div className="relative w-44 h-44 sm:w-56 sm:h-56 lg:w-72 lg:h-72 rounded-full overflow-hidden ring-[1.5px] ring-[#2196f3] shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+            <div className="relative w-48 h-48 sm:w-60 sm:h-60 lg:w-80 lg:h-80 rounded-full overflow-hidden ring-2 ring-[#FF8C42] shadow-[0_12px_48px_rgba(0,0,0,0.5),_0_0_32px_rgba(255,140,66,0.2)] hover:shadow-[0_16px_64px_rgba(0,0,0,0.6),_0_0_48px_rgba(255,140,66,0.3)] transition-all duration-300">
               <img 
                 src={gabrielAvatar} 
                 alt="Gabriel Mangabeira - Olympian and Growth Marketing Strategist headshot" 
