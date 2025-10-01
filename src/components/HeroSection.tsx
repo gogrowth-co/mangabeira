@@ -41,18 +41,18 @@ const HeroSection = () => {
             <div className="mb-6 animate-fade-in" style={{
             animationDelay: '0.3s'
           }}>
-              <div className="grid grid-cols-2 sm:flex sm:flex-row items-center lg:items-start lg:justify-start justify-center gap-2.5 sm:gap-4 text-white text-xs sm:text-base">
-                <div className="flex items-center gap-2 px-3 py-2.5 sm:px-5 sm:py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
-                  <Medal size={20} strokeWidth={2} className="flex-shrink-0 text-[#FFB400] sm:w-6 sm:h-6" />
-                  <span className="font-body font-medium whitespace-nowrap"><span className="font-bold">1M+</span> SEO Readers</span>
+              <div className="grid grid-cols-2 sm:flex sm:flex-row items-center lg:items-start lg:justify-start justify-center gap-3 sm:gap-4 text-white">
+                <div className="flex items-center gap-1.5 sm:gap-2 px-3.5 py-2.5 sm:px-5 sm:py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
+                  <Medal size={18} strokeWidth={2} className="flex-shrink-0 text-[#FFB400] sm:w-6 sm:h-6" />
+                  <span className="font-body font-medium whitespace-nowrap text-[11px] sm:text-base"><span className="font-bold">1M+</span> SEO Readers</span>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-2.5 sm:px-5 sm:py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
-                  <Globe size={20} strokeWidth={2} className="flex-shrink-0 text-[#FFB400] sm:w-6 sm:h-6" />
-                  <span className="font-body font-medium whitespace-nowrap"><span className="font-bold">$3.3M+</span> Crowdfunded</span>
+                <div className="flex items-center gap-1.5 sm:gap-2 px-3.5 py-2.5 sm:px-5 sm:py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
+                  <Globe size={18} strokeWidth={2} className="flex-shrink-0 text-[#FFB400] sm:w-6 sm:h-6" />
+                  <span className="font-body font-medium whitespace-nowrap text-[11px] sm:text-base"><span className="font-bold">$3.3M+</span> Crowdfunded</span>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-2.5 sm:px-5 sm:py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300 col-span-2 sm:col-span-1 justify-center sm:justify-start">
-                  <TrendingUp size={20} strokeWidth={2} className="flex-shrink-0 text-[#FFB400] sm:w-6 sm:h-6" />
-                  <span className="font-body font-medium whitespace-nowrap"><span className="font-bold">Millions</span> Managed</span>
+                <div className="flex items-center gap-1.5 sm:gap-2 px-3.5 py-2.5 sm:px-5 sm:py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300 col-span-2 sm:col-span-1 justify-center sm:justify-start">
+                  <TrendingUp size={18} strokeWidth={2} className="flex-shrink-0 text-[#FFB400] sm:w-6 sm:h-6" />
+                  <span className="font-body font-medium whitespace-nowrap text-[11px] sm:text-base"><span className="font-bold">Millions</span> Managed</span>
                 </div>
               </div>
             </div>
