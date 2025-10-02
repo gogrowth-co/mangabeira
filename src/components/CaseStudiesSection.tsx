@@ -212,8 +212,7 @@ const CaseStudiesSection = () => {
                 </div>
                 
                 <Button 
-                  variant="outline" 
-                  className="w-full mt-6 border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                  className="w-full mt-6 bg-gradient-to-r from-[#FF8C42] to-[#FFB020] text-white hover:shadow-[0_0_20px_rgba(255,176,32,0.5)] hover:scale-105 transition-all duration-300"
                 >
                   {study.cta}
                   <ExternalLink className="ml-2 h-4 w-4" />
