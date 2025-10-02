@@ -1,12 +1,60 @@
 import { useState, useEffect } from "react";
-import { Medal, TrendingUp, DollarSign, Target } from "lucide-react";
+import { Medal, TrendingUp, DollarSign, Target, Quote, ChevronLeft, ChevronRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import binanceLogo from "@/assets/binance-logo.png";
 import cocaColaLogo from "@/assets/coca-cola-logo.png";
 import iocLogo from "@/assets/ioc-logo.png";
+import lambertAvatar from "@/assets/lambert-sechet-avatar.png";
+import jonathanAvatar from "@/assets/jonathan-guimaraes-avatar.png";
+import lucasAvatar from "@/assets/lucas-bhering-avatar.png";
+import willAvatar from "@/assets/will-russell-avatar.png";
+import russellLogo from "@/assets/russell-marketing-logo.png";
 
 const SocialProofSection = () => {
   const [countUpValues, setCountUpValues] = useState([0, 0, 0, 0]);
+
+  const testimonials = [
+    {
+      quote: "Gabriel has been phenomenal over the last 5 years. From PPC to blogging, sales to project management, he excelled in every role. His hunger to learn and grow made him an invaluable teammate — and would make him an asset to any company.",
+      name: "Will Russell",
+      title: "Founder & CEO",
+      company: "Russell Marketing",
+      avatar: willAvatar,
+      logo: russellLogo,
+    },
+    {
+      quote: "Gabriel is a high-performance professional with a powerful mission: helping social entrepreneurs. His discipline and results-driven mindset make him highly recommended.",
+      name: "Lucas Bhering",
+      title: "Growth Hacker",
+      company: "",
+      avatar: lucasAvatar,
+      logo: null,
+    },
+    {
+      quote: "A great professional with excellent ideas and strategies. From approach to activation, Gabriel delivers impact.",
+      name: "Jonathan Guimarães",
+      title: "Marketing Leader",
+      company: "",
+      avatar: jonathanAvatar,
+      logo: null,
+    },
+    {
+      quote: "I worked with Gabriel during Sponsorise.Me's Rio Olympics crowdfunding program. His Olympian mindset and adaptability were crucial for our success across seven countries. A talented, open-minded marketer always seeking growth.",
+      name: "Lambert Sechet",
+      title: "International Program Manager",
+      company: "Sponsorise.Me",
+      avatar: lambertAvatar,
+      logo: null,
+    },
+  ];
 
   const logos = [
     { src: iocLogo, alt: "IOC", name: "IOC" },
@@ -92,73 +140,74 @@ const SocialProofSection = () => {
         {/* Section Header */}
         <div className="text-center mb-12 animate-fade-in">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-hero font-bold text-foreground mb-3">
-            Global Recognition. Olympic Results.
+            What Partners Say
           </h2>
           <p className="text-base md:text-lg text-muted-foreground font-body max-w-3xl mx-auto">
-            From Olympic discipline to digital impact — trusted by the IOC, Coca-Cola, and Binance.
+            Trusted by global leaders, entrepreneurs, and innovators.
           </p>
         </div>
 
-        {/* Logos Section */}
-        <div className="mb-16">
-          <div className="flex flex-wrap items-center justify-center gap-12 md:gap-16">
-            {logos.map((logo, index) => (
-              <div
-                key={index}
-                className="w-32 md:w-40 h-20 flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity duration-300 animate-fade-in"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                {logo.src ? (
-                  <img
-                    src={logo.src}
-                    alt={logo.alt}
-                    className="max-w-full max-h-full object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
-                  />
-                ) : (
-                  <div className="text-2xl md:text-3xl font-hero font-bold text-muted-foreground">
-                    {logo.name}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+        {/* Testimonials Carousel */}
+        <div className="mb-12 max-w-5xl mx-auto">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent>
+              {testimonials.map((testimonial, index) => (
+                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/2">
+                  <Card className="p-8 h-full flex flex-col justify-between bg-white border border-border hover:border-[#FF8C42]/30 hover:shadow-xl transition-all duration-300">
+                    <div>
+                      <Quote className="w-10 h-10 text-[#FF8C42] mb-4 opacity-50" />
+                      <p className="text-base md:text-lg text-foreground font-body italic mb-6 leading-relaxed">
+                        "{testimonial.quote}"
+                      </p>
+                    </div>
+                    
+                    <div className="flex items-center gap-4 mt-6">
+                      <img
+                        src={testimonial.avatar}
+                        alt={testimonial.name}
+                        className="w-14 h-14 rounded-full object-cover grayscale"
+                      />
+                      <div className="flex-1">
+                        <p className="font-semibold text-foreground font-body">
+                          {testimonial.name}
+                        </p>
+                        <p className="text-sm text-muted-foreground font-body">
+                          {testimonial.title}
+                          {testimonial.company && ` @ ${testimonial.company}`}
+                        </p>
+                      </div>
+                      {testimonial.logo && (
+                        <img
+                          src={testimonial.logo}
+                          alt={testimonial.company}
+                          className="w-12 h-12 object-contain grayscale opacity-50"
+                        />
+                      )}
+                    </div>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <div className="flex justify-center gap-2 mt-8">
+              <CarouselPrevious className="static translate-y-0 border-[#FF8C42]/30 text-[#FF8C42] hover:bg-[#FF8C42] hover:text-white" />
+              <CarouselNext className="static translate-y-0 border-[#FF8C42]/30 text-[#FF8C42] hover:bg-[#FF8C42] hover:text-white" />
+            </div>
+          </Carousel>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {stats.map((stat, index) => (
-            <Card
-              key={index}
-              className="group p-6 md:p-8 text-center bg-white border border-border hover:border-gold-olympic/30 hover:shadow-xl transition-all duration-500 animate-fade-in"
-              style={{ animationDelay: `${index * 150}ms` }}
-            >
-              <div className="flex flex-col items-center">
-                <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-[#FF8C42] to-[#FFB020] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <stat.Icon className="w-7 h-7 md:w-8 md:h-8 text-white" strokeWidth={2} />
-                </div>
-                <div className="text-2xl md:text-3xl font-hero font-bold text-foreground mb-1">
-                  {stat.label.includes("$") ? (
-                    <>
-                      {formatNumber(countUpValues[index], index)}
-                      <span className="text-[#FF8C42]">{stat.suffix}</span>
-                    </>
-                  ) : stat.label.includes("2x") ? (
-                    <>
-                      {formatNumber(countUpValues[index], index)}
-                      <span className="text-[#FF8C42]">{stat.suffix}</span>
-                    </>
-                  ) : (
-                    <>
-                      {formatNumber(countUpValues[index], index)}
-                      <span className="text-[#FF8C42]">{stat.suffix}</span>
-                    </>
-                  )}
-                </div>
-                <p className="text-sm md:text-base font-body font-semibold text-foreground mb-2">{stat.label}</p>
-                <p className="text-xs md:text-sm text-muted-foreground font-body">{stat.subtitle}</p>
-              </div>
-            </Card>
-          ))}
+        {/* CTA Button */}
+        <div className="text-center mb-16">
+          <Button 
+            className="bg-gradient-to-r from-[#FF8C42] to-[#FFB020] text-white hover:shadow-[0_0_20px_rgba(255,176,32,0.5)] hover:scale-105 transition-all duration-300 px-8 py-6 text-lg"
+          >
+            Want to work together? Let's talk.
+          </Button>
         </div>
       </div>
     </section>
