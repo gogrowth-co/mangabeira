@@ -3,12 +3,13 @@ import { Medal, TrendingUp, DollarSign, Target } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import binanceLogo from "@/assets/binance-logo.png";
 import cocaColaLogo from "@/assets/coca-cola-logo.png";
+import iocLogo from "@/assets/ioc-logo.png";
 
 const SocialProofSection = () => {
   const [countUpValues, setCountUpValues] = useState([0, 0, 0, 0]);
 
   const logos = [
-    { src: "", alt: "IOC", name: "IOC" },
+    { src: iocLogo, alt: "IOC", name: "IOC" },
     { src: cocaColaLogo, alt: "Coca-Cola", name: "Coca-Cola" },
     { src: binanceLogo, alt: "Binance", name: "Binance" },
   ];

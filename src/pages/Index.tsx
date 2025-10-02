@@ -10,8 +10,8 @@ const Index = () => {
   return (
     <main className="font-body">
       <HeroSection />
-      <AboutSection />
       <SocialProofSection />
+      <AboutSection />
       <ServicesSection />
       <MethodsSection />
       <CaseStudiesSection />
