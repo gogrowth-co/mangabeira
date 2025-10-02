@@ -5,6 +5,7 @@ import { ExternalLink } from "lucide-react";
 import binanceLogo from "@/assets/binance-logo.png";
 import npDigitalLogo from "@/assets/np-digital-logo.png";
 import cocaColaLogo from "@/assets/coca-cola-logo.png";
+import russellMarketingLogo from "@/assets/russell-marketing-logo.png";
 
 const caseStudies = [
   {
@@ -36,7 +37,7 @@ const caseStudies = [
   {
     id: 3,
     title: "Russell Marketing – Crowdfunding Success",
-    logo: cocaColaLogo,
+    logo: russellMarketingLogo,
     challenge: "Helping entrepreneurs launch and scale products on Kickstarter and Indiegogo.",
     approach: "Designed and managed multi-channel campaigns across acquisition, activation, and referrals.",
     impact: "$6.3M+ raised in crowdfunding.",
@@ -175,7 +176,7 @@ const CaseStudiesSection = () => {
               }}
             >
               <CardHeader className="text-center pb-4">
-                <div className="w-16 h-16 mx-auto mb-4 rounded-lg bg-background/80 p-3 transition-all duration-300 group-hover:bg-background">
+                <div className="w-20 h-20 mx-auto mb-4 rounded-lg bg-background/80 p-3 transition-all duration-300 group-hover:bg-background">
                   <img 
                     src={study.logo} 
                     alt={`${study.title} logo`}
@@ -212,7 +213,7 @@ const CaseStudiesSection = () => {
                 
                 <Button 
                   variant="outline" 
-                  className="w-full mt-6 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300"
+                  className="w-full mt-6 border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300"
                 >
                   {study.cta}
                   <ExternalLink className="ml-2 h-4 w-4" />
