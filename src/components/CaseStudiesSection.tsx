@@ -9,55 +9,55 @@ import cocaColaLogo from "@/assets/coca-cola-logo.png";
 const caseStudies = [
   {
     id: 1,
-    title: "Binance – Multi-Million Dollar Campaigns (LATAM)",
+    title: "Binance – LATAM Growth Campaigns",
     logo: binanceLogo,
-    challenge: "Binance needed to expand its presence in the highly competitive LATAM crypto market, navigating regulatory complexity and aggressive competitors.",
-    solution: "Designed and executed multi-million-dollar paid media and performance campaigns, adapting messaging to local audiences while ensuring compliance.",
-    result: "Generated 100M+ impressions and millions in ad spend managed, driving significant user acquisition across the region.",
+    challenge: "Entering the crowded LATAM crypto market with strict regulatory limits.",
+    approach: "Led multi-million-dollar paid media campaigns, localized to LATAM audiences while ensuring compliance.",
+    impact: "7M+ impressions and multi-million ad spend managed.",
     cta: "See Details",
-    accent: "border-gold/20 hover:border-gold/40",
-    hoverColor: "hover:shadow-gold/10",
-    resultNumber: "100M+",
-    resultText: "impressions generated"
+    accent: "border-accent-orange/20 hover:border-accent-orange/40",
+    hoverColor: "hover:shadow-accent-orange/10",
+    resultNumber: "7M+",
+    resultText: "impressions and multi-million ad spend managed"
   },
   {
     id: 2,
     title: "Neil Patel Brasil – SEO at Scale", 
     logo: npDigitalLogo,
-    challenge: "Growing SEO presence in Brazil and LATAM required consistent strategy, execution, and scaling high-volume content.",
-    solution: "Built and optimized a full-stack SEO/content operation, including keyword research, localized strategy, and scalable workflows.",
-    result: "Reached 1M+ monthly readers, making Neil Patel Brasil one of the top marketing blogs in LATAM.",
-    cta: "Read More",
-    accent: "border-aqua/20 hover:border-aqua/40",
-    hoverColor: "hover:shadow-aqua/10",
+    challenge: "Expanding SEO visibility across Brazil and LATAM at high volume.",
+    approach: "Built a scalable SEO/content operation with localized strategy and optimized workflows.",
+    impact: "1M+ monthly readers reached.",
+    cta: "See Details",
+    accent: "border-accent-orange/20 hover:border-accent-orange/40",
+    hoverColor: "hover:shadow-accent-orange/10",
     resultNumber: "1M+",
-    resultText: "monthly readers"
+    resultText: "monthly readers reached"
   },
   {
     id: 3,
     title: "Russell Marketing – Crowdfunding Success",
     logo: cocaColaLogo,
-    challenge: "Entrepreneurs needed to launch and scale their products on Kickstarter and Indiegogo with global reach.",
-    solution: "Developed and executed multi-channel campaigns covering acquisition, activation, and referral growth strategies.",
-    result: "Helped raise $6M+ in crowdfunding for product launches.",
-    cta: "Explore Work",
+    challenge: "Helping entrepreneurs launch and scale products on Kickstarter and Indiegogo.",
+    approach: "Designed and managed multi-channel campaigns across acquisition, activation, and referrals.",
+    impact: "$6.3M+ raised in crowdfunding.",
+    cta: "See Details",
     accent: "border-accent-orange/20 hover:border-accent-orange/40", 
     hoverColor: "hover:shadow-accent-orange/10",
-    resultNumber: "$6M+",
+    resultNumber: "$6.3M+",
     resultText: "raised in crowdfunding"
   },
   {
     id: 4,
-    title: "Coca-Cola & Powerade – Olympic Campaigns (LATAM)",
+    title: "Coca-Cola & Powerade – Olympic Campaigns",
     logo: cocaColaLogo,
-    challenge: "Activate Coca-Cola and Powerade's sponsorships during the Olympic Games, connecting with passionate LATAM audiences.",
-    solution: "Designed and led campaigns that merged Olympic storytelling with brand messaging, driving engagement through digital-first activations.",
-    result: "Delivered 50M+ impressions and boosted consumer engagement during the Games.",
+    challenge: "Activating Olympic sponsorships for Coca-Cola and Powerade in LATAM.",
+    approach: "Created digital-first campaigns merging sports storytelling with brand engagement.",
+    impact: "10M+ impressions delivered during the Games.",
     cta: "See Details",
-    accent: "border-gold/20 hover:border-gold/40",
-    hoverColor: "hover:shadow-gold/10",
-    resultNumber: "50M+",
-    resultText: "impressions delivered"
+    accent: "border-accent-orange/20 hover:border-accent-orange/40",
+    hoverColor: "hover:shadow-accent-orange/10",
+    resultNumber: "10M+",
+    resultText: "impressions delivered during the Games"
   }
 ];
 
@@ -80,8 +80,8 @@ const CaseStudiesSection = () => {
           setTimeout(() => {
             const interval1 = setInterval(() => {
               setAnimatedNumbers(prev => {
-                if (prev[1] < 100000000) {
-                  return { ...prev, 1: prev[1] + 5000000 };
+                if (prev[1] < 7000000) {
+                  return { ...prev, 1: prev[1] + 350000 };
                 }
                 clearInterval(interval1);
                 return prev;
@@ -104,8 +104,8 @@ const CaseStudiesSection = () => {
           setTimeout(() => {
             const interval3 = setInterval(() => {
               setAnimatedNumbers(prev => {
-                if (prev[3] < 6000000) {
-                  return { ...prev, 3: prev[3] + 300000 };
+                if (prev[3] < 6300000) {
+                  return { ...prev, 3: prev[3] + 315000 };
                 }
                 clearInterval(interval3);
                 return prev;
@@ -116,8 +116,8 @@ const CaseStudiesSection = () => {
           setTimeout(() => {
             const interval4 = setInterval(() => {
               setAnimatedNumbers(prev => {
-                if (prev[4] < 50000000) {
-                  return { ...prev, 4: prev[4] + 2500000 };
+                if (prev[4] < 10000000) {
+                  return { ...prev, 4: prev[4] + 500000 };
                 }
                 clearInterval(interval4);
                 return prev;
@@ -151,10 +151,10 @@ const CaseStudiesSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-hero font-bold text-foreground mb-6">
-            Proven Growth in Action
+            🏅 Proven Growth in Action
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            From startups to global brands, here's how I've applied growth strategies to deliver measurable results.
+            From Olympic discipline to digital dominance — here's how I've helped brands like Binance, Coca-Cola, and Neil Patel Brasil achieve measurable results.
           </p>
         </div>
 
@@ -195,12 +195,12 @@ const CaseStudiesSection = () => {
                   </div>
                   
                   <div>
-                    <h4 className="font-semibold text-primary mb-2">Solution:</h4>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{study.solution}</p>
+                    <h4 className="font-semibold text-primary mb-2">Approach:</h4>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{study.approach}</p>
                   </div>
                   
                   <div>
-                    <h4 className="font-semibold text-primary mb-2">Result:</h4>
+                    <h4 className="font-semibold text-primary mb-2">Impact:</h4>
                     <div className="text-center p-4 bg-primary/5 rounded-lg">
                       <div className="text-3xl font-bold text-primary mb-2">
                         {formatNumber(animatedNumbers[study.id], study.id)}
