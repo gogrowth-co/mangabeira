@@ -9,24 +9,24 @@ import cocaColaLogo from "@/assets/coca-cola-logo.png";
 const caseStudies = [
   {
     id: 1,
-    title: "Binance – Multi-Million Dollar Campaigns",
+    title: "Binance – Multi-Million Dollar Campaigns (LATAM)",
     logo: binanceLogo,
-    challenge: "Reaching global audiences in a highly competitive Web3 space.",
-    solution: "Executed paid media and performance campaigns, scaling while navigating regulatory complexity.",
-    result: "Millions in managed spend driving acquisition at scale.",
+    challenge: "Expanding Binance's presence in the highly competitive LATAM Web3 market.",
+    solution: "Led multi-million-dollar paid media and performance campaigns, scaling growth while navigating regulatory challenges.",
+    result: "✅ Managed millions in ad spend and drove large-scale user acquisition across LATAM.",
     cta: "See Details",
     accent: "border-gold/20 hover:border-gold/40",
     hoverColor: "hover:shadow-gold/10",
     resultNumber: "Millions",
-    resultText: "in managed spend"
+    resultText: "in ad spend managed"
   },
   {
     id: 2,
     title: "Neil Patel Brasil – SEO at Scale", 
     logo: npDigitalLogo,
     challenge: "Expanding SEO reach in Brazil and LATAM.",
-    solution: "Built strategy and optimized content operations.",
-    result: "1M+ monthly readers.",
+    solution: "Designed and optimized large-scale SEO and content operations.",
+    result: "✅ Achieved 1M+ monthly readers and helped establish Neil Patel Brasil as a top regional marketing authority.",
     cta: "Read More",
     accent: "border-aqua/20 hover:border-aqua/40",
     hoverColor: "hover:shadow-aqua/10",
@@ -37,14 +37,27 @@ const caseStudies = [
     id: 3,
     title: "Russell Marketing – Crowdfunding Success",
     logo: cocaColaLogo,
-    challenge: "Helping entrepreneurs launch and scale campaigns.",
-    solution: "Managed growth campaigns across acquisition, activation, and referral.",
-    result: "$6M+ raised in crowdfunding.",
+    challenge: "Helping entrepreneurs launch and scale their products through crowdfunding.",
+    solution: "Managed multi-channel growth campaigns across acquisition, activation, and referral strategies.",
+    result: "✅ Generated $6M+ raised in crowdfunding campaigns across diverse industries.",
     cta: "Explore Work",
     accent: "border-accent-orange/20 hover:border-accent-orange/40", 
     hoverColor: "hover:shadow-accent-orange/10",
     resultNumber: "$6M+",
     resultText: "raised in crowdfunding"
+  },
+  {
+    id: 4,
+    title: "Coca-Cola & Powerade – Olympic Campaigns (LATAM)",
+    logo: cocaColaLogo,
+    challenge: "Activating Coca-Cola and Powerade sponsorships during the Olympic Games for the LATAM audience.",
+    solution: "Designed and executed marketing strategies that connected sports passion with brand storytelling.",
+    result: "✅ Delivered millions of impressions and high engagement across Olympic-themed campaigns in LATAM.",
+    cta: "See Details",
+    accent: "border-gold/20 hover:border-gold/40",
+    hoverColor: "hover:shadow-gold/10",
+    resultNumber: "Millions",
+    resultText: "of impressions delivered"
   }
 ];
 
@@ -52,7 +65,8 @@ const CaseStudiesSection = () => {
   const [animatedNumbers, setAnimatedNumbers] = useState({
     1: 0,
     2: 0, 
-    3: 0
+    3: 0,
+    4: 0
   });
   const [isVisible, setIsVisible] = useState(false);
 
@@ -98,6 +112,18 @@ const CaseStudiesSection = () => {
               });
             }, 25);
           }, 900);
+
+          setTimeout(() => {
+            const interval4 = setInterval(() => {
+              setAnimatedNumbers(prev => {
+                if (prev[4] < 100) {
+                  return { ...prev, 4: prev[4] + 5 };
+                }
+                clearInterval(interval4);
+                return prev;
+              });
+            }, 30);
+          }, 1100);
         }
       },
       { threshold: 0.3 }
@@ -113,6 +139,7 @@ const CaseStudiesSection = () => {
     if (caseId === 1) return "Millions";
     if (caseId === 2) return `${(num / 1000000).toFixed(1)}M+`;
     if (caseId === 3) return `$${(num / 1000000).toFixed(1)}M+`;
+    if (caseId === 4) return "Millions";
     return num.toString();
   };
 
@@ -131,7 +158,7 @@ const CaseStudiesSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
           {caseStudies.map((study, index) => (
             <Card 
               key={study.id}
