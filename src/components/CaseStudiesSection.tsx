@@ -163,6 +163,7 @@ const CaseStudiesSection = () => {
             <Card 
               key={study.id}
               className={`
+                h-full flex flex-col
                 transition-all duration-500 hover:scale-105 cursor-pointer
                 ${study.accent} ${study.hoverColor}
                 ${isVisible ? 'animate-fade-in opacity-100' : 'opacity-0'}
@@ -186,24 +187,26 @@ const CaseStudiesSection = () => {
                 </CardTitle>
               </CardHeader>
               
-              <CardContent className="space-y-4">
-                <div>
-                  <h4 className="font-semibold text-primary mb-2">Challenge:</h4>
-                  <p className="text-sm text-muted-foreground">{study.challenge}</p>
-                </div>
-                
-                <div>
-                  <h4 className="font-semibold text-primary mb-2">Solution:</h4>
-                  <p className="text-sm text-muted-foreground">{study.solution}</p>
-                </div>
-                
-                <div>
-                  <h4 className="font-semibold text-primary mb-2">Result:</h4>
-                  <div className="text-center p-4 bg-primary/5 rounded-lg">
-                    <div className="text-3xl font-bold text-primary mb-1">
-                      {formatNumber(animatedNumbers[study.id], study.id)}
+              <CardContent className="flex-1 flex flex-col">
+                <div className="space-y-5 flex-1">
+                  <div>
+                    <h4 className="font-semibold text-primary mb-2">Challenge:</h4>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{study.challenge}</p>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-semibold text-primary mb-2">Solution:</h4>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{study.solution}</p>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-semibold text-primary mb-2">Result:</h4>
+                    <div className="text-center p-4 bg-primary/5 rounded-lg">
+                      <div className="text-3xl font-bold text-primary mb-2">
+                        {formatNumber(animatedNumbers[study.id], study.id)}
+                      </div>
+                      <p className="text-xs text-muted-foreground leading-tight">{study.resultText}</p>
                     </div>
-                    <p className="text-sm text-muted-foreground">{study.resultText}</p>
                   </div>
                 </div>
                 
