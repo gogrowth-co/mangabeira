@@ -1,28 +1,29 @@
-import { Medal, TrendingUp, DollarSign, Globe } from "lucide-react";
+import { Medal, Zap, TrendingUp, Globe } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import gabrielProfessional from "@/assets/gabriel-professional-new.webp";
 
 const AboutSection = () => {
   const authoritySignals = [
     {
       Icon: Medal,
-      title: "Olympic Athlete",
-      description: "Represented Brazil at the Olympics",
+      title: "2x Olympian",
+      description: "Represented Brazil on the world stage",
+    },
+    {
+      Icon: Zap,
+      title: "From Pool to Pixels",
+      description: "Applied Olympic discipline to digital growth",
     },
     {
       Icon: TrendingUp,
-      title: "1M+ SEO Readers",
-      description: "Reached through content with Neil Patel Brasil",
-    },
-    {
-      Icon: DollarSign,
-      title: "Multi-Million Campaigns",
-      description: "Managed for Binance, Russell Marketing, and others",
+      title: "Marketing Leader",
+      description: "Drove growth for global brands (Binance, Coca-Cola, Powerade)",
     },
     {
       Icon: Globe,
-      title: "Fluent in 3 Languages",
-      description: "Portuguese, English, Spanish",
+      title: "Global Citizen",
+      description: "Work and campaigns across 3 languages",
     },
   ];
 
@@ -48,26 +49,28 @@ const AboutSection = () => {
 
           {/* Content */}
           <div className="w-full lg:w-3/5 text-center lg:text-left">
-            {/* Headline */}
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-hero font-bold text-foreground leading-tight mb-6 animate-fade-in">
-              From chasing{" "}
-              <span className="text-gold-olympic font-extrabold animate-pulse">Olympic dreams</span> to helping
-              brands grow — my journey is fueled by the same{" "}
-              <span className="text-accent-blue font-semibold">discipline</span>,{" "}
-              <span className="text-accent-green font-semibold">resilience</span>, and love for{" "}
-              <span className="text-accent-orange font-semibold">progress</span>.
-            </h2>
-
             {/* Narrative */}
             <div className="text-lg md:text-xl text-muted-foreground font-body leading-relaxed mb-8 animate-fade-in">
-              <p>
-                I grew up in the water, chasing hundredths of a second. That pursuit of
-                excellence took me to the <span className="text-gold-olympic font-medium">Olympics</span>, where I learned that <span className="text-accent-blue font-medium">discipline</span>,
-                <span className="text-accent-green font-medium"> resilience</span>, and focus are everything. When I transitioned from the pool to
-                the world of digital marketing, I brought those same principles with me —
-                only now, instead of chasing gold medals, I help businesses chase
-                <span className="text-accent-orange font-medium"> measurable growth</span>.
+              <p className="mb-4">
+                From chasing Olympic dreams to driving digital growth — my journey is fueled by the same discipline, resilience, and love for progress.
               </p>
+              <p className="mb-4">
+                I grew up in the water, chasing hundredths of a second. That pursuit of excellence took me to the Olympics, where I learned that discipline, resilience, and focus are everything.
+              </p>
+              <p>
+                When I transitioned from the pool to the world of digital marketing, I carried those same principles with me — only now, instead of chasing medals, I help businesses chase measurable growth.
+              </p>
+            </div>
+
+            {/* CTA Button */}
+            <div className="mb-8 animate-fade-in">
+              <Button 
+                size="lg" 
+                className="group"
+              >
+                Read My Full Story
+                <span className="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>
+              </Button>
             </div>
 
             {/* Authority signals */}
