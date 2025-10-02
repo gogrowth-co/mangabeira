@@ -112,7 +112,7 @@ const SocialProofSection = () => {
                   <img
                     src={logo.src}
                     alt={logo.alt}
-                    className="max-w-full max-h-full object-contain filter grayscale"
+                    className="max-w-full max-h-full object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
                   />
                 ) : (
                   <div className="text-2xl md:text-3xl font-hero font-bold text-muted-foreground">
