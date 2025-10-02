@@ -8,22 +8,22 @@ const AboutSection = () => {
     {
       Icon: Medal,
       title: "2x Olympian",
-      description: "Represented Brazil on the world stage",
+      description: "Represented Brazil on the world stage.",
     },
     {
       Icon: Zap,
-      title: "From Pool to Pixels",
-      description: "Applied Olympic discipline to digital growth",
+      title: "From Olympic Pools to Digital Growth",
+      description: "Applied Olympic discipline to accelerate measurable digital growth.",
     },
     {
       Icon: TrendingUp,
       title: "Marketing Leader",
-      description: "Drove growth for global brands (Binance, Coca-Cola, Powerade)",
+      description: "Drove growth for global brands including Binance and Coca-Cola.",
     },
     {
       Icon: Globe,
       title: "Global Citizen",
-      description: "Work and campaigns across 3 languages",
+      description: "Campaigns across 3 languages: English, Portuguese, and Spanish.",
     },
   ];
 
@@ -66,7 +66,7 @@ const AboutSection = () => {
             <div className="mb-8 animate-fade-in">
               <Button 
                 size="lg" 
-                className="group"
+                className="group bg-gradient-to-r from-[#FF8C42] to-[#FFB020] text-white hover:shadow-[0_0_30px_rgba(255,176,32,0.6)] hover:scale-105 transition-all duration-300"
               >
                 Read My Full Story
                 <span className="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>
@@ -74,7 +74,7 @@ const AboutSection = () => {
             </div>
 
             {/* Authority signals */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in">
               {authoritySignals.map((signal, index) => (
                 <Card
                   key={index}
