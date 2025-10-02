@@ -11,22 +11,22 @@ const caseStudies = [
     id: 1,
     title: "Binance – Multi-Million Dollar Campaigns (LATAM)",
     logo: binanceLogo,
-    challenge: "Expanding Binance's presence in the highly competitive LATAM Web3 market.",
-    solution: "Led multi-million-dollar paid media and performance campaigns, scaling growth while navigating regulatory challenges.",
-    result: "✅ Managed millions in ad spend and drove large-scale user acquisition across LATAM.",
+    challenge: "Binance needed to expand its presence in the highly competitive LATAM crypto market, navigating regulatory complexity and aggressive competitors.",
+    solution: "Designed and executed multi-million-dollar paid media and performance campaigns, adapting messaging to local audiences while ensuring compliance.",
+    result: "Generated 100M+ impressions and millions in ad spend managed, driving significant user acquisition across the region.",
     cta: "See Details",
     accent: "border-gold/20 hover:border-gold/40",
     hoverColor: "hover:shadow-gold/10",
-    resultNumber: "Millions",
-    resultText: "in ad spend managed"
+    resultNumber: "100M+",
+    resultText: "impressions generated"
   },
   {
     id: 2,
     title: "Neil Patel Brasil – SEO at Scale", 
     logo: npDigitalLogo,
-    challenge: "Expanding SEO reach in Brazil and LATAM.",
-    solution: "Designed and optimized large-scale SEO and content operations.",
-    result: "✅ Achieved 1M+ monthly readers and helped establish Neil Patel Brasil as a top regional marketing authority.",
+    challenge: "Growing SEO presence in Brazil and LATAM required consistent strategy, execution, and scaling high-volume content.",
+    solution: "Built and optimized a full-stack SEO/content operation, including keyword research, localized strategy, and scalable workflows.",
+    result: "Reached 1M+ monthly readers, making Neil Patel Brasil one of the top marketing blogs in LATAM.",
     cta: "Read More",
     accent: "border-aqua/20 hover:border-aqua/40",
     hoverColor: "hover:shadow-aqua/10",
@@ -37,9 +37,9 @@ const caseStudies = [
     id: 3,
     title: "Russell Marketing – Crowdfunding Success",
     logo: cocaColaLogo,
-    challenge: "Helping entrepreneurs launch and scale their products through crowdfunding.",
-    solution: "Managed multi-channel growth campaigns across acquisition, activation, and referral strategies.",
-    result: "✅ Generated $6M+ raised in crowdfunding campaigns across diverse industries.",
+    challenge: "Entrepreneurs needed to launch and scale their products on Kickstarter and Indiegogo with global reach.",
+    solution: "Developed and executed multi-channel campaigns covering acquisition, activation, and referral growth strategies.",
+    result: "Helped raise $6M+ in crowdfunding for product launches.",
     cta: "Explore Work",
     accent: "border-accent-orange/20 hover:border-accent-orange/40", 
     hoverColor: "hover:shadow-accent-orange/10",
@@ -50,14 +50,14 @@ const caseStudies = [
     id: 4,
     title: "Coca-Cola & Powerade – Olympic Campaigns (LATAM)",
     logo: cocaColaLogo,
-    challenge: "Activating Coca-Cola and Powerade sponsorships during the Olympic Games for the LATAM audience.",
-    solution: "Designed and executed marketing strategies that connected sports passion with brand storytelling.",
-    result: "✅ Delivered millions of impressions and high engagement across Olympic-themed campaigns in LATAM.",
+    challenge: "Activate Coca-Cola and Powerade's sponsorships during the Olympic Games, connecting with passionate LATAM audiences.",
+    solution: "Designed and led campaigns that merged Olympic storytelling with brand messaging, driving engagement through digital-first activations.",
+    result: "Delivered 50M+ impressions and boosted consumer engagement during the Games.",
     cta: "See Details",
     accent: "border-gold/20 hover:border-gold/40",
     hoverColor: "hover:shadow-gold/10",
-    resultNumber: "Millions",
-    resultText: "of impressions delivered"
+    resultNumber: "50M+",
+    resultText: "impressions delivered"
   }
 ];
 
@@ -80,13 +80,13 @@ const CaseStudiesSection = () => {
           setTimeout(() => {
             const interval1 = setInterval(() => {
               setAnimatedNumbers(prev => {
-                if (prev[1] < 100) {
-                  return { ...prev, 1: prev[1] + 5 };
+                if (prev[1] < 100000000) {
+                  return { ...prev, 1: prev[1] + 5000000 };
                 }
                 clearInterval(interval1);
                 return prev;
               });
-            }, 30);
+            }, 20);
           }, 500);
 
           setTimeout(() => {
@@ -116,13 +116,13 @@ const CaseStudiesSection = () => {
           setTimeout(() => {
             const interval4 = setInterval(() => {
               setAnimatedNumbers(prev => {
-                if (prev[4] < 100) {
-                  return { ...prev, 4: prev[4] + 5 };
+                if (prev[4] < 50000000) {
+                  return { ...prev, 4: prev[4] + 2500000 };
                 }
                 clearInterval(interval4);
                 return prev;
               });
-            }, 30);
+            }, 20);
           }, 1100);
         }
       },
@@ -136,10 +136,10 @@ const CaseStudiesSection = () => {
   }, [isVisible]);
 
   const formatNumber = (num: number, caseId: number) => {
-    if (caseId === 1) return "Millions";
+    if (caseId === 1) return `${(num / 1000000).toFixed(0)}M+`;
     if (caseId === 2) return `${(num / 1000000).toFixed(1)}M+`;
     if (caseId === 3) return `$${(num / 1000000).toFixed(1)}M+`;
-    if (caseId === 4) return "Millions";
+    if (caseId === 4) return `${(num / 1000000).toFixed(0)}M+`;
     return num.toString();
   };
 
