@@ -7,7 +7,7 @@ import mediaFrameworkImage from "@/assets/unified-media-strategy.png";
 
 const MethodsSection = () => {
   return (
-    <section className="py-20 bg-background relative overflow-hidden">
+    <section id="methods" className="py-20 bg-background relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 opacity-5">
         <svg className="w-full h-full" viewBox="0 0 1200 800" fill="none">

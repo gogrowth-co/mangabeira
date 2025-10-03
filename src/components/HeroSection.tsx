@@ -3,7 +3,7 @@ import { Medal, TrendingUp, Globe } from "lucide-react";
 import olympicPoolBg from "@/assets/olympic-pool-background.png";
 import gabrielAvatar from "@/assets/gabriel-avatar.jpg";
 const HeroSection = () => {
-  return <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+  return <section id="top" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image - Olympic Pool */}
       <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{
       backgroundImage: `url(${olympicPoolBg})`

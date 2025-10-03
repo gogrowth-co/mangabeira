@@ -12,10 +12,12 @@ import PublicationsSection from "@/components/PublicationsSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 import ChatWithMyAI from "@/components/ChatWithMyAI";
+import Header from "@/components/Header";
 
 const Index = () => {
   return (
     <>
+      <Header />
       <main className="font-body">
         <HeroSection />
         <SocialProofSection />

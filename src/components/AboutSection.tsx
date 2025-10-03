@@ -28,7 +28,7 @@ const AboutSection = () => {
   ];
 
   return (
-    <section className="relative w-full bg-background py-16 md:py-24 overflow-hidden">
+    <section id="about" className="relative w-full bg-background py-16 md:py-24 overflow-hidden">
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Mobile-first layout: image stacked on top */}
         <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">

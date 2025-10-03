@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 
 const CTASection = () => {
   return (
-    <section className="py-20 px-6 bg-gradient-to-br from-background via-background to-muted/20">
+    <section id="contact" className="py-20 px-6 bg-gradient-to-br from-background via-background to-muted/20">
       <div className="max-w-4xl mx-auto text-center">
         {/* Headline */}
         <h2 className="font-hero text-4xl md:text-5xl font-bold text-foreground mb-6">

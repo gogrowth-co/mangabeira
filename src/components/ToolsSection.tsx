@@ -57,7 +57,7 @@ const ToolsSection = () => {
   ];
 
   return (
-    <section className="py-24 bg-muted/50 relative overflow-hidden">
+    <section id="tools" className="py-24 bg-muted/50 relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-accent/20" />

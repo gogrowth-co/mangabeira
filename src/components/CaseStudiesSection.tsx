@@ -130,7 +130,7 @@ const CaseStudiesSection = () => {
       { threshold: 0.3 }
     );
 
-    const section = document.getElementById('case-studies-section');
+    const section = document.getElementById('case-studies');
     if (section) observer.observe(section);
 
     return () => observer.disconnect();
@@ -146,7 +146,7 @@ const CaseStudiesSection = () => {
 
   return (
     <section 
-      id="case-studies-section"
+      id="case-studies"
       className="py-24 bg-gradient-to-b from-background to-muted/20"
     >
       <div className="container mx-auto px-4">
