@@ -39,27 +39,27 @@ const professionalCareer: Milestone[] = [
     description: "Designed and implemented Olympic sponsorship activations.",
   },
   {
-    year: "2017–2022",
+    year: "2017",
     role: "Russell Marketing (Growth Manager)",
     description: "Launched 40+ products and crowdfunding campaigns, raising $6M+.",
   },
   {
-    year: "2020–2022",
+    year: "2020",
     role: "Neil Patel Digital (SEO Consultant)",
     description: "Scaled NP Brasil to 1M+ monthly pageviews via SEO and content ops.",
   },
   {
-    year: "2022–2023",
+    year: "2022",
     role: "Binance LATAM (Growth Marketing Manager)",
     description: "Managed $1M+ media spend, reduced CAC by 20%, and scaled user communities.",
   },
   {
-    year: "2023–2025",
+    year: "2023",
     role: "Web3 Growth Consultant",
     description: "Designed GTM strategies, community funnels, and NFT activations for DeFi projects.",
   },
   {
-    year: "2024–Present",
+    year: "2025",
     role: "OPAScope (SEO/AEO Manager)",
     description: "Driving AI-powered organic growth with automation and search optimization.",
   },
