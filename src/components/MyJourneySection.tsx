@@ -85,7 +85,7 @@ const MyJourneySection = () => {
   }, []);
 
   const renderMilestone = (milestone: Milestone, index: number, isLast: boolean) => (
-    <div key={`${milestone.year}-${index}`} className="timeline-card flex gap-6 mb-8 opacity-0">
+    <div key={`${milestone.year}-${index}`} className="timeline-card flex gap-6 mb-8">
       {/* Timeline marker column */}
       <div className="flex flex-col items-center flex-shrink-0">
         <div className="w-16 h-16 rounded-full bg-brand-orange/10 border-4 border-brand-orange flex items-center justify-center shadow-[0_0_12px_rgba(255,122,0,0.3)] transition-shadow duration-300 hover:shadow-[0_0_20px_rgba(255,122,0,0.5)]">
