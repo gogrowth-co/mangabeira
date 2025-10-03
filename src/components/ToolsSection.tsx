@@ -11,9 +11,11 @@ const ToolsSection = () => {
       title: "Growth Experiments Framework",
       description: "Track, analyze, and learn from your growth experiments.",
       screenshot: growthExperimentsImage,
-      color: "teal",
+      category: "Growth Tool",
+      categoryColor: "bg-teal-100 text-teal-700 border-teal-200",
+      tags: ["Airtable", "Notion", "Zapier"],
+      year: "2024",
       iconGradient: "from-teal-500 to-teal-600",
-      bgColor: "bg-teal-50",
       hoverGlow: "hover:shadow-teal-500/20"
     },
     {
@@ -21,9 +23,11 @@ const ToolsSection = () => {
       title: "Web3 ROAST",
       description: "Actionable CRO insights tailored for crypto projects.",
       screenshot: web3RoastImage,
-      color: "orange",
+      category: "Crypto CRO Tool",
+      categoryColor: "bg-orange-100 text-orange-700 border-orange-200",
+      tags: ["NextJS", "OpenAI", "Tailwind"],
+      year: "Beta",
       iconGradient: "from-orange-500 to-orange-600",
-      bgColor: "bg-orange-50",
       hoverGlow: "hover:shadow-orange-500/20"
     },
     {
@@ -31,9 +35,11 @@ const ToolsSection = () => {
       title: "Token Health Scan",
       description: "Scan crypto projects and uncover critical risks before scaling.",
       screenshot: tokenHealthImage,
-      color: "gold",
+      category: "Crypto Risk Tool",
+      categoryColor: "bg-purple-100 text-purple-700 border-purple-200",
+      tags: ["Web3 APIs", "NextJS", "OpenAI"],
+      year: "2024",
       iconGradient: "from-yellow-500 to-teal-500",
-      bgColor: "bg-yellow-50",
       hoverGlow: "hover:shadow-yellow-500/20"
     },
     {
@@ -41,9 +47,11 @@ const ToolsSection = () => {
       title: "Shopify Grader",
       description: "Benchmark and optimize your e-commerce store for conversions.",
       screenshot: shopifyGraderImage,
-      color: "orange",
+      category: "E-commerce Tool",
+      categoryColor: "bg-green-100 text-green-700 border-green-200",
+      tags: ["Shopify API", "NextJS", "CRO"],
+      year: "2024",
       iconGradient: "from-orange-500 to-orange-600",
-      bgColor: "bg-orange-50",
       hoverGlow: "hover:shadow-orange-500/20"
     }
   ];
@@ -82,37 +90,62 @@ const ToolsSection = () => {
             return (
               <div
                 key={tool.title}
-                className={`group bg-white rounded-2xl p-8 border border-border/50 shadow-sm hover:shadow-lg ${tool.hoverGlow} transition-all duration-300 hover:-translate-y-1 animate-fade-in`}
+                className={`group bg-white rounded-2xl p-6 border border-border/50 shadow-sm hover:shadow-xl ${tool.hoverGlow} transition-all duration-300 hover:-translate-y-1 animate-fade-in relative`}
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                {/* Icon */}
-                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${tool.iconGradient} flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110`}>
-                  <Icon className="w-7 h-7 text-white" />
+                {/* Category Badge - Top Right */}
+                <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold border ${tool.categoryColor}`}>
+                  {tool.category}
                 </div>
 
-                {/* Content */}
-                <div className="mb-6">
-                  <h3 className="text-2xl font-bold text-foreground mb-3">
+                {/* Icon */}
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${tool.iconGradient} flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-110`}>
+                  <Icon className="w-6 h-6 text-white" />
+                </div>
+
+                {/* Title & Description */}
+                <div className="mb-4">
+                  <h3 className="text-xl font-bold text-foreground mb-2">
                     {tool.title}
                   </h3>
-                  <p className="text-muted-foreground text-base leading-relaxed mb-6">
+                  <p className="text-muted-foreground text-sm leading-relaxed">
                     {tool.description}
                   </p>
                 </div>
 
-                {/* Screenshot */}
-                <div className="mb-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-4 overflow-hidden">
+                {/* Screenshot - Reduced Height */}
+                <div className="mb-4 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-3 overflow-hidden">
                   <img 
                     src={tool.screenshot} 
                     alt={`${tool.title} interface screenshot`}
-                    className="w-full h-auto object-cover rounded-md shadow-sm transition-transform duration-300 group-hover:scale-105"
+                    className="w-full h-32 object-cover object-top rounded-md shadow-sm transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
 
-                {/* CTA Button */}
-                <button className="w-full px-6 py-3 rounded-xl font-semibold text-base bg-gradient-to-r from-[#FF8C42] to-[#FFB020] text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-orange-500/30">
-                  Try It Now →
-                </button>
+                {/* Tech Stack Tags */}
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {tool.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-2.5 py-1 text-xs font-medium text-gray-600 bg-gray-100 border border-gray-200 rounded-full"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Footer Row */}
+                <div className="flex items-center justify-between pt-4 border-t border-border/50">
+                  {/* Metadata */}
+                  <span className="text-xs text-muted-foreground font-medium">
+                    {tool.year}
+                  </span>
+
+                  {/* CTA Button */}
+                  <button className="px-5 py-2 rounded-lg font-semibold text-sm bg-gradient-to-r from-[#FF8C42] to-[#FFB020] text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-orange-500/30">
+                    Try It Now →
+                  </button>
+                </div>
               </div>
             );
           })}
