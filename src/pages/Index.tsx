@@ -11,6 +11,7 @@ import ToolsSection from "@/components/ToolsSection";
 import PublicationsSection from "@/components/PublicationsSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
+import ChatWithMyAI from "@/components/ChatWithMyAI";
 
 const Index = () => {
   return (
@@ -30,6 +31,7 @@ const Index = () => {
         <CTASection />
       </main>
       <Footer />
+      <ChatWithMyAI />
     </>
   );
 };
