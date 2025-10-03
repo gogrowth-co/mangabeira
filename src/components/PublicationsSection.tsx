@@ -1,5 +1,4 @@
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import web3AthletesCover from "@/assets/web3-athletes-cover.png";
 import web2Web3MarketingCover from "@/assets/web2-web3-marketing-cover.png";
@@ -52,47 +51,48 @@ const PublicationsSection = () => {
         </div>
 
         {/* Publications Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {publications.map((publication, index) => (
             <div
               key={index}
-              className="group bg-card rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
+              className="group bg-card rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col"
               onClick={() => window.location.href = publication.link}
             >
-              {/* Cover Image */}
-              <div className="relative overflow-hidden">
+              {/* Cover Image - Compact 4:3 ratio */}
+              <div className="relative overflow-hidden h-48">
                 <img
                   src={publication.cover}
                   alt={publication.title}
-                  className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
-              </div>
-
-              {/* Content */}
-              <div className="p-6">
-                <div className="flex items-start justify-between gap-3 mb-3">
-                  <h3 className="font-hero text-xl font-bold text-foreground leading-tight flex-1">
-                    {publication.title}
-                  </h3>
-                  <Badge variant="secondary" className="shrink-0 text-xs">
+                {/* Category Badge - Top Right */}
+                <div className="absolute top-3 right-3">
+                  <Badge variant="secondary" className="text-xs backdrop-blur-sm bg-background/90">
                     {publication.category}
                   </Badge>
                 </div>
-                <p className="text-muted-foreground text-sm mb-6 line-clamp-2">
+              </div>
+
+              {/* Content - Compact */}
+              <div className="p-5 flex-1 flex flex-col">
+                <h3 className="font-hero text-lg font-bold text-foreground leading-tight mb-2 line-clamp-2">
+                  {publication.title}
+                </h3>
+                <p className="text-muted-foreground text-sm mb-4 line-clamp-2 flex-1">
                   {publication.description}
                 </p>
 
-                {/* CTA Button */}
-                <Button 
-                  className="w-full bg-gradient-cta text-white font-bold rounded-lg hover:shadow-button-hover hover:brightness-110 transition-all duration-300"
+                {/* CTA Link - Text Style */}
+                <div 
+                  className="flex items-center text-primary font-semibold text-sm group-hover:text-primary/80 transition-colors mt-auto"
                   onClick={(e) => {
                     e.stopPropagation();
                     window.location.href = publication.link;
                   }}
                 >
                   Read Article
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
+                  <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </div>
               </div>
             </div>
           ))}
