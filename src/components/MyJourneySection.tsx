@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import swimmingPoolLanes from "@/assets/swimming-pool-lanes.png";
 
 interface Milestone {
   year: string;
@@ -123,7 +124,12 @@ const MyJourneySection = () => {
       <Card
         className={`${
           isLeft ? "md:ml-auto md:mr-0 slide-from-left" : "md:mr-auto md:ml-0 slide-from-right"
-        } w-full md:w-[calc(50%-3rem)] hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1`}
+        } w-full md:w-[calc(50%-3rem)] ripple-card transition-all duration-500 transform hover:-translate-y-1`}
+        style={{
+          backgroundColor: "rgba(255, 255, 255, 0.95)",
+          borderRadius: "1.5rem",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
+        }}
       >
         <CardContent className="p-6">
           <div className="flex items-baseline gap-3 mb-3">
@@ -134,9 +140,9 @@ const MyJourneySection = () => {
         </CardContent>
       </Card>
 
-      {/* Timeline marker */}
+      {/* Timeline marker - splash effect */}
       <div className="relative flex-shrink-0 z-10">
-        <div className="marker-pulse w-20 h-20 rounded-full bg-gradient-to-br from-brand-orange to-brand-orange/80 border-4 border-white shadow-[0_0_20px_rgba(255,122,0,0.6)] flex items-center justify-center transition-all duration-500">
+        <div className="splash-marker w-20 h-20 rounded-full bg-gradient-to-br from-brand-orange to-brand-orange/80 border-4 border-white shadow-[0_0_25px_rgba(255,122,0,0.7)] flex items-center justify-center transition-all duration-500">
           <span className="text-white font-bold text-base drop-shadow-lg">{milestone.year}</span>
         </div>
       </div>
@@ -151,15 +157,17 @@ const MyJourneySection = () => {
       ref={sectionRef}
       className="py-24 relative overflow-hidden"
       style={{
-        background: "linear-gradient(180deg, #FAFAFA 0%, #F5F5F5 100%)",
+        backgroundColor: "#E8F4F8",
       }}
     >
-      {/* Subtle track texture background */}
+      {/* Swimming pool lanes background */}
       <div
-        className="absolute inset-0 opacity-5"
+        className="absolute inset-0 opacity-20"
         style={{
-          backgroundImage:
-            "repeating-linear-gradient(90deg, transparent, transparent 50px, #000 50px, #000 52px)",
+          backgroundImage: `url(${swimmingPoolLanes})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
         }}
       />
 
@@ -176,26 +184,24 @@ const MyJourneySection = () => {
 
         {/* Timeline container */}
         <div className="relative max-w-5xl mx-auto">
-          {/* Animated vertical track line */}
+          {/* Animated swim lane line (double line) */}
           <div
             ref={trackRef}
-            className="absolute left-1/2 top-0 bottom-0 w-1 -translate-x-1/2 overflow-hidden hidden md:block"
+            className="absolute left-1/2 top-0 bottom-0 -translate-x-1/2 overflow-hidden hidden md:block"
+            style={{ width: "6px" }}
           >
-            {/* Base track with lane marks */}
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  "repeating-linear-gradient(0deg, rgba(17,24,39,0.1) 0px, rgba(17,24,39,0.1) 20px, transparent 20px, transparent 40px)",
-              }}
-            />
+            {/* Double lane line effect */}
+            <div className="absolute inset-0 flex gap-[2px]">
+              <div className="flex-1 bg-muted/30" />
+              <div className="flex-1 bg-muted/30" />
+            </div>
             {/* Animated gradient line */}
             <div
               className="absolute top-0 left-0 right-0 transition-all duration-300 ease-out"
               style={{
                 height: `${trackProgress}%`,
                 background: "linear-gradient(180deg, #FF7A00 0%, #1a237e 100%)",
-                boxShadow: "0 0 10px rgba(255,122,0,0.5)",
+                boxShadow: "0 0 15px rgba(255,122,0,0.6), 0 0 30px rgba(255,122,0,0.3)",
               }}
             />
           </div>
@@ -222,30 +228,26 @@ const MyJourneySection = () => {
             )}
           </div>
 
-          {/* Finish Line */}
+          {/* Finish Line - Podium Style */}
           <div className="flex flex-col items-center pt-8">
             <div className="relative">
-              {/* Checkered finish line pattern */}
-              <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-48 h-2 bg-gradient-to-r from-transparent via-foreground to-transparent opacity-20" />
-              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-48 h-2 flex">
-                {[...Array(12)].map((_, i) => (
-                  <div
-                    key={i}
-                    className={`flex-1 h-full ${i % 2 === 0 ? "bg-foreground" : "bg-white"} opacity-30`}
-                  />
-                ))}
-              </div>
-
-              {/* Final marker */}
-              <div className="w-32 h-32 rounded-full bg-gradient-to-br from-brand-orange via-brand-orange to-yellow-500 border-8 border-white shadow-[0_0_40px_rgba(255,122,0,0.8)] flex items-center justify-center animate-pulse mb-6">
-                <div className="text-center">
-                  <div className="text-white font-bold text-sm drop-shadow-lg">NOW</div>
-                  <div className="text-white text-xs font-semibold drop-shadow-lg">2024</div>
+              {/* Podium base */}
+              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-40 h-8 bg-gradient-to-b from-yellow-500/20 to-yellow-600/30 rounded-lg" 
+                   style={{ boxShadow: "0 10px 30px rgba(234, 179, 8, 0.2)" }} />
+              
+              {/* Finish line marker - podium style */}
+              <div className="podium-marker w-36 h-36 rounded-full bg-gradient-to-br from-yellow-400 via-brand-orange to-yellow-500 border-8 border-white shadow-[0_0_50px_rgba(255,122,0,0.9)] flex items-center justify-center mb-8 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />
+                <div className="text-center relative z-10">
+                  <div className="text-white font-bold text-lg drop-shadow-lg">NOW</div>
+                  <div className="text-white text-sm font-semibold drop-shadow-lg">2024</div>
                 </div>
+                {/* Trophy icon effect */}
+                <div className="absolute -top-1 -right-1 text-3xl">🏆</div>
               </div>
             </div>
 
-            <h4 className="text-2xl font-bold text-foreground mb-2">OPAScope (SEO/AEO Manager)</h4>
+            <h4 className="text-2xl font-bold text-foreground mb-2">SEO/AEO Manager – OPAScope</h4>
             <p className="text-muted-foreground italic mb-8 text-center max-w-md">
               Driving AI-powered organic growth with automation and search optimization.
             </p>
@@ -268,25 +270,66 @@ const MyJourneySection = () => {
           transform: translateY(0) !important;
         }
 
-        .marker-pulse {
-          animation: marker-glow 2s ease-in-out infinite;
+        /* Splash marker pulse effect */
+        .splash-marker {
+          animation: splash-pulse 2.5s ease-in-out infinite;
         }
 
-        @keyframes marker-glow {
+        @keyframes splash-pulse {
           0%, 100% {
-            box-shadow: 0 0 20px rgba(255,122,0,0.6), 0 0 40px rgba(255,122,0,0.3);
+            box-shadow: 0 0 25px rgba(255,122,0,0.7), 0 0 45px rgba(255,122,0,0.4);
+            transform: scale(1);
           }
           50% {
-            box-shadow: 0 0 30px rgba(255,122,0,0.8), 0 0 60px rgba(255,122,0,0.5);
+            box-shadow: 0 0 35px rgba(255,122,0,0.9), 0 0 70px rgba(255,122,0,0.6);
+            transform: scale(1.05);
           }
+        }
+
+        /* Podium marker animation */
+        .podium-marker {
+          animation: podium-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes podium-glow {
+          0%, 100% {
+            box-shadow: 0 0 50px rgba(255,122,0,0.9), 0 0 80px rgba(234,179,8,0.5);
+          }
+          50% {
+            box-shadow: 0 0 70px rgba(255,122,0,1), 0 0 120px rgba(234,179,8,0.7);
+          }
+        }
+
+        /* Ripple card hover effect */
+        .ripple-card {
+          position: relative;
+          overflow: hidden;
+        }
+
+        .ripple-card::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 0;
+          height: 0;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(255,122,0,0.1) 0%, transparent 70%);
+          transform: translate(-50%, -50%);
+          transition: width 0.6s ease-out, height 0.6s ease-out;
+        }
+
+        .ripple-card:hover::before {
+          width: 300%;
+          height: 300%;
         }
 
         .slide-from-left {
-          transform: translateX(-20px);
+          transform: translateX(-30px);
         }
 
         .slide-from-right {
-          transform: translateX(20px);
+          transform: translateX(30px);
         }
 
         .milestone-visible .slide-from-left,
