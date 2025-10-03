@@ -99,26 +99,30 @@ const MyJourneySection = () => {
       <Card
         className={`${
           isLeft ? "md:ml-auto md:mr-0 slide-from-left" : "md:mr-auto md:ml-0 slide-from-right"
-        } w-full md:w-[calc(50%-2.5rem)] ripple-card transition-all duration-500 transform hover:-translate-y-1`}
+        } w-full md:w-[calc(50%-2.5rem)] ripple-card transition-all duration-500 transform hover:-translate-y-1 border border-border/50`}
         style={{
-          backgroundColor: "rgba(255, 255, 255, 0.95)",
-          borderRadius: "1rem",
-          boxShadow: "0 2px 12px rgba(0, 0, 0, 0.06)",
+          backgroundColor: "rgba(255, 255, 255, 0.98)",
+          borderRadius: "1.25rem",
+          boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
         }}
       >
-        <CardContent className="p-4">
-          <div className="flex items-baseline gap-2 mb-2">
-            <span className="text-brand-orange font-bold text-2xl">{milestone.year}</span>
-            <h3 className="font-bold text-foreground text-base leading-tight">{milestone.role}</h3>
+        <CardContent className="p-5">
+          <div className="flex items-start gap-3 mb-3">
+            <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-brand-orange/10 flex items-center justify-center">
+              <span className="text-brand-orange font-bold text-lg">{milestone.year}</span>
+            </div>
+            <div className="flex-1">
+              <h3 className="font-bold text-foreground text-base leading-tight mb-2">{milestone.role}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">{milestone.description}</p>
+            </div>
           </div>
-          <p className="text-muted-foreground text-sm leading-snug italic">{milestone.description}</p>
         </CardContent>
       </Card>
 
-      {/* Timeline marker - splash effect */}
+      {/* Timeline marker */}
       <div className="relative flex-shrink-0 z-10">
-        <div className="splash-marker w-16 h-16 rounded-full bg-white border-3 border-brand-orange shadow-[0_0_15px_rgba(255,122,0,0.4)] flex items-center justify-center transition-all duration-500">
-          <span className="text-brand-orange font-bold text-sm drop-shadow-md">{milestone.year}</span>
+        <div className="splash-marker w-14 h-14 rounded-full bg-white border-[3px] border-brand-orange shadow-[0_2px_8px_rgba(255,122,0,0.2)] flex items-center justify-center transition-all duration-500">
+          <span className="text-brand-orange font-bold text-xs">{milestone.year}</span>
         </div>
       </div>
 
@@ -130,14 +134,11 @@ const MyJourneySection = () => {
   return (
     <section
       ref={sectionRef}
-      className="py-16 relative overflow-hidden"
-      style={{
-        backgroundColor: "#E8F4F8",
-      }}
+      className="py-16 relative overflow-hidden bg-background"
     >
       {/* Swimming pool lanes background */}
       <div
-        className="absolute inset-0 opacity-[0.08]"
+        className="absolute inset-0 opacity-[0.04]"
         style={{
           backgroundImage: `url(${poolOverhead})`,
           backgroundSize: "cover",
@@ -149,10 +150,10 @@ const MyJourneySection = () => {
       <div className="container mx-auto px-6 relative">
         {/* Header */}
         <div className="text-center mb-10">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-2">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
             My <span className="text-brand-orange">Journey</span>
           </h2>
-          <p className="text-base text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
             From Olympic lanes to digital growth — a career built on discipline and execution.
           </p>
         </div>
@@ -172,8 +173,8 @@ const MyJourneySection = () => {
                  }} 
             />
             
-            <h3 className="text-xl font-bold text-foreground mb-6 flex items-center justify-center gap-2">
-              <span className="text-2xl">🏊</span>
+            <h3 className="text-lg font-bold text-foreground mb-5 flex items-center justify-center gap-2">
+              <span className="text-xl">🏊</span>
               <span>Olympic Journey</span>
             </h3>
             {olympicJourney.map((milestone, index) =>
@@ -193,8 +194,8 @@ const MyJourneySection = () => {
                  }} 
             />
             
-            <h3 className="text-xl font-bold text-foreground mb-6 flex items-center justify-center gap-2">
-              <span className="text-2xl">💼</span>
+            <h3 className="text-lg font-bold text-foreground mb-5 flex items-center justify-center gap-2">
+              <span className="text-xl">💼</span>
               <span>Professional Career Transition</span>
             </h3>
             {professionalCareer.map((milestone, index) =>
@@ -202,15 +203,15 @@ const MyJourneySection = () => {
             )}
           </div>
 
-          {/* Finish Line - CTA */}
-          <div className="flex flex-col items-center pt-4">
-            {/* Footer CTA */}
+          {/* CTA */}
+          <div className="flex flex-col items-center pt-6">
             <Button 
               asChild
-              className="bg-brand-orange hover:bg-brand-orange/90 text-white font-semibold"
+              size="lg"
+              className="bg-brand-orange hover:bg-brand-orange/90 text-white font-semibold rounded-xl shadow-sm"
             >
               <a href="/about">
-                → Read my full story
+                Read my full story →
               </a>
             </Button>
           </div>
@@ -225,17 +226,17 @@ const MyJourneySection = () => {
 
         /* Splash marker pulse effect */
         .splash-marker {
-          animation: splash-pulse 2.5s ease-in-out infinite;
+          animation: splash-pulse 3s ease-in-out infinite;
         }
 
         @keyframes splash-pulse {
           0%, 100% {
-            box-shadow: 0 0 15px rgba(255,122,0,0.4), 0 0 25px rgba(255,122,0,0.2);
+            box-shadow: 0 2px 8px rgba(255,122,0,0.2);
             transform: scale(1);
           }
           50% {
-            box-shadow: 0 0 20px rgba(255,122,0,0.5), 0 0 35px rgba(255,122,0,0.3);
-            transform: scale(1.03);
+            box-shadow: 0 2px 12px rgba(255,122,0,0.3);
+            transform: scale(1.02);
           }
         }
 
