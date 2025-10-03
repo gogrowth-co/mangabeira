@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import web3AthletesCover from "@/assets/web3-athletes-cover.png";
 import web2Web3MarketingCover from "@/assets/web2-web3-marketing-cover.png";
@@ -53,10 +54,10 @@ const PublicationsSection = () => {
         {/* Publications Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {publications.map((publication, index) => (
-            <a
+            <div
               key={index}
-              href={publication.link}
-              className="group bg-card rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
+              className="group bg-card rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
+              onClick={() => window.location.href = publication.link}
             >
               {/* Cover Image */}
               <div className="relative overflow-hidden">
@@ -77,17 +78,23 @@ const PublicationsSection = () => {
                     {publication.category}
                   </Badge>
                 </div>
-                <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
+                <p className="text-muted-foreground text-sm mb-6 line-clamp-2">
                   {publication.description}
                 </p>
 
-                {/* CTA - Shows on Hover */}
-                <div className="flex items-center text-primary font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  Read More
+                {/* CTA Button */}
+                <Button 
+                  className="w-full bg-gradient-cta text-white font-bold rounded-lg hover:shadow-button-hover hover:brightness-110 transition-all duration-300"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.location.href = publication.link;
+                  }}
+                >
+                  Read Article
                   <ArrowRight className="ml-2 h-4 w-4" />
-                </div>
+                </Button>
               </div>
-            </a>
+            </div>
           ))}
         </div>
       </div>
