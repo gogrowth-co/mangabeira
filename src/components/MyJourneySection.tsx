@@ -208,7 +208,7 @@ const MyJourneySection = () => {
             <Button 
               asChild
               size="lg"
-              className="bg-brand-orange hover:bg-brand-orange/90 text-white font-semibold rounded-xl shadow-sm"
+              className="bg-gradient-to-r from-[#FF8C42] to-[#FFB020] text-white font-semibold rounded-lg shadow-lg hover:shadow-[0_0_30px_rgba(255,176,32,0.6)] hover:scale-105 transition-all duration-300"
             >
               <a href="/about">
                 Read my full story →
