@@ -105,7 +105,7 @@ const MyJourneySection = () => {
   );
 
   return (
-    <section ref={sectionRef} className="py-24 bg-background">
+    <section ref={sectionRef} className="py-24 bg-[#FAFAFA] dark:bg-muted/30">
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-16">
