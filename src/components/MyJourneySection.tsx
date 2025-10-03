@@ -117,8 +117,8 @@ const MyJourneySection = () => {
 
       {/* Timeline marker - splash effect */}
       <div className="relative flex-shrink-0 z-10">
-        <div className="splash-marker w-16 h-16 rounded-full bg-gradient-to-br from-brand-orange to-brand-orange/80 border-3 border-white shadow-[0_0_15px_rgba(255,122,0,0.4)] flex items-center justify-center transition-all duration-500">
-          <span className="text-white font-bold text-sm drop-shadow-md">{milestone.year}</span>
+        <div className="splash-marker w-16 h-16 rounded-full bg-white border-3 border-brand-orange shadow-[0_0_15px_rgba(255,122,0,0.4)] flex items-center justify-center transition-all duration-500">
+          <span className="text-brand-orange font-bold text-sm drop-shadow-md">{milestone.year}</span>
         </div>
       </div>
 
@@ -162,11 +162,11 @@ const MyJourneySection = () => {
 
           {/* Olympic Journey */}
           <div className="mb-8 relative">
-            {/* Static connecting line for Olympic journey */}
+            {/* Static connecting line for Olympic journey - stops between circles */}
             <div className="absolute left-1/2 -translate-x-1/2 hidden md:block" 
                  style={{ 
-                   top: "40px",
-                   height: "calc(100% - 80px)",
+                   top: "72px",
+                   height: "calc(100% - 144px)",
                    width: "4px",
                    background: "linear-gradient(180deg, #FF7A00 0%, #1a237e 100%)",
                  }} 
@@ -183,11 +183,11 @@ const MyJourneySection = () => {
 
           {/* Professional Career Transition */}
           <div className="mb-8 relative">
-            {/* Static connecting line for Professional career */}
+            {/* Static connecting line for Professional career - stops between circles */}
             <div className="absolute left-1/2 -translate-x-1/2 hidden md:block" 
                  style={{ 
-                   top: "40px",
-                   height: "calc(100% - 80px)",
+                   top: "72px",
+                   height: "calc(100% - 144px)",
                    width: "4px",
                    background: "linear-gradient(180deg, #FF7A00 0%, #1a237e 100%)",
                  }} 
