@@ -7,7 +7,7 @@ import mediaFrameworkImage from "@/assets/unified-media-strategy.png";
 
 const MethodsSection = () => {
   return (
-    <section id="methods" className="py-20 bg-background relative overflow-hidden">
+    <section id="methods" className="py-20 md:py-28 bg-bg-mist relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 opacity-5">
         <svg className="w-full h-full" viewBox="0 0 1200 800" fill="none">
@@ -19,11 +19,11 @@ const MethodsSection = () => {
       <div className="container mx-auto px-4 relative">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+          <h2 className="font-hero font-bold text-text-primary mb-4" style={{ fontSize: 'clamp(24px, 3.5vw, 36px)', lineHeight: '1.2' }}>
             Methods I Use
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Proven frameworks I apply to unlock scalable growth.
+          <p className="text-text-secondary font-body max-w-2xl mx-auto" style={{ fontSize: 'clamp(15px, 1.4vw, 17px)', lineHeight: '1.6' }}>
+            Frameworks I use to drive growth.
           </p>
         </div>
 
@@ -31,7 +31,7 @@ const MethodsSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
           
           {/* Card 1: 5 Stage Growth Hacking Funnel */}
-          <Card className="bg-white border border-border/50 shadow-sm hover:shadow-lg transition-all duration-300 rounded-2xl">
+          <Card className="bg-card border border-border transition-all duration-300" style={{ borderRadius: '18px', boxShadow: '0 6px 24px rgba(15, 23, 42, 0.08)' }}>
             <CardContent className="p-8">
               <h3 className="text-2xl font-bold text-foreground mb-2">
                 5 Stage Growth Hacking Funnel
@@ -63,7 +63,7 @@ const MethodsSection = () => {
           </Card>
 
           {/* Card 2: Growth Loops */}
-          <Card className="bg-white border border-border/50 shadow-sm hover:shadow-lg transition-all duration-300 rounded-2xl">
+          <Card className="bg-card border border-border transition-all duration-300" style={{ borderRadius: '18px', boxShadow: '0 6px 24px rgba(15, 23, 42, 0.08)' }}>
             <CardContent className="p-8">
               <h3 className="text-2xl font-bold text-foreground mb-2">
                 Growth Loops
@@ -95,7 +95,7 @@ const MethodsSection = () => {
           </Card>
 
           {/* Card 3: Media Strategy Framework */}
-          <Card className="bg-white border border-border/50 shadow-sm hover:shadow-lg transition-all duration-300 rounded-2xl">
+          <Card className="bg-card border border-border transition-all duration-300" style={{ borderRadius: '18px', boxShadow: '0 6px 24px rgba(15, 23, 42, 0.08)' }}>
             <CardContent className="p-8">
               <h3 className="text-2xl font-bold text-foreground mb-2">
                 Media Strategy Framework

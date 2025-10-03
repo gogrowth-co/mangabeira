@@ -87,15 +87,15 @@ const SocialProofSection = () => {
   };
 
   return (
-    <section className="relative w-full bg-white py-16 md:py-24 overflow-hidden">
+    <section className="relative w-full bg-gradient-to-b from-background via-background to-muted/5 py-20 md:py-28 overflow-hidden">
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Section Header */}
         <div className="text-center mb-12 animate-fade-in">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-hero font-bold text-foreground mb-3">
-            Global Recognition. Olympic Results.
+          <h2 className="font-hero font-bold text-text-primary mb-3" style={{ fontSize: 'clamp(24px, 3.5vw, 36px)', lineHeight: '1.2' }}>
+            Proven Growth in Action.
           </h2>
-          <p className="text-base md:text-lg text-muted-foreground font-body max-w-3xl mx-auto">
-            From Olympic discipline to digital impact — trusted by the IOC, Coca-Cola, and Binance.
+          <p className="text-text-secondary font-body max-w-3xl mx-auto" style={{ fontSize: 'clamp(15px, 1.4vw, 17px)', lineHeight: '1.6' }}>
+            From Olympic discipline to digital impact, trusted by the IOC, Coca-Cola, and Binance.
           </p>
         </div>
 
@@ -129,8 +129,12 @@ const SocialProofSection = () => {
           {stats.map((stat, index) => (
             <Card
               key={index}
-              className="group p-6 md:p-8 text-center bg-white border border-border hover:border-gold-olympic/30 hover:shadow-xl transition-all duration-500 animate-fade-in"
-              style={{ animationDelay: `${index * 150}ms` }}
+              className="group p-6 md:p-8 text-center bg-card border border-border hover:border-accent-primary/30 transition-all duration-500 animate-fade-in"
+              style={{ 
+                animationDelay: `${index * 150}ms`,
+                borderRadius: '18px',
+                boxShadow: '0 6px 24px rgba(15, 23, 42, 0.08)'
+              }}
             >
               <div className="flex flex-col items-center">
                 <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-[#FF8C42] to-[#FFB020] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">

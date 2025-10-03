@@ -38,15 +38,15 @@ const PublicationsSection = () => {
   ];
 
   return (
-    <section id="publications" className="py-20 px-6 bg-background">
+    <section id="publications" className="py-20 md:py-28 px-6 bg-background">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="font-hero text-4xl md:text-5xl font-bold text-foreground mb-4">
+          <h2 className="font-hero font-bold text-text-primary mb-4" style={{ fontSize: 'clamp(24px, 3.5vw, 36px)', lineHeight: '1.2' }}>
             My Publications
           </h2>
-          <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
-            Articles and insights on growth, marketing, and the future of Web3.
+          <p className="text-text-secondary font-body max-w-3xl mx-auto" style={{ fontSize: 'clamp(15px, 1.4vw, 17px)', lineHeight: '1.6' }}>
+            Articles on growth, marketing, and Web3.
           </p>
         </div>
 
@@ -55,7 +55,8 @@ const PublicationsSection = () => {
           {publications.map((publication, index) => (
             <div
               key={index}
-              className="group bg-card rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col"
+              className="group bg-card overflow-hidden transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col border border-card"
+              style={{ borderRadius: '18px', boxShadow: '0 6px 24px rgba(15, 23, 42, 0.08)' }}
               onClick={() => window.location.href = publication.link}
             >
               {/* Cover Image - Compact 4:3 ratio */}

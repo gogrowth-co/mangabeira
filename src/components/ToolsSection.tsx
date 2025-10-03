@@ -57,7 +57,7 @@ const ToolsSection = () => {
   ];
 
   return (
-    <section id="tools" className="py-24 bg-muted/50 relative overflow-hidden">
+    <section id="tools" className="py-20 md:py-28 bg-bg-sand relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-accent/20" />
@@ -74,11 +74,11 @@ const ToolsSection = () => {
       <div className="container mx-auto px-4 relative">
         {/* Section Header */}
         <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Tools I Built for Marketers & Founders
+          <h2 className="font-hero font-bold text-text-primary mb-4" style={{ fontSize: 'clamp(24px, 3.5vw, 36px)', lineHeight: '1.2' }}>
+            My Tools
           </h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Interactive GPTs and graders — designed to make growth insights fast, actionable, and practical.
+          <p className="text-text-secondary font-body max-w-3xl mx-auto" style={{ fontSize: 'clamp(15px, 1.4vw, 17px)', lineHeight: '1.6' }}>
+            Interactive GPTs and graders for fast, practical insights.
           </p>
         </div>
 
@@ -90,8 +90,12 @@ const ToolsSection = () => {
             return (
               <div
                 key={tool.title}
-                className={`group bg-white rounded-2xl p-6 border border-border/50 shadow-sm hover:shadow-xl ${tool.hoverGlow} transition-all duration-300 hover:-translate-y-1 animate-fade-in relative`}
-                style={{ animationDelay: `${index * 100}ms` }}
+                className={`group bg-card p-6 border border-border ${tool.hoverGlow} transition-all duration-300 hover:-translate-y-1 animate-fade-in relative`}
+                style={{ 
+                  animationDelay: `${index * 100}ms`,
+                  borderRadius: '18px',
+                  boxShadow: '0 6px 24px rgba(15, 23, 42, 0.08)'
+                }}
               >
                 {/* Category Badge - Top Right */}
                 <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold border ${tool.categoryColor}`}>
@@ -113,12 +117,12 @@ const ToolsSection = () => {
                   </p>
                 </div>
 
-                {/* Screenshot - Reduced Height */}
-                <div className="mb-4 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-3 overflow-hidden">
+                {/* Screenshot - Max Height 190px */}
+                <div className="mb-4 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-3 overflow-hidden" style={{ maxHeight: '190px' }}>
                   <img 
                     src={tool.screenshot} 
                     alt={`${tool.title} interface screenshot`}
-                    className="w-full h-32 object-cover object-top rounded-md shadow-sm transition-transform duration-300 group-hover:scale-105"
+                    className="w-full h-auto max-h-[166px] object-cover object-top rounded-md shadow-sm transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
 

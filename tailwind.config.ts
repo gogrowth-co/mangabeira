@@ -66,6 +66,16 @@ export default {
         "gray-light": "hsl(var(--gray-light))",
         "white-pure": "hsl(var(--white-pure))",
         "white-soft": "hsl(var(--white-soft))",
+        // Design system tokens
+        "text-primary": "hsl(var(--text-primary))",
+        "text-secondary": "hsl(var(--text-secondary))",
+        "accent-primary": "hsl(var(--accent-primary))",
+        "accent-secondary": "hsl(var(--accent-secondary))",
+        "border-subtle": "hsl(var(--border-subtle))",
+        "bg-mist": "hsl(var(--bg-mist))",
+        "bg-pool": "hsl(var(--bg-pool))",
+        "bg-sand": "hsl(var(--bg-sand))",
+        "bg-ink": "hsl(var(--bg-ink))",
         // Accent colors for key term highlighting
         "accent-orange": "hsl(var(--accent-orange))",
         "accent-blue": "hsl(var(--accent-blue))",

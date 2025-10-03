@@ -31,15 +31,15 @@ const ServicesSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-b from-gray-50 to-blue-50">
+    <section className="py-20 md:py-28 bg-background">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-hero font-bold text-navy-deep mb-4">
+          <h2 className="font-hero font-bold text-text-primary mb-4" style={{ fontSize: 'clamp(24px, 3.5vw, 36px)', lineHeight: '1.2' }}>
             How I Help
           </h2>
-          <p className="text-xl text-muted-foreground font-body max-w-3xl mx-auto leading-relaxed">
-            I bring Olympic discipline to digital growth — through strategy, execution, and thought leadership.
+          <p className="text-text-secondary font-body max-w-3xl mx-auto" style={{ fontSize: 'clamp(15px, 1.4vw, 17px)', lineHeight: '1.6' }}>
+            Clear engagements for fast outcomes.
           </p>
         </div>
 
@@ -50,8 +50,12 @@ const ServicesSection = () => {
             return (
               <Card 
                 key={index}
-                className={`group p-8 h-full border border-border bg-card hover:shadow-lg transition-all duration-300 ${service.hoverColor} hover:-translate-y-1 animate-fade-in`}
-                style={{ animationDelay: `${index * 200}ms` }}
+                className={`group p-8 h-full border border-border bg-card transition-all duration-300 ${service.hoverColor} hover:-translate-y-1 animate-fade-in`}
+                style={{ 
+                  animationDelay: `${index * 200}ms`,
+                  borderRadius: '18px',
+                  boxShadow: '0 6px 24px rgba(15, 23, 42, 0.08)'
+                }}
               >
                 <CardContent className="p-0 flex flex-col h-full">
                   {/* Icon */}

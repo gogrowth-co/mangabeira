@@ -3,16 +3,16 @@ import { ArrowRight } from "lucide-react";
 
 const CTASection = () => {
   return (
-    <section id="contact" className="py-20 px-6 bg-gradient-to-br from-background via-background to-muted/20">
+    <section id="contact" className="py-20 md:py-28 px-6 bg-bg-ink">
       <div className="max-w-4xl mx-auto text-center">
         {/* Headline */}
-        <h2 className="font-hero text-4xl md:text-5xl font-bold text-foreground mb-6">
-          Let's Build the Future Together
+        <h2 className="font-hero font-bold text-white mb-6" style={{ fontSize: 'clamp(24px, 3.5vw, 36px)', lineHeight: '1.2' }}>
+          Ready to start?
         </h2>
         
         {/* Subheadline */}
-        <p className="text-muted-foreground text-lg md:text-xl mb-10 max-w-3xl mx-auto">
-          I'm always open to collaborations, growth consulting, and new opportunities in Web3 and beyond.
+        <p className="text-white/80 font-body mb-10 max-w-3xl mx-auto" style={{ fontSize: 'clamp(15px, 1.4vw, 17px)', lineHeight: '1.6' }}>
+          Open to collaborations, growth consulting, and new opportunities in Web3 and beyond.
         </p>
 
         {/* CTA Buttons */}
@@ -29,8 +29,8 @@ const CTASection = () => {
           
           <Button 
             size="hero"
-            variant="hero-outline"
-            className="min-w-[200px] bg-white border-black text-black hover:bg-black hover:text-white"
+            variant="outline"
+            className="min-w-[200px] bg-transparent border-white text-white hover:bg-white hover:text-bg-ink"
             onClick={() => window.open("https://linkedin.com", "_blank")}
           >
             Connect on LinkedIn

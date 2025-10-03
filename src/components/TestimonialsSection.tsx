@@ -51,14 +51,14 @@ const TestimonialsSection = () => {
   ];
 
   return (
-    <section className="relative w-full bg-white py-16 md:py-24 overflow-hidden">
+    <section className="relative w-full bg-background py-20 md:py-28 overflow-hidden">
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Section Header */}
         <div className="text-center mb-12 animate-fade-in">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-hero font-bold text-foreground mb-3">
+          <h2 className="font-hero font-bold text-text-primary mb-3" style={{ fontSize: 'clamp(24px, 3.5vw, 36px)', lineHeight: '1.2' }}>
             What Partners Say
           </h2>
-          <p className="text-base md:text-lg text-muted-foreground font-body max-w-3xl mx-auto">
+          <p className="text-text-secondary font-body max-w-3xl mx-auto" style={{ fontSize: 'clamp(15px, 1.4vw, 17px)', lineHeight: '1.6' }}>
             Trusted by global leaders, entrepreneurs, and innovators.
           </p>
         </div>
@@ -75,7 +75,7 @@ const TestimonialsSection = () => {
             <CarouselContent>
               {testimonials.map((testimonial, index) => (
                 <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/2">
-                  <Card className="p-8 h-full flex flex-col justify-between bg-white border border-border hover:border-[#FF8C42]/30 hover:shadow-xl transition-all duration-300">
+                  <Card className="p-8 h-full flex flex-col justify-between bg-card border border-border hover:border-accent-primary/30 transition-all duration-300" style={{ borderRadius: '18px', boxShadow: '0 6px 24px rgba(15, 23, 42, 0.08)' }}>
                     <div>
                       <Quote className="w-10 h-10 text-[#FF8C42] mb-4 opacity-50" />
                       <p className="text-base md:text-lg text-foreground font-body italic mb-6 leading-relaxed">

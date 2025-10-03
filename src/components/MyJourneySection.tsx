@@ -134,11 +134,11 @@ const MyJourneySection = () => {
   return (
     <section
       ref={sectionRef}
-      className="py-16 relative overflow-hidden bg-background"
+      className="py-20 md:py-28 relative overflow-hidden bg-bg-pool"
     >
       {/* Swimming pool lanes background */}
       <div
-        className="absolute inset-0 opacity-[0.04]"
+        className="absolute inset-0 opacity-[0.08]"
         style={{
           backgroundImage: `url(${poolOverhead})`,
           backgroundSize: "cover",
@@ -150,11 +150,11 @@ const MyJourneySection = () => {
       <div className="container mx-auto px-6 relative">
         {/* Header */}
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
-            My <span className="text-brand-orange">Journey</span>
+          <h2 className="font-hero font-bold text-text-primary mb-2" style={{ fontSize: 'clamp(24px, 3.5vw, 36px)', lineHeight: '1.2' }}>
+            My <span className="text-accent-primary">Journey</span>
           </h2>
-          <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
-            From Olympic lanes to digital growth — a career built on discipline and execution.
+          <p className="text-text-secondary font-body max-w-2xl mx-auto" style={{ fontSize: 'clamp(15px, 1.4vw, 17px)', lineHeight: '1.6' }}>
+            From Olympic lanes to digital growth, a career built on discipline and execution.
           </p>
         </div>
 
@@ -231,11 +231,11 @@ const MyJourneySection = () => {
 
         @keyframes splash-pulse {
           0%, 100% {
-            box-shadow: 0 2px 8px rgba(255,122,0,0.2);
+            box-shadow: 0 2px 6px rgba(255,122,61,0.15);
             transform: scale(1);
           }
           50% {
-            box-shadow: 0 2px 12px rgba(255,122,0,0.3);
+            box-shadow: 0 2px 10px rgba(255,122,61,0.2);
             transform: scale(1.02);
           }
         }

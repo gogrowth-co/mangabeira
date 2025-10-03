@@ -10,12 +10,12 @@ const AsSeenOnSection = () => {
   ];
 
   return (
-    <section className="relative w-full bg-white py-12 md:py-16 border-t border-border/50">
+    <section className="relative w-full bg-bg-mist py-14 md:py-20">
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Section Header */}
-        <div className="text-center mb-8">
-          <h3 className="text-xs md:text-sm font-body font-semibold tracking-wider uppercase text-muted-foreground">
-            As Seen On
+        <div className="text-center mb-10">
+          <h3 className="text-xs md:text-sm font-body font-semibold tracking-wider uppercase text-text-secondary">
+            Trusted by global brands.
           </h3>
         </div>
 
@@ -27,7 +27,7 @@ const AsSeenOnSection = () => {
               href={logo.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-28 md:w-36 h-16 flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity duration-300"
+              className="w-28 md:w-36 h-16 flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity duration-300"
             >
               <img
                 src={logo.src}

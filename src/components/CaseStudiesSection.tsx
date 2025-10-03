@@ -147,15 +147,15 @@ const CaseStudiesSection = () => {
   return (
     <section 
       id="case-studies"
-      className="py-24 bg-gradient-to-b from-background to-muted/20"
+      className="py-20 md:py-28 bg-background border-t border-border-subtle"
     >
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-hero font-bold text-foreground mb-6">
-            🏅 Proven Growth in Action
+          <h2 className="font-hero font-bold text-text-primary mb-6" style={{ fontSize: 'clamp(24px, 3.5vw, 36px)', lineHeight: '1.2' }}>
+            Proven Growth in Action.
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            From Olympic discipline to digital dominance — here's how I've helped brands like Binance, Coca-Cola, and Neil Patel Brasil achieve measurable results.
+          <p className="text-text-secondary font-body max-w-3xl mx-auto" style={{ fontSize: 'clamp(15px, 1.4vw, 17px)', lineHeight: '1.6' }}>
+            From Olympic discipline to digital impact, here's how I've helped brands like Binance, Coca-Cola, and Neil Patel Brasil achieve measurable results.
           </p>
         </div>
 
@@ -168,11 +168,13 @@ const CaseStudiesSection = () => {
                 transition-all duration-500 hover:scale-105 cursor-pointer
                 ${study.accent} ${study.hoverColor}
                 ${isVisible ? 'animate-fade-in opacity-100' : 'opacity-0'}
-                group border-2 hover:shadow-2xl
+                group border border-border
               `}
               style={{ 
                 animationDelay: `${index * 200}ms`,
-                animationFillMode: 'forwards'
+                animationFillMode: 'forwards',
+                borderRadius: '18px',
+                boxShadow: '0 6px 24px rgba(15, 23, 42, 0.08)'
               }}
             >
               <CardHeader className="text-center pb-4">
