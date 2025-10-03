@@ -202,13 +202,8 @@ const MyJourneySection = () => {
             )}
           </div>
 
-          {/* Finish Line - Podium Style */}
+          {/* Finish Line - CTA */}
           <div className="flex flex-col items-center pt-4">
-            <h4 className="text-xl font-bold text-foreground mb-1.5">SEO/AEO Manager – OPAScope</h4>
-            <p className="text-muted-foreground text-sm italic mb-4 text-center max-w-md">
-              Driving AI-powered organic growth with automation and search optimization.
-            </p>
-
             {/* Footer CTA */}
             <Button 
               asChild
