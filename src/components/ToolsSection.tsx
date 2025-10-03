@@ -1,34 +1,50 @@
-import { Search, TrendingUp, User, Store } from "lucide-react";
+import { Zap, Flame, Coins, ShoppingCart } from "lucide-react";
+import growthExperimentsImage from "@/assets/growth-experiments-screenshot.png";
+import web3RoastImage from "@/assets/web3-roast-screenshot.png";
+import tokenHealthImage from "@/assets/token-health-scan-screenshot.png";
+import shopifyGraderImage from "@/assets/shopify-grader-screenshot.png";
 
 const ToolsSection = () => {
   const tools = [
     {
-      icon: Search,
-      title: "SEO GPT",
-      description: "Get instant SEO audits & optimization tips.",
-      color: "blue",
-      accent: "border-blue-500/50 shadow-blue-500/20"
-    },
-    {
-      icon: TrendingUp,
-      title: "CRO GPT",
-      description: "Uncover friction points in your funnel.",
+      icon: Zap,
+      title: "Growth Experiments Framework",
+      description: "Track, analyze, and learn from your growth experiments.",
+      screenshot: growthExperimentsImage,
       color: "teal",
-      accent: "border-teal-500/50 shadow-teal-500/20"
+      iconGradient: "from-teal-500 to-teal-600",
+      bgColor: "bg-teal-50",
+      hoverGlow: "hover:shadow-teal-500/20"
     },
     {
-      icon: User,
-      title: "Personal Brand GPT",
-      description: "Build your online presence with clarity.",
-      color: "purple",
-      accent: "border-purple-500/50 shadow-purple-500/20"
-    },
-    {
-      icon: Store,
-      title: "Shopify Grader & Web3ROAST",
-      description: "Benchmark your store or Web3 project.",
+      icon: Flame,
+      title: "Web3 ROAST",
+      description: "Actionable CRO insights tailored for crypto projects.",
+      screenshot: web3RoastImage,
       color: "orange",
-      accent: "border-orange-500/50 shadow-orange-500/20"
+      iconGradient: "from-orange-500 to-orange-600",
+      bgColor: "bg-orange-50",
+      hoverGlow: "hover:shadow-orange-500/20"
+    },
+    {
+      icon: Coins,
+      title: "Token Health Scan",
+      description: "Scan crypto projects and uncover critical risks before scaling.",
+      screenshot: tokenHealthImage,
+      color: "gold",
+      iconGradient: "from-yellow-500 to-teal-500",
+      bgColor: "bg-yellow-50",
+      hoverGlow: "hover:shadow-yellow-500/20"
+    },
+    {
+      icon: ShoppingCart,
+      title: "Shopify Grader",
+      description: "Benchmark and optimize your e-commerce store for conversions.",
+      screenshot: shopifyGraderImage,
+      color: "orange",
+      iconGradient: "from-orange-500 to-orange-600",
+      bgColor: "bg-orange-50",
+      hoverGlow: "hover:shadow-orange-500/20"
     }
   ];
 
@@ -50,11 +66,11 @@ const ToolsSection = () => {
       <div className="container mx-auto px-4 relative">
         {/* Section Header */}
         <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-hero font-bold text-foreground mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             Tools I Built for Marketers & Founders
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Try my interactive GPTs and graders — designed to make growth insights fast, actionable, and practical.
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+            Interactive GPTs and graders — designed to make growth insights fast, actionable, and practical.
           </p>
         </div>
 
@@ -62,49 +78,40 @@ const ToolsSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {tools.map((tool, index) => {
             const Icon = tool.icon;
-            const colorMap = {
-              blue: "text-blue-600 group-hover:text-blue-700",
-              teal: "text-teal-600 group-hover:text-teal-700", 
-              purple: "text-purple-600 group-hover:text-purple-700",
-              orange: "text-orange-600 group-hover:text-orange-700"
-            };
-            const bgMap = {
-              blue: "bg-blue-50 group-hover:bg-blue-100",
-              teal: "bg-teal-50 group-hover:bg-teal-100",
-              purple: "bg-purple-50 group-hover:bg-purple-100", 
-              orange: "bg-orange-50 group-hover:bg-orange-100"
-            };
-            const buttonMap = {
-              blue: "bg-blue-600 hover:bg-blue-700 text-white",
-              teal: "bg-teal-600 hover:bg-teal-700 text-white",
-              purple: "bg-purple-600 hover:bg-purple-700 text-white",
-              orange: "bg-orange-600 hover:bg-orange-700 text-white"
-            };
 
             return (
               <div
                 key={tool.title}
-                className={`group bg-background rounded-2xl p-8 border border-border shadow-sm hover:shadow-lg hover:${tool.accent} transition-all duration-300 hover:-translate-y-2 animate-fade-in`}
-                style={{ animationDelay: `${index * 200}ms` }}
+                className={`group bg-white rounded-2xl p-8 border border-border/50 shadow-sm hover:shadow-lg ${tool.hoverGlow} transition-all duration-300 hover:-translate-y-1 animate-fade-in`}
+                style={{ animationDelay: `${index * 100}ms` }}
               >
                 {/* Icon */}
-                <div className={`w-16 h-16 rounded-2xl ${bgMap[tool.color]} flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110`}>
-                  <Icon className={`w-8 h-8 ${colorMap[tool.color]} transition-colors duration-300`} />
+                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${tool.iconGradient} flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110`}>
+                  <Icon className="w-7 h-7 text-white" />
                 </div>
 
                 {/* Content */}
-                <div className="mb-8">
-                  <h3 className="text-2xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300">
+                <div className="mb-6">
+                  <h3 className="text-2xl font-bold text-foreground mb-3">
                     {tool.title}
                   </h3>
-                  <p className="text-muted-foreground text-lg leading-relaxed">
+                  <p className="text-muted-foreground text-base leading-relaxed mb-6">
                     {tool.description}
                   </p>
                 </div>
 
+                {/* Screenshot */}
+                <div className="mb-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-4 overflow-hidden">
+                  <img 
+                    src={tool.screenshot} 
+                    alt={`${tool.title} interface screenshot`}
+                    className="w-full h-auto object-cover rounded-md shadow-sm transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+
                 {/* CTA Button */}
-                <button className={`w-full md:w-auto px-8 py-3 rounded-xl font-semibold text-lg ${buttonMap[tool.color]} transition-all duration-300 hover:scale-105 hover:shadow-lg`}>
-                  Try It Now
+                <button className="w-full px-6 py-3 rounded-xl font-semibold text-base bg-gradient-to-r from-[#FF8C42] to-[#FFB020] text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-orange-500/30">
+                  Try It Now →
                 </button>
               </div>
             );
