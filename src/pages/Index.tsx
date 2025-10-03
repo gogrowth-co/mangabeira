@@ -9,22 +9,28 @@ import CapabilitiesSection from "@/components/CapabilitiesSection";
 import MyJourneySection from "@/components/MyJourneySection";
 import ToolsSection from "@/components/ToolsSection";
 import PublicationsSection from "@/components/PublicationsSection";
+import CTASection from "@/components/CTASection";
+import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <main className="font-body">
-      <HeroSection />
-      <SocialProofSection />
-      <AsSeenOnSection />
-      <AboutSection />
-      <CaseStudiesSection />
-      <TestimonialsSection />
-      <CapabilitiesSection />
-      <MyJourneySection />
-      <MethodsSection />
-      <ToolsSection />
-      <PublicationsSection />
-    </main>
+    <>
+      <main className="font-body">
+        <HeroSection />
+        <SocialProofSection />
+        <AsSeenOnSection />
+        <AboutSection />
+        <CaseStudiesSection />
+        <TestimonialsSection />
+        <CapabilitiesSection />
+        <MyJourneySection />
+        <MethodsSection />
+        <ToolsSection />
+        <PublicationsSection />
+        <CTASection />
+      </main>
+      <Footer />
+    </>
   );
 };
 
