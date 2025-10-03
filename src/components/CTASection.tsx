@@ -30,7 +30,7 @@ const CTASection = () => {
           <Button 
             size="hero"
             variant="hero-outline"
-            className="min-w-[200px] bg-background/10 backdrop-blur-sm"
+            className="min-w-[200px] bg-white border-black text-black hover:bg-black hover:text-white"
             onClick={() => window.open("https://linkedin.com", "_blank")}
           >
             Connect on LinkedIn
