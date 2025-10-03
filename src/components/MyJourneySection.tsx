@@ -84,73 +84,59 @@ const MyJourneySection = () => {
     return () => observer.disconnect();
   }, []);
 
-  const renderMilestone = (milestone: Milestone, index: number, isLeft: boolean) => (
-    <div
-      key={`${milestone.year}-${index}`}
-      className={`timeline-card flex items-center gap-8 mb-16 opacity-0 ${
-        isLeft ? "md:flex-row" : "md:flex-row-reverse"
-      } flex-col`}
-    >
+  const renderMilestone = (milestone: Milestone, index: number, isLast: boolean) => (
+    <div key={`${milestone.year}-${index}`} className="timeline-card flex gap-6 mb-8 opacity-0">
+      {/* Timeline marker column */}
+      <div className="flex flex-col items-center flex-shrink-0">
+        <div className="w-16 h-16 rounded-full bg-brand-orange/10 border-4 border-brand-orange flex items-center justify-center shadow-[0_0_12px_rgba(255,122,0,0.3)] transition-shadow duration-300 hover:shadow-[0_0_20px_rgba(255,122,0,0.5)]">
+          <span className="text-brand-orange font-bold text-sm">{milestone.year}</span>
+        </div>
+        {!isLast && <div className="w-[2px] flex-1 bg-border mt-2" />}
+      </div>
+
       {/* Card */}
-      <Card
-        className={`${
-          isLeft ? "md:ml-auto md:mr-0" : "md:mr-auto md:ml-0"
-        } w-full md:w-[calc(50%-2rem)] hover:shadow-lg transition-all duration-300`}
-      >
+      <Card className="flex-1 hover:shadow-lg transition-all duration-300 mb-8">
         <CardContent className="p-6">
-          <div className="flex items-baseline gap-3 mb-2">
-            <span className="text-brand-orange font-bold text-lg">{milestone.year}</span>
-            <h3 className="font-bold text-foreground text-lg leading-tight">{milestone.role}</h3>
-          </div>
+          <h3 className="font-bold text-foreground text-lg mb-2">{milestone.role}</h3>
           <p className="text-muted-foreground leading-relaxed">{milestone.description}</p>
         </CardContent>
       </Card>
-
-      {/* Timeline marker */}
-      <div className="relative flex-shrink-0 hidden md:block">
-        <div className="w-4 h-4 rounded-full bg-brand-orange shadow-[0_0_12px_rgba(255,122,0,0.5)] transition-shadow duration-300 hover:shadow-[0_0_20px_rgba(255,122,0,0.7)]" />
-      </div>
-
-      {/* Spacer for other side */}
-      <div className="w-[calc(50%-2rem)] hidden md:block" />
     </div>
   );
 
   return (
-    <section ref={sectionRef} className="py-24 bg-background relative">
+    <section ref={sectionRef} className="py-24 bg-background">
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">My Journey</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+            My <span className="text-brand-orange">Journey</span>
+          </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             From Olympic lanes to digital growth — a career built on discipline and execution.
           </p>
         </div>
 
-        {/* Timeline container */}
-        <div className="relative max-w-5xl mx-auto">
-          {/* Vertical line (hidden on mobile) */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-[2px] bg-border hidden md:block -translate-x-1/2" />
-
+        <div className="max-w-4xl mx-auto">
           {/* Olympic Journey */}
-          <div className="mb-12">
-            <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center justify-center md:justify-start gap-2">
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-2">
               <span>🏊</span>
               <span>Olympic Journey</span>
             </h3>
             {olympicJourney.map((milestone, index) =>
-              renderMilestone(milestone, index, index % 2 === 0)
+              renderMilestone(milestone, index, index === olympicJourney.length - 1)
             )}
           </div>
 
           {/* Professional Career Transition */}
           <div>
-            <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center justify-center md:justify-start gap-2">
+            <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-2">
               <span>💼</span>
               <span>Professional Career Transition</span>
             </h3>
             {professionalCareer.map((milestone, index) =>
-              renderMilestone(milestone, index + olympicJourney.length, (index + olympicJourney.length) % 2 === 0)
+              renderMilestone(milestone, index, index === professionalCareer.length - 1)
             )}
           </div>
         </div>
