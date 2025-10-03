@@ -7,19 +7,19 @@ const CapabilitiesSection = () => {
     {
       Icon: Brain,
       title: "AI-Powered Growth",
-      description: "Leverage AI to optimize campaigns in real time, generate high-converting content, and unlock new levels of personalization.",
+      description: "Optimize campaigns in real time, generate high-converting content, and unlock personalization at scale using AI.",
       tools: ["ChatGPT", "MidJourney", "Jasper"],
     },
     {
       Icon: Link2,
       title: "Web3 Community Building",
-      description: "Build loyal, engaged audiences through tokenized incentives, Discord growth strategies, and decentralized engagement tools.",
+      description: "Build loyal audiences with tokenized incentives, Discord-native growth, and decentralized engagement tools.",
       tools: ["Binance", "WalletConnect", "Discord"],
     },
     {
       Icon: BarChart3,
       title: "Data-Driven Performance",
-      description: "Translate data into action with advanced analytics, multi-channel attribution, and growth systems that scale globally.",
+      description: "Turn complex data into clear growth insights with advanced attribution, automation, and scalable systems.",
       tools: ["Google Analytics", "Looker Studio", "HubSpot"],
     },
   ];
@@ -44,7 +44,7 @@ const CapabilitiesSection = () => {
             How I Help You Grow in the New Digital Era
           </h2>
           <p className="text-base md:text-lg text-muted-foreground font-body max-w-3xl mx-auto">
-            Blending AI, Web3, and Performance Marketing to deliver real-world results.
+            Blending AI, Web3, and Performance Marketing to deliver measurable results.
           </p>
         </div>
 
