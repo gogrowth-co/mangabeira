@@ -27,17 +27,6 @@ const CapabilitiesSection = () => {
   return (
     <section className="relative w-full bg-[#FAFAFA] py-16 md:py-24 overflow-hidden">
       <div className="container mx-auto px-4 max-w-6xl">
-        {/* Optional Growth Loop Graphic */}
-        <div className="flex items-center justify-center gap-4 mb-8 opacity-60">
-          <Brain className="w-8 h-8 text-[#FF8C42]" strokeWidth={1.5} />
-          <div className="w-12 h-0.5 bg-gradient-to-r from-[#FF8C42] to-[#FFB020]" />
-          <Link2 className="w-8 h-8 text-[#FF8C42]" strokeWidth={1.5} />
-          <div className="w-12 h-0.5 bg-gradient-to-r from-[#FF8C42] to-[#FFB020]" />
-          <BarChart3 className="w-8 h-8 text-[#FF8C42]" strokeWidth={1.5} />
-          <div className="w-12 h-0.5 bg-gradient-to-r from-[#FF8C42] to-[#FFB020]" />
-          <TrendingUp className="w-8 h-8 text-[#FF8C42]" strokeWidth={1.5} />
-        </div>
-
         {/* Section Header */}
         <div className="text-center mb-12 animate-fade-in">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-hero font-bold text-foreground mb-3">
