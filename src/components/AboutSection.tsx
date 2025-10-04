@@ -28,7 +28,10 @@ const AboutSection = () => {
   ];
 
   return (
-    <section id="about" className="relative w-full bg-background py-16 md:py-24 overflow-hidden">
+    <section id="about" className="relative w-full bg-[#F7FAFC] py-10 md:py-12 lg:py-14 overflow-hidden">
+      {/* Subtle top separator */}
+      <div className="absolute top-0 left-0 right-0 h-[120px] bg-gradient-to-b from-[rgba(10,31,52,0.06)] to-transparent pointer-events-none"></div>
+      
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Mobile-first layout: image stacked on top */}
         <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
@@ -74,7 +77,7 @@ const AboutSection = () => {
             </div>
 
             {/* Authority signals */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-6 lg:gap-6 animate-fade-in">
               {authoritySignals.map((signal, index) => (
                 <Card
                   key={index}

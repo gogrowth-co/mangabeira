@@ -87,20 +87,23 @@ const SocialProofSection = () => {
   };
 
   return (
-    <section className="relative w-full bg-gradient-to-b from-background via-background to-muted/5 py-20 md:py-28 overflow-hidden">
+    <section className="relative w-full bg-[#FFFFFF] py-10 md:py-12 lg:py-14 overflow-hidden">
+      {/* Subtle top separator */}
+      <div className="absolute top-0 left-0 right-0 h-[120px] bg-gradient-to-b from-[rgba(10,31,52,0.06)] to-transparent pointer-events-none"></div>
+      
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Section Header */}
-        <div className="text-center mb-12 animate-fade-in">
-          <h2 className="font-hero font-bold text-text-primary mb-3" style={{ fontSize: 'clamp(24px, 3.5vw, 36px)', lineHeight: '1.2' }}>
-            Proven Growth in Action.
+        <div className="text-center mb-6 md:mb-5 lg:mb-6 animate-fade-in">
+          <h2 className="font-bold mb-2 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#0B1B2B' }}>
+            Proven Growth in Action
           </h2>
-          <p className="text-text-secondary font-body max-w-3xl mx-auto" style={{ fontSize: 'clamp(15px, 1.4vw, 17px)', lineHeight: '1.6' }}>
+          <p className="font-body max-w-3xl mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#5B6B7C' }}>
             From Olympic discipline to digital impact, trusted by the IOC, Coca-Cola, and Binance.
           </p>
         </div>
 
         {/* Logos Section */}
-        <div className="mb-16">
+        <div className="mb-6 md:mb-5 lg:mb-6">
           <div className="flex flex-wrap items-center justify-center gap-12 md:gap-16">
             {logos.map((logo, index) => (
               <div
@@ -125,7 +128,7 @@ const SocialProofSection = () => {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-6 lg:gap-6">
           {stats.map((stat, index) => (
             <Card
               key={index}

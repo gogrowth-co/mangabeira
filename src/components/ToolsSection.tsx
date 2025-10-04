@@ -57,7 +57,9 @@ const ToolsSection = () => {
   ];
 
   return (
-    <section id="tools" className="py-20 md:py-28 bg-bg-sand relative overflow-hidden">
+    <section id="tools" className="py-10 md:py-12 lg:py-14 bg-[#FFF7EA] relative overflow-hidden">
+      {/* Subtle top separator */}
+      <div className="absolute top-0 left-0 right-0 h-[120px] bg-gradient-to-b from-[rgba(10,31,52,0.06)] to-transparent pointer-events-none z-10"></div>
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-accent/20" />
@@ -73,17 +75,17 @@ const ToolsSection = () => {
 
       <div className="container mx-auto px-4 relative">
         {/* Section Header */}
-        <div className="text-center mb-16 animate-fade-in">
-          <h2 className="font-hero font-bold text-text-primary mb-4" style={{ fontSize: 'clamp(24px, 3.5vw, 36px)', lineHeight: '1.2' }}>
-            My Tools
+        <div className="text-center mb-6 md:mb-5 lg:mb-6 animate-fade-in">
+          <h2 className="font-bold mb-2 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#0B1B2B' }}>
+            Tools
           </h2>
-          <p className="text-text-secondary font-body max-w-3xl mx-auto" style={{ fontSize: 'clamp(15px, 1.4vw, 17px)', lineHeight: '1.6' }}>
+          <p className="font-body max-w-3xl mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#5B6B7C' }}>
             Interactive GPTs and graders for fast, practical insights.
           </p>
         </div>
 
         {/* Tools Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-6 lg:gap-6 max-w-6xl mx-auto">
           {tools.map((tool, index) => {
             const Icon = tool.icon;
 

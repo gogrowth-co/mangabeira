@@ -134,11 +134,14 @@ const MyJourneySection = () => {
   return (
     <section
       ref={sectionRef}
-      className="py-20 md:py-28 relative overflow-hidden bg-bg-pool"
+      className="py-10 md:py-12 lg:py-14 relative overflow-hidden bg-[#F7FAFC]"
     >
-      {/* Swimming pool lanes background */}
+      {/* Subtle top separator */}
+      <div className="absolute top-0 left-0 right-0 h-[120px] bg-gradient-to-b from-[rgba(10,31,52,0.06)] to-transparent pointer-events-none z-10"></div>
+      
+      {/* Swimming pool lanes background at 2% opacity */}
       <div
-        className="absolute inset-0 opacity-[0.08]"
+        className="absolute inset-0 opacity-[0.02]"
         style={{
           backgroundImage: `url(${poolOverhead})`,
           backgroundSize: "cover",
@@ -149,12 +152,12 @@ const MyJourneySection = () => {
 
       <div className="container mx-auto px-6 relative">
         {/* Header */}
-        <div className="text-center mb-10">
-          <h2 className="font-hero font-bold text-text-primary mb-2" style={{ fontSize: 'clamp(24px, 3.5vw, 36px)', lineHeight: '1.2' }}>
-            My <span className="text-accent-primary">Journey</span>
+        <div className="text-center mb-6 md:mb-5 lg:mb-6">
+          <h2 className="font-bold mb-2 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#0B1B2B' }}>
+            My Journey
           </h2>
-          <p className="text-text-secondary font-body max-w-2xl mx-auto" style={{ fontSize: 'clamp(15px, 1.4vw, 17px)', lineHeight: '1.6' }}>
-            From Olympic lanes to digital growth, a career built on discipline and execution.
+          <p className="font-body max-w-2xl mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#5B6B7C' }}>
+            From Olympic lanes to launch timelines — the same discipline now drives growth in digital.
           </p>
         </div>
 

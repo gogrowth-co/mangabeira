@@ -51,20 +51,23 @@ const PublicationsSection = () => {
   };
 
   return (
-    <section id="publications" className="py-20 md:py-14 lg:py-20 px-6 bg-mist">
+    <section id="publications" className="py-10 md:py-12 lg:py-14 px-6 bg-[#FFFFFF] relative">
+      {/* Subtle top separator */}
+      <div className="absolute top-0 left-0 right-0 h-[120px] bg-gradient-to-b from-[rgba(10,31,52,0.06)] to-transparent pointer-events-none"></div>
+      
       <div className="max-w-[1280px] mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-12 md:mb-16">
-          <h2 className="font-hero font-bold mb-4" style={{ fontSize: 'clamp(24px, 3.5vw, 36px)', lineHeight: '1.2', color: '#1A202C' }}>
-            My Publications
+        <div className="text-center mb-6 md:mb-5 lg:mb-6">
+          <h2 className="font-bold mb-2 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#0B1B2B' }}>
+            Publications
           </h2>
-          <p className="font-body max-w-[720px] mx-auto" style={{ fontSize: 'clamp(15px, 1.4vw, 17px)', lineHeight: '1.6', color: '#4A5568' }}>
+          <p className="font-body max-w-[720px] mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#5B6B7C' }}>
             Articles and insights on growth, marketing, and the future of Web3.
           </p>
         </div>
 
         {/* Publications Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 lg:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-6 lg:gap-6">
           {publications.map((publication, index) => (
             <a
               key={index}

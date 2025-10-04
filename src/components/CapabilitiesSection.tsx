@@ -25,20 +25,23 @@ const CapabilitiesSection = () => {
   ];
 
   return (
-    <section className="relative w-full bg-[#FAFAFA] py-16 md:py-24 overflow-hidden">
+    <section className="relative w-full bg-[#FFFFFF] py-10 md:py-12 lg:py-14 overflow-hidden">
+      {/* Subtle top separator */}
+      <div className="absolute top-0 left-0 right-0 h-[120px] bg-gradient-to-b from-[rgba(10,31,52,0.06)] to-transparent pointer-events-none"></div>
+      
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Section Header */}
-        <div className="text-center mb-12 animate-fade-in">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-hero font-bold text-foreground mb-3">
-            How I Help You Grow in the New Digital Era
+        <div className="text-center mb-6 md:mb-5 lg:mb-6 animate-fade-in">
+          <h2 className="font-bold mb-2 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#0B1B2B' }}>
+            How I Help
           </h2>
-          <p className="text-base md:text-lg text-muted-foreground font-body max-w-3xl mx-auto">
+          <p className="font-body max-w-3xl mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#5B6B7C' }}>
             Blending AI, Web3, and Performance Marketing to deliver measurable results.
           </p>
         </div>
 
         {/* 3-Column Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-6 lg:gap-6 mb-6 md:mb-5 lg:mb-6">
           {capabilities.map((capability, index) => (
             <Card
               key={index}

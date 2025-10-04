@@ -147,19 +147,22 @@ const CaseStudiesSection = () => {
   return (
     <section 
       id="case-studies"
-      className="py-20 md:py-28 bg-background border-t border-border-subtle"
+      className="py-10 md:py-12 lg:py-14 bg-[#EFF6FA] relative"
     >
+      {/* Subtle top separator */}
+      <div className="absolute top-0 left-0 right-0 h-[120px] bg-gradient-to-b from-[rgba(10,31,52,0.06)] to-transparent pointer-events-none"></div>
+      
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="font-hero font-bold text-text-primary mb-6" style={{ fontSize: 'clamp(24px, 3.5vw, 36px)', lineHeight: '1.2' }}>
-            Proven Growth in Action.
+        <div className="text-center mb-6 md:mb-5 lg:mb-6">
+          <h2 className="font-bold mb-2 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#0B1B2B' }}>
+            Selected Case Studies
           </h2>
-          <p className="text-text-secondary font-body max-w-3xl mx-auto" style={{ fontSize: 'clamp(15px, 1.4vw, 17px)', lineHeight: '1.6' }}>
-            From Olympic discipline to digital impact, here's how I've helped brands like Binance, Coca-Cola, and Neil Patel Brasil achieve measurable results.
+          <p className="font-body max-w-3xl mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#5B6B7C' }}>
+            Results and learnings from campaigns I led.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-6 lg:gap-6 max-w-7xl mx-auto">
           {caseStudies.map((study, index) => (
             <Card 
               key={study.id}

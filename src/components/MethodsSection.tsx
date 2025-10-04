@@ -6,23 +6,23 @@ import mediaFrameworkImage from "@/assets/unified-media-strategy.png";
 
 const MethodsSection = () => {
   return (
-    <section id="methods" className="py-20 md:py-28 bg-bg-pool relative overflow-hidden">
-      {/* Subtle top gradient divider */}
-      <div className="absolute top-0 left-0 right-0 h-[120px] bg-gradient-to-b from-transparent to-[#EAF2F6] opacity-40"></div>
+    <section id="methods" className="py-10 md:py-12 lg:py-14 bg-[#EFF6FA] relative overflow-hidden">
+      {/* Subtle top separator */}
+      <div className="absolute top-0 left-0 right-0 h-[120px] bg-gradient-to-b from-[rgba(10,31,52,0.06)] to-transparent pointer-events-none"></div>
 
       <div className="container mx-auto px-4 relative" style={{ maxWidth: '1280px' }}>
         {/* Header */}
-        <div className="text-center mb-16 animate-fade-in">
-          <h2 className="font-bold mb-4" style={{ fontSize: 'clamp(24px, 3.5vw, 36px)', lineHeight: '1.2', color: '#0B1B2B' }}>
+        <div className="text-center mb-6 md:mb-5 lg:mb-6 animate-fade-in">
+          <h2 className="font-bold mb-2 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#0B1B2B' }}>
             Methods I Use
           </h2>
-          <p className="font-body max-w-2xl mx-auto" style={{ fontSize: 'clamp(15px, 1.4vw, 17px)', lineHeight: '1.6', color: '#5B6B7C' }}>
+          <p className="font-body max-w-2xl mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#5B6B7C' }}>
             Frameworks I use to drive growth.
           </p>
         </div>
 
         {/* Method Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-6 lg:gap-6">
           
           {/* Card 1: 5 Stage Growth Hacking Funnel */}
           <Card className="bg-white border transition-all duration-300 hover:-translate-y-0.5 h-full flex flex-col" style={{ 
