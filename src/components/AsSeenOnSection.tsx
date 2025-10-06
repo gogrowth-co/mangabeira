@@ -10,7 +10,7 @@ const AsSeenOnSection = () => {
   ];
 
   return (
-    <section className="relative w-full bg-[#FFFFFF] py-10 md:py-12 lg:py-14">
+    <section className="relative w-full bg-[#FFFFFF] py-8 md:py-9 lg:py-10">
       {/* Subtle top separator */}
       <div className="absolute top-0 left-0 right-0 h-[120px] bg-gradient-to-b from-[rgba(10,31,52,0.06)] to-transparent pointer-events-none"></div>
       

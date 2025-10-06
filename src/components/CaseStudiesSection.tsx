@@ -147,7 +147,7 @@ const CaseStudiesSection = () => {
   return (
     <section 
       id="case-studies"
-      className="py-10 md:py-12 lg:py-14 bg-[#EFF6FA] relative"
+      className="py-8 md:py-9 lg:py-10 bg-[#EFF6FA] relative"
     >
       {/* Subtle top separator */}
       <div className="absolute top-0 left-0 right-0 h-[120px] bg-gradient-to-b from-[rgba(10,31,52,0.06)] to-transparent pointer-events-none"></div>
@@ -155,7 +155,7 @@ const CaseStudiesSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-6 md:mb-5 lg:mb-6">
           <h2 className="font-bold mb-2 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#0B1B2B' }}>
-            Selected Case Studies
+            Featured Growth Stories
           </h2>
           <p className="font-body max-w-3xl mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#5B6B7C' }}>
             Results and learnings from campaigns I led.

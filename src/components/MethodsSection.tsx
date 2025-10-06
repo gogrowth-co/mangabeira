@@ -6,7 +6,7 @@ import mediaFrameworkImage from "@/assets/unified-media-strategy.png";
 
 const MethodsSection = () => {
   return (
-    <section id="methods" className="py-10 md:py-12 lg:py-14 bg-[#EFF6FA] relative overflow-hidden">
+    <section id="methods" className="py-8 md:py-9 lg:py-10 bg-[#EFF6FA] relative overflow-hidden">
       {/* Subtle top separator */}
       <div className="absolute top-0 left-0 right-0 h-[120px] bg-gradient-to-b from-[rgba(10,31,52,0.06)] to-transparent pointer-events-none"></div>
 
