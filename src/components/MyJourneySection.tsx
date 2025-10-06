@@ -150,16 +150,16 @@ const MyJourneySection = () => {
         }}
       />
 
-      <div className="container mx-auto px-6 relative">
+      <div className="container mx-auto px-6 md:px-4 relative">
         {/* Header */}
-        <div className="text-center mb-6 md:mb-5 lg:mb-6">
-          <h2 className="font-bold mb-2 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#0B1B2B' }}>
+        <div className="text-center mb-4 md:mb-5 lg:mb-6">
+          <h2 className="font-bold mb-3 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#1A202C' }}>
             My Journey
           </h2>
-          <p className="font-bold max-w-2xl mx-auto mb-1" style={{ fontSize: '18px', fontWeight: 600, color: '#0B1B2B' }}>
+          <p className="font-bold max-w-2xl mx-auto mb-2" style={{ fontSize: '18px', fontWeight: 600, color: '#1A202C' }}>
             From Olympic Discipline to Digital Growth Leadership
           </p>
-          <p className="font-body max-w-2xl mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#5B6B7C' }}>
+          <p className="font-body max-w-2xl mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#2D3748' }}>
             A timeline of milestones shaping my approach to performance and innovation.
           </p>
         </div>
@@ -214,7 +214,19 @@ const MyJourneySection = () => {
             <Button 
               asChild
               size="lg"
-              className="bg-gradient-to-r from-[#FF8C42] to-[#FFB020] text-white font-semibold rounded-lg shadow-lg hover:shadow-[0_0_30px_rgba(255,176,32,0.6)] hover:scale-105 transition-all duration-300"
+              className="text-white font-semibold transition-all duration-300 hover:-translate-y-0.5"
+              style={{
+                background: 'linear-gradient(90deg, #FF8C1A 0%, #FFB347 100%)',
+                borderRadius: '6px',
+                fontWeight: 600,
+                boxShadow: '0 4px 8px rgba(255, 140, 26, 0.2)',
+              }}
+              onMouseEnter={(e: any) => {
+                e.currentTarget.style.boxShadow = '0 6px 12px rgba(255, 140, 26, 0.3)';
+              }}
+              onMouseLeave={(e: any) => {
+                e.currentTarget.style.boxShadow = '0 4px 8px rgba(255, 140, 26, 0.2)';
+              }}
             >
               <a href="/about">
                 Read my full story →

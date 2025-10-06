@@ -73,13 +73,13 @@ const ToolsSection = () => {
         </svg>
       </div>
 
-      <div className="container mx-auto px-4 relative">
+      <div className="container mx-auto px-6 md:px-4 relative">
         {/* Section Header */}
-        <div className="text-center mb-6 md:mb-5 lg:mb-6 animate-fade-in">
-          <h2 className="font-bold mb-2 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#0B1B2B' }}>
+        <div className="text-center mb-4 md:mb-5 lg:mb-6 animate-fade-in">
+          <h2 className="font-bold mb-3 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#1A202C' }}>
             Tools
           </h2>
-          <p className="font-body max-w-3xl mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#5B6B7C' }}>
+          <p className="font-body max-w-3xl mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#2D3748' }}>
             Interactive GPTs and graders for fast, practical insights.
           </p>
         </div>
@@ -148,7 +148,21 @@ const ToolsSection = () => {
                   </span>
 
                   {/* CTA Button */}
-                  <button className="px-5 py-2 rounded-lg font-semibold text-sm bg-gradient-to-r from-[#FF8C42] to-[#FFB020] text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-orange-500/30">
+                  <button 
+                    className="px-5 py-2 text-sm text-white font-semibold transition-all duration-300 hover:-translate-y-0.5"
+                    style={{
+                      background: 'linear-gradient(90deg, #FF8C1A 0%, #FFB347 100%)',
+                      borderRadius: '6px',
+                      fontWeight: 600,
+                      boxShadow: '0 4px 8px rgba(255, 140, 26, 0.2)',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.boxShadow = '0 6px 12px rgba(255, 140, 26, 0.3)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.boxShadow = '0 4px 8px rgba(255, 140, 26, 0.2)';
+                    }}
+                  >
                     Try It Now →
                   </button>
                 </div>

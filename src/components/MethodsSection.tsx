@@ -10,13 +10,13 @@ const MethodsSection = () => {
       {/* Subtle top separator */}
       <div className="absolute top-0 left-0 right-0 h-[120px] bg-gradient-to-b from-[rgba(10,31,52,0.06)] to-transparent pointer-events-none"></div>
 
-      <div className="container mx-auto px-4 relative" style={{ maxWidth: '1280px' }}>
+      <div className="container mx-auto px-6 md:px-4 relative" style={{ maxWidth: '1280px' }}>
         {/* Header */}
-        <div className="text-center mb-6 md:mb-5 lg:mb-6 animate-fade-in">
-          <h2 className="font-bold mb-2 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#0B1B2B' }}>
+        <div className="text-center mb-4 md:mb-5 lg:mb-6 animate-fade-in">
+          <h2 className="font-bold mb-3 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#1A202C' }}>
             Methods I Use
           </h2>
-          <p className="font-body max-w-2xl mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#5B6B7C' }}>
+          <p className="font-body max-w-2xl mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#2D3748' }}>
             Frameworks I use to drive growth.
           </p>
         </div>
@@ -34,7 +34,7 @@ const MethodsSection = () => {
               <h3 className="font-bold mb-2" style={{ fontSize: 'clamp(22px, 2vw, 24px)', lineHeight: '1.3', color: '#0B1B2B' }}>
                 5-Stage Growth Hacking Funnel
               </h3>
-              <p className="mb-6" style={{ fontSize: '16px', fontWeight: 500, lineHeight: '1.4', color: '#5B6B7C' }}>
+              <p className="mb-6" style={{ fontSize: '16px', fontWeight: 500, lineHeight: '1.4', color: '#4A4A4A' }}>
                 Turning users into loyal customers, step by step.
               </p>
               
@@ -51,7 +51,7 @@ const MethodsSection = () => {
                 />
               </div>
 
-              <p className="mb-6 flex-1" style={{ fontSize: 'clamp(15px, 1.3vw, 16px)', fontWeight: 400, lineHeight: '1.6', color: '#5B6B7C' }}>
+              <p className="mb-6 flex-1" style={{ fontSize: 'clamp(15px, 1.3vw, 16px)', fontWeight: 400, lineHeight: '1.6', color: '#4A4A4A' }}>
                 Framework for acquisition, activation, retention, referral, and revenue.
               </p>
 
@@ -64,18 +64,19 @@ const MethodsSection = () => {
                 aria-label="See Growth Hacking Funnel in action"
                 className="inline-flex items-center justify-center font-semibold transition-all duration-300 hover:-translate-y-0.5"
                 style={{ 
-                  borderRadius: '999px',
+                  borderRadius: '6px',
                   padding: '12px 18px',
-                  background: 'linear-gradient(90deg, #F6A526 0%, #FB7A1D 100%)',
-                  color: '#0B1B2B',
-                  boxShadow: '0 2px 8px rgba(246,165,38,0.2)'
+                  background: 'linear-gradient(90deg, #FF8C1A 0%, #FFB347 100%)',
+                  color: 'white',
+                  fontWeight: 600,
+                  boxShadow: '0 4px 8px rgba(255, 140, 26, 0.2)'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(251,122,29,0.35)';
-                  e.currentTarget.style.transform = 'translateY(-0.5px)';
+                  e.currentTarget.style.boxShadow = '0 6px 12px rgba(255, 140, 26, 0.3)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(246,165,38,0.2)';
+                  e.currentTarget.style.boxShadow = '0 4px 8px rgba(255, 140, 26, 0.2)';
                   e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
@@ -94,7 +95,7 @@ const MethodsSection = () => {
               <h3 className="font-bold mb-2" style={{ fontSize: 'clamp(22px, 2vw, 24px)', lineHeight: '1.3', color: '#0B1B2B' }}>
                 Growth Loops
               </h3>
-              <p className="mb-6" style={{ fontSize: '16px', fontWeight: 500, lineHeight: '1.4', color: '#5B6B7C' }}>
+              <p className="mb-6" style={{ fontSize: '16px', fontWeight: 500, lineHeight: '1.4', color: '#4A4A4A' }}>
                 Designing systems where growth compounds.
               </p>
               
@@ -111,7 +112,7 @@ const MethodsSection = () => {
                 />
               </div>
 
-              <p className="mb-6 flex-1" style={{ fontSize: 'clamp(15px, 1.3vw, 16px)', fontWeight: 400, lineHeight: '1.6', color: '#5B6B7C' }}>
+              <p className="mb-6 flex-1" style={{ fontSize: 'clamp(15px, 1.3vw, 16px)', fontWeight: 400, lineHeight: '1.6', color: '#4A4A4A' }}>
                 Each user action feeds the next, building momentum.
               </p>
 
@@ -124,18 +125,19 @@ const MethodsSection = () => {
                 aria-label="See Growth Loops in action"
                 className="inline-flex items-center justify-center font-semibold transition-all duration-300 hover:-translate-y-0.5"
                 style={{ 
-                  borderRadius: '999px',
+                  borderRadius: '6px',
                   padding: '12px 18px',
-                  background: 'linear-gradient(90deg, #F6A526 0%, #FB7A1D 100%)',
-                  color: '#0B1B2B',
-                  boxShadow: '0 2px 8px rgba(246,165,38,0.2)'
+                  background: 'linear-gradient(90deg, #FF8C1A 0%, #FFB347 100%)',
+                  color: 'white',
+                  fontWeight: 600,
+                  boxShadow: '0 4px 8px rgba(255, 140, 26, 0.2)'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(251,122,29,0.35)';
-                  e.currentTarget.style.transform = 'translateY(-0.5px)';
+                  e.currentTarget.style.boxShadow = '0 6px 12px rgba(255, 140, 26, 0.3)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(246,165,38,0.2)';
+                  e.currentTarget.style.boxShadow = '0 4px 8px rgba(255, 140, 26, 0.2)';
                   e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
@@ -154,7 +156,7 @@ const MethodsSection = () => {
               <h3 className="font-bold mb-2" style={{ fontSize: 'clamp(22px, 2vw, 24px)', lineHeight: '1.3', color: '#0B1B2B' }}>
                 Media Strategy Framework
               </h3>
-              <p className="mb-6" style={{ fontSize: '16px', fontWeight: 500, lineHeight: '1.4', color: '#5B6B7C' }}>
+              <p className="mb-6" style={{ fontSize: '16px', fontWeight: 500, lineHeight: '1.4', color: '#4A4A4A' }}>
                 Balancing Paid, Owned, and Earned.
               </p>
               
@@ -171,7 +173,7 @@ const MethodsSection = () => {
                 />
               </div>
 
-              <p className="mb-6 flex-1" style={{ fontSize: 'clamp(15px, 1.3vw, 16px)', fontWeight: 400, lineHeight: '1.6', color: '#5B6B7C' }}>
+              <p className="mb-6 flex-1" style={{ fontSize: 'clamp(15px, 1.3vw, 16px)', fontWeight: 400, lineHeight: '1.6', color: '#4A4A4A' }}>
                 Align campaigns, community, and assets in one plan.
               </p>
 
@@ -184,18 +186,19 @@ const MethodsSection = () => {
                 aria-label="See Media Strategy Framework in action"
                 className="inline-flex items-center justify-center font-semibold transition-all duration-300 hover:-translate-y-0.5"
                 style={{ 
-                  borderRadius: '999px',
+                  borderRadius: '6px',
                   padding: '12px 18px',
-                  background: 'linear-gradient(90deg, #F6A526 0%, #FB7A1D 100%)',
-                  color: '#0B1B2B',
-                  boxShadow: '0 2px 8px rgba(246,165,38,0.2)'
+                  background: 'linear-gradient(90deg, #FF8C1A 0%, #FFB347 100%)',
+                  color: 'white',
+                  fontWeight: 600,
+                  boxShadow: '0 4px 8px rgba(255, 140, 26, 0.2)'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(251,122,29,0.35)';
-                  e.currentTarget.style.transform = 'translateY(-0.5px)';
+                  e.currentTarget.style.boxShadow = '0 6px 12px rgba(255, 140, 26, 0.3)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(246,165,38,0.2)';
+                  e.currentTarget.style.boxShadow = '0 4px 8px rgba(255, 140, 26, 0.2)';
                   e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >

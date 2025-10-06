@@ -63,12 +63,12 @@ const AboutSection = () => {
           {/* Content */}
           <div className="w-full lg:w-3/5 text-center lg:text-left">
             {/* Narrative */}
-            <div className="text-base md:text-lg text-[#4A5568] font-body mb-6 animate-fade-in" style={{ lineHeight: '1.6em', maxWidth: '65ch' }}>
-              <p className="mb-4">
+            <div className="text-base md:text-lg font-body mb-6 animate-fade-in" style={{ lineHeight: '1.6em', maxWidth: '65ch', color: '#4A4A4A' }}>
+              <p className="mb-5">
                 I grew up in the water, chasing hundredths of a second. That pursuit of excellence took me to the Olympics, where I learned that discipline, resilience, and focus are everything.
               </p>
               <p>
-                When I transitioned from the pool to the world of digital marketing, I carried those same principles with me — only now, instead of chasing medals, I help businesses chase measurable growth.
+                When I transitioned from the pool to the world of digital marketing, I carried those same principles with me — only now, instead of chasing medals, I help businesses chase <strong style={{ color: '#1A202C' }}>measurable growth</strong>.
               </p>
             </div>
 

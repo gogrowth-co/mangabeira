@@ -91,13 +91,13 @@ const SocialProofSection = () => {
       {/* Subtle top separator */}
       <div className="absolute top-0 left-0 right-0 h-[120px] bg-gradient-to-b from-[rgba(10,31,52,0.06)] to-transparent pointer-events-none"></div>
       
-      <div className="container mx-auto px-4 max-w-6xl">
+      <div className="container mx-auto px-6 md:px-4 max-w-6xl">
         {/* Section Header */}
-        <div className="text-center mb-6 md:mb-5 lg:mb-6 animate-fade-in">
-          <h2 className="font-bold mb-2 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#0B1B2B' }}>
+        <div className="text-center mb-4 md:mb-5 lg:mb-6 animate-fade-in">
+          <h2 className="font-bold mb-3 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#1A202C' }}>
             Proven Growth in Action
           </h2>
-          <p className="font-body max-w-3xl mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#5B6B7C' }}>
+          <p className="font-body max-w-3xl mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#2D3748' }}>
             From Olympic discipline to digital impact, trusted by the IOC, Coca-Cola, and Binance.
           </p>
         </div>
