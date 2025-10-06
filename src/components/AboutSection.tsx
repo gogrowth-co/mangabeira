@@ -53,23 +53,36 @@ const AboutSection = () => {
           {/* Content */}
           <div className="w-full lg:w-3/5 text-center lg:text-left">
             {/* Narrative */}
-            <div className="text-lg md:text-xl text-muted-foreground font-body leading-relaxed mb-8 animate-fade-in">
-              <p className="mb-4">
-                From chasing Olympic dreams to driving digital growth — my journey is fueled by the same discipline, resilience, and love for progress.
+            <div className="font-body animate-fade-in" style={{ maxWidth: '65ch' }}>
+              <p className="mb-6" style={{ fontSize: 'clamp(17px, 1.5vw, 19px)', lineHeight: '1.6em', color: '#4A5568' }}>
+                <strong>From chasing Olympic dreams to driving digital growth</strong> — my journey is fueled by the same discipline, resilience, and love for progress.
               </p>
-              <p className="mb-4">
+              <p className="mb-4" style={{ fontSize: 'clamp(16px, 1.4vw, 18px)', lineHeight: '1.6em', color: '#4A5568' }}>
                 I grew up in the water, chasing hundredths of a second. That pursuit of excellence took me to the Olympics, where I learned that discipline, resilience, and focus are everything.
               </p>
-              <p>
+              <p style={{ fontSize: 'clamp(16px, 1.4vw, 18px)', lineHeight: '1.6em', color: '#4A5568' }}>
                 When I transitioned from the pool to the world of digital marketing, I carried those same principles with me — only now, instead of chasing medals, I help businesses chase measurable growth.
               </p>
             </div>
 
             {/* CTA Button */}
-            <div className="mb-8 animate-fade-in">
+            <div className="mb-10 mt-8 animate-fade-in">
               <Button 
                 size="lg" 
-                className="group bg-gradient-to-r from-[#FF8C42] to-[#FFB020] text-white hover:shadow-[0_0_30px_rgba(255,176,32,0.6)] hover:scale-105 transition-all duration-300"
+                className="group text-white transition-all duration-300"
+                style={{
+                  background: 'linear-gradient(90deg, #FF8C1A 0%, #FFB347 100%)',
+                  borderRadius: '6px',
+                  fontWeight: 600
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0 6px 12px rgba(255, 140, 26, 0.3)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = 'none';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
               >
                 Read My Full Story
                 <span className="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>

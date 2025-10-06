@@ -19,9 +19,21 @@ const CTASection = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Button 
             size="hero"
-            variant="hero"
-            className="min-w-[200px]"
+            className="min-w-[200px] text-white transition-all duration-300"
             onClick={() => window.location.href = "#contact"}
+            style={{
+              background: 'linear-gradient(90deg, #FF8C1A 0%, #FFB347 100%)',
+              borderRadius: '6px',
+              fontWeight: 600
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = '0 6px 12px rgba(255, 140, 26, 0.3)';
+              e.currentTarget.style.transform = 'translateY(-2px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = 'none';
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
           >
             Work With Me
             <ArrowRight className="ml-2 h-5 w-5" />

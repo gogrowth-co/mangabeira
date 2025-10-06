@@ -12,7 +12,7 @@ const MethodsSection = () => {
 
       <div className="container mx-auto px-4 relative" style={{ maxWidth: '1280px' }}>
         {/* Header */}
-        <div className="text-center mb-6 md:mb-5 lg:mb-6 animate-fade-in">
+        <div className="text-center mb-4 md:mb-3.5 lg:mb-4 animate-fade-in">
           <h2 className="font-bold mb-2 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#0B1B2B' }}>
             Methods I Use
           </h2>
@@ -62,20 +62,20 @@ const MethodsSection = () => {
                   document.getElementById('case-studies')?.scrollIntoView({ behavior: 'smooth' });
                 }}
                 aria-label="See Growth Hacking Funnel in action"
-                className="inline-flex items-center justify-center font-semibold transition-all duration-300 hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center font-semibold transition-all duration-300"
                 style={{ 
-                  borderRadius: '999px',
+                  borderRadius: '6px',
                   padding: '12px 18px',
-                  background: 'linear-gradient(90deg, #F6A526 0%, #FB7A1D 100%)',
-                  color: '#0B1B2B',
-                  boxShadow: '0 2px 8px rgba(246,165,38,0.2)'
+                  background: 'linear-gradient(90deg, #FF8C1A 0%, #FFB347 100%)',
+                  color: '#FFFFFF',
+                  fontWeight: 600
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(251,122,29,0.35)';
-                  e.currentTarget.style.transform = 'translateY(-0.5px)';
+                  e.currentTarget.style.boxShadow = '0 6px 12px rgba(255, 140, 26, 0.3)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(246,165,38,0.2)';
+                  e.currentTarget.style.boxShadow = 'none';
                   e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
@@ -122,20 +122,20 @@ const MethodsSection = () => {
                   document.getElementById('case-studies')?.scrollIntoView({ behavior: 'smooth' });
                 }}
                 aria-label="See Growth Loops in action"
-                className="inline-flex items-center justify-center font-semibold transition-all duration-300 hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center font-semibold transition-all duration-300"
                 style={{ 
-                  borderRadius: '999px',
+                  borderRadius: '6px',
                   padding: '12px 18px',
-                  background: 'linear-gradient(90deg, #F6A526 0%, #FB7A1D 100%)',
-                  color: '#0B1B2B',
-                  boxShadow: '0 2px 8px rgba(246,165,38,0.2)'
+                  background: 'linear-gradient(90deg, #FF8C1A 0%, #FFB347 100%)',
+                  color: '#FFFFFF',
+                  fontWeight: 600
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(251,122,29,0.35)';
-                  e.currentTarget.style.transform = 'translateY(-0.5px)';
+                  e.currentTarget.style.boxShadow = '0 6px 12px rgba(255, 140, 26, 0.3)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(246,165,38,0.2)';
+                  e.currentTarget.style.boxShadow = 'none';
                   e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
@@ -182,20 +182,20 @@ const MethodsSection = () => {
                   document.getElementById('case-studies')?.scrollIntoView({ behavior: 'smooth' });
                 }}
                 aria-label="See Media Strategy Framework in action"
-                className="inline-flex items-center justify-center font-semibold transition-all duration-300 hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center font-semibold transition-all duration-300"
                 style={{ 
-                  borderRadius: '999px',
+                  borderRadius: '6px',
                   padding: '12px 18px',
-                  background: 'linear-gradient(90deg, #F6A526 0%, #FB7A1D 100%)',
-                  color: '#0B1B2B',
-                  boxShadow: '0 2px 8px rgba(246,165,38,0.2)'
+                  background: 'linear-gradient(90deg, #FF8C1A 0%, #FFB347 100%)',
+                  color: '#FFFFFF',
+                  fontWeight: 600
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(251,122,29,0.35)';
-                  e.currentTarget.style.transform = 'translateY(-0.5px)';
+                  e.currentTarget.style.boxShadow = '0 6px 12px rgba(255, 140, 26, 0.3)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(246,165,38,0.2)';
+                  e.currentTarget.style.boxShadow = 'none';
                   e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >

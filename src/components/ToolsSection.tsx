@@ -75,7 +75,7 @@ const ToolsSection = () => {
 
       <div className="container mx-auto px-4 relative">
         {/* Section Header */}
-        <div className="text-center mb-6 md:mb-5 lg:mb-6 animate-fade-in">
+        <div className="text-center mb-4 md:mb-3.5 lg:mb-4 animate-fade-in">
           <h2 className="font-bold mb-2 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#0B1B2B' }}>
             Tools
           </h2>
@@ -148,7 +148,22 @@ const ToolsSection = () => {
                   </span>
 
                   {/* CTA Button */}
-                  <button className="px-5 py-2 rounded-lg font-semibold text-sm bg-gradient-to-r from-[#FF8C42] to-[#FFB020] text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-orange-500/30">
+                  <button 
+                    className="px-5 py-2 text-white font-semibold text-sm transition-all duration-300"
+                    style={{
+                      background: 'linear-gradient(90deg, #FF8C1A 0%, #FFB347 100%)',
+                      borderRadius: '6px',
+                      fontWeight: 600
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.boxShadow = '0 6px 12px rgba(255, 140, 26, 0.3)';
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.boxShadow = 'none';
+                      e.currentTarget.style.transform = 'translateY(0)';
+                    }}
+                  >
                     Try It Now →
                   </button>
                 </div>

@@ -152,7 +152,7 @@ const MyJourneySection = () => {
 
       <div className="container mx-auto px-6 relative">
         {/* Header */}
-        <div className="text-center mb-6 md:mb-5 lg:mb-6">
+        <div className="text-center mb-4 md:mb-3.5 lg:mb-4">
           <h2 className="font-bold mb-2 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#0B1B2B' }}>
             My Journey
           </h2>
@@ -214,7 +214,20 @@ const MyJourneySection = () => {
             <Button 
               asChild
               size="lg"
-              className="bg-gradient-to-r from-[#FF8C42] to-[#FFB020] text-white font-semibold rounded-lg shadow-lg hover:shadow-[0_0_30px_rgba(255,176,32,0.6)] hover:scale-105 transition-all duration-300"
+              className="text-white font-semibold transition-all duration-300"
+              style={{
+                background: 'linear-gradient(90deg, #FF8C1A 0%, #FFB347 100%)',
+                borderRadius: '6px',
+                fontWeight: 600
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = '0 6px 12px rgba(255, 140, 26, 0.3)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = 'none';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
             >
               <a href="/about">
                 Read my full story →
