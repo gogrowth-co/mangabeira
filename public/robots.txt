@@ -1,14 +1,8 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
 User-agent: *
 Allow: /
+
+# Optional disallow rules for admin paths
+# Disallow: /admin/
+# Disallow: /private/
+
+Sitemap: https://mangabeira.net/sitemap.xml
