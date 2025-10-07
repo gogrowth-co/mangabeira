@@ -21,7 +21,7 @@ const CTASection = () => {
             size="hero"
             variant="hero"
             className="min-w-[200px]"
-            onClick={() => window.location.href = "#contact"}
+            onClick={() => window.open('https://calendly.com/gabriel-mangabeira/15min', '_blank')}
           >
             Work With Me
             <ArrowRight className="ml-2 h-5 w-5" />
@@ -42,7 +42,7 @@ const CTASection = () => {
             onMouseLeave={(e: any) => {
               e.currentTarget.style.boxShadow = '0 4px 8px rgba(255, 140, 26, 0.2)';
             }}
-            onClick={() => window.open("https://linkedin.com", "_blank")}
+            onClick={() => window.open("https://www.linkedin.com/in/mangabeira/", "_blank")}
           >
             Connect on LinkedIn
             <ArrowRight className="ml-2 h-5 w-5" />
