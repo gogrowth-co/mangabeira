@@ -29,19 +29,7 @@ const CTASection = () => {
           
           <Button 
             size="hero"
-            className="min-w-[200px] text-white transition-all duration-300 hover:-translate-y-0.5"
-            style={{
-              background: 'linear-gradient(90deg, #FF8C1A 0%, #FFB347 100%)',
-              borderRadius: '6px',
-              fontWeight: 600,
-              boxShadow: '0 4px 8px rgba(255, 140, 26, 0.2)',
-            }}
-            onMouseEnter={(e: any) => {
-              e.currentTarget.style.boxShadow = '0 6px 12px rgba(255, 140, 26, 0.3)';
-            }}
-            onMouseLeave={(e: any) => {
-              e.currentTarget.style.boxShadow = '0 4px 8px rgba(255, 140, 26, 0.2)';
-            }}
+            className="min-w-[200px] bg-transparent border-2 border-white/80 text-white hover:bg-white hover:text-[#0a0f1a] hover:border-white rounded-lg transition-all duration-300 font-semibold"
             onClick={() => window.open("https://www.linkedin.com/in/mangabeira/", "_blank")}
           >
             Connect on LinkedIn
