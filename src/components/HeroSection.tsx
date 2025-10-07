@@ -68,7 +68,12 @@ const HeroSection = () => {
               >
                 Work With Me
               </Button>
-              <Button variant="outline" size="lg" className="w-full sm:w-auto px-8 py-6 text-lg bg-transparent border-2 border-white/80 text-white hover:bg-white hover:text-[#0a0f1a] hover:border-white rounded-lg transition-all duration-300 font-semibold">
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="w-full sm:w-auto px-8 py-6 text-lg bg-transparent border-2 border-white/80 text-white hover:bg-white hover:text-[#0a0f1a] hover:border-white rounded-lg transition-all duration-300 font-semibold"
+                onClick={() => document.getElementById('social-proof')?.scrollIntoView({ behavior: 'smooth' })}
+              >
                 See My Results
               </Button>
             </div>

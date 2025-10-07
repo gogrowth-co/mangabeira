@@ -87,7 +87,7 @@ const SocialProofSection = () => {
   };
 
   return (
-    <section className="relative w-full bg-[#FFFFFF] py-8 md:py-9 lg:py-10 overflow-hidden">
+    <section id="social-proof" className="relative w-full bg-[#FFFFFF] py-8 md:py-9 lg:py-10 overflow-hidden">
       {/* Subtle top separator */}
       <div className="absolute top-0 left-0 right-0 h-[120px] bg-gradient-to-b from-[rgba(10,31,52,0.06)] to-transparent pointer-events-none"></div>
       
