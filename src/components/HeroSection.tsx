@@ -61,8 +61,12 @@ const HeroSection = () => {
             <div className="flex flex-col sm:flex-row gap-4 items-center justify-center lg:justify-start animate-fade-in" style={{
             animationDelay: '0.4s'
           }}>
-              <Button size="lg" className="w-full sm:w-auto px-8 py-6 font-semibold text-lg bg-gradient-to-r from-[#FF8C42] to-[#FFB020] text-white rounded-lg shadow-lg hover:shadow-[0_0_30px_rgba(255,176,32,0.6)] hover:scale-105 transition-all duration-300">
-                Start Your Growth Sprint
+              <Button 
+                size="lg" 
+                className="w-full sm:w-auto px-8 py-6 font-semibold text-lg bg-gradient-to-r from-[#FF8C42] to-[#FFB020] text-white rounded-lg shadow-lg hover:shadow-[0_0_30px_rgba(255,176,32,0.6)] hover:scale-105 transition-all duration-300"
+                onClick={() => document.getElementById('capabilities')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                Work With Me
               </Button>
               <Button variant="outline" size="lg" className="w-full sm:w-auto px-8 py-6 text-lg bg-transparent border-2 border-white/80 text-white hover:bg-white hover:text-[#0a0f1a] hover:border-white rounded-lg transition-all duration-300 font-semibold">
                 See My Results
