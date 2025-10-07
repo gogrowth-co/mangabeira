@@ -1,26 +1,21 @@
-import { Linkedin, Twitter, Github, ExternalLink } from "lucide-react";
+import { Linkedin, Twitter, Github } from "lucide-react";
 
 const Footer = () => {
   const socialLinks = [
     {
       name: "LinkedIn",
       icon: Linkedin,
-      url: "https://linkedin.com",
+      url: "https://www.linkedin.com/in/mangabeira/",
     },
     {
       name: "Twitter",
       icon: Twitter,
-      url: "https://twitter.com",
+      url: "https://x.com/manga82",
     },
     {
-      name: "GitHub",
+      name: "Medium",
       icon: Github,
-      url: "https://github.com",
-    },
-    {
-      name: "Portfolio",
-      icon: ExternalLink,
-      url: "#",
+      url: "https://github.com/@gmangabeira",
     },
   ];
 
