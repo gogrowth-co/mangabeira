@@ -15,7 +15,7 @@ const Footer = () => {
     {
       name: "Medium",
       icon: Github,
-      url: "https://github.com/@gmangabeira",
+      url: "https://github.com/gmangabeira",
     },
   ];
 
