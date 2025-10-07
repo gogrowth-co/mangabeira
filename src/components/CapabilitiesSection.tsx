@@ -91,8 +91,9 @@ const CapabilitiesSection = () => {
             size="hero"
             variant="hero"
             className="bg-gradient-to-r from-[#FF8C42] to-[#FFB020] text-white font-hero font-bold shadow-lg hover:shadow-xl hover:from-[#FF8C00] hover:to-[#FF6600] hover:scale-105 active:scale-95 transition-all duration-300"
+            onClick={() => window.open('https://calendly.com/gabriel-mangabeira/15min', '_blank')}
           >
-            See How I Work →
+            Work With Me
           </Button>
         </div>
       </div>
