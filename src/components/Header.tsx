@@ -118,7 +118,7 @@ const Header = () => {
           <Button
             size="sm"
             className="hidden md:flex bg-gradient-cta text-white hover:brightness-110 transition-all"
-            onClick={() => handleNavClick("#contact")}
+            onClick={() => window.open('https://calendly.com/gabriel-mangabeira/15min', '_blank')}
           >
             Work With Me
             <ArrowRight className="ml-1 h-4 w-4" />
@@ -162,7 +162,7 @@ const Header = () => {
               <div className="mt-auto pb-6">
                 <Button
                   className="w-full bg-gradient-cta text-white hover:brightness-110"
-                  onClick={() => handleNavClick("#contact")}
+                  onClick={() => window.open('https://calendly.com/gabriel-mangabeira/15min', '_blank')}
                 >
                   Work With Me
                   <ArrowRight className="ml-2 h-4 w-4" />
