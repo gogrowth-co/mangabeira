@@ -16,7 +16,8 @@ const ToolsSection = () => {
       tags: ["Airtable", "Notion", "Zapier"],
       year: "2024",
       iconGradient: "from-teal-500 to-teal-600",
-      hoverGlow: "hover:shadow-teal-500/20"
+      hoverGlow: "hover:shadow-teal-500/20",
+      url: "https://gmangabeira.notion.site/Growth-Experiments-Framework-Template-2a0e522c9822471eb22aad79a4117753"
     },
     {
       icon: Flame,
@@ -28,7 +29,8 @@ const ToolsSection = () => {
       tags: ["NextJS", "OpenAI", "Tailwind"],
       year: "Beta",
       iconGradient: "from-orange-500 to-orange-600",
-      hoverGlow: "hover:shadow-orange-500/20"
+      hoverGlow: "hover:shadow-orange-500/20",
+      url: "https://web3roast.com"
     },
     {
       icon: Coins,
@@ -40,7 +42,8 @@ const ToolsSection = () => {
       tags: ["Web3 APIs", "NextJS", "OpenAI"],
       year: "2024",
       iconGradient: "from-yellow-500 to-teal-500",
-      hoverGlow: "hover:shadow-yellow-500/20"
+      hoverGlow: "hover:shadow-yellow-500/20",
+      url: "https://tokenhealthscan.com"
     },
     {
       icon: ShoppingCart,
@@ -52,7 +55,8 @@ const ToolsSection = () => {
       tags: ["Shopify API", "NextJS", "CRO"],
       year: "2024",
       iconGradient: "from-orange-500 to-orange-600",
-      hoverGlow: "hover:shadow-orange-500/20"
+      hoverGlow: "hover:shadow-orange-500/20",
+      url: "https://gmangabeira.notion.site/Shopify-Performance-Grader-The-Complete-Growth-Checklist-82d1a338b87746898c3329f3f2be81ff?pvs=74"
     }
   ];
 
@@ -156,6 +160,7 @@ const ToolsSection = () => {
                       fontWeight: 600,
                       boxShadow: '0 4px 8px rgba(255, 140, 26, 0.2)',
                     }}
+                    onClick={() => window.open(tool.url, '_blank')}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.boxShadow = '0 6px 12px rgba(255, 140, 26, 0.3)';
                     }}
