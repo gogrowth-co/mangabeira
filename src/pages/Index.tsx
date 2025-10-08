@@ -8,6 +8,7 @@ import CapabilitiesSection from "@/components/CapabilitiesSection";
 import MyJourneySection from "@/components/MyJourneySection";
 import ToolsSection from "@/components/ToolsSection";
 import PublicationsSection from "@/components/PublicationsSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 import ChatWithMyAI from "@/components/ChatWithMyAI";
@@ -28,6 +29,7 @@ const Index = () => {
         <MethodsSection />
         <ToolsSection />
         <PublicationsSection />
+        <TestimonialsSection />
         <CTASection />
       </main>
       <Footer />
