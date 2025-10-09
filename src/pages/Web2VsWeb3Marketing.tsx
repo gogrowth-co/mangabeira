@@ -1,11 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import heroCover from "@/assets/web2-vs-web3-cover.png";
-import authorAvatar from "@/assets/gabriel-headshot.webp";
+import authorAvatar from "@/assets/gabriel-profile.png";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, ArrowLeft } from "lucide-react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const title = "Web2 vs Web3 Marketing: Why Ownership Beats Attention";
 const description =
@@ -48,7 +48,7 @@ function useSEO() {
       '@type': 'Article',
       headline: title,
       image: [heroCover],
-      author: { '@type': 'Person', name: 'Gabriel Mangabeira', jobTitle: 'Growth Marketing Manager' },
+      author: { '@type': 'Person', name: 'Gabriel Mangabeira', jobTitle: 'Olympian & Growth Strategist' },
       datePublished: '2025-10-01',
       dateModified: '2025-10-01',
       mainEntityOfPage: url,
@@ -150,19 +150,17 @@ export default function Web2VsWeb3Marketing() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-30 border-b border-border bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <Header />
+      
+      <div className="sticky top-14 md:top-16 z-30 border-b border-border bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="mx-auto w-full max-w-6xl px-4">
-          <div className="flex items-center justify-between py-3">
-            <Link to="/#publications" className="flex items-center gap-2 text-sm font-medium hover:text-primary">
-              <ArrowLeft className="h-4 w-4" />
-              Back to Publications
-            </Link>
+          <div className="flex items-center justify-end py-2">
             <div className="w-40">
               <Progress value={progress} />
             </div>
           </div>
         </div>
-      </header>
+      </div>
 
       <main>
         <article className="mx-auto w-full max-w-3xl px-4 py-8 md:py-12">
@@ -182,7 +180,7 @@ export default function Web2VsWeb3Marketing() {
                 />
                 <div className="leading-tight">
                   <div className="font-medium">Gabriel Mangabeira</div>
-                  <div className="text-sm text-muted-foreground">Olympian → Coca-Cola → Neil Patel → Binance</div>
+                  <div className="text-sm text-muted-foreground">Olympian & Growth Strategist</div>
                 </div>
               </div>
               <div className="flex items-center gap-2">
@@ -209,7 +207,7 @@ export default function Web2VsWeb3Marketing() {
               Marketing isn't dying—it's evolving from capturing attention to building ownership. And that changes everything.
             </p>
 
-            <h2 className="mt-10">The Fundamental Architecture: Two Different Worlds</h2>
+            <h2 className="mt-10 text-2xl font-bold">The Fundamental Architecture: Two Different Worlds</h2>
             <p>
               Marketing is evolving from capturing attention to building ownership. Web2 optimized for reach on
               centralized platforms; Web3 optimizes for direct, verifiable relationships with stakeholders.
@@ -253,7 +251,7 @@ export default function Web2VsWeb3Marketing() {
               </p>
             </div>
 
-            <h2 className="mt-10">Real Example: Starbucks Odyssey</h2>
+            <h2 className="mt-10 text-2xl font-bold">Real Example: Starbucks Odyssey</h2>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-lg border border-border bg-card p-5">
                 <h4 className="mb-3 text-sm font-semibold">← Traditional rewards (Web2)</h4>
@@ -282,7 +280,7 @@ export default function Web2VsWeb3Marketing() {
               This isn't about replacing loyalty programs with tokens. It's asking: What if customers could own their relationship with your brand?
             </p>
 
-            <h2 className="mt-10">The Philosophy Shift: Attention → Ownership</h2>
+            <h2 className="mt-10 text-2xl font-bold">The Philosophy Shift: Attention → Ownership</h2>
             <div className="overflow-hidden rounded-lg border border-border">
               <table className="w-full text-sm">
                 <thead className="bg-muted/50 text-left">
@@ -327,7 +325,7 @@ export default function Web2VsWeb3Marketing() {
               When you give people real ownership—not points, but tradeable value—they don't just engage differently. They think differently. They become evangelists, strategists, and builders. Because now, it's their project too.
             </p>
 
-            <h2 className="mt-10">5 Core Principles Marketers Must Learn</h2>
+            <h2 className="mt-10 text-2xl font-bold">5 Core Principles Marketers Must Learn</h2>
 
             <div className="space-y-6">
               <div className="rounded-lg border border-border bg-card p-6">
@@ -395,7 +393,7 @@ export default function Web2VsWeb3Marketing() {
               </div>
             </div>
 
-            <h2 className="mt-12">The Hybrid Future: Best of Both Worlds</h2>
+            <h2 className="mt-12 text-2xl font-bold">The Hybrid Future: Best of Both Worlds</h2>
             <p>The smartest brands don't choose—they blend.</p>
 
             <div className="my-6 grid gap-6 sm:grid-cols-2">
@@ -419,7 +417,7 @@ export default function Web2VsWeb3Marketing() {
               </div>
             </div>
 
-            <h3>Nike's Approach</h3>
+            <h3 className="text-xl font-semibold">Nike's Approach</h3>
             <p>
               Nike didn't abandon Instagram ads. They added .SWOOSH (their Web3 platform) for superfans. Web2 brings them in. Web3 keeps them invested.
             </p>
@@ -434,9 +432,9 @@ export default function Web2VsWeb3Marketing() {
               <strong>The AI Layer:</strong> AI bridges Web2 and Web3, enabling on-chain analytics, churn prediction, fraud detection, and personalization while respecting privacy.
             </p>
 
-            <h2 className="mt-12">What This Means For You</h2>
+            <h2 className="mt-12 text-2xl font-bold">What This Means For You</h2>
 
-            <h3>For Marketing Leaders</h3>
+            <h3 className="text-xl font-semibold">For Marketing Leaders</h3>
             <div className="overflow-hidden rounded-lg border border-border">
               <table className="w-full text-sm">
                 <thead className="bg-muted/50 text-left">
@@ -474,12 +472,12 @@ export default function Web2VsWeb3Marketing() {
               </table>
             </div>
 
-            <h3 className="mt-8">For Individual Marketers</h3>
+            <h3 className="mt-8 text-xl font-semibold">For Individual Marketers</h3>
             <p>
               Your existing skills aren't obsolete—they're foundational. Knowing how to craft messages, analyze funnels, and build relationships? That's still 80% of the job.
             </p>
 
-            <h4>Add to your skillset:</h4>
+            <h4 className="font-semibold">Add to your skillset:</h4>
             <ul className="space-y-2">
               <li>□ Basic blockchain literacy (wallets, smart contracts, DAOs)</li>
               <li>□ On-chain analytics (Dune, Nansen, Formo)</li>
@@ -493,7 +491,7 @@ export default function Web2VsWeb3Marketing() {
               </p>
             </div>
 
-            <h2 className="mt-12">The Bottom Line</h2>
+            <h2 className="mt-12 text-2xl font-bold">The Bottom Line</h2>
             <div className="overflow-hidden rounded-lg border border-border">
               <table className="w-full text-sm">
                 <tbody>
@@ -517,7 +515,7 @@ export default function Web2VsWeb3Marketing() {
               The shift from Web2 to Web3 isn't just about technology. It's about rediscovering what marketing should have been all along: creating genuine value for real people.
             </p>
 
-            <h3>What Stays the Same:</h3>
+            <h3 className="text-xl font-semibold">What Stays the Same:</h3>
             <ul>
               <li>Know your audience deeply</li>
               <li>Communicate with clarity</li>
@@ -525,7 +523,7 @@ export default function Web2VsWeb3Marketing() {
               <li>Create more value than you capture</li>
             </ul>
 
-            <h3>What Must Change:</h3>
+            <h3 className="text-xl font-semibold">What Must Change:</h3>
             <p>
               You can't optimize for ownership the way you optimized for attention. You can't measure Web3 value with Web2 metrics.
             </p>
@@ -535,7 +533,7 @@ export default function Web2VsWeb3Marketing() {
               <footer className="mt-2 text-sm font-normal not-italic">— Gabriel Mangabeira</footer>
             </blockquote>
 
-            <h2 className="mt-12">Start Here: Your First Steps</h2>
+            <h2 className="mt-12 text-2xl font-bold">Start Here: Your First Steps</h2>
             <div className="grid gap-4 sm:grid-cols-3">
               <div className="rounded-lg border border-border bg-card p-5">
                 <h4 className="mb-2 font-semibold">1. Experience It</h4>
@@ -572,7 +570,7 @@ export default function Web2VsWeb3Marketing() {
               </div>
             </div>
 
-            <h2 className="mt-12">Frequently Asked Questions</h2>
+            <h2 className="mt-12 text-2xl font-bold">Frequently Asked Questions</h2>
             <div className="space-y-4">
               <div className="rounded-lg border border-border bg-card p-5">
                 <h4 className="mb-2 font-semibold">1. What is the main difference between Web2 and Web3 marketing?</h4>
@@ -595,21 +593,19 @@ export default function Web2VsWeb3Marketing() {
             </div>
 
             <div className="my-12 rounded-lg border-2 border-primary bg-primary/5 p-8 text-center">
-              <h3 className="mt-0">Ready to Dive Deeper?</h3>
-              <p className="mb-6 text-lg">What's your biggest question about Web3 marketing?</p>
+              <h3 className="mt-0 text-xl font-semibold">Ready to Dive Deeper?</h3>
+              <p className="mb-6 text-lg">Let's discuss how these principles can apply to your business.</p>
               <div className="flex flex-wrap justify-center gap-4">
-                <Button>Drop a Comment</Button>
-                <Button variant="outline">
-                  Connect on X <ExternalLink className="ml-2 h-4 w-4" />
+                <Button onClick={() => window.open('https://calendly.com/gabriel-mangabeira/15min', '_blank')}>
+                  Work With Me
                 </Button>
               </div>
-              <p className="mb-0 mt-4 text-sm italic text-muted-foreground">
-                Let's figure this out together. That's how Web3 works—in community.
-              </p>
             </div>
           </section>
         </article>
       </main>
+      
+      <Footer />
     </div>
   );
 }
