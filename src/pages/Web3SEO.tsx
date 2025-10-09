@@ -3,14 +3,20 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CTASection from "@/components/CTASection";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Search, TrendingUp, Globe, Code, Database, Shield, Users, Link as LinkIcon, Zap, BookOpen, Settings } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { 
+  Search, TrendingUp, Globe, Code, Database, Shield, Users, 
+  Link as LinkIcon, Zap, BookOpen, Settings, AlertTriangle,
+  CheckCircle2, ArrowRight, ExternalLink, Sparkles, Target,
+  Lock, Wallet, FileCode, BarChart3, Rocket, Clock, DollarSign
+} from "lucide-react";
 import heroCover from "@/assets/web3-seo-cover.png";
 import authorAvatar from "@/assets/gabriel-profile.png";
 
-const title = "The Definitive Guide to Web3 SEO";
-const description = "Practical tactics to make decentralized projects discoverable and trusted across web + on-chain.";
+const title = "Web3 SEO in 2025 and Beyond: Your Strategic Guide to Decentralized Discovery";
+const description = "Comprehensive guide to Web3 SEO covering decentralized search engines, on-chain ranking factors, GEO optimization, and strategic frameworks for blockchain projects.";
 
 function useSEO() {
   React.useEffect(() => {
