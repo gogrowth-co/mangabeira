@@ -1,11 +1,12 @@
 import React from "react";
 import heroCover from "@/assets/web2-vs-web3-cover.png";
 import authorAvatar from "@/assets/gabriel-profile.png";
-import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { ArrowRight, BookOpen, TrendingUp, Users, Zap, Target, Compass } from "lucide-react";
 
 const title = "Web2 vs Web3 Marketing: Why Ownership Beats Attention";
 const description =
@@ -121,46 +122,21 @@ function useSEO() {
   }, []);
 }
 
-function useScrollProgress() {
-  const [progress, setProgress] = React.useState(0);
-  React.useEffect(() => {
-    const onScroll = () => {
-      const doc = document.documentElement;
-      const scrollTop = doc.scrollTop;
-      const height = doc.scrollHeight - doc.clientHeight;
-      const value = height > 0 ? Math.min(100, Math.max(0, (scrollTop / height) * 100)) : 0;
-      setProgress(value);
-    };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-  return progress;
-}
-
-const Pill = ({ children }: { children: React.ReactNode }) => (
-  <span className="inline-flex items-center rounded-full border border-border bg-muted/40 px-3 py-1 text-xs font-medium text-muted-foreground">
-    {children}
-  </span>
-);
-
 export default function Web2VsWeb3Marketing() {
   useSEO();
-  const progress = useScrollProgress();
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 120;
+      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+      window.scrollTo({ top: elementPosition - offset, behavior: "smooth" });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
-      
-      <div className="sticky top-14 md:top-16 z-30 border-b border-border bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="mx-auto w-full max-w-6xl px-4">
-          <div className="flex items-center justify-end py-2">
-            <div className="w-40">
-              <Progress value={progress} />
-            </div>
-          </div>
-        </div>
-      </div>
 
       <main>
         <article className="mx-auto w-full max-w-3xl px-4 py-8 md:py-12">
@@ -175,7 +151,7 @@ export default function Web2VsWeb3Marketing() {
                 <img
                   src={authorAvatar}
                   alt="Gabriel Mangabeira headshot"
-                  className="h-12 w-12 rounded-full object-cover"
+                  className="h-12 w-12 rounded-full object-cover ring-2 ring-primary/20"
                   loading="lazy"
                 />
                 <div className="leading-tight">
@@ -184,8 +160,12 @@ export default function Web2VsWeb3Marketing() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <Pill>8 min read</Pill>
-                <Pill>Updated Oct 2025</Pill>
+                <span className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                  8 min read
+                </span>
+                <span className="inline-flex items-center rounded-full border border-border bg-muted/40 px-3 py-1 text-xs font-medium text-muted-foreground">
+                  Updated Oct 2025
+                </span>
               </div>
             </div>
 
@@ -197,6 +177,66 @@ export default function Web2VsWeb3Marketing() {
                 className="h-auto w-full object-cover"
               />
             </figure>
+            
+            {/* TLDR Section */}
+            <Card className="my-8 border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10 shadow-lg">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <Zap className="h-5 w-5 text-primary" />
+                  <h2 className="text-xl font-bold">TL;DR — Jump to What Matters</h2>
+                </div>
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  <Button
+                    variant="outline"
+                    className="justify-start h-auto py-3 px-4 hover:bg-primary/10 hover:border-primary transition-all"
+                    onClick={() => scrollToSection("architecture")}
+                  >
+                    <BookOpen className="h-4 w-4 mr-2 flex-shrink-0" />
+                    <span className="text-left">Web2 vs Web3 Architecture</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="justify-start h-auto py-3 px-4 hover:bg-primary/10 hover:border-primary transition-all"
+                    onClick={() => scrollToSection("principles")}
+                  >
+                    <Target className="h-4 w-4 mr-2 flex-shrink-0" />
+                    <span className="text-left">5 Core Principles</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="justify-start h-auto py-3 px-4 hover:bg-primary/10 hover:border-primary transition-all"
+                    onClick={() => scrollToSection("hybrid")}
+                  >
+                    <TrendingUp className="h-4 w-4 mr-2 flex-shrink-0" />
+                    <span className="text-left">Hybrid Strategy</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="justify-start h-auto py-3 px-4 hover:bg-primary/10 hover:border-primary transition-all"
+                    onClick={() => scrollToSection("leaders")}
+                  >
+                    <Users className="h-4 w-4 mr-2 flex-shrink-0" />
+                    <span className="text-left">For Marketing Leaders</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="justify-start h-auto py-3 px-4 hover:bg-primary/10 hover:border-primary transition-all"
+                    onClick={() => scrollToSection("first-steps")}
+                  >
+                    <Compass className="h-4 w-4 mr-2 flex-shrink-0" />
+                    <span className="text-left">Your First Steps</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="justify-start h-auto py-3 px-4 hover:bg-primary/10 hover:border-primary transition-all"
+                    onClick={() => scrollToSection("faq")}
+                  >
+                    <ArrowRight className="h-4 w-4 mr-2 flex-shrink-0" />
+                    <span className="text-left">FAQs</span>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           </header>
 
           <section className="prose prose-neutral dark:prose-invert max-w-none">
@@ -207,7 +247,7 @@ export default function Web2VsWeb3Marketing() {
               Marketing isn't dying—it's evolving from capturing attention to building ownership. And that changes everything.
             </p>
 
-            <h2 className="mt-10 text-2xl font-bold">The Fundamental Architecture: Two Different Worlds</h2>
+            <h2 id="architecture" className="mt-10 text-2xl font-bold scroll-mt-24">The Fundamental Architecture: Two Different Worlds</h2>
             <p>
               Marketing is evolving from capturing attention to building ownership. Web2 optimized for reach on
               centralized platforms; Web3 optimizes for direct, verifiable relationships with stakeholders.
@@ -325,75 +365,100 @@ export default function Web2VsWeb3Marketing() {
               When you give people real ownership—not points, but tradeable value—they don't just engage differently. They think differently. They become evangelists, strategists, and builders. Because now, it's their project too.
             </p>
 
-            <h2 className="mt-10 text-2xl font-bold">5 Core Principles Marketers Must Learn</h2>
+            <h2 id="principles" className="mt-10 text-2xl font-bold scroll-mt-24">5 Core Principles Marketers Must Learn</h2>
 
             <div className="space-y-6">
-              <div className="rounded-lg border border-border bg-card p-6">
-                <h3 className="mt-0 text-lg font-bold">1. Transparency Is Non-Negotiable</h3>
-                <p>
-                  In Web2, we crafted narratives. In Web3, we prove them. Every claim can be verified on-chain. If you say "70% of tokens go to community," anyone can check the blockchain.
-                </p>
-                <p className="mb-0 text-sm font-medium text-primary">
-                  Action: Practice radical transparency. Share real numbers. Let the community verify your claims.
-                </p>
-              </div>
-
-              <div className="rounded-lg border border-border bg-card p-6">
-                <h3 className="mt-0 text-lg font-bold">2. Community Is Your Distribution</h3>
-                <p>
-                  The best Web3 projects don't have traditional marketing departments. They have communities that organically promote because they have economic alignment (tokens) and emotional alignment (shared mission).
-                </p>
-                <div className="my-4 rounded-lg bg-muted/50 p-4 text-center">
-                  <p className="mb-0 text-sm font-semibold">
-                    📊 Web3 projects with active communities see 4x higher user retention vs. traditional models
+              <Card className="border-l-4 border-l-primary shadow-sm hover:shadow-md transition-shadow">
+                <CardContent className="p-6">
+                  <h3 className="mt-0 text-lg font-bold flex items-center gap-2">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary font-bold text-sm">1</span>
+                    Transparency Is Non-Negotiable
+                  </h3>
+                  <p>
+                    In Web2, we crafted narratives. In Web3, we prove them. Every claim can be verified on-chain. If you say "70% of tokens go to community," anyone can check the blockchain.
                   </p>
-                </div>
-                <p className="mb-0 text-sm font-medium text-primary">
-                  Action: Ask "How can our community market this?" before "How can we market this?"
-                </p>
-              </div>
+                  <p className="mb-0 text-sm font-medium text-primary">
+                    Action: Practice radical transparency. Share real numbers. Let the community verify your claims.
+                  </p>
+                </CardContent>
+              </Card>
 
-              <div className="rounded-lg border border-border bg-card p-6">
-                <h3 className="mt-0 text-lg font-bold">3. Incentive Design &gt; Campaign Design</h3>
-                <p>
-                  Instead of spending $100K on ads, some Web3 projects distribute $100K in tokens to early contributors who create content, report bugs, or participate in governance.
-                </p>
-                <p>
-                  Traditional ads rent attention temporarily. Token incentives create long-term stakeholders.
-                </p>
-                <p className="mb-0 text-sm font-medium text-primary">
-                  Action: Learn basic tokenomics. Reward contribution, not just consumption.
-                </p>
-              </div>
+              <Card className="border-l-4 border-l-primary shadow-sm hover:shadow-md transition-shadow">
+                <CardContent className="p-6">
+                  <h3 className="mt-0 text-lg font-bold flex items-center gap-2">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary font-bold text-sm">2</span>
+                    Community Is Your Distribution
+                  </h3>
+                  <p>
+                    The best Web3 projects don't have traditional marketing departments. They have communities that organically promote because they have economic alignment (tokens) and emotional alignment (shared mission).
+                  </p>
+                  <div className="my-4 rounded-lg bg-muted/50 p-4 text-center border border-primary/20">
+                    <p className="mb-0 text-sm font-semibold">
+                      📊 Web3 projects with active communities see 4x higher user retention vs. traditional models
+                    </p>
+                  </div>
+                  <p className="mb-0 text-sm font-medium text-primary">
+                    Action: Ask "How can our community market this?" before "How can we market this?"
+                  </p>
+                </CardContent>
+              </Card>
 
-              <div className="rounded-lg border border-border bg-card p-6">
-                <h3 className="mt-0 text-lg font-bold">4. Data Privacy Is a Feature</h3>
-                <p>
-                  You might only know someone's wallet address, but you know exactly what they've done on-chain: tokens held, protocols used, NFTs collected, DAOs joined.
-                </p>
-                <p>
-                  Behavioral targeting based on on-chain activity is more predictive than demographic targeting.
-                </p>
-                <p className="mb-0 text-sm font-medium text-primary">
-                  Action: Shift from demographic (who they are) to behavioral (what they do on-chain) targeting.
-                </p>
-              </div>
+              <Card className="border-l-4 border-l-primary shadow-sm hover:shadow-md transition-shadow">
+                <CardContent className="p-6">
+                  <h3 className="mt-0 text-lg font-bold flex items-center gap-2">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary font-bold text-sm">3</span>
+                    Incentive Design &gt; Campaign Design
+                  </h3>
+                  <p>
+                    Instead of spending $100K on ads, some Web3 projects distribute $100K in tokens to early contributors who create content, report bugs, or participate in governance.
+                  </p>
+                  <p>
+                    Traditional ads rent attention temporarily. Token incentives create long-term stakeholders.
+                  </p>
+                  <p className="mb-0 text-sm font-medium text-primary">
+                    Action: Learn basic tokenomics. Reward contribution, not just consumption.
+                  </p>
+                </CardContent>
+              </Card>
 
-              <div className="rounded-lg border border-border bg-card p-6">
-                <h3 className="mt-0 text-lg font-bold">5. Long-Term Thinking Wins</h3>
-                <p>
-                  Web2 optimizes for quarters. Web3 optimizes for decades.
-                </p>
-                <p>
-                  You're not building a customer base—you're building an ecosystem that can outlive your company.
-                </p>
-                <p className="mb-0 text-sm font-medium text-primary">
-                  Action: Track community health, holder retention, and network effects—not just acquisition.
-                </p>
-              </div>
+              <Card className="border-l-4 border-l-primary shadow-sm hover:shadow-md transition-shadow">
+                <CardContent className="p-6">
+                  <h3 className="mt-0 text-lg font-bold flex items-center gap-2">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary font-bold text-sm">4</span>
+                    Data Privacy Is a Feature
+                  </h3>
+                  <p>
+                    You might only know someone's wallet address, but you know exactly what they've done on-chain: tokens held, protocols used, NFTs collected, DAOs joined.
+                  </p>
+                  <p>
+                    Behavioral targeting based on on-chain activity is more predictive than demographic targeting.
+                  </p>
+                  <p className="mb-0 text-sm font-medium text-primary">
+                    Action: Shift from demographic (who they are) to behavioral (what they do on-chain) targeting.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-l-4 border-l-primary shadow-sm hover:shadow-md transition-shadow">
+                <CardContent className="p-6">
+                  <h3 className="mt-0 text-lg font-bold flex items-center gap-2">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary font-bold text-sm">5</span>
+                    Long-Term Thinking Wins
+                  </h3>
+                  <p>
+                    Web2 optimizes for quarters. Web3 optimizes for decades.
+                  </p>
+                  <p>
+                    You're not building a customer base—you're building an ecosystem that can outlive your company.
+                  </p>
+                  <p className="mb-0 text-sm font-medium text-primary">
+                    Action: Track community health, holder retention, and network effects—not just acquisition.
+                  </p>
+                </CardContent>
+              </Card>
             </div>
 
-            <h2 className="mt-12 text-2xl font-bold">The Hybrid Future: Best of Both Worlds</h2>
+            <h2 id="hybrid" className="mt-12 text-2xl font-bold scroll-mt-24">The Hybrid Future: Best of Both Worlds</h2>
             <p>The smartest brands don't choose—they blend.</p>
 
             <div className="my-6 grid gap-6 sm:grid-cols-2">
@@ -432,7 +497,7 @@ export default function Web2VsWeb3Marketing() {
               <strong>The AI Layer:</strong> AI bridges Web2 and Web3, enabling on-chain analytics, churn prediction, fraud detection, and personalization while respecting privacy.
             </p>
 
-            <h2 className="mt-12 text-2xl font-bold">What This Means For You</h2>
+            <h2 id="leaders" className="mt-12 text-2xl font-bold scroll-mt-24">What This Means For You</h2>
 
             <h3 className="text-xl font-semibold">For Marketing Leaders</h3>
             <div className="overflow-hidden rounded-lg border border-border">
@@ -533,7 +598,7 @@ export default function Web2VsWeb3Marketing() {
               <footer className="mt-2 text-sm font-normal not-italic">— Gabriel Mangabeira</footer>
             </blockquote>
 
-            <h2 className="mt-12 text-2xl font-bold">Start Here: Your First Steps</h2>
+            <h2 id="first-steps" className="mt-12 text-2xl font-bold scroll-mt-24">Start Here: Your First Steps</h2>
             <div className="grid gap-4 sm:grid-cols-3">
               <div className="rounded-lg border border-border bg-card p-5">
                 <h4 className="mb-2 font-semibold">1. Experience It</h4>
@@ -570,7 +635,7 @@ export default function Web2VsWeb3Marketing() {
               </div>
             </div>
 
-            <h2 className="mt-12 text-2xl font-bold">Frequently Asked Questions</h2>
+            <h2 id="faq" className="mt-12 text-2xl font-bold scroll-mt-24">Frequently Asked Questions</h2>
             <div className="space-y-4">
               <div className="rounded-lg border border-border bg-card p-5">
                 <h4 className="mb-2 font-semibold">1. What is the main difference between Web2 and Web3 marketing?</h4>
