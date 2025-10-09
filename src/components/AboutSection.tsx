@@ -121,6 +121,7 @@ const AboutSection = () => {
                 onMouseLeave={(e) => {
                   e.currentTarget.style.boxShadow = '0 4px 8px rgba(255, 140, 26, 0.2)';
                 }}
+                onClick={() => window.location.href = '/about'}
               >
                 Read My Full Story
                 <span className="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>

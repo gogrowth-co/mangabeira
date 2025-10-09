@@ -12,7 +12,7 @@ const PublicationsSection = () => {
       title: "How Web3 is Elevating the Game for Athletes",
       description: "How decentralized tech opens new revenue, access, and engagement for athletes.",
       category: "Web3",
-      link: "/publications/web3-and-athletes",
+      link: "/publications/web3-for-athletes",
     },
     {
       cover: web2Web3MarketingCover,
