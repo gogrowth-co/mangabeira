@@ -2,8 +2,8 @@ import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { BookOpen, Code, Rocket, Zap, Video, ExternalLink } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { BookOpen, Code, Rocket, Zap, Video, ExternalLink, Shield, Coins, Users, GitBranch, TrendingUp } from "lucide-react";
 import tokenHealthHero from "@/assets/token-health-hero.png";
 import tokenHealthResults from "@/assets/token-health-results.png";
 import tokenHealthBuild from "@/assets/token-health-build.png";
@@ -208,47 +208,79 @@ export default function TokenHealthScan() {
             </Card>
           </header>
 
-          {/* Main Content */}
-          <section className="prose prose-neutral dark:prose-invert max-w-none">
+          {/* Intro Section */}
+          <section className="mb-12">
             <h2 className="text-2xl font-bold">So Many Tabs Open</h2>
-            <p className="text-lg text-muted-foreground">
-              If you've spent more than five minutes trying to research a token, you know the pain.
-            </p>
-            <p>
-              You open seven tabs. Bounce between charts, contract scanners, GitHub, Twitter.
-            </p>
-            <p>
-              And still end up guessing whether a project is legit, or just dressed-up vaporware.
-            </p>
-            <p className="font-semibold">Here's the kicker: 98% of tokens fail.</p>
-            <p>
-              Not because the tech is bad — but because nobody trusts them.
-            </p>
-            <p>That's the problem I wanted to solve.</p>
-            <p>
-              So I built <strong>Token Health Scan</strong> — a clean, fast, Web3-native tool to help you DYOR without losing your mind (or your wallet).
-            </p>
+            <div className="mt-6 space-y-4">
+              <p className="text-lg text-muted-foreground">
+                If you've spent more than five minutes trying to research a token, you know the pain.
+              </p>
+              <p className="text-muted-foreground">
+                You open seven tabs. Bounce between charts, contract scanners, GitHub, Twitter.
+              </p>
+              <p className="text-muted-foreground">
+                And still end up guessing whether a project is legit, or just dressed-up vaporware.
+              </p>
+              <Card className="border-l-4 border-l-amber-500 bg-amber-50/50 dark:bg-amber-950/20">
+                <CardContent className="p-6">
+                  <p className="font-semibold text-foreground">Here's the kicker: 98% of tokens fail.</p>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    Not because the tech is bad — but because nobody trusts them.
+                  </p>
+                </CardContent>
+              </Card>
+              <p className="text-muted-foreground">That's the problem I wanted to solve.</p>
+              <p className="text-muted-foreground">
+                So I built <strong>Token Health Scan</strong> — a clean, fast, Web3-native tool to help you DYOR without losing your mind (or your wallet).
+              </p>
+            </div>
+          </section>
 
-            <h2 id="what" className="mt-10 scroll-mt-24 text-2xl font-bold">
-              What Is Token Health Scan?
-            </h2>
-            <p>
-              Token Health Scan is a <strong>free + pro-tier web app</strong> that lets anyone scan any token by name or address.
-            </p>
-            <p className="font-semibold">Get a 5-pillar health score:</p>
-            <ul>
-              <li>Security</li>
-              <li>Liquidity</li>
-              <li>Tokenomics</li>
-              <li>Community</li>
-              <li>Development</li>
-            </ul>
-            <p>Instantly spot red flags and trust signals.</p>
-            <p>
-              Whether you're a degen, a builder, or someone in-between, this tool gets you signal fast.
-            </p>
+          {/* What Is Token Health Scan */}
+          <section id="what" className="scroll-mt-24 mb-12">
+            <h2 className="text-2xl font-bold">What Is Token Health Scan?</h2>
+            <div className="mt-6 space-y-6">
+              <p className="text-muted-foreground">
+                Token Health Scan is a <strong>free + pro-tier web app</strong> that lets anyone scan any token by name or address.
+              </p>
+              
+              <Card>
+                <CardHeader>
+                  <CardTitle>Get a 5-pillar health score:</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
+                    <div className="flex items-center gap-2">
+                      <Shield className="h-5 w-5 text-primary" />
+                      <span className="font-medium">Security</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Coins className="h-5 w-5 text-primary" />
+                      <span className="font-medium">Liquidity</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <TrendingUp className="h-5 w-5 text-primary" />
+                      <span className="font-medium">Tokenomics</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Users className="h-5 w-5 text-primary" />
+                      <span className="font-medium">Community</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <GitBranch className="h-5 w-5 text-primary" />
+                      <span className="font-medium">Development</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
 
-            <figure className="my-8 overflow-hidden rounded-lg border border-border">
+              <p className="text-muted-foreground">Instantly spot red flags and trust signals.</p>
+              <p className="text-muted-foreground">
+                Whether you're a degen, a builder, or someone in-between, this tool gets you signal fast.
+              </p>
+            </div>
+
+            <figure className="my-8 overflow-hidden rounded-lg border border-border shadow-lg">
               <img
                 src={tokenHealthResults}
                 alt="Token Health Scan Results Dashboard showing Pendle token analysis"
@@ -259,70 +291,124 @@ export default function TokenHealthScan() {
                 The Token Health Scan Report
               </figcaption>
             </figure>
+          </section>
 
-            <h2 id="how" className="mt-10 scroll-mt-24 text-2xl font-bold">
-              How It Works (In Plain English)
-            </h2>
-            <p>Here's the full user journey:</p>
-            <ol>
-              <li>
-                <strong>Search</strong> — Type any token name or address
-              </li>
-              <li>
-                <strong>Match</strong> — The tool auto-finds it in the CoinGecko database
-              </li>
-              <li>
-                <strong>Scan Loads</strong> — Crypto trivia runs while it crunches data
-              </li>
-              <li>
-                <strong>Results</strong> — Token dashboard with overview scores and deep dive tabs
-              </li>
-              <li>
-                <strong>Upgrade Prompt</strong> — After 3 scans, you can unlock full access with Pro
-              </li>
-            </ol>
-            <p>
-              It's basically a full health checkup, but for tokens — minus the pain of spreadsheets and forums.
-            </p>
-
-            <h2 id="tech" className="mt-10 scroll-mt-24 text-2xl font-bold">
-              What Powers It
-            </h2>
-            <p>
-              I built the MVP using <strong>Lovable</strong> — an AI product builder that lets you ship without touching a line of code.
-            </p>
-            <p className="font-semibold">Here's the stack:</p>
-            <div className="my-6 grid gap-4 md:grid-cols-2">
+          {/* How It Works */}
+          <section id="how" className="scroll-mt-24 mb-12">
+            <h2 className="text-2xl font-bold">How It Works (In Plain English)</h2>
+            <p className="mt-4 text-muted-foreground">Here's the full user journey:</p>
+            <div className="mt-6 space-y-4">
               <Card>
-                <CardContent className="p-4">
-                  <h3 className="mt-0 text-lg font-bold">Frontend</h3>
-                  <p className="mb-0 text-sm text-muted-foreground">Lovable</p>
+                <CardContent className="flex items-start gap-4 p-4">
+                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 font-bold text-primary">
+                    1
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">Search</h3>
+                    <p className="text-sm text-muted-foreground">Type any token name or address</p>
+                  </div>
                 </CardContent>
               </Card>
               <Card>
-                <CardContent className="p-4">
-                  <h3 className="mt-0 text-lg font-bold">Backend</h3>
-                  <p className="mb-0 text-sm text-muted-foreground">Supabase</p>
+                <CardContent className="flex items-start gap-4 p-4">
+                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 font-bold text-primary">
+                    2
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">Match</h3>
+                    <p className="text-sm text-muted-foreground">The tool auto-finds it in the CoinGecko database</p>
+                  </div>
                 </CardContent>
               </Card>
               <Card>
-                <CardContent className="p-4">
-                  <h3 className="mt-0 text-lg font-bold">Payments</h3>
-                  <p className="mb-0 text-sm text-muted-foreground">Stripe</p>
+                <CardContent className="flex items-start gap-4 p-4">
+                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 font-bold text-primary">
+                    3
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">Scan Loads</h3>
+                    <p className="text-sm text-muted-foreground">Crypto trivia runs while it crunches data</p>
+                  </div>
                 </CardContent>
               </Card>
               <Card>
-                <CardContent className="p-4">
-                  <h3 className="mt-0 text-lg font-bold">APIs</h3>
-                  <p className="mb-0 text-sm text-muted-foreground">CoinGecko, GoPlus, GeckoTerminal, GitHub, Apify/X</p>
+                <CardContent className="flex items-start gap-4 p-4">
+                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 font-bold text-primary">
+                    4
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">Results</h3>
+                    <p className="text-sm text-muted-foreground">Token dashboard with overview scores and deep dive tabs</p>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="flex items-start gap-4 p-4">
+                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 font-bold text-primary">
+                    5
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">Upgrade Prompt</h3>
+                    <p className="text-sm text-muted-foreground">After 3 scans, you can unlock full access with Pro</p>
+                  </div>
                 </CardContent>
               </Card>
             </div>
-            <p>
-              A lot of prompts, multiple iterations, and a couple hundred credits later…the first version was live.
+            <p className="mt-6 text-muted-foreground">
+              It's basically a full health checkup, but for tokens — minus the pain of spreadsheets and forums.
             </p>
+          </section>
 
-            <figure className="my-8 overflow-hidden rounded-lg border border-border">
+          {/* Tech Stack */}
+          <section id="tech" className="scroll-mt-24 mb-12">
+            <h2 className="text-2xl font-bold">What Powers It</h2>
+            <div className="mt-6 space-y-6">
+              <p className="text-muted-foreground">
+                I built the MVP using <strong>Lovable</strong> — an AI product builder that lets you ship without touching a line of code.
+              </p>
+              <div>
+                <h3 className="mb-4 text-lg font-semibold">Here's the stack:</h3>
+                <div className="grid gap-4 md:grid-cols-2">
+                  <Card className="transition-shadow hover:shadow-md">
+                    <CardHeader>
+                      <CardTitle className="text-base">Frontend</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground">Lovable</p>
+                    </CardContent>
+                  </Card>
+                  <Card className="transition-shadow hover:shadow-md">
+                    <CardHeader>
+                      <CardTitle className="text-base">Backend</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground">Supabase</p>
+                    </CardContent>
+                  </Card>
+                  <Card className="transition-shadow hover:shadow-md">
+                    <CardHeader>
+                      <CardTitle className="text-base">Payments</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground">Stripe</p>
+                    </CardContent>
+                  </Card>
+                  <Card className="transition-shadow hover:shadow-md">
+                    <CardHeader>
+                      <CardTitle className="text-base">APIs</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground">CoinGecko, GoPlus, GeckoTerminal, GitHub, Apify/X</p>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+              <p className="text-muted-foreground">
+                A lot of prompts, multiple iterations, and a couple hundred credits later…the first version was live.
+              </p>
+            </div>
+
+            <figure className="my-8 overflow-hidden rounded-lg border border-border shadow-lg">
               <img
                 src={tokenHealthBuild}
                 alt="Lovable application building Token Health Scan"
@@ -333,25 +419,34 @@ export default function TokenHealthScan() {
                 Walk through the Token Health Scan build process
               </figcaption>
             </figure>
+          </section>
 
-            <h2 id="launch" className="mt-10 scroll-mt-24 text-2xl font-bold">
-              How I Launched It
-            </h2>
-            <p>Just tweeting "I built a thing" doesn't work anymore.</p>
-            <p>
-              So I tried something different: A <strong>mockumentary ad</strong> made with Veo3, styled like The Office but set inside a crypto startup.
-            </p>
-            <p className="font-semibold">Featuring:</p>
-            <ul>
-              <li>A clueless intern</li>
-              <li>A deadpan founder</li>
-              <li>A crypto cat in sunglasses 😎</li>
-            </ul>
-            <p>
-              All powered by AI — no scriptwriters, no camera crew. Just a clear vibe and good storytelling.
-            </p>
+          {/* Launch Section */}
+          <section id="launch" className="scroll-mt-24 mb-12">
+            <h2 className="text-2xl font-bold">How I Launched It</h2>
+            <div className="mt-6 space-y-6">
+              <p className="text-muted-foreground">Just tweeting "I built a thing" doesn't work anymore.</p>
+              <p className="text-muted-foreground">
+                So I tried something different: A <strong>mockumentary ad</strong> made with Veo3, styled like The Office but set inside a crypto startup.
+              </p>
+              
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">Featuring:</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  <p className="text-sm text-muted-foreground">• A clueless intern</p>
+                  <p className="text-sm text-muted-foreground">• A deadpan founder</p>
+                  <p className="text-sm text-muted-foreground">• A crypto cat in sunglasses 😎</p>
+                </CardContent>
+              </Card>
 
-            <div className="my-8 overflow-hidden rounded-lg border border-border">
+              <p className="text-muted-foreground">
+                All powered by AI — no scriptwriters, no camera crew. Just a clear vibe and good storytelling.
+              </p>
+            </div>
+
+            <div className="my-8 overflow-hidden rounded-lg border border-border shadow-lg">
               <div className="relative aspect-video">
                 <iframe
                   className="h-full w-full"
@@ -362,46 +457,70 @@ export default function TokenHealthScan() {
                 />
               </div>
             </div>
+          </section>
 
-            <h2 className="mt-10 text-2xl font-bold">What's Next (The Roadmap)</h2>
-            <p>I'm just getting started.</p>
-            <p className="font-semibold">Here's what we're building next:</p>
-            <ul>
-              <li>Multi-chain support (starting with Solana + Arbitrum)</li>
-              <li>Founder wallet visibility + KYC checks</li>
-              <li>Alerts when token scores change</li>
-            </ul>
-            <p>If you've got feature ideas — I'm all ears.</p>
-
-            <h2 className="mt-10 text-2xl font-bold">Try It + Share Feedback</h2>
-            <p>I'm building in public and tweaking based on real usage.</p>
-            <div className="my-6 space-y-4">
-              <div className="flex items-center gap-2">
-                <span className="font-semibold">Try Token Health Scan:</span>
-                <a
-                  href="https://tokenhealthscan.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center text-primary hover:underline"
-                >
-                  tokenhealthscan.com <ExternalLink className="ml-1 h-4 w-4" />
-                </a>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="font-semibold">Follow for updates + scans:</span>
-                <a
-                  href="https://twitter.com/manga82"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center text-primary hover:underline"
-                >
-                  @manga82 on Twitter (X) <ExternalLink className="ml-1 h-4 w-4" />
-                </a>
-              </div>
+          {/* Roadmap */}
+          <section className="mb-12">
+            <h2 className="text-2xl font-bold">What's Next (The Roadmap)</h2>
+            <div className="mt-6 space-y-4">
+              <p className="text-muted-foreground">I'm just getting started.</p>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">Here's what we're building next:</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  <p className="text-sm text-muted-foreground">• Multi-chain support (starting with Solana + Arbitrum)</p>
+                  <p className="text-sm text-muted-foreground">• Founder wallet visibility + KYC checks</p>
+                  <p className="text-sm text-muted-foreground">• Alerts when token scores change</p>
+                </CardContent>
+              </Card>
+              <p className="text-muted-foreground">If you've got feature ideas — I'm all ears.</p>
             </div>
-            <p>
-              Got feature requests? Questions? Feedback? Drop a comment or DM me. Let's fix DYOR, together.
-            </p>
+          </section>
+
+          {/* Try It + Share Feedback */}
+          <section className="mb-12">
+            <h2 className="text-2xl font-bold">Try It + Share Feedback</h2>
+            <div className="mt-6 space-y-6">
+              <p className="text-muted-foreground">I'm building in public and tweaking based on real usage.</p>
+              
+              <div className="grid gap-4 md:grid-cols-2">
+                <Card className="transition-shadow hover:shadow-md">
+                  <CardHeader>
+                    <CardTitle className="text-base">Try Token Health Scan</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <a
+                      href="https://tokenhealthscan.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center text-primary hover:underline"
+                    >
+                      tokenhealthscan.com <ExternalLink className="ml-1 h-4 w-4" />
+                    </a>
+                  </CardContent>
+                </Card>
+                <Card className="transition-shadow hover:shadow-md">
+                  <CardHeader>
+                    <CardTitle className="text-base">Follow for updates + scans</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <a
+                      href="https://twitter.com/manga82"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center text-primary hover:underline"
+                    >
+                      @manga82 on Twitter (X) <ExternalLink className="ml-1 h-4 w-4" />
+                    </a>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <p className="text-muted-foreground">
+                Got feature requests? Questions? Feedback? Drop a comment or DM me. Let's fix DYOR, together.
+              </p>
+            </div>
 
             <div className="my-12 rounded-lg border-2 border-primary bg-primary/5 p-6 text-center md:p-8">
               <h3 className="mt-0 text-xl font-semibold">Want to Build Your Own AI-Powered Tool?</h3>
