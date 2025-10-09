@@ -10,7 +10,7 @@ import { ArrowRight, BookOpen, TrendingUp, Users, Zap, Target, Compass } from "l
 
 const title = "Web2 vs Web3 Marketing: Why Ownership Beats Attention";
 const description =
-  "A practical breakdown of the shift from renting attention to building ownership — with examples, principles, and a simple framework.";
+  "A practical breakdown of the shift from renting attention to building ownership - with examples, principles, and a simple framework.";
 
 function useSEO() {
   React.useEffect(() => {
@@ -183,7 +183,7 @@ export default function Web2VsWeb3Marketing() {
               <CardContent className="p-6">
                 <div className="flex items-center gap-2 mb-4">
                   <Zap className="h-5 w-5 text-primary" />
-                  <h2 className="text-xl font-bold">TL;DR — Jump to What Matters</h2>
+                  <h2 className="text-xl font-bold">TL;DR - Jump to What Matters</h2>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   <Button
@@ -241,10 +241,10 @@ export default function Web2VsWeb3Marketing() {
 
           <section className="prose prose-neutral dark:prose-invert max-w-none">
             <p className="text-lg text-muted-foreground">
-              When I transitioned from professional swimming to marketing, I learned that discipline isn't about doing more—it's about doing what matters. In the pool, every stroke counts. In Web2 marketing, every click counted. But in Web3, every relationship counts more than any metric.
+              When I transitioned from professional swimming to marketing, I learned that discipline isn't about doing more - it's about doing what matters. In the pool, every stroke counts. In Web2 marketing, every click counted. But in Web3, every relationship counts more than any metric.
             </p>
             <p className="text-lg text-muted-foreground">
-              Marketing isn't dying—it's evolving from capturing attention to building ownership. And that changes everything.
+              Marketing isn't dying - it's evolving from capturing attention to building ownership. And that changes everything.
             </p>
 
             <h2 id="architecture" className="mt-10 text-2xl font-bold scroll-mt-24">The Fundamental Architecture: Two Different Worlds</h2>
@@ -260,18 +260,18 @@ export default function Web2VsWeb3Marketing() {
               </TabsList>
               <TabsContent value="web2" className="mt-4">
                 <ul className="space-y-2">
-                  <li>📊 Centralized data — platforms own everything</li>
-                  <li>💰 Algorithmic distribution — pay to play</li>
-                  <li>🔒 Intermediary-dependent — no direct access</li>
-                  <li>📉 Data extraction model — users are the product</li>
+                  <li>📊 Centralized data - platforms own everything</li>
+                  <li>💰 Algorithmic distribution - pay to play</li>
+                  <li>🔒 Intermediary-dependent - no direct access</li>
+                  <li>📉 Data extraction model - users are the product</li>
                 </ul>
               </TabsContent>
               <TabsContent value="web3" className="mt-4">
                 <ul className="space-y-2">
-                  <li>🔓 Decentralized data — users own wallets and identity</li>
-                  <li>🤝 Direct relationships — no middlemen</li>
-                  <li>✅ Transparent verification — on-chain proof</li>
-                  <li>📈 Value co-creation — users become stakeholders</li>
+                  <li>🔓 Decentralized data - users own wallets and identity</li>
+                  <li>🤝 Direct relationships - no middlemen</li>
+                  <li>✅ Transparent verification - on-chain proof</li>
+                  <li>📈 Value co-creation - users become stakeholders</li>
                 </ul>
               </TabsContent>
             </Tabs>
@@ -362,7 +362,7 @@ export default function Web2VsWeb3Marketing() {
             </blockquote>
 
             <p>
-              When you give people real ownership—not points, but tradeable value—they don't just engage differently. They think differently. They become evangelists, strategists, and builders. Because now, it's their project too.
+              When you give people real ownership - not points, but tradeable value - they don't just engage differently. They think differently. They become evangelists, strategists, and builders. Because now, it's their project too.
             </p>
 
             <h2 id="principles" className="mt-10 text-2xl font-bold scroll-mt-24">5 Core Principles Marketers Must Learn</h2>
@@ -449,17 +449,17 @@ export default function Web2VsWeb3Marketing() {
                     Web2 optimizes for quarters. Web3 optimizes for decades.
                   </p>
                   <p>
-                    You're not building a customer base—you're building an ecosystem that can outlive your company.
+                    You're not building a customer base - you're building an ecosystem that can outlive your company.
                   </p>
                   <p className="mb-0 text-sm font-medium text-primary">
-                    Action: Track community health, holder retention, and network effects—not just acquisition.
+                    Action: Track community health, holder retention, and network effects - not just acquisition.
                   </p>
                 </CardContent>
               </Card>
             </div>
 
             <h2 id="hybrid" className="mt-12 text-2xl font-bold scroll-mt-24">The Hybrid Future: Best of Both Worlds</h2>
-            <p>The smartest brands don't choose—they blend.</p>
+            <p>The smartest brands don't choose - they blend.</p>
 
             <div className="my-6 grid gap-6 sm:grid-cols-2">
               <div className="rounded-lg border border-border bg-card p-5">
@@ -489,7 +489,7 @@ export default function Web2VsWeb3Marketing() {
 
             <div className="my-8 rounded-lg border-l-4 border-primary bg-muted/50 p-6">
               <p className="mb-0 text-sm font-semibold">
-                Over 1M AI agents expected on blockchain networks by end of 2025—marketing to non-humans is coming faster than you think.
+                Over 1M AI agents expected on blockchain networks by end of 2025 - marketing to non-humans is coming faster than you think.
               </p>
             </div>
 
@@ -539,7 +539,7 @@ export default function Web2VsWeb3Marketing() {
 
             <h3 className="mt-8 text-xl font-semibold">For Individual Marketers</h3>
             <p>
-              Your existing skills aren't obsolete—they're foundational. Knowing how to craft messages, analyze funnels, and build relationships? That's still 80% of the job.
+              Your existing skills aren't obsolete - they're foundational. Knowing how to craft messages, analyze funnels, and build relationships? That's still 80% of the job.
             </p>
 
             <h4 className="font-semibold">Add to your skillset:</h4>
@@ -552,7 +552,7 @@ export default function Web2VsWeb3Marketing() {
 
             <div className="my-8 rounded-lg bg-primary/10 p-6 text-center">
               <p className="mb-0 italic">
-                When I made this transition, I felt like a beginner again. That discomfort was the point. The marketers who thrive aren't the ones who resist change—they're the ones who stay curious.
+                When I made this transition, I felt like a beginner again. That discomfort was the point. The marketers who thrive aren't the ones who resist change - they're the ones who stay curious.
               </p>
             </div>
 
@@ -595,7 +595,7 @@ export default function Web2VsWeb3Marketing() {
 
             <blockquote className="my-6 border-l-4 border-primary pl-4 text-lg font-medium italic">
               "The future belongs to marketers who respect what worked AND embrace what's emerging."
-              <footer className="mt-2 text-sm font-normal not-italic">— Gabriel Mangabeira</footer>
+              <footer className="mt-2 text-sm font-normal not-italic">- Gabriel Mangabeira</footer>
             </blockquote>
 
             <h2 id="first-steps" className="mt-12 text-2xl font-bold scroll-mt-24">Start Here: Your First Steps</h2>
