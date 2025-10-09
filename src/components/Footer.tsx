@@ -23,9 +23,17 @@ const Footer = () => {
     <footer className="bg-muted/30 border-t border-border">
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          {/* Copyright */}
+          {/* Copyright and Privacy Policy */}
           <div className="text-sm text-muted-foreground text-center md:text-left">
-            © 2025 Gabriel Mangabeira. Built with 🚀 and powered by Lovable.
+            <div>© 2025 Gabriel Mangabeira. Built with 🚀 and powered by Lovable.</div>
+            <div className="mt-1">
+              <a 
+                href="/privacy-policy" 
+                className="text-muted-foreground hover:text-primary transition-colors underline"
+              >
+                Privacy Policy
+              </a>
+            </div>
           </div>
 
           {/* Social Links */}
