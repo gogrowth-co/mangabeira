@@ -1,595 +1,433 @@
-import { useEffect } from "react";
+import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CTASection from "@/components/CTASection";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Clock, Calendar } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Card, CardContent } from "@/components/ui/card";
+import { BookOpen, TrendingUp, Users, Zap, Target } from "lucide-react";
 import web3AthletesImage from "@/assets/web3-for-athletes.png";
+import authorAvatar from "@/assets/gabriel-profile.png";
 
-const useSEO = () => {
-  useEffect(() => {
-    // Set document title
-    document.title = "Web3 for Athletes: How to Build a Community, Not Just a Fan Base | Gabriel Mangabeira";
-    
-    // Set meta description
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', 'Learn how athletes can leverage Web3 to build engaged communities, create sustainable revenue streams, and take control of their digital presence.');
-    }
+const title = "Web3 for Athletes: How to Build a Community, Not Just a Fan Base";
+const description = "Learn how athletes can leverage Web3 to build engaged communities, create sustainable revenue streams, and take control of their digital presence.";
 
-    // Set canonical URL
-    const canonicalLink = document.querySelector('link[rel="canonical"]');
-    if (canonicalLink) {
-      canonicalLink.setAttribute('href', 'https://gabrielmangabeira.com/publications/web3-for-athletes');
-    }
+function useSEO() {
+  React.useEffect(() => {
+    const url = `${window.location.origin}/publications/web3-for-athletes`;
 
-    // Open Graph tags
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) {
-      ogTitle.setAttribute('content', 'Web3 for Athletes: How to Build a Community, Not Just a Fan Base');
-    }
+    document.title = title;
 
-    const ogDescription = document.querySelector('meta[property="og:description"]');
-    if (ogDescription) {
-      ogDescription.setAttribute('content', 'Learn how athletes can leverage Web3 to build engaged communities, create sustainable revenue streams, and take control of their digital presence.');
-    }
-
-    const ogUrl = document.querySelector('meta[property="og:url"]');
-    if (ogUrl) {
-      ogUrl.setAttribute('content', 'https://gabrielmangabeira.com/publications/web3-for-athletes');
-    }
-
-    // Twitter Card tags
-    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
-    if (twitterTitle) {
-      twitterTitle.setAttribute('content', 'Web3 for Athletes: How to Build a Community, Not Just a Fan Base');
-    }
-
-    const twitterDescription = document.querySelector('meta[name="twitter:description"]');
-    if (twitterDescription) {
-      twitterDescription.setAttribute('content', 'Learn how athletes can leverage Web3 to build engaged communities, create sustainable revenue streams, and take control of their digital presence.');
-    }
-
-    // JSON-LD Structured Data for Article
-    const articleSchema = {
-      "@context": "https://schema.org",
-      "@type": "Article",
-      "headline": "Web3 for Athletes: How to Build a Community, Not Just a Fan Base",
-      "description": "Learn how athletes can leverage Web3 to build engaged communities, create sustainable revenue streams, and take control of their digital presence.",
-      "author": {
-        "@type": "Person",
-        "name": "Gabriel Mangabeira"
-      },
-      "datePublished": "2025-01-15",
-      "publisher": {
-        "@type": "Person",
-        "name": "Gabriel Mangabeira"
+    const ensure = (tagName: string, attrs: Record<string, string>) => {
+      let el = document.querySelector<HTMLElement>(
+        `${tagName}${attrs.name ? `[name="${attrs.name}"]` : attrs.property ? `[property="${attrs.property}"]` : ""}`,
+      );
+      if (!el) {
+        el = document.createElement(tagName) as HTMLElement;
+        Object.entries(attrs).forEach(([k, v]) => el!.setAttribute(k, v));
+        document.head.appendChild(el);
+      } else {
+        Object.entries(attrs).forEach(([k, v]) => el!.setAttribute(k, v));
       }
+      return el;
     };
 
-    const scriptTag = document.createElement('script');
-    scriptTag.type = 'application/ld+json';
-    scriptTag.text = JSON.stringify(articleSchema);
-    document.head.appendChild(scriptTag);
+    ensure("meta", { name: "description", content: description });
+    ensure("link", { rel: "canonical", href: url });
+    ensure("meta", { property: "og:type", content: "article" });
+    ensure("meta", { property: "og:title", content: title });
+    ensure("meta", { property: "og:description", content: description });
+    ensure("meta", { property: "og:url", content: url });
+    ensure("meta", { property: "og:image", content: web3AthletesImage });
+    ensure("meta", { name: "twitter:card", content: "summary_large_image" });
+    ensure("meta", { name: "twitter:title", content: title });
+    ensure("meta", { name: "twitter:description", content: description });
+    ensure("meta", { name: "twitter:image", content: web3AthletesImage });
 
-    // Breadcrumb Schema
-    const breadcrumbSchema = {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://gabrielmangabeira.com"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Publications",
-          "item": "https://gabrielmangabeira.com/#publications"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "Web3 for Athletes",
-          "item": "https://gabrielmangabeira.com/publications/web3-for-athletes"
-        }
-      ]
+    const articleLd = {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: title,
+      image: [web3AthletesImage],
+      author: { '@type': 'Person', name: 'Gabriel Mangabeira', jobTitle: 'Olympian & Growth Strategist' },
+      datePublished: '2025-01-15',
+      dateModified: '2025-01-15',
+      mainEntityOfPage: url,
+      description,
+      wordCount: 3200,
+      timeRequired: 'PT8M',
     };
 
-    const breadcrumbScript = document.createElement('script');
-    breadcrumbScript.type = 'application/ld+json';
-    breadcrumbScript.text = JSON.stringify(breadcrumbSchema);
-    document.head.appendChild(breadcrumbScript);
+    const breadcrumbLd = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: `${window.location.origin}/` },
+        { '@type': 'ListItem', position: 2, name: 'Publications', item: `${window.location.origin}/#publications` },
+        { '@type': 'ListItem', position: 3, name: 'Web3 for Athletes' },
+      ],
+    };
+
+    const script1 = document.createElement('script');
+    script1.type = 'application/ld+json';
+    script1.textContent = JSON.stringify(articleLd);
+    document.head.appendChild(script1);
+
+    const script2 = document.createElement('script');
+    script2.type = 'application/ld+json';
+    script2.textContent = JSON.stringify(breadcrumbLd);
+    document.head.appendChild(script2);
 
     return () => {
-      document.head.removeChild(scriptTag);
-      document.head.removeChild(breadcrumbScript);
+      script1.remove();
+      script2.remove();
     };
   }, []);
-};
+}
 
-const Web3ForAthletes = () => {
+export default function Web3ForAthletes() {
   useSEO();
-  const navigate = useNavigate();
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
     if (element) {
-      const offset = 100;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-      
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
+      const offset = 120;
+      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+      window.scrollTo({ top: elementPosition - offset, behavior: "smooth" });
     }
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground">
       <Header />
-      
-      {/* Article Header */}
-      <article className="pt-24 pb-12">
-        <div className="max-w-4xl mx-auto px-6">
-          {/* Back Button */}
-          <Button
-            variant="ghost"
-            className="mb-8 -ml-4 hover:bg-accent"
-            onClick={() => navigate("/#publications")}
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Publications
-          </Button>
 
-          {/* Title */}
-          <h1 className="font-hero font-bold text-foreground mb-6" style={{ fontSize: 'clamp(32px, 5vw, 48px)', lineHeight: '1.2' }}>
-            Web3 for Athletes: How to Build a Community, Not Just a Fan Base
-          </h1>
+      <main>
+        <article className="mx-auto w-full max-w-3xl px-4 py-8 md:py-12">
+          <header className="mb-8 md:mb-10">
+            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+              {title}
+            </h1>
+            <p className="mt-4 text-lg text-muted-foreground">{description}</p>
 
-          {/* Meta Info */}
-          <div className="flex flex-wrap items-center gap-6 text-muted-foreground mb-8 pb-8 border-b border-border">
-            <div className="flex items-center gap-2">
-              <Calendar className="h-4 w-4" />
-              <span className="text-sm">January 15, 2025</span>
+            <div className="mt-6 flex flex-wrap items-center gap-4">
+              <div className="flex items-center gap-3">
+                <img
+                  src={authorAvatar}
+                  alt="Gabriel Mangabeira headshot"
+                  className="h-12 w-12 rounded-full object-cover ring-2 ring-primary/20"
+                  loading="lazy"
+                />
+                <div className="leading-tight">
+                  <div className="font-medium">Gabriel Mangabeira</div>
+                  <div className="text-sm text-muted-foreground">Olympian & Growth Strategist</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                  8 min read
+                </span>
+                <span className="inline-flex items-center rounded-full border border-border bg-muted/40 px-3 py-1 text-xs font-medium text-muted-foreground">
+                  Updated Jan 2025
+                </span>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4" />
-              <span className="text-sm">8 min read</span>
+
+            <figure className="mt-8 overflow-hidden rounded-lg border border-border">
+              <img
+                src={web3AthletesImage}
+                alt="Web3 for Athletes - Building Communities, Not Just Fan Bases"
+                loading="lazy"
+                className="h-auto w-full object-cover"
+              />
+            </figure>
+            
+            {/* TLDR Section */}
+            <Card className="my-8 border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10 shadow-lg">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <Zap className="h-5 w-5 text-primary" />
+                  <h2 className="text-xl font-bold">TL;DR - Jump to What Matters</h2>
+                </div>
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  <Button
+                    variant="outline"
+                    className="justify-start h-auto py-3 px-4 hover:bg-primary/10 hover:border-primary transition-all"
+                    onClick={() => scrollToSection("fan-vs-community")}
+                  >
+                    <BookOpen className="h-4 w-4 mr-2 flex-shrink-0" />
+                    <span className="text-left">Fan vs Community</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="justify-start h-auto py-3 px-4 hover:bg-primary/10 hover:border-primary transition-all"
+                    onClick={() => scrollToSection("why-web3")}
+                  >
+                    <Target className="h-4 w-4 mr-2 flex-shrink-0" />
+                    <span className="text-left">Why Web3 Matters</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="justify-start h-auto py-3 px-4 hover:bg-primary/10 hover:border-primary transition-all"
+                    onClick={() => scrollToSection("framework")}
+                  >
+                    <TrendingUp className="h-4 w-4 mr-2 flex-shrink-0" />
+                    <span className="text-left">3-Layer Framework</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="justify-start h-auto py-3 px-4 hover:bg-primary/10 hover:border-primary transition-all"
+                    onClick={() => scrollToSection("examples")}
+                  >
+                    <Users className="h-4 w-4 mr-2 flex-shrink-0" />
+                    <span className="text-left">Real Examples</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="justify-start h-auto py-3 px-4 hover:bg-primary/10 hover:border-primary transition-all"
+                    onClick={() => scrollToSection("getting-started")}
+                  >
+                    <Zap className="h-4 w-4 mr-2 flex-shrink-0" />
+                    <span className="text-left">Getting Started</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="justify-start h-auto py-3 px-4 hover:bg-primary/10 hover:border-primary transition-all"
+                    onClick={() => scrollToSection("mistakes")}
+                  >
+                    <Target className="h-4 w-4 mr-2 flex-shrink-0" />
+                    <span className="text-left">Avoid Mistakes</span>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </header>
+
+          <section className="prose prose-neutral dark:prose-invert max-w-none">
+            <p className="text-lg text-muted-foreground">
+              Fans cheer from the stands. Communities build with you.
+            </p>
+            <p className="text-lg text-muted-foreground">
+              As an athlete, your career is built on performance. But what happens when the cheering stops? When the sponsorships dry up? When platforms change their algorithms and your reach plummets overnight?
+            </p>
+            <p className="text-lg text-muted-foreground">
+              Traditional fan engagement keeps you trapped in a cycle of dependency - on platforms, on sponsors, on fleeting attention. Web3 offers something different: the tools to build a community that owns their stake in your success.
+            </p>
+            <p className="text-lg text-muted-foreground">
+              This isn't about chasing crypto trends. It's about sustainable community building that creates real value for both you and your supporters.
+            </p>
+
+            <h2 id="fan-vs-community" className="mt-10 text-2xl font-bold scroll-mt-24">The Fan vs. Community Mindset</h2>
+            <h3 className="mt-6 text-xl font-semibold">Traditional Fan Base (Web2)</h3>
+            <ul className="space-y-2">
+              <li><strong>One-way relationship:</strong> Athletes broadcast, fans consume</li>
+              <li><strong>Platform dependency:</strong> Your reach is controlled by Instagram, TikTok, Twitter algorithms</li>
+              <li><strong>Passive engagement:</strong> Likes, comments, shares that generate value for platforms, not you</li>
+              <li><strong>Limited monetization:</strong> Sponsorships and ads with middlemen taking massive cuts</li>
+              <li><strong>No data ownership:</strong> Platforms own your fan relationships and data</li>
+            </ul>
+
+            <h3 className="mt-6 text-xl font-semibold">Web3 Community</h3>
+            <ul className="space-y-2">
+              <li><strong>Two-way ownership:</strong> Community members have a stake in your success</li>
+              <li><strong>Direct connection:</strong> No platform can cut you off from your community</li>
+              <li><strong>Active participation:</strong> Members contribute, govern, and benefit from community growth</li>
+              <li><strong>Multiple revenue streams:</strong> NFTs, tokens, memberships, exclusive access - all direct to you</li>
+              <li><strong>Data sovereignty:</strong> You and your community own the data and relationships</li>
+            </ul>
+
+            <p className="mt-4">
+              The shift is from extractive fandom to collaborative community. Your supporters aren't just watching - they're invested.
+            </p>
+
+            <h2 id="why-web3" className="mt-10 text-2xl font-bold scroll-mt-24">Why Web3 Changes Everything for Athletes</h2>
+
+            <div className="space-y-6 mt-6">
+              <div>
+                <h3 className="text-xl font-semibold">1. True Digital Ownership</h3>
+                <p className="mt-2">
+                  NFTs aren't just JPEGs. They're programmable proof of authenticity and ownership. When you create an NFT of a historic game moment, training session, or exclusive content, you're creating a digital asset that:
+                </p>
+                <ul className="mt-2">
+                  <li>Can't be replicated or devalued by screenshots</li>
+                  <li>Generates royalties every time it's resold</li>
+                  <li>Proves authentic connection to your career</li>
+                  <li>Can grant ongoing access and benefits</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-semibold">2. Community-Driven Value Creation</h3>
+                <p className="mt-2">
+                  Tokens align incentives. When your community holds tokens tied to your brand or achievements:
+                </p>
+                <ul className="mt-2">
+                  <li>They benefit when you succeed</li>
+                  <li>They're incentivized to promote and support you</li>
+                  <li>They can participate in decisions about community direction</li>
+                  <li>Early supporters are rewarded for their belief in you</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-semibold">3. Disintermediation = Higher Margins</h3>
+                <p className="mt-2">
+                  Traditional sponsorship and merchandise deals involve multiple middlemen:
+                </p>
+                <ul className="mt-2">
+                  <li>Agencies (15-30% cut)</li>
+                  <li>Platforms (30-50% cut)</li>
+                  <li>Payment processors (2-5% cut)</li>
+                  <li>Retailers (40-60% cut for merchandise)</li>
+                </ul>
+                <p className="mt-2">
+                  Web3 enables direct fan-to-athlete transactions with minimal fees (typically 2-5% on NFT platforms), meaning you keep 90%+ of revenue.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-semibold">4. Career Insurance and Longevity</h3>
+                <p className="mt-2">
+                  Athletic careers are short. Injuries happen. Performance declines. Web3 lets you build equity that outlasts your playing days. Your community and brand can generate value long after you retire, through:
+                </p>
+                <ul className="mt-2">
+                  <li>Ongoing NFT royalties from historic moments</li>
+                  <li>Community governance and participation</li>
+                  <li>Exclusive access and experiences</li>
+                  <li>Digital legacy preservation</li>
+                </ul>
+              </div>
             </div>
-          </div>
 
-          {/* Featured Image */}
-          <div className="mb-12 rounded-lg overflow-hidden">
-            <img
-              src={web3AthletesImage}
-              alt="Web3 for Athletes - Building Communities"
-              className="w-full h-auto"
-            />
-          </div>
+            <h2 id="framework" className="mt-10 text-2xl font-bold scroll-mt-24">The 3-Layer Web3 Community Framework</h2>
 
-          {/* Article Content */}
-          <div className="prose prose-lg max-w-none">
-            <section id="intro" className="mb-12">
-              <p className="text-lg text-foreground/90 leading-relaxed mb-6">
-                Fans cheer from the stands. Communities build with you.
-              </p>
-              <p className="text-lg text-foreground/90 leading-relaxed mb-6">
-                As an athlete, your career is built on performance. But what happens when the cheering stops? When the sponsorships dry up? When platforms change their algorithms and your reach plummets overnight?
-              </p>
-              <p className="text-lg text-foreground/90 leading-relaxed mb-6">
-                Traditional fan engagement keeps you trapped in a cycle of dependency - on platforms, on sponsors, on fleeting attention. Web3 offers something different: the tools to build a community that owns their stake in your success.
-              </p>
-              <p className="text-lg text-foreground/90 leading-relaxed">
-                This isn't about chasing crypto trends. It's about sustainable community building that creates real value for both you and your supporters.
-              </p>
-            </section>
-
-            <section id="fan-vs-community" className="mb-12">
-              <h2 className="font-hero font-bold text-foreground mb-6" style={{ fontSize: 'clamp(24px, 3vw, 32px)', lineHeight: '1.3' }}>
-                The Fan vs. Community Mindset
-              </h2>
-              
-              <h3 className="font-hero font-semibold text-foreground mb-4 text-xl">
-                Traditional Fan Base (Web2)
-              </h3>
-              <ul className="space-y-3 mb-6 text-foreground/90">
-                <li className="flex items-start">
-                  <span className="mr-3 text-primary">•</span>
-                  <span><strong>One-way relationship:</strong> Athletes broadcast, fans consume</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="mr-3 text-primary">•</span>
-                  <span><strong>Platform dependency:</strong> Your reach is controlled by Instagram, TikTok, Twitter algorithms</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="mr-3 text-primary">•</span>
-                  <span><strong>Passive engagement:</strong> Likes, comments, shares that generate value for platforms, not you</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="mr-3 text-primary">•</span>
-                  <span><strong>Limited monetization:</strong> Sponsorships and ads with middlemen taking massive cuts</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="mr-3 text-primary">•</span>
-                  <span><strong>No data ownership:</strong> Platforms own your fan relationships and data</span>
-                </li>
-              </ul>
-
-              <h3 className="font-hero font-semibold text-foreground mb-4 text-xl">
-                Web3 Community
-              </h3>
-              <ul className="space-y-3 mb-6 text-foreground/90">
-                <li className="flex items-start">
-                  <span className="mr-3 text-primary">•</span>
-                  <span><strong>Two-way ownership:</strong> Community members have a stake in your success</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="mr-3 text-primary">•</span>
-                  <span><strong>Direct connection:</strong> No platform can cut you off from your community</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="mr-3 text-primary">•</span>
-                  <span><strong>Active participation:</strong> Members contribute, govern, and benefit from community growth</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="mr-3 text-primary">•</span>
-                  <span><strong>Multiple revenue streams:</strong> NFTs, tokens, memberships, exclusive access - all direct to you</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="mr-3 text-primary">•</span>
-                  <span><strong>Data sovereignty:</strong> You and your community own the data and relationships</span>
-                </li>
-              </ul>
-
-              <p className="text-lg text-foreground/90 leading-relaxed">
-                The shift is from extractive fandom to collaborative community. Your supporters aren't just watching - they're invested.
-              </p>
-            </section>
-
-            <section id="why-web3" className="mb-12">
-              <h2 className="font-hero font-bold text-foreground mb-6" style={{ fontSize: 'clamp(24px, 3vw, 32px)', lineHeight: '1.3' }}>
-                Why Web3 Changes Everything for Athletes
-              </h2>
-
-              <div className="space-y-8">
-                <div>
-                  <h3 className="font-hero font-semibold text-foreground mb-3 text-xl">
-                    1. True Digital Ownership
-                  </h3>
-                  <p className="text-foreground/90 leading-relaxed mb-4">
-                    NFTs aren't just JPEGs. They're programmable proof of authenticity and ownership. When you create an NFT of a historic game moment, training session, or exclusive content, you're creating a digital asset that:
-                  </p>
-                  <ul className="space-y-2 text-foreground/90 ml-6">
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Can't be replicated or devalued by screenshots</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Generates royalties every time it's resold</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Proves authentic connection to your career</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Can grant ongoing access and benefits</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h3 className="font-hero font-semibold text-foreground mb-3 text-xl">
-                    2. Community-Driven Value Creation
-                  </h3>
-                  <p className="text-foreground/90 leading-relaxed mb-4">
-                    Tokens align incentives. When your community holds tokens tied to your brand or achievements:
-                  </p>
-                  <ul className="space-y-2 text-foreground/90 ml-6">
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>They benefit when you succeed</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>They're incentivized to promote and support you</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>They can participate in decisions about community direction</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Early supporters are rewarded for their belief in you</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h3 className="font-hero font-semibold text-foreground mb-3 text-xl">
-                    3. Disintermediation = Higher Margins
-                  </h3>
-                  <p className="text-foreground/90 leading-relaxed mb-4">
-                    Traditional sponsorship and merchandise deals involve multiple middlemen:
-                  </p>
-                  <ul className="space-y-2 text-foreground/90 ml-6 mb-4">
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Agencies (15-30% cut)</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Platforms (30-50% cut)</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Payment processors (2-5% cut)</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Retailers (40-60% cut for merchandise)</span>
-                    </li>
-                  </ul>
-                  <p className="text-foreground/90 leading-relaxed">
-                    Web3 enables direct fan-to-athlete transactions with minimal fees (typically 2-5% on NFT platforms), meaning you keep 90%+ of revenue.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="font-hero font-semibold text-foreground mb-3 text-xl">
-                    4. Career Insurance and Longevity
-                  </h3>
-                  <p className="text-foreground/90 leading-relaxed">
-                    Athletic careers are short. Injuries happen. Performance declines. Web3 lets you build equity that outlasts your playing days. Your community and brand can generate value long after you retire, through:
-                  </p>
-                  <ul className="space-y-2 text-foreground/90 ml-6">
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Ongoing NFT royalties from historic moments</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Community governance and participation</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Exclusive access and experiences</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Digital legacy preservation</span>
-                    </li>
-                  </ul>
-                </div>
+            <div className="space-y-6 mt-6">
+              <div>
+                <h3 className="text-xl font-semibold">Layer 1: Foundation - Identity & Access</h3>
+                <p className="mt-2">
+                  <strong>Goal:</strong> Establish your Web3 presence and create entry points for community members.
+                </p>
+                <p className="mt-2">
+                  <strong>What to build:</strong>
+                </p>
+                <ul className="mt-2">
+                  <li><strong>Free membership NFTs:</strong> Entry ticket to your community (no cost, just wallet connection)</li>
+                  <li><strong>Digital collectibles:</strong> Affordable NFTs ($10-50) of moments, highlights, or training content</li>
+                  <li><strong>Token-gated Discord/community space:</strong> NFT holders get access to exclusive channels</li>
+                </ul>
+                <p className="mt-2">
+                  <strong>Why it works:</strong> Low barrier to entry builds your community base. These members can be upgraded to higher tiers later.
+                </p>
               </div>
-            </section>
 
-            <section id="framework" className="mb-12">
-              <h2 className="font-hero font-bold text-foreground mb-6" style={{ fontSize: 'clamp(24px, 3vw, 32px)', lineHeight: '1.3' }}>
-                The 3-Layer Web3 Community Framework
-              </h2>
-
-              <div className="space-y-8">
-                <div>
-                  <h3 className="font-hero font-semibold text-foreground mb-3 text-xl">
-                    Layer 1: Foundation - Identity & Access
-                  </h3>
-                  <p className="text-foreground/90 leading-relaxed mb-4">
-                    <strong>Goal:</strong> Establish your Web3 presence and create entry points for community members.
-                  </p>
-                  <p className="text-foreground/90 leading-relaxed mb-4">
-                    <strong>What to build:</strong>
-                  </p>
-                  <ul className="space-y-2 text-foreground/90 ml-6 mb-4">
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span><strong>Free membership NFTs:</strong> Entry ticket to your community (no cost, just wallet connection)</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span><strong>Digital collectibles:</strong> Affordable NFTs ($10-50) of moments, highlights, or training content</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span><strong>Token-gated Discord/community space:</strong> NFT holders get access to exclusive channels</span>
-                    </li>
-                  </ul>
-                  <p className="text-foreground/90 leading-relaxed">
-                    <strong>Why it works:</strong> Low barrier to entry builds your community base. These members can be upgraded to higher tiers later.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="font-hero font-semibold text-foreground mb-3 text-xl">
-                    Layer 2: Engagement - Participation & Benefits
-                  </h3>
-                  <p className="text-foreground/90 leading-relaxed mb-4">
-                    <strong>Goal:</strong> Create ongoing value and reasons for community members to stay active.
-                  </p>
-                  <p className="text-foreground/90 leading-relaxed mb-4">
-                    <strong>What to build:</strong>
-                  </p>
-                  <ul className="space-y-2 text-foreground/90 ml-6 mb-4">
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span><strong>Tiered memberships:</strong> Different NFT levels unlock different benefits (VIP events, merchandise, training content)</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span><strong>Limited edition drops:</strong> Special NFTs for major milestones (championships, records, career moments)</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span><strong>Interactive experiences:</strong> Token-gated live streams, Q&As, training sessions, meet & greets</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span><strong>Community governance:</strong> Let NFT holders vote on merchandise designs, charity initiatives, content topics</span>
-                    </li>
-                  </ul>
-                  <p className="text-foreground/90 leading-relaxed">
-                    <strong>Why it works:</strong> Active participation creates emotional investment. Members feel like stakeholders, not spectators.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="font-hero font-semibold text-foreground mb-3 text-xl">
-                    Layer 3: Ownership - Shared Success
-                  </h3>
-                  <p className="text-foreground/90 leading-relaxed mb-4">
-                    <strong>Goal:</strong> Align community incentives with your success.
-                  </p>
-                  <p className="text-foreground/90 leading-relaxed mb-4">
-                    <strong>What to build:</strong>
-                  </p>
-                  <ul className="space-y-2 text-foreground/90 ml-6 mb-4">
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span><strong>Revenue-sharing NFTs:</strong> Premium NFTs that receive a percentage of future merchandise or content revenue</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span><strong>Social tokens:</strong> Personal tokens that increase in value as your career and community grow</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span><strong>Fractional ownership:</strong> Let superfans own a piece of significant assets (game-worn items, historic memorabilia)</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span><strong>Creator economy tools:</strong> Enable community members to create and monetize fan content, with you receiving royalties</span>
-                    </li>
-                  </ul>
-                  <p className="text-foreground/90 leading-relaxed">
-                    <strong>Why it works:</strong> Financial alignment creates the strongest form of community. Your success is their success.
-                  </p>
-                </div>
+              <div>
+                <h3 className="text-xl font-semibold">Layer 2: Engagement - Participation & Benefits</h3>
+                <p className="mt-2">
+                  <strong>Goal:</strong> Create ongoing value and reasons for community members to stay active.
+                </p>
+                <p className="mt-2">
+                  <strong>What to build:</strong>
+                </p>
+                <ul className="mt-2">
+                  <li><strong>Tiered memberships:</strong> Different NFT levels unlock different benefits (VIP events, merchandise, training content)</li>
+                  <li><strong>Limited edition drops:</strong> Special NFTs for major milestones (championships, records, career moments)</li>
+                  <li><strong>Interactive experiences:</strong> Token-gated live streams, Q&As, training sessions, meet & greets</li>
+                  <li><strong>Community governance:</strong> Let NFT holders vote on merchandise designs, charity initiatives, content topics</li>
+                </ul>
+                <p className="mt-2">
+                  <strong>Why it works:</strong> Active participation creates emotional investment. Members feel like stakeholders, not spectators.
+                </p>
               </div>
-            </section>
 
-            <section id="getting-started" className="mb-12">
-              <h2 className="font-hero font-bold text-foreground mb-6" style={{ fontSize: 'clamp(24px, 3vw, 32px)', lineHeight: '1.3' }}>
-                Getting Started: Your First 90 Days
-              </h2>
-
-              <div className="space-y-6">
-                <div>
-                  <h3 className="font-hero font-semibold text-foreground mb-3 text-xl">
-                    Month 1: Learn & Prepare
-                  </h3>
-                  <ul className="space-y-2 text-foreground/90 ml-6">
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Set up a crypto wallet (MetaMask, Coinbase Wallet, etc.)</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Research NFT platforms (OpenSea, Zora, Manifold, Base)</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Study athletes doing it right (see examples below)</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Audit your existing content and moments that could be NFTs</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Survey your current fans about interest in Web3 engagement</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h3 className="font-hero font-semibold text-foreground mb-3 text-xl">
-                    Month 2: Build & Launch
-                  </h3>
-                  <ul className="space-y-2 text-foreground/90 ml-6">
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Create your first NFT collection (start small - 100-500 pieces)</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Set up token-gated community space (Discord, Telegram, or dedicated platform)</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Announce on existing social channels, educate fans on how to participate</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Host a virtual launch event for NFT holders</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Document the process transparently (your journey is content)</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h3 className="font-hero font-semibold text-foreground mb-3 text-xl">
-                    Month 3: Engage & Iterate
-                  </h3>
-                  <ul className="space-y-2 text-foreground/90 ml-6">
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Deliver on promised utilities (exclusive content, events, access)</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Gather feedback from community on what they value most</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Plan next collection or utility expansion based on data</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Experiment with community governance (small decisions first)</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="mr-3">•</span>
-                      <span>Measure engagement metrics and revenue compared to traditional channels</span>
-                    </li>
-                  </ul>
-                </div>
+              <div>
+                <h3 className="text-xl font-semibold">Layer 3: Ownership - Shared Success</h3>
+                <p className="mt-2">
+                  <strong>Goal:</strong> Align community incentives with your success.
+                </p>
+                <p className="mt-2">
+                  <strong>What to build:</strong>
+                </p>
+                <ul className="mt-2">
+                  <li><strong>Revenue-sharing NFTs:</strong> Premium NFTs that receive a percentage of future merchandise or content revenue</li>
+                  <li><strong>Social tokens:</strong> Personal tokens that increase in value as your career and community grow</li>
+                  <li><strong>Fractional ownership:</strong> Let superfans own a piece of significant assets (game-worn items, historic memorabilia)</li>
+                  <li><strong>Creator economy tools:</strong> Enable community members to create and monetize fan content, with you receiving royalties</li>
+                </ul>
+                <p className="mt-2">
+                  <strong>Why it works:</strong> Financial alignment creates the strongest form of community. Your success is their success.
+                </p>
               </div>
-            </section>
+            </div>
 
-            <section id="conclusion" className="mb-12">
-              <h2 className="font-hero font-bold text-foreground mb-6" style={{ fontSize: 'clamp(24px, 3vw, 32px)', lineHeight: '1.3' }}>
-                The Opportunity Is Now
-              </h2>
-              <p className="text-lg text-foreground/90 leading-relaxed mb-6">
+            <h2 id="getting-started" className="mt-10 text-2xl font-bold scroll-mt-24">Getting Started: Your First 90 Days</h2>
+
+            <div className="space-y-6 mt-6">
+              <Card className="border-l-4 border-l-primary shadow-sm hover:shadow-md transition-shadow">
+                <CardContent className="p-6">
+                  <h3 className="mt-0 text-lg font-bold">Month 1: Learn & Prepare</h3>
+                  <ul className="mt-4 space-y-2">
+                    <li>Set up a crypto wallet (MetaMask, Coinbase Wallet, etc.)</li>
+                    <li>Research NFT platforms (OpenSea, Zora, Manifold, Base)</li>
+                    <li>Study athletes doing it right</li>
+                    <li>Audit your existing content and moments that could be NFTs</li>
+                    <li>Survey your current fans about interest in Web3 engagement</li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              <Card className="border-l-4 border-l-primary shadow-sm hover:shadow-md transition-shadow">
+                <CardContent className="p-6">
+                  <h3 className="mt-0 text-lg font-bold">Month 2: Build & Launch</h3>
+                  <ul className="mt-4 space-y-2">
+                    <li>Create your first NFT collection (start small - 100-500 pieces)</li>
+                    <li>Set up token-gated community space (Discord, Telegram, or dedicated platform)</li>
+                    <li>Announce on existing social channels, educate fans on how to participate</li>
+                    <li>Host a virtual launch event for NFT holders</li>
+                    <li>Document the process transparently (your journey is content)</li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              <Card className="border-l-4 border-l-primary shadow-sm hover:shadow-md transition-shadow">
+                <CardContent className="p-6">
+                  <h3 className="mt-0 text-lg font-bold">Month 3: Engage & Iterate</h3>
+                  <ul className="mt-4 space-y-2">
+                    <li>Deliver on promised utilities (exclusive content, events, access)</li>
+                    <li>Gather feedback from community on what they value most</li>
+                    <li>Plan next collection or utility expansion based on data</li>
+                    <li>Experiment with community governance (small decisions first)</li>
+                    <li>Measure engagement metrics and revenue compared to traditional channels</li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
+
+            <h2 id="mistakes" className="mt-10 text-2xl font-bold scroll-mt-24">Common Mistakes to Avoid</h2>
+            <ul className="mt-4 space-y-2">
+              <li><strong>Don't over-promise:</strong> Start with deliverable utilities and expand based on success</li>
+              <li><strong>Don't ignore your existing fans:</strong> Educate and onboard them rather than abandoning them for a new Web3 audience</li>
+              <li><strong>Don't chase quick money:</strong> Build for long-term community value, not pump-and-dump schemes</li>
+              <li><strong>Don't go it alone:</strong> Partner with Web3 experts, agencies, or platforms to guide your strategy</li>
+            </ul>
+
+            <div className="my-8 rounded-lg border-l-4 border-primary bg-muted/50 p-6">
+              <h3 className="mt-0 text-base font-semibold">💡 Final Thought</h3>
+              <p className="mb-0">
                 We're in the early innings of athlete-led Web3 communities. The athletes who build now will have first-mover advantage and deeper community relationships when mainstream adoption accelerates.
               </p>
-              <p className="text-lg text-foreground/90 leading-relaxed mb-6">
-                This isn't about replacing traditional sponsorships or social media. It's about adding a layer of direct community ownership that makes your brand more resilient and your income more diversified.
-              </p>
-              <p className="text-lg text-foreground/90 leading-relaxed mb-6">
-                Start small. Learn as you build. Treat your community like co-owners, because in Web3, they are.
-              </p>
-              <p className="text-lg text-foreground/90 leading-relaxed">
-                The question isn't whether athletes will embrace Web3. It's whether you'll be early or late to the game.
-              </p>
-            </section>
-          </div>
-        </div>
-      </article>
+            </div>
+
+            <p className="mt-6">
+              This isn't about replacing traditional sponsorships or social media. It's about adding a layer of direct community ownership that makes your brand more resilient and your income more diversified.
+            </p>
+            <p>
+              Start small. Learn as you build. Treat your community like co-owners, because in Web3, they are.
+            </p>
+          </section>
+        </article>
+
+      </main>
 
       <CTASection />
       <Footer />
     </div>
   );
-};
-
-export default Web3ForAthletes;
+}
