@@ -4,7 +4,8 @@ import Footer from "@/components/Footer";
 import CTASection from "@/components/CTASection";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { BookOpen, TrendingUp, Users, Zap, Target } from "lucide-react";
+import { BookOpen, TrendingUp, Users, Zap, Target, Compass } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import web3AthletesImage from "@/assets/web3-for-athletes.png";
 import authorAvatar from "@/assets/gabriel-profile.png";
 
@@ -126,7 +127,7 @@ export default function Web3ForAthletes() {
                   8 min read
                 </span>
                 <span className="inline-flex items-center rounded-full border border-border bg-muted/40 px-3 py-1 text-xs font-medium text-muted-foreground">
-                  Updated Jan 2025
+                  Updated Oct 2025
                 </span>
               </div>
             </div>
@@ -191,10 +192,10 @@ export default function Web3ForAthletes() {
                   <Button
                     variant="outline"
                     className="justify-start h-auto py-3 px-4 hover:bg-primary/10 hover:border-primary transition-all"
-                    onClick={() => scrollToSection("mistakes")}
+                    onClick={() => scrollToSection("faq")}
                   >
-                    <Target className="h-4 w-4 mr-2 flex-shrink-0" />
-                    <span className="text-left">Avoid Mistakes</span>
+                    <Compass className="h-4 w-4 mr-2 flex-shrink-0" />
+                    <span className="text-left">FAQs</span>
                   </Button>
                 </div>
               </CardContent>
@@ -241,60 +242,100 @@ export default function Web3ForAthletes() {
             <h2 id="why-web3" className="mt-10 text-2xl font-bold scroll-mt-24">Why Web3 Changes Everything for Athletes</h2>
 
             <div className="space-y-6 mt-6">
-              <div>
-                <h3 className="text-xl font-semibold">1. True Digital Ownership</h3>
-                <p className="mt-2">
-                  NFTs aren't just JPEGs. They're programmable proof of authenticity and ownership. When you create an NFT of a historic game moment, training session, or exclusive content, you're creating a digital asset that:
-                </p>
-                <ul className="mt-2">
-                  <li>Can't be replicated or devalued by screenshots</li>
-                  <li>Generates royalties every time it's resold</li>
-                  <li>Proves authentic connection to your career</li>
-                  <li>Can grant ongoing access and benefits</li>
-                </ul>
-              </div>
+              <Card className="border-l-4 border-l-primary shadow-sm hover:shadow-md transition-shadow">
+                <CardContent className="p-6">
+                  <h3 className="mt-0 text-lg font-bold flex items-center gap-2">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary font-bold text-sm">1</span>
+                    True Digital Ownership
+                  </h3>
+                  <p className="mt-4">
+                    NFTs aren't just JPEGs. They're programmable proof of authenticity and ownership. When you create an NFT of a historic game moment, training session, or exclusive content, you're creating a digital asset that:
+                  </p>
+                  <ul className="mt-4 space-y-2">
+                    <li>• Can't be replicated or devalued by screenshots</li>
+                    <li>• Generates royalties every time it's resold</li>
+                    <li>• Proves authentic connection to your career</li>
+                    <li>• Can grant ongoing access and benefits</li>
+                  </ul>
+                </CardContent>
+              </Card>
 
-              <div>
-                <h3 className="text-xl font-semibold">2. Community-Driven Value Creation</h3>
-                <p className="mt-2">
-                  Tokens align incentives. When your community holds tokens tied to your brand or achievements:
-                </p>
-                <ul className="mt-2">
-                  <li>They benefit when you succeed</li>
-                  <li>They're incentivized to promote and support you</li>
-                  <li>They can participate in decisions about community direction</li>
-                  <li>Early supporters are rewarded for their belief in you</li>
-                </ul>
-              </div>
+              <Card className="border-l-4 border-l-primary shadow-sm hover:shadow-md transition-shadow">
+                <CardContent className="p-6">
+                  <h3 className="mt-0 text-lg font-bold flex items-center gap-2">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary font-bold text-sm">2</span>
+                    Community-Driven Value Creation
+                  </h3>
+                  <p className="mt-4">
+                    Tokens align incentives. When your community holds tokens tied to your brand or achievements:
+                  </p>
+                  <ul className="mt-4 space-y-2">
+                    <li>• They benefit when you succeed</li>
+                    <li>• They're incentivized to promote and support you</li>
+                    <li>• They can participate in decisions about community direction</li>
+                    <li>• Early supporters are rewarded for their belief in you</li>
+                  </ul>
+                </CardContent>
+              </Card>
 
-              <div>
-                <h3 className="text-xl font-semibold">3. Disintermediation = Higher Margins</h3>
-                <p className="mt-2">
-                  Traditional sponsorship and merchandise deals involve multiple middlemen:
-                </p>
-                <ul className="mt-2">
-                  <li>Agencies (15-30% cut)</li>
-                  <li>Platforms (30-50% cut)</li>
-                  <li>Payment processors (2-5% cut)</li>
-                  <li>Retailers (40-60% cut for merchandise)</li>
-                </ul>
-                <p className="mt-2">
-                  Web3 enables direct fan-to-athlete transactions with minimal fees (typically 2-5% on NFT platforms), meaning you keep 90%+ of revenue.
-                </p>
-              </div>
+              <Card className="border-l-4 border-l-primary shadow-sm hover:shadow-md transition-shadow">
+                <CardContent className="p-6">
+                  <h3 className="mt-0 text-lg font-bold flex items-center gap-2">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary font-bold text-sm">3</span>
+                    Disintermediation = Higher Margins
+                  </h3>
+                  <p className="mt-4">Traditional sponsorship and merchandise deals involve multiple middlemen:</p>
+                  <div className="mt-4 overflow-hidden rounded-lg border border-border">
+                    <table className="w-full text-sm">
+                      <thead className="bg-muted/50 text-left">
+                        <tr>
+                          <th className="p-3 font-semibold">Middleman</th>
+                          <th className="p-3 font-semibold">Cut</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-t border-border">
+                          <td className="p-3">Agencies</td>
+                          <td className="p-3">15-30%</td>
+                        </tr>
+                        <tr className="border-t border-border">
+                          <td className="p-3">Platforms</td>
+                          <td className="p-3">30-50%</td>
+                        </tr>
+                        <tr className="border-t border-border">
+                          <td className="p-3">Payment processors</td>
+                          <td className="p-3">2-5%</td>
+                        </tr>
+                        <tr className="border-t border-border">
+                          <td className="p-3">Retailers (merchandise)</td>
+                          <td className="p-3">40-60%</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <p className="mt-4">
+                    <strong>Web3 enables direct fan-to-athlete transactions with minimal fees (2-5%), meaning you keep 90%+ of revenue.</strong>
+                  </p>
+                </CardContent>
+              </Card>
 
-              <div>
-                <h3 className="text-xl font-semibold">4. Career Insurance and Longevity</h3>
-                <p className="mt-2">
-                  Athletic careers are short. Injuries happen. Performance declines. Web3 lets you build equity that outlasts your playing days. Your community and brand can generate value long after you retire, through:
-                </p>
-                <ul className="mt-2">
-                  <li>Ongoing NFT royalties from historic moments</li>
-                  <li>Community governance and participation</li>
-                  <li>Exclusive access and experiences</li>
-                  <li>Digital legacy preservation</li>
-                </ul>
-              </div>
+              <Card className="border-l-4 border-l-primary shadow-sm hover:shadow-md transition-shadow">
+                <CardContent className="p-6">
+                  <h3 className="mt-0 text-lg font-bold flex items-center gap-2">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary font-bold text-sm">4</span>
+                    Career Insurance and Longevity
+                  </h3>
+                  <p className="mt-4">
+                    Athletic careers are short. Injuries happen. Performance declines. Web3 lets you build equity that outlasts your playing days. Your community and brand can generate value long after you retire, through:
+                  </p>
+                  <ul className="mt-4 space-y-2">
+                    <li>• Ongoing NFT royalties from historic moments</li>
+                    <li>• Community governance and participation</li>
+                    <li>• Exclusive access and experiences</li>
+                    <li>• Digital legacy preservation</li>
+                  </ul>
+                </CardContent>
+              </Card>
             </div>
 
             <h2 id="framework" className="mt-10 text-2xl font-bold scroll-mt-24">The 3-Layer Web3 Community Framework</h2>
@@ -357,6 +398,40 @@ export default function Web3ForAthletes() {
               </div>
             </div>
 
+            <h2 id="examples" className="mt-10 text-2xl font-bold scroll-mt-24">Real Examples: Athletes Winning in Web3</h2>
+            
+            <div className="space-y-4 mt-6">
+              <div className="rounded-lg border border-border bg-card p-5">
+                <h4 className="mb-2 font-semibold">Tom Brady - Autograph</h4>
+                <p className="text-sm mb-2">
+                  NFL legend Tom Brady co-founded Autograph, an NFT platform enabling athletes to create and sell authenticated digital collectibles directly to fans.
+                </p>
+                <p className="text-sm">
+                  <strong>Key insight:</strong> Brady understood early that his legacy value extends beyond his playing career. NFTs let him monetize historic moments perpetually through royalties.
+                </p>
+              </div>
+
+              <div className="rounded-lg border border-border bg-card p-5">
+                <h4 className="mb-2 font-semibold">Naomi Osaka - Modern Muse</h4>
+                <p className="text-sm mb-2">
+                  Tennis star Naomi Osaka launched her NFT collection with proceeds benefiting her charitable foundation, showcasing Web3's potential for social impact.
+                </p>
+                <p className="text-sm">
+                  <strong>Key insight:</strong> Web3 enables direct fundraising and community governance for causes athletes care about, cutting out traditional charity overhead.
+                </p>
+              </div>
+
+              <div className="rounded-lg border border-border bg-card p-5">
+                <h4 className="mb-2 font-semibold">Spencer Dinwiddie - Tokenized Contract</h4>
+                <p className="text-sm mb-2">
+                  NBA player Spencer Dinwiddie attempted to tokenize his contract, allowing fans to invest in his future earnings.
+                </p>
+                <p className="text-sm">
+                  <strong>Key insight:</strong> While the NBA blocked this specific implementation, it demonstrated how Web3 could democratize investment in athlete careers.
+                </p>
+              </div>
+            </div>
+
             <h2 id="getting-started" className="mt-10 text-2xl font-bold scroll-mt-24">Getting Started: Your First 90 Days</h2>
 
             <div className="space-y-6 mt-6">
@@ -400,33 +475,48 @@ export default function Web3ForAthletes() {
               </Card>
             </div>
 
-            <h2 id="mistakes" className="mt-10 text-2xl font-bold scroll-mt-24">Common Mistakes to Avoid</h2>
-            <ul className="mt-4 space-y-2">
-              <li><strong>Don't over-promise:</strong> Start with deliverable utilities and expand based on success</li>
-              <li><strong>Don't ignore your existing fans:</strong> Educate and onboard them rather than abandoning them for a new Web3 audience</li>
-              <li><strong>Don't chase quick money:</strong> Build for long-term community value, not pump-and-dump schemes</li>
-              <li><strong>Don't go it alone:</strong> Partner with Web3 experts, agencies, or platforms to guide your strategy</li>
-            </ul>
-
-            <div className="my-8 rounded-lg border-l-4 border-primary bg-muted/50 p-6">
-              <h3 className="mt-0 text-base font-semibold">💡 Final Thought</h3>
-              <p className="mb-0">
-                We're in the early innings of athlete-led Web3 communities. The athletes who build now will have first-mover advantage and deeper community relationships when mainstream adoption accelerates.
-              </p>
+            <h2 id="faq" className="mt-12 text-2xl font-bold scroll-mt-24">Frequently Asked Questions</h2>
+            <div className="space-y-4">
+              <div className="rounded-lg border border-border bg-card p-5">
+                <h4 className="mb-2 font-semibold">How is this different from just posting on social media?</h4>
+                <p className="mb-0 text-sm">
+                  Social media platforms own your audience and can change algorithms or ban you overnight. Web3 gives you direct ownership of your community relationships. Plus, your community members become stakeholders with real ownership, not just followers.
+                </p>
+              </div>
+              <div className="rounded-lg border border-border bg-card p-5">
+                <h4 className="mb-2 font-semibold">Do my fans need to understand crypto to participate?</h4>
+                <p className="mb-0 text-sm">
+                  No. Modern Web3 platforms abstract away complexity. Fans can participate with credit cards and email addresses. You educate them gradually as they engage more deeply with your community.
+                </p>
+              </div>
+              <div className="rounded-lg border border-border bg-card p-5">
+                <h4 className="mb-2 font-semibold">How much does it cost to get started?</h4>
+                <p className="mb-0 text-sm">
+                  You can start with minimal investment. Many NFT platforms charge only gas fees (a few dollars) to mint. Some platforms like Zora or Base offer gasless minting. The bigger investment is time to understand the space and build authentic community value.
+                </p>
+              </div>
+              <div className="rounded-lg border border-border bg-card p-5">
+                <h4 className="mb-2 font-semibold">What if the market crashes or NFTs lose popularity?</h4>
+                <p className="mb-0 text-sm">
+                  The underlying technology (blockchain, smart contracts, digital ownership) isn't going away. Even if NFT hype cycles fade, the core value proposition—direct community ownership and disintermediation—remains powerful. Build for community value, not speculation.
+                </p>
+              </div>
             </div>
 
-            <p className="mt-6">
-              This isn't about replacing traditional sponsorships or social media. It's about adding a layer of direct community ownership that makes your brand more resilient and your income more diversified.
-            </p>
-            <p>
-              Start small. Learn as you build. Treat your community like co-owners, because in Web3, they are.
-            </p>
+            <div className="my-12 rounded-lg border-2 border-primary bg-primary/5 p-8 text-center">
+              <h3 className="mt-0 text-xl font-semibold">Ready to Build Your Web3 Community?</h3>
+              <p className="mb-6 text-lg">Let's discuss how you can leverage Web3 to create lasting value with your fans.</p>
+              <div className="flex flex-wrap justify-center gap-4">
+                <Button onClick={() => window.open('https://calendly.com/gabriel-mangabeira/15min', '_blank')}>
+                  Work With Me
+                </Button>
+              </div>
+            </div>
           </section>
         </article>
 
       </main>
 
-      <CTASection />
       <Footer />
     </div>
   );
