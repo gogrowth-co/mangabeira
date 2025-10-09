@@ -235,7 +235,7 @@ export default function Web3SEO() {
       <Header />
 
       <main>
-        <article className="mx-auto w-full max-w-5xl px-4 py-8 md:py-12">
+        <article className="mx-auto w-full max-w-3xl px-4 py-8 md:py-12">
           <header className="mb-8 md:mb-12">
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">{title}</h1>
             <p className="mt-4 text-lg text-muted-foreground">{description}</p>
@@ -963,8 +963,14 @@ export default function Web3SEO() {
               </Card>
             </div>
 
-            <div className="mt-10">
-              <CTASection />
+            <div className="my-12 rounded-lg border-2 border-primary bg-primary/5 p-6 text-center md:p-8">
+              <h3 className="mt-0 text-xl font-semibold">Ready to Master Web3 SEO?</h3>
+              <p className="mb-6 text-base md:text-lg">Let's discuss how to implement a hybrid SEO strategy for your Web3 project.</p>
+              <div className="flex flex-wrap justify-center gap-4">
+                <Button onClick={() => window.open('https://calendly.com/gabriel-mangabeira/15min', '_blank')}>
+                  Work With Me
+                </Button>
+              </div>
             </div>
           </section>
         </article>
