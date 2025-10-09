@@ -9,6 +9,7 @@ import Web2VsWeb3Marketing from "./pages/Web2VsWeb3Marketing";
 import Web3ForAthletes from "./pages/Web3ForAthletes";
 import Web3SEO from "./pages/Web3SEO";
 import TokenHealthScan from "./pages/TokenHealthScan";
+import About from "./pages/About";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/about" element={<About />} />
           <Route path="/publications/web2-vs-web3-marketing" element={<Web2VsWeb3Marketing />} />
           <Route path="/publications/web3-for-athletes" element={<Web3ForAthletes />} />
           <Route path="/publications/definitive-guide-web3-seo" element={<Web3SEO />} />
