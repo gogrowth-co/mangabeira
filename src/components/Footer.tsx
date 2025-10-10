@@ -25,7 +25,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           {/* Copyright and Privacy Policy */}
           <div className="text-sm text-muted-foreground text-center md:text-left max-w-2xl">
-            <div>© 2025 Gabriel Mangabeira. Built with 🚀 and powered by Lovable.</div>
+            <div>© 2025 Gabriel Mangabeira. Built with ❤️ in Florianópolis and powered by <a href="https://lovable.dev/?via=gabriel-mangabeira" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Lovable</a>.</div>
             <div className="mt-1">
               <a 
                 href="/privacy-policy" 
