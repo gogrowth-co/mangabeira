@@ -35,7 +35,7 @@ const Footer = () => {
               </a>
             </div>
             <div className="mt-2 text-xs opacity-75">
-              All insights shared here are based on independent research and public sources. They do not represent the strategies, data, or opinions of any employer or client.
+              The perspectives and frameworks shared here are my own, developed from hands-on experience and public-domain research. They do not disclose or represent the proprietary work of any employer or client.
             </div>
           </div>
 
