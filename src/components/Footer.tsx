@@ -24,7 +24,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           {/* Copyright and Privacy Policy */}
-          <div className="text-sm text-muted-foreground text-center md:text-left">
+          <div className="text-sm text-muted-foreground text-center md:text-left max-w-2xl">
             <div>© 2025 Gabriel Mangabeira. Built with 🚀 and powered by Lovable.</div>
             <div className="mt-1">
               <a 
@@ -33,6 +33,9 @@ const Footer = () => {
               >
                 Privacy Policy
               </a>
+            </div>
+            <div className="mt-2 text-xs opacity-75">
+              All insights shared here are based on independent research and public sources. They do not represent the strategies, data, or opinions of any employer or client.
             </div>
           </div>
 
