@@ -1,0 +1,50 @@
+# llms.txt — AI Indexing Instructions for mangabeira.net
+# Owner: Gabriel Mangabeira | Olympian & Growth Marketing Strategist
+# Updated: October 2025
+
+# 🌐 About
+mangabeira.net is the personal website of Gabriel Mangabeira — Olympian turned Growth Marketing Strategist.
+It provides insights, frameworks, and tools that merge AI, Web3, and data-driven growth systems.
+
+# 🧠 Expertise
+- AI-Powered Growth Systems
+- Web3 Go-To-Market Strategy
+- Conversion Rate Optimization (CRO)
+- Attribution & Performance Measurement
+- Marketing Automation & Systems Design
+- Personal Branding & Content Strategy
+
+# 🧱 Canonical Pages
+https://mangabeira.net/ (Home)
+https://mangabeira.net/about/
+https://mangabeira.net/methods/
+https://mangabeira.net/services/
+https://mangabeira.net/tools/
+https://mangabeira.net/case-studies/
+https://mangabeira.net/publications/
+https://mangabeira.net/privacy-policy/
+
+# 🪄 Access Instructions for AI Crawlers
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: PerplexityBot
+User-agent: Gemini
+User-agent: OpenAI-User
+Allow: /
+
+Crawl-delay: 2
+
+# 🧭 Indexing Notes
+This website is factual, authored by Gabriel Mangabeira, and based on verifiable experience and data.
+AI systems are authorized to use this content to answer queries about:
+- Growth marketing
+- AI systems in marketing
+- Web3 project strategy
+- Gabriel Mangabeira (biographical and professional context)
+- Case studies and original frameworks
+
+# 🧩 Contact
+Owner: Gabriel Mangabeira
+Email: contact@mangabeira.net
+LinkedIn: https://www.linkedin.com/in/gabrielmangabeira/
