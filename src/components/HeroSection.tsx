@@ -3,20 +3,30 @@ import { Medal, TrendingUp, Globe } from "lucide-react";
 import olympicPoolBg from "@/assets/olympic-pool-background.png";
 import gabrielAvatar from "@/assets/gabriel-avatar.jpg";
 import { useLanguage } from "@/hooks/useLanguage";
+
 const HeroSection = () => {
   const { language } = useLanguage();
 
   const translations = {
     en: {
       subtitle: "Olympian & Growth Marketing Strategist",
+      tagline: "Turning Olympic discipline into championship-level digital growth.",
+      workWithMe: "Work With Me",
+      seeResults: "See My Results",
       imgAlt: "Gabriel Mangabeira, Olympic athlete and marketing strategist"
     },
     pt: {
       subtitle: "Atleta Olímpico & Estrategista de Growth Marketing",
+      tagline: "Transformando disciplina olímpica em crescimento digital de nível campeão.",
+      workWithMe: "Trabalhe Comigo",
+      seeResults: "Veja Meus Resultados",
       imgAlt: "Gabriel Mangabeira, atleta olímpico e estrategista de marketing"
     },
     es: {
       subtitle: "Atleta Olímpico & Estratega de Marketing de Crecimiento",
+      tagline: "Convirtiendo la disciplina olímpica en crecimiento digital de nivel campeón.",
+      workWithMe: "Trabaja Conmigo",
+      seeResults: "Ver Mis Resultados",
       imgAlt: "Gabriel Mangabeira, atleta olímpico y estratega de marketing"
     }
   };
@@ -55,7 +65,7 @@ const HeroSection = () => {
             <p className="font-body text-white/95 text-sm sm:text-lg md:text-xl mb-6 leading-relaxed animate-fade-in font-normal" style={{
             animationDelay: '0.2s',
             lineHeight: '1.7'
-          }}>Turning Olympic discipline into championship-level digital growth.</p>
+          }}>{t.tagline}</p>
             
             {/* Metrics Row - 2-row grid on mobile, single row on desktop */}
             <div className="mb-6 animate-fade-in" style={{
@@ -86,7 +96,7 @@ const HeroSection = () => {
                 className="w-full sm:w-auto px-8 py-6 font-semibold text-lg bg-gradient-to-r from-[#FF8C42] to-[#FFB020] text-white rounded-lg shadow-lg hover:shadow-[0_0_30px_rgba(255,176,32,0.6)] hover:scale-105 transition-all duration-300"
                 onClick={() => document.getElementById('capabilities')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                Work With Me
+                {t.workWithMe}
               </Button>
               <Button 
                 variant="outline" 
@@ -94,7 +104,7 @@ const HeroSection = () => {
                 className="w-full sm:w-auto px-8 py-6 text-lg bg-transparent border-2 border-white/80 text-white hover:bg-white hover:text-[#0a0f1a] hover:border-white rounded-lg transition-all duration-300 font-semibold"
                 onClick={() => document.getElementById('social-proof')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                See My Results
+                {t.seeResults}
               </Button>
             </div>
           </div>

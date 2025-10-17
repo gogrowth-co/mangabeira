@@ -6,13 +6,40 @@ import { cn } from "@/lib/utils";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useLanguage, Language } from "@/hooks/useLanguage";
 
+const translations = {
+  en: {
+    about: "About",
+    methods: "Methods",
+    caseStudies: "Case Studies",
+    tools: "Tools",
+    publications: "Publications",
+    contact: "Contact",
+  },
+  pt: {
+    about: "Sobre",
+    methods: "Métodos",
+    caseStudies: "Casos de Estudo",
+    tools: "Ferramentas",
+    publications: "Publicações",
+    contact: "Contato",
+  },
+  es: {
+    about: "Acerca de",
+    methods: "Métodos",
+    caseStudies: "Casos de Estudio",
+    tools: "Herramientas",
+    publications: "Publicaciones",
+    contact: "Contacto",
+  },
+};
+
 const navItems = [
-  { label: "About", href: "#about" },
-  { label: "Methods", href: "#methods" },
-  { label: "Case Studies", href: "#case-studies" },
-  { label: "Tools", href: "#tools" },
-  { label: "Publications", href: "#publications" },
-  { label: "Contact", href: "#contact" },
+  { key: "about", href: "#about" },
+  { key: "methods", href: "#methods" },
+  { key: "caseStudies", href: "#case-studies" },
+  { key: "tools", href: "#tools" },
+  { key: "publications", href: "#publications" },
+  { key: "contact", href: "#contact" },
 ];
 
 const Header = () => {
@@ -22,6 +49,7 @@ const Header = () => {
   const { language, setLanguage } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
+  const t = translations[language];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -115,7 +143,7 @@ const Header = () => {
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                {item.label}
+                {t[item.key as keyof typeof t]}
                 <span
                   className={cn(
                     "absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-200",
@@ -186,7 +214,7 @@ const Header = () => {
                         : "text-foreground hover:bg-muted"
                     )}
                   >
-                    {item.label}
+                    {t[item.key as keyof typeof t]}
                   </button>
                 ))}
               </nav>
