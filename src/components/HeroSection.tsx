@@ -24,8 +24,8 @@ const HeroSection = () => {
           <div className="order-2 lg:order-1 text-center lg:text-left max-w-[720px]">
             {/* Main Headline - Name */}
             <h1 className="text-white mb-4 leading-tight animate-fade-in text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight">
-              <span className="font-accent font-bold">Gabriel</span>{" "}
-              <span className="font-accent font-extrabold">Mangabeira</span>
+              <span className="font-accent font-bold">{t('hero.name').split(' ')[0]}</span>{" "}
+              <span className="font-accent font-extrabold">{t('hero.name').split(' ')[1]}</span>
             </h1>
             
             {/* Subtitle */}
@@ -48,15 +48,15 @@ const HeroSection = () => {
               <div className="grid grid-cols-2 sm:flex sm:flex-row items-center lg:items-start lg:justify-start justify-center gap-3 sm:gap-4 text-white">
                 <div className="flex items-center gap-1.5 sm:gap-2 px-3.5 py-2.5 sm:px-5 sm:py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
                   <Medal size={18} strokeWidth={2} className="flex-shrink-0 text-[#FFB400] sm:w-6 sm:h-6" />
-                  <span className="font-body font-medium whitespace-nowrap text-[11px] sm:text-base"><span className="font-bold">1M+</span> SEO Readers</span>
+                  <span className="font-body font-medium whitespace-nowrap text-[11px] sm:text-base">{t('hero.metrics.seoReaders')}</span>
                 </div>
                 <div className="flex items-center gap-1.5 sm:gap-2 px-3.5 py-2.5 sm:px-5 sm:py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
                   <Globe size={18} strokeWidth={2} className="flex-shrink-0 text-[#FFB400] sm:w-6 sm:h-6" />
-                  <span className="font-body font-medium whitespace-nowrap text-[11px] sm:text-base"><span className="font-bold">$3.3M+</span> Raised</span>
+                  <span className="font-body font-medium whitespace-nowrap text-[11px] sm:text-base">{t('hero.metrics.raised')}</span>
                 </div>
                 <div className="flex items-center gap-1.5 sm:gap-2 px-3.5 py-2.5 sm:px-5 sm:py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300 col-span-2 sm:col-span-1 justify-center sm:justify-start">
                   <TrendingUp size={18} strokeWidth={2} className="flex-shrink-0 text-[#FFB400] sm:w-6 sm:h-6" />
-                  <span className="font-body font-medium whitespace-nowrap text-[11px] sm:text-base"><span className="font-bold">Millions</span> Managed</span>
+                  <span className="font-body font-medium whitespace-nowrap text-[11px] sm:text-base">{t('hero.metrics.adSpend')}</span>
                 </div>
               </div>
             </div>
@@ -70,7 +70,7 @@ const HeroSection = () => {
                 className="w-full sm:w-auto px-8 py-6 font-semibold text-lg bg-gradient-to-r from-[#FF8C42] to-[#FFB020] text-white rounded-lg shadow-lg hover:shadow-[0_0_30px_rgba(255,176,32,0.6)] hover:scale-105 transition-all duration-300"
                 onClick={() => document.getElementById('capabilities')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                Work With Me
+                {t('hero.cta.workWithMe')}
               </Button>
               <Button 
                 variant="outline" 
@@ -78,7 +78,7 @@ const HeroSection = () => {
                 className="w-full sm:w-auto px-8 py-6 text-lg bg-transparent border-2 border-white/80 text-white hover:bg-white hover:text-[#0a0f1a] hover:border-white rounded-lg transition-all duration-300 font-semibold"
                 onClick={() => document.getElementById('social-proof')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                See My Results
+                {t('hero.cta.seeResults')}
               </Button>
             </div>
           </div>
@@ -86,7 +86,7 @@ const HeroSection = () => {
           {/* Headshot - Right Side Desktop, Top on Mobile */}
           <div className="order-1 lg:order-2 animate-fade-in">
             <div className="relative w-36 h-36 sm:w-52 sm:h-52 lg:w-80 lg:h-80 rounded-full overflow-hidden ring-2 ring-[#FF8C42] shadow-[0_12px_48px_rgba(0,0,0,0.5),_0_0_32px_rgba(255,140,66,0.2)] hover:shadow-[0_16px_64px_rgba(0,0,0,0.6),_0_0_48px_rgba(255,140,66,0.3)] transition-all duration-300">
-              <img src={gabrielAvatar} alt={t('hero.image.alt')} className="w-full h-full object-cover object-center" />
+              <img src={gabrielAvatar} alt={t('hero.image.alt')} title={t('hero.image.title')} className="w-full h-full object-cover object-center" />
             </div>
           </div>
         </div>

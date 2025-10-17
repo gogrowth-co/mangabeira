@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { MessageCircle, X, Send, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from '@/hooks/useTranslation';
 
 type Message = {
   role: "user" | "assistant";
@@ -11,6 +12,7 @@ type Message = {
 };
 
 const ChatWithMyAI = () => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -175,7 +177,7 @@ const ChatWithMyAI = () => {
         >
           <MessageCircle className="h-6 w-6" />
           <span className="absolute bottom-full mb-2 right-0 bg-popover text-popover-foreground px-3 py-1 rounded-lg text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity shadow-md">
-            Chat with my AI
+            {t('chat.bubble')}
           </span>
         </button>
       )}
@@ -186,9 +188,9 @@ const ChatWithMyAI = () => {
           {/* Header */}
           <div className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground p-4 flex items-center justify-between">
             <div>
-              <h3 className="font-hero font-bold text-lg">Chat with my AI</h3>
+              <h3 className="font-hero font-bold text-lg">{t('chat.title')}</h3>
               <p className="text-xs text-primary-foreground/80 mt-0.5">
-                Ask about my journey, services, case studies, or Web3 growth.
+                {t('chat.subtitle')}
               </p>
             </div>
             <Button
@@ -206,8 +208,8 @@ const ChatWithMyAI = () => {
             {messages.length === 0 && (
               <div className="text-center text-muted-foreground text-sm py-8">
                 <MessageCircle className="h-12 w-12 mx-auto mb-3 opacity-50" />
-                <p>Ask me anything about Gabriel's journey,</p>
-                <p>services, or Web3 expertise!</p>
+                <p>{t('chat.emptyLine1')}</p>
+                <p>{t('chat.emptyLine2')}</p>
               </div>
             )}
             
@@ -236,7 +238,7 @@ const ChatWithMyAI = () => {
               <div className="flex justify-start">
                 <div className="bg-muted text-foreground rounded-2xl px-4 py-2 text-sm flex items-center gap-2">
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  <span>Thinking...</span>
+                  <span>{t('chat.thinking')}</span>
                 </div>
               </div>
             )}
@@ -253,7 +255,7 @@ const ChatWithMyAI = () => {
                 className="text-xs h-7"
                 onClick={() => handleQuickAction("book", "/#contact")}
               >
-                Book a call
+                {t('chat.quickActions.book')}
               </Button>
               <Button
                 size="sm"
@@ -261,7 +263,7 @@ const ChatWithMyAI = () => {
                 className="text-xs h-7"
                 onClick={() => handleQuickAction("cases", "/#case-studies")}
               >
-                Case studies
+                {t('chat.quickActions.cases')}
               </Button>
               <Button
                 size="sm"
@@ -269,7 +271,7 @@ const ChatWithMyAI = () => {
                 className="text-xs h-7"
                 onClick={() => handleQuickAction("tools", "/#tools")}
               >
-                My tools
+                {t('chat.quickActions.tools')}
               </Button>
               <Button
                 size="sm"
@@ -277,7 +279,7 @@ const ChatWithMyAI = () => {
                 className="text-xs h-7"
                 onClick={() => handleQuickAction("pubs", "/#publications")}
               >
-                Publications
+                {t('chat.quickActions.publications')}
               </Button>
             </div>
           </div>
@@ -289,7 +291,7 @@ const ChatWithMyAI = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Type your message..."
+                placeholder={t('chat.placeholder')}
                 disabled={isLoading}
                 className="flex-1"
               />
@@ -303,7 +305,7 @@ const ChatWithMyAI = () => {
               </Button>
             </div>
             <p className="text-xs text-muted-foreground mt-2 text-center">
-              AI-generated. May be imperfect.
+              {t('chat.disclaimer')}
             </p>
           </div>
         </div>

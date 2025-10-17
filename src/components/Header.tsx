@@ -5,20 +5,7 @@ import { Menu, X, ArrowRight, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useLanguage, Language } from "@/hooks/useLanguage";
-
-const translations = {
-  en: { about: "About" },
-  pt: { about: "Sobre" },
-  es: { about: "Acerca de" },
-};
-
-const staticLabels = {
-  methods: "Methods",
-  caseStudies: "Case Studies",
-  tools: "Tools",
-  publications: "Publications",
-  contact: "Contact",
-} as const;
+import { useTranslation } from '@/hooks/useTranslation';
 
 const languageLabels: Record<Language, string> = {
   en: "EN",
@@ -39,14 +26,10 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { language, setLanguage } = useLanguage();
+  const { t, language } = useTranslation();
+  const { setLanguage } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
-  
-  const getLabel = (key: string) => {
-    if (key === "about") return translations[language].about;
-    return staticLabels[key as keyof typeof staticLabels];
-  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -140,7 +123,7 @@ const Header = () => {
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                {getLabel(item.key)}
+                {t(`nav.${item.key}`)}
                 <span
                   className={cn(
                     "absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-200",
@@ -178,7 +161,7 @@ const Header = () => {
             className="hidden md:flex bg-gradient-cta text-white hover:brightness-110 transition-all"
             onClick={() => window.open('https://calendly.com/gabriel-mangabeira/15min', '_blank')}
           >
-            Work With Me
+            {t('nav.workWithMe')}
             <ArrowRight className="ml-1 h-4 w-4" />
           </Button>
 
@@ -211,7 +194,7 @@ const Header = () => {
                         : "text-foreground hover:bg-muted"
                     )}
                   >
-                    {getLabel(item.key)}
+                    {t(`nav.${item.key}`)}
                   </button>
                 ))}
               </nav>
@@ -246,7 +229,7 @@ const Header = () => {
                   className="w-full bg-gradient-cta text-white hover:brightness-110"
                   onClick={() => window.open('https://calendly.com/gabriel-mangabeira/15min', '_blank')}
                 >
-                  Work With Me
+                  {t('nav.workWithMe')}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </div>
