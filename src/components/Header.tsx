@@ -7,30 +7,23 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useLanguage, Language } from "@/hooks/useLanguage";
 
 const translations = {
-  en: {
-    about: "About",
-    methods: "Methods",
-    caseStudies: "Case Studies",
-    tools: "Tools",
-    publications: "Publications",
-    contact: "Contact",
-  },
-  pt: {
-    about: "Sobre",
-    methods: "Métodos",
-    caseStudies: "Casos de Estudo",
-    tools: "Ferramentas",
-    publications: "Publicações",
-    contact: "Contato",
-  },
-  es: {
-    about: "Acerca de",
-    methods: "Métodos",
-    caseStudies: "Casos de Estudio",
-    tools: "Herramientas",
-    publications: "Publicaciones",
-    contact: "Contacto",
-  },
+  en: { about: "About" },
+  pt: { about: "Sobre" },
+  es: { about: "Acerca de" },
+};
+
+const staticLabels = {
+  methods: "Methods",
+  caseStudies: "Case Studies",
+  tools: "Tools",
+  publications: "Publications",
+  contact: "Contact",
+} as const;
+
+const languageLabels: Record<Language, string> = {
+  en: "EN",
+  pt: "BR",
+  es: "ES",
 };
 
 const navItems = [
@@ -49,7 +42,11 @@ const Header = () => {
   const { language, setLanguage } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
-  const t = translations[language];
+  
+  const getLabel = (key: string) => {
+    if (key === "about") return translations[language].about;
+    return staticLabels[key as keyof typeof staticLabels];
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -143,7 +140,7 @@ const Header = () => {
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                {t[item.key as keyof typeof t]}
+                {getLabel(item.key)}
                 <span
                   className={cn(
                     "absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-200",
@@ -168,7 +165,7 @@ const Header = () => {
                         : "text-muted-foreground hover:text-foreground hover:bg-muted"
                     )}
                   >
-                    {lang.toUpperCase()}
+                    {languageLabels[lang]}
                   </button>
                 ))}
               </div>
@@ -214,7 +211,7 @@ const Header = () => {
                         : "text-foreground hover:bg-muted"
                     )}
                   >
-                    {t[item.key as keyof typeof t]}
+                    {getLabel(item.key)}
                   </button>
                 ))}
               </nav>
@@ -237,7 +234,7 @@ const Header = () => {
                           : "bg-muted text-muted-foreground hover:bg-muted/80"
                       )}
                     >
-                      {lang.toUpperCase()}
+                      {languageLabels[lang]}
                     </button>
                   ))}
                 </div>
