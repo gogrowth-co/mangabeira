@@ -2,16 +2,29 @@ import { Medal, Zap, TrendingUp, Globe } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import gabrielProfessional from "@/assets/gabriel-professional-new.webp";
-import { useTranslation } from '@/hooks/useTranslation';
 
 const AboutSection = () => {
-  const { t } = useTranslation();
-
   const authoritySignals = [
-    { Icon: Medal },
-    { Icon: Zap },
-    { Icon: TrendingUp },
-    { Icon: Globe },
+    {
+      Icon: Medal,
+      title: "2x Olympian",
+      description: "Represented Brazil on the world stage.",
+    },
+    {
+      Icon: Zap,
+      title: "From Olympic Pools to Digital Growth",
+      description: "Applied Olympic discipline to accelerate measurable digital growth.",
+    },
+    {
+      Icon: TrendingUp,
+      title: "Marketing Leader",
+      description: "Drove growth for global brands including Binance and Coca-Cola.",
+    },
+    {
+      Icon: Globe,
+      title: "Global Citizen",
+      description: "Campaigns across 3 languages: English, Portuguese, and Spanish.",
+    },
   ];
 
   return (
@@ -23,10 +36,10 @@ const AboutSection = () => {
         {/* Section Header */}
         <div className="text-center mb-8 lg:mb-10">
           <h2 className="font-hero font-bold text-[#0B1B2B] mb-2" style={{ fontSize: 'clamp(28px, 3vw, 36px)' }}>
-            {t('about.title')}
+            My Story
           </h2>
           <p className="text-[#5B6B7C] font-medium text-base md:text-lg max-w-3xl mx-auto">
-            {t('about.subtitle')}
+            From Olympic discipline to digital growth — a journey of focus, performance, and measurable impact.
           </p>
         </div>
 
@@ -38,8 +51,7 @@ const AboutSection = () => {
               <div className="w-72 h-72 md:w-80 md:h-80 lg:w-[360px] lg:h-[360px] rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-gray-light to-white-soft animate-fade-in">
                 <img
                   src={gabrielProfessional}
-                  alt={t('about.image.alt')}
-                  title={t('about.image.title')}
+                  alt="Gabriel Mangabeira - Olympic athlete turned digital strategist"
                   className="w-full h-full object-cover object-center transform transition-transform duration-700 hover:scale-105"
                 />
               </div>
@@ -53,10 +65,10 @@ const AboutSection = () => {
             {/* Narrative */}
             <div className="text-base md:text-lg font-body mb-6 animate-fade-in" style={{ lineHeight: '1.6em', maxWidth: '65ch', color: '#4A4A4A' }}>
               <p className="mb-5">
-                {t('about.paragraph1')}
+                I grew up in the water, chasing hundredths of a second. That pursuit of excellence took me to the Olympics, where I learned that discipline, resilience, and focus are everything.
               </p>
               <p>
-                {t('about.paragraph2')}
+                When I transitioned from the pool to the world of digital marketing, I carried those same principles with me — only now, instead of chasing medals, I help businesses chase <strong style={{ color: '#1A202C' }}>measurable growth</strong>.
               </p>
             </div>
 
@@ -81,10 +93,10 @@ const AboutSection = () => {
                     </div>
                     <div className="flex-1">
                       <h3 className="font-hero font-semibold text-foreground text-sm mb-0.5 group-hover:text-gold-olympic transition-colors duration-300">
-                        {t(`about.signals.${index === 0 ? 'olympian' : index === 1 ? 'transition' : index === 2 ? 'marketing' : 'global'}.title`)}
+                        {signal.title}
                       </h3>
-                      <p className="text-xs text-foreground/70 leading-relaxed">
-                        {t(`about.signals.${index === 0 ? 'olympian' : index === 1 ? 'transition' : index === 2 ? 'marketing' : 'global'}.description`)}
+                      <p className="text-xs text-muted-foreground leading-relaxed">
+                        {signal.description}
                       </p>
                     </div>
                   </div>
@@ -111,7 +123,7 @@ const AboutSection = () => {
                 }}
                 onClick={() => window.location.href = '/about'}
               >
-                {t('about.cta')}
+                Read My Full Story
                 <span className="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>
               </Button>
             </div>

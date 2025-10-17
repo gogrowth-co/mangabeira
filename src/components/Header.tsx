@@ -1,33 +1,23 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, X, ArrowRight, Globe } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useLanguage, Language } from "@/hooks/useLanguage";
-import { useTranslation } from '@/hooks/useTranslation';
-
-const languageLabels: Record<Language, string> = {
-  en: "EN",
-  pt: "BR",
-  es: "ES",
-};
 
 const navItems = [
-  { key: "about", href: "#about" },
-  { key: "methods", href: "#methods" },
-  { key: "caseStudies", href: "#case-studies" },
-  { key: "tools", href: "#tools" },
-  { key: "publications", href: "#publications" },
-  { key: "contact", href: "#contact" },
+  { label: "About", href: "#about" },
+  { label: "Methods", href: "#methods" },
+  { label: "Case Studies", href: "#case-studies" },
+  { label: "Tools", href: "#tools" },
+  { label: "Publications", href: "#publications" },
+  { label: "Contact", href: "#contact" },
 ];
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { t, language } = useTranslation();
-  const { setLanguage } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -123,7 +113,7 @@ const Header = () => {
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                {t(`nav.${item.key}`)}
+                {item.label}
                 <span
                   className={cn(
                     "absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-200",
@@ -132,27 +122,6 @@ const Header = () => {
                 />
               </button>
             ))}
-            
-            {/* Language Switcher */}
-            <div className="flex items-center gap-2 ml-2 pl-2 border-l border-border">
-              <Globe className="h-4 w-4 text-muted-foreground" />
-              <div className="flex gap-1">
-                {(["en", "pt", "es"] as Language[]).map((lang) => (
-                  <button
-                    key={lang}
-                    onClick={() => setLanguage(lang)}
-                    className={cn(
-                      "px-2 py-1 text-xs font-medium rounded transition-all",
-                      language === lang
-                        ? "bg-primary text-primary-foreground"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                    )}
-                  >
-                    {languageLabels[lang]}
-                  </button>
-                ))}
-              </div>
-            </div>
           </nav>
 
           {/* Desktop CTA */}
@@ -161,7 +130,7 @@ const Header = () => {
             className="hidden md:flex bg-gradient-cta text-white hover:brightness-110 transition-all"
             onClick={() => window.open('https://calendly.com/gabriel-mangabeira/15min', '_blank')}
           >
-            {t('nav.workWithMe')}
+            Work With Me
             <ArrowRight className="ml-1 h-4 w-4" />
           </Button>
 
@@ -194,34 +163,10 @@ const Header = () => {
                         : "text-foreground hover:bg-muted"
                     )}
                   >
-                    {t(`nav.${item.key}`)}
+                    {item.label}
                   </button>
                 ))}
               </nav>
-
-              {/* Language Switcher - Mobile */}
-              <div className="px-4 py-4 border-t border-border mt-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <Globe className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm font-medium text-muted-foreground">Language</span>
-                </div>
-                <div className="flex gap-2">
-                  {(["en", "pt", "es"] as Language[]).map((lang) => (
-                    <button
-                      key={lang}
-                      onClick={() => setLanguage(lang)}
-                      className={cn(
-                        "flex-1 px-3 py-2 text-sm font-medium rounded-lg transition-all",
-                        language === lang
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-muted text-muted-foreground hover:bg-muted/80"
-                      )}
-                    >
-                      {languageLabels[lang]}
-                    </button>
-                  ))}
-                </div>
-              </div>
 
               {/* Mobile CTA */}
               <div className="mt-auto pb-6">
@@ -229,7 +174,7 @@ const Header = () => {
                   className="w-full bg-gradient-cta text-white hover:brightness-110"
                   onClick={() => window.open('https://calendly.com/gabriel-mangabeira/15min', '_blank')}
                 >
-                  {t('nav.workWithMe')}
+                  Work With Me
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </div>
