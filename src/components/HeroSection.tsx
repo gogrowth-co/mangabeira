@@ -2,7 +2,27 @@ import { Button } from "@/components/ui/button";
 import { Medal, TrendingUp, Globe } from "lucide-react";
 import olympicPoolBg from "@/assets/olympic-pool-background.png";
 import gabrielAvatar from "@/assets/gabriel-avatar.jpg";
+import { useLanguage } from "@/hooks/useLanguage";
 const HeroSection = () => {
+  const { language } = useLanguage();
+
+  const translations = {
+    en: {
+      subtitle: "Olympian & Growth Marketing Strategist",
+      imgAlt: "Gabriel Mangabeira, Olympic athlete and marketing strategist"
+    },
+    pt: {
+      subtitle: "Atleta Olímpico & Estrategista de Growth Marketing",
+      imgAlt: "Gabriel Mangabeira, atleta olímpico e estrategista de marketing"
+    },
+    es: {
+      subtitle: "Atleta Olímpico & Estratega de Marketing de Crecimiento",
+      imgAlt: "Gabriel Mangabeira, atleta olímpico y estratega de marketing"
+    }
+  };
+
+  const t = translations[language];
+
   return <section id="top" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image - Olympic Pool */}
       <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{
@@ -28,7 +48,7 @@ const HeroSection = () => {
             <h2 className="font-body font-semibold text-[#CCCCCC] mb-5 animate-fade-in text-lg sm:text-2xl md:text-3xl leading-snug" style={{
             animationDelay: '0.1s'
           }}>
-              Olympian & Growth Strategist
+              {t.subtitle}
             </h2>
             
             {/* Tagline */}
@@ -82,7 +102,7 @@ const HeroSection = () => {
           {/* Headshot - Right Side Desktop, Top on Mobile */}
           <div className="order-1 lg:order-2 animate-fade-in">
             <div className="relative w-36 h-36 sm:w-52 sm:h-52 lg:w-80 lg:h-80 rounded-full overflow-hidden ring-2 ring-[#FF8C42] shadow-[0_12px_48px_rgba(0,0,0,0.5),_0_0_32px_rgba(255,140,66,0.2)] hover:shadow-[0_16px_64px_rgba(0,0,0,0.6),_0_0_48px_rgba(255,140,66,0.3)] transition-all duration-300">
-              <img src={gabrielAvatar} alt="Gabriel Mangabeira - Olympian and Growth Marketing Strategist headshot" className="w-full h-full object-cover object-center" />
+              <img src={gabrielAvatar} alt={t.imgAlt} className="w-full h-full object-cover object-center" />
             </div>
           </div>
         </div>
