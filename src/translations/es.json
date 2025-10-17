@@ -1,0 +1,88 @@
+{
+  "nav": {
+    "about": "Acerca de",
+    "methods": "Métodos",
+    "caseStudies": "Casos de Estudio",
+    "tools": "Herramientas",
+    "publications": "Publicaciones",
+    "contact": "Contacto"
+  },
+  "hero": {
+    "name": "Gabriel Mangabeira",
+    "subtitle": "Atleta Olímpico & Estratega de Marketing de Crecimiento",
+    "tagline": "Transformando la disciplina olímpica en crecimiento digital de nivel campeonato.",
+    "metrics": {
+      "seoReaders": "Lectores SEO",
+      "raised": "Recaudado",
+      "managed": "Gestionado"
+    },
+    "cta": {
+      "workWithMe": "Trabaja Conmigo",
+      "seeResults": "Ver Mis Resultados"
+    },
+    "image": {
+      "alt": "Gabriel Mangabeira, atleta olímpico y estratega de marketing",
+      "title": "Gabriel Mangabeira - Foto Profesional"
+    }
+  },
+  "socialProof": {
+    "title": "Crecimiento Comprobado en Acción",
+    "subtitle": "De la disciplina olímpica al impacto digital, confiado por el COI, Coca-Cola y Binance.",
+    "stats": {
+      "olympian": {
+        "label": "2x Olímpico",
+        "subtitle": "Disciplina, enfoque y resiliencia."
+      },
+      "raised": {
+        "label": "$6M+ Recaudados",
+        "subtitle": "Crowdfunding y lanzamientos DTC."
+      },
+      "readers": {
+        "label": "1M+ Lectores SEO",
+        "subtitle": "Audiencias escaladas en LATAM."
+      },
+      "adSpend": {
+        "label": "$1M+ en Publicidad Gestionada",
+        "subtitle": "Campañas de alto rendimiento."
+      }
+    }
+  },
+  "about": {
+    "title": "Mi Historia",
+    "subtitle": "De la disciplina olímpica al crecimiento digital — un viaje de enfoque, rendimiento e impacto medible.",
+    "paragraph1": "Crecí en el agua, persiguiendo centésimas de segundo. Esa búsqueda de la excelencia me llevó a los Juegos Olímpicos, donde aprendí que la disciplina, la resiliencia y el enfoque lo son todo.",
+    "paragraph2": "Cuando hice la transición de la piscina al mundo del marketing digital, llevé esos mismos principios conmigo — solo que ahora, en lugar de perseguir medallas, ayudo a las empresas a perseguir crecimiento medible.",
+    "signals": {
+      "olympian": {
+        "title": "2x Olímpico",
+        "description": "Representó a Brasil en el escenario mundial."
+      },
+      "transition": {
+        "title": "De las Piscinas Olímpicas al Crecimiento Digital",
+        "description": "Aplicó disciplina olímpica para acelerar el crecimiento digital medible."
+      },
+      "marketing": {
+        "title": "Líder de Marketing",
+        "description": "Impulsó el crecimiento para marcas globales como Binance y Coca-Cola."
+      },
+      "global": {
+        "title": "Ciudadano Global",
+        "description": "Campañas en 3 idiomas: inglés, portugués y español."
+      }
+    },
+    "cta": "Lee Mi Historia Completa",
+    "image": {
+      "alt": "Gabriel Mangabeira - Atleta olímpico convertido en estratega digital"
+    }
+  },
+  "footer": {
+    "copyright": "Hecho con ❤️ en Florianópolis y desarrollado por",
+    "privacyPolicy": "Política de Privacidad",
+    "disclaimer": "Las perspectivas y marcos compartidos aquí son míos, desarrollados a partir de experiencia práctica e investigación de dominio público. No divulgan ni representan el trabajo propietario de ningún empleador o cliente."
+  },
+  "meta": {
+    "siteTitle": "Gabriel Mangabeira - Atleta Olímpico & Estratega de Marketing de Crecimiento",
+    "siteDescription": "Atleta olímpico convertido en estratega de marketing de crecimiento. Experto en Web3, SEO y transformación digital.",
+    "keywords": "atleta olímpico, marketing de crecimiento, Web3, SEO, estrategia digital"
+  }
+}

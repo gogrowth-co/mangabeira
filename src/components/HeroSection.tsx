@@ -2,27 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Medal, TrendingUp, Globe } from "lucide-react";
 import olympicPoolBg from "@/assets/olympic-pool-background.png";
 import gabrielAvatar from "@/assets/gabriel-avatar.jpg";
-import { useLanguage } from "@/hooks/useLanguage";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const HeroSection = () => {
-  const { language } = useLanguage();
-
-  const translations = {
-    en: {
-      subtitle: "Olympian & Growth Marketing Strategist",
-      imgAlt: "Gabriel Mangabeira, Olympic athlete and marketing strategist"
-    },
-    pt: {
-      subtitle: "Atleta Olímpico & Estrategista de Growth Marketing",
-      imgAlt: "Gabriel Mangabeira, atleta olímpico e estrategista de marketing"
-    },
-    es: {
-      subtitle: "Atleta Olímpico & Estratega de Marketing de Crecimiento",
-      imgAlt: "Gabriel Mangabeira, atleta olímpico y estratega de marketing"
-    }
-  };
-
-  const t = translations[language];
+  const { t } = useTranslation();
 
   return <section id="top" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image - Olympic Pool */}
@@ -49,14 +32,14 @@ const HeroSection = () => {
             <h2 className="font-body font-semibold text-[#CCCCCC] mb-5 animate-fade-in text-lg sm:text-2xl md:text-3xl leading-snug" style={{
             animationDelay: '0.1s'
           }}>
-              {t.subtitle}
+              {t('hero.subtitle')}
             </h2>
             
             {/* Tagline */}
             <p className="font-body text-white/95 text-sm sm:text-lg md:text-xl mb-6 leading-relaxed animate-fade-in font-normal" style={{
             animationDelay: '0.2s',
             lineHeight: '1.7'
-          }}>Turning Olympic discipline into championship-level digital growth.</p>
+          }}>{t('hero.tagline')}</p>
             
             {/* Metrics Row - 2-row grid on mobile, single row on desktop */}
             <div className="mb-6 animate-fade-in" style={{
@@ -103,7 +86,7 @@ const HeroSection = () => {
           {/* Headshot - Right Side Desktop, Top on Mobile */}
           <div className="order-1 lg:order-2 animate-fade-in">
             <div className="relative w-36 h-36 sm:w-52 sm:h-52 lg:w-80 lg:h-80 rounded-full overflow-hidden ring-2 ring-[#FF8C42] shadow-[0_12px_48px_rgba(0,0,0,0.5),_0_0_32px_rgba(255,140,66,0.2)] hover:shadow-[0_16px_64px_rgba(0,0,0,0.6),_0_0_48px_rgba(255,140,66,0.3)] transition-all duration-300">
-              <img src={gabrielAvatar} alt={t.imgAlt} className="w-full h-full object-cover object-center" />
+              <img src={gabrielAvatar} alt={t('hero.image.alt')} className="w-full h-full object-cover object-center" />
             </div>
           </div>
         </div>

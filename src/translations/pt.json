@@ -1,0 +1,344 @@
+{
+  "nav": {
+    "about": "Sobre",
+    "methods": "Métodos",
+    "caseStudies": "Casos de Estudo",
+    "tools": "Ferramentas",
+    "publications": "Publicações",
+    "contact": "Contato"
+  },
+  "hero": {
+    "name": "Gabriel Mangabeira",
+    "subtitle": "Atleta Olímpico & Estrategista de Growth Marketing",
+    "tagline": "Transformando disciplina olímpica em crescimento digital de alto nível.",
+    "metrics": {
+      "seoReaders": "Leitores SEO",
+      "raised": "Arrecadado",
+      "managed": "Gerenciado"
+    },
+    "cta": {
+      "workWithMe": "Trabalhe Comigo",
+      "seeResults": "Veja Meus Resultados"
+    },
+    "image": {
+      "alt": "Gabriel Mangabeira, atleta olímpico e estrategista de marketing",
+      "title": "Gabriel Mangabeira - Foto Profissional"
+    }
+  },
+  "socialProof": {
+    "title": "Crescimento Comprovado em Ação",
+    "subtitle": "Da disciplina olímpica ao impacto digital, confiado pelo COI, Coca-Cola e Binance.",
+    "stats": {
+      "olympian": {
+        "label": "2x Olímpico",
+        "subtitle": "Disciplina, foco e resiliência."
+      },
+      "raised": {
+        "label": "$6M+ Arrecadados",
+        "subtitle": "Crowdfunding e lançamentos DTC."
+      },
+      "readers": {
+        "label": "1M+ Leitores SEO",
+        "subtitle": "Audiências escaladas na LATAM."
+      },
+      "adSpend": {
+        "label": "$1M+ em Mídia Paga",
+        "subtitle": "Campanhas de alto desempenho."
+      }
+    }
+  },
+  "about": {
+    "title": "Minha História",
+    "subtitle": "Da disciplina olímpica ao crescimento digital — uma jornada de foco, desempenho e impacto mensurável.",
+    "paragraph1": "Cresci na água, perseguindo centésimos de segundo. Essa busca pela excelência me levou às Olimpíadas, onde aprendi que disciplina, resiliência e foco são tudo.",
+    "paragraph2": "Quando fiz a transição da piscina para o mundo do marketing digital, trouxe comigo os mesmos princípios — só que agora, em vez de perseguir medalhas, ajudo empresas a perseguir crescimento mensurável.",
+    "signals": {
+      "olympian": {
+        "title": "2x Olímpico",
+        "description": "Representou o Brasil no cenário mundial."
+      },
+      "transition": {
+        "title": "Das Piscinas Olímpicas ao Crescimento Digital",
+        "description": "Apliquei disciplina olímpica para acelerar crescimento digital mensurável."
+      },
+      "marketing": {
+        "title": "Líder de Marketing",
+        "description": "Impulsionou crescimento para marcas globais como Binance e Coca-Cola."
+      },
+      "global": {
+        "title": "Cidadão Global",
+        "description": "Campanhas em 3 idiomas: inglês, português e espanhol."
+      }
+    },
+    "cta": "Leia Minha História Completa",
+    "image": {
+      "alt": "Gabriel Mangabeira - Atleta olímpico transformado em estrategista digital"
+    }
+  },
+  "asSeenOn": {
+    "title": "Visto Em",
+    "subtitle": "Recursos e menções da mídia global."
+  },
+  "methods": {
+    "title": "Métodos Que Uso",
+    "subtitle": "Frameworks que uso para impulsionar o crescimento.",
+    "funnel": {
+      "title": "Funil de Growth Hacking de 5 Estágios",
+      "description": "Transformando usuários em clientes fiéis, passo a passo.",
+      "details": "Framework para aquisição, ativação, retenção, referência e receita.",
+      "cta": "Veja isso em ação →",
+      "image": {
+        "alt": "Funil de crescimento de 5 estágios: Aquisição, Ativação, Retenção, Referência, Receita"
+      }
+    },
+    "loops": {
+      "title": "Loops de Crescimento",
+      "description": "Projetando sistemas onde o crescimento se multiplica.",
+      "details": "Cada ação do usuário alimenta a próxima, construindo impulso.",
+      "cta": "Veja isso em ação →",
+      "image": {
+        "alt": "Loop de crescimento: Entrada → Ação → Saída, engajamento do usuário composto"
+      }
+    },
+    "media": {
+      "title": "Framework de Estratégia de Mídia",
+      "description": "Equilibrando Pago, Próprio e Conquistado.",
+      "details": "Alinhe campanhas, comunidade e ativos em um plano.",
+      "cta": "Veja isso em ação →",
+      "image": {
+        "alt": "Estratégia de mídia unificada: segmentos Pago, Próprio, Conquistado"
+      }
+    }
+  },
+  "caseStudies": {
+    "title": "Histórias de Crescimento em Destaque",
+    "subtitle": "Resultados e aprendizados das campanhas que liderei.",
+    "binance": {
+      "title": "Binance – Campanhas de Crescimento LATAM",
+      "challenge": "Entrando no mercado cripto LATAM lotado com limites regulatórios rigorosos.",
+      "approach": "Liderou campanhas de mídia paga de vários milhões de dólares, localizadas para públicos LATAM garantindo conformidade.",
+      "impact": "impressões e gastos publicitários de vários milhões gerenciados",
+      "cta": "Ver Detalhes"
+    },
+    "neilPatel": {
+      "title": "Neil Patel Brasil – SEO em Escala",
+      "challenge": "Expandindo visibilidade SEO no Brasil e LATAM em alto volume.",
+      "approach": "Construiu operação de SEO/conteúdo escalável com estratégia localizada e fluxos de trabalho otimizados.",
+      "impact": "leitores mensais alcançados",
+      "cta": "Ver Detalhes"
+    },
+    "russell": {
+      "title": "Russell Marketing – Sucesso em Crowdfunding",
+      "challenge": "Ajudando empreendedores a lançar e escalar produtos no Kickstarter e Indiegogo.",
+      "approach": "Projetou e gerenciou campanhas multicanais através de aquisição, ativação e referências.",
+      "impact": "arrecadado em crowdfunding",
+      "cta": "Ver Detalhes"
+    },
+    "cocaCola": {
+      "title": "Coca-Cola & Powerade – Campanhas Olímpicas",
+      "challenge": "Ativando patrocínios olímpicos para Coca-Cola e Powerade na LATAM.",
+      "approach": "Criou campanhas digitais mesclando narrativa esportiva com engajamento de marca.",
+      "impact": "impressões entregues durante os Jogos",
+      "cta": "Ver Detalhes"
+    }
+  },
+  "capabilities": {
+    "title": "Como Eu Ajudo",
+    "subtitle": "Combinando IA, Web3 e Marketing de Performance para entregar resultados mensuráveis.",
+    "ai": {
+      "title": "Crescimento Impulsionado por IA",
+      "description": "Otimize campanhas em tempo real, gere conteúdo de alta conversão e desbloqueie personalização em escala usando IA."
+    },
+    "web3": {
+      "title": "Construção de Comunidade Web3",
+      "description": "Construa audiências leais com incentivos tokenizados, crescimento nativo do Discord e ferramentas de engajamento descentralizadas."
+    },
+    "data": {
+      "title": "Performance Orientada a Dados",
+      "description": "Transforme dados complexos em insights de crescimento claros com atribuição avançada, automação e sistemas escaláveis."
+    },
+    "cta": "Trabalhe Comigo"
+  },
+  "journey": {
+    "title": "Minha Jornada",
+    "subtitle": "Da Disciplina Olímpica à Liderança em Crescimento Digital",
+    "description": "Uma linha do tempo de marcos moldando minha abordagem à performance e inovação.",
+    "olympic": "Jornada Olímpica",
+    "professional": "Transição de Carreira Profissional",
+    "cta": "Leia minha história completa →",
+    "milestones": {
+      "1999": {
+        "role": "Seleção Brasileira",
+        "description": "Selecionado para representar o Brasil internacionalmente."
+      },
+      "2004": {
+        "role": "Jogos Olímpicos de Atenas",
+        "description": "Competiu como Olímpico no cenário mundial."
+      },
+      "2008": {
+        "role": "Jogos Olímpicos de Pequim",
+        "description": "Representou o Brasil em segundos Jogos Olímpicos."
+      },
+      "2014": {
+        "role": "Coca-Cola (Engajamento & Ativação)",
+        "description": "Gerenciou relações com atletas e experiências do consumidor durante a preparação Rio 2016."
+      },
+      "2016": {
+        "role": "Programa de Embaixador Olímpico Powerade",
+        "description": "Projetou e implementou ativações de patrocínio olímpico."
+      },
+      "2017": {
+        "role": "Russell Marketing (Gerente de Crescimento)",
+        "description": "Lançou mais de 40 produtos e campanhas de crowdfunding, arrecadando $6M+."
+      },
+      "2020": {
+        "role": "Neil Patel Digital (Consultor de SEO)",
+        "description": "Escalou NP Brasil para 1M+ visualizações mensais via SEO e operações de conteúdo."
+      },
+      "2022": {
+        "role": "Binance LATAM (Gerente de Growth Marketing)",
+        "description": "Gerenciou $1M+ em gastos de mídia, reduziu CAC em 20% e escalou comunidades de usuários."
+      },
+      "2023": {
+        "role": "Consultor de Crescimento Web3",
+        "description": "Projetou estratégias GTM, funis de comunidade e ativações NFT para projetos DeFi."
+      },
+      "2025": {
+        "role": "OPAScope (Gerente de SEO/AEO)",
+        "description": "Impulsionando crescimento orgânico com IA, automação e otimização de busca."
+      }
+    }
+  },
+  "tools": {
+    "title": "Ferramentas",
+    "subtitle": "GPTs interativos e avaliadores para insights rápidos e práticos.",
+    "growthExperiments": {
+      "title": "Framework de Experimentos de Crescimento",
+      "description": "Rastreie, analise e aprenda com seus experimentos de crescimento.",
+      "category": "Ferramenta de Crescimento",
+      "year": "2024",
+      "cta": "Experimente Agora →",
+      "image": {
+        "alt": "Screenshot da interface do Framework de Experimentos de Crescimento"
+      }
+    },
+    "web3Roast": {
+      "title": "Web3 ROAST",
+      "description": "Insights de CRO acionáveis adaptados para projetos cripto.",
+      "category": "Ferramenta CRO Cripto",
+      "year": "Beta",
+      "cta": "Experimente Agora →",
+      "image": {
+        "alt": "Screenshot da interface do Web3 ROAST"
+      }
+    },
+    "tokenHealth": {
+      "title": "Token Health Scan",
+      "description": "Escaneie projetos cripto e descubra riscos críticos antes de escalar.",
+      "category": "Ferramenta de Risco Cripto",
+      "year": "2024",
+      "cta": "Experimente Agora →",
+      "image": {
+        "alt": "Screenshot da interface do Token Health Scan"
+      }
+    },
+    "shopify": {
+      "title": "Shopify Grader",
+      "description": "Avalie e otimize sua loja de e-commerce para conversões.",
+      "category": "Ferramenta de E-commerce",
+      "year": "2024",
+      "cta": "Experimente Agora →",
+      "image": {
+        "alt": "Screenshot da interface do Shopify Grader"
+      }
+    }
+  },
+  "publications": {
+    "title": "Publicações",
+    "subtitle": "Artigos e insights sobre crescimento, marketing e o futuro do Web3.",
+    "web3Athletes": {
+      "title": "Como o Web3 Está Elevando o Jogo para Atletas",
+      "description": "Como a tecnologia descentralizada abre novas receitas, acesso e engajamento para atletas.",
+      "category": "Web3",
+      "cta": "Ler Artigo"
+    },
+    "web2VsWeb3": {
+      "title": "Marketing Web2 vs Web3: Navegando a Mudança",
+      "description": "Lições de cruzar a ponte entre playbooks centralizados e descentralizados.",
+      "category": "Marketing",
+      "cta": "Ler Artigo"
+    },
+    "tokenHealthScan": {
+      "title": "Como Criei o Token Health Scan Usando Lovable",
+      "description": "Construindo um scanner orientado por sentimento mesclando análise e sinais Web3.",
+      "category": "Web3",
+      "cta": "Ler Artigo"
+    },
+    "web3Seo": {
+      "title": "O Guia Definitivo para SEO Web3",
+      "description": "Táticas práticas para tornar projetos descentralizados descobríveis.",
+      "category": "Web3",
+      "cta": "Ler Artigo"
+    }
+  },
+  "testimonials": {
+    "title": "O Que os Parceiros Dizem",
+    "subtitle": "Confiado por líderes globais, empreendedores e inovadores.",
+    "cta": "Quer trabalhar juntos? Vamos conversar.",
+    "will": {
+      "quote": "Gabriel tem sido fenomenal nos últimos 5 anos. De PPC a blogging, vendas a gerenciamento de projetos, ele se destacou em cada função. Sua fome de aprender e crescer o tornou um colega de equipe inestimável — e o tornaria um ativo para qualquer empresa.",
+      "name": "Will Russell",
+      "title": "Fundador & CEO",
+      "company": "Russell Marketing"
+    },
+    "lucas": {
+      "quote": "Gabriel é um profissional de alto desempenho com uma missão poderosa: ajudar empreendedores sociais. Sua disciplina e mentalidade orientada a resultados o tornam altamente recomendado.",
+      "name": "Lucas Bhering",
+      "title": "Growth Hacker"
+    },
+    "jonathan": {
+      "quote": "Um grande profissional com excelentes ideias e estratégias. Da abordagem à ativação, Gabriel entrega impacto.",
+      "name": "Jonathan Guimarães",
+      "title": "Líder de Marketing"
+    },
+    "lambert": {
+      "quote": "Trabalhei com Gabriel durante o programa de crowdfunding das Olimpíadas do Rio da Sponsorise.Me. Sua mentalidade olímpica e adaptabilidade foram cruciais para nosso sucesso em sete países. Um profissional de marketing talentoso e de mente aberta sempre buscando crescimento.",
+      "name": "Lambert Sechet",
+      "title": "Gerente de Programa Internacional",
+      "company": "Sponsorise.Me"
+    }
+  },
+  "cta": {
+    "title": "Pronto para começar?",
+    "subtitle": "Aberto a colaborações, consultoria de crescimento e novas oportunidades em Web3 e além.",
+    "workWithMe": "Trabalhe Comigo",
+    "linkedin": "Conecte no LinkedIn"
+  },
+  "chat": {
+    "title": "Converse com minha IA",
+    "subtitle": "Pergunte sobre minha jornada, serviços, estudos de caso ou crescimento Web3.",
+    "placeholder": "Digite sua mensagem...",
+    "thinking": "Pensando...",
+    "disclaimer": "Gerado por IA. Pode ser imperfeito.",
+    "emptyState": {
+      "line1": "Pergunte-me qualquer coisa sobre a jornada de Gabriel,",
+      "line2": "serviços ou expertise em Web3!"
+    },
+    "quickActions": {
+      "book": "Agende uma call",
+      "cases": "Estudos de caso",
+      "tools": "Minhas ferramentas",
+      "publications": "Publicações"
+    }
+  },
+  "footer": {
+    "copyright": "Feito com ❤️ em Florianópolis e desenvolvido por",
+    "privacyPolicy": "Política de Privacidade",
+    "disclaimer": "As perspectivas e frameworks compartilhados aqui são meus, desenvolvidos a partir de experiência prática e pesquisa de domínio público. Eles não divulgam ou representam o trabalho proprietário de qualquer empregador ou cliente."
+  },
+  "meta": {
+    "siteTitle": "Gabriel Mangabeira - Atleta Olímpico & Estrategista de Growth Marketing",
+    "siteDescription": "Atleta olímpico transformado em estrategista de marketing de crescimento. Especialista em Web3, SEO e transformação digital.",
+    "keywords": "atleta olímpico, marketing de crescimento, Web3, SEO, estratégia digital"
+  }
+}
