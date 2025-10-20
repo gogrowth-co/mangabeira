@@ -77,7 +77,11 @@ const Header = () => {
   };
 
   const handleLogoClick = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (location.pathname !== "/") {
+      navigate("/");
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   return (
@@ -86,7 +90,7 @@ const Header = () => {
       <header
         className={cn(
           "fixed top-0 left-0 right-0 z-40 transition-all duration-150",
-          isPastHero
+          location.pathname !== "/" || isPastHero
             ? "translate-y-0 opacity-100 bg-background/95 backdrop-blur-sm shadow-sm border-b border-border"
             : "-translate-y-full opacity-0 bg-transparent"
         )}
