@@ -16,6 +16,7 @@ const navItems = [
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isPastHero, setIsPastHero] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
@@ -23,7 +24,10 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40);
+      const scrollY = window.scrollY;
+      setIsScrolled(scrollY > 40);
+      // Reveal header after scrolling past hero (95vh)
+      setIsPastHero(scrollY > window.innerHeight * 0.95);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -78,16 +82,13 @@ const Header = () => {
 
   return (
     <>
-      {/* Spacer to prevent content jump */}
-      <div className="h-14 md:h-16" />
-
       {/* Header */}
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-40 transition-all duration-300",
-          isScrolled
-            ? "bg-background/95 backdrop-blur-sm shadow-sm border-b border-border"
-            : "bg-transparent"
+          "fixed top-0 left-0 right-0 z-40 transition-all duration-150",
+          isPastHero
+            ? "translate-y-0 opacity-100 bg-background/95 backdrop-blur-sm shadow-sm border-b border-border"
+            : "-translate-y-full opacity-0 bg-transparent"
         )}
       >
         <div className="max-w-7xl mx-auto px-3 md:px-6 h-14 md:h-16 flex items-center justify-between">
