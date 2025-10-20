@@ -1,92 +1,161 @@
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Medal, TrendingUp, Globe } from "lucide-react";
-import olympicPoolBg from "@/assets/olympic-pool-background.png";
-import gabrielAvatar from "@/assets/gabriel-avatar.jpg";
-const HeroSection = () => {
-  return <section id="top" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image - Olympic Pool */}
-      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{
-      backgroundImage: `url(${olympicPoolBg})`
-    }} />
-      
-      {/* Strong Dark Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[rgba(10,15,26,0.88)] via-[rgba(10,15,26,0.86)] to-[rgba(10,15,26,0.84)]" />
-      
-      {/* Content - Centered Layout with Balanced Spacing */}
-      <div className="relative z-10 container mx-auto px-6 sm:px-8 lg:px-16 xl:px-20 py-12 sm:py-16 max-w-7xl">
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 xl:gap-20">
-          
-          {/* Text Content - Left Aligned */}
-          <div className="order-2 lg:order-1 text-center lg:text-left max-w-[720px]">
-            {/* Main Headline - Name */}
-            <h1 className="text-white mb-4 leading-tight animate-fade-in text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight">
-              <span className="font-accent font-bold">Gabriel</span>{" "}
-              <span className="font-accent font-extrabold">Mangabeira</span>
-            </h1>
-            
-            {/* Subtitle */}
-            <h2 className="font-body font-semibold text-[#CCCCCC] mb-5 animate-fade-in text-lg sm:text-2xl md:text-3xl leading-snug" style={{
-            animationDelay: '0.1s'
-          }}>
-              Olympian & Growth Strategist
-            </h2>
-            
-            {/* Tagline */}
-            <p className="font-body text-white/95 text-sm sm:text-lg md:text-xl mb-6 leading-relaxed animate-fade-in font-normal" style={{
-            animationDelay: '0.2s',
-            lineHeight: '1.7'
-          }}>Turning Olympic discipline into championship-level digital growth.</p>
-            
-            {/* Metrics Row - 2-row grid on mobile, single row on desktop */}
-            <div className="mb-6 animate-fade-in" style={{
-            animationDelay: '0.3s'
-          }}>
-              <div className="grid grid-cols-2 sm:flex sm:flex-row items-center lg:items-start lg:justify-start justify-center gap-3 sm:gap-4 text-white">
-                <div className="flex items-center gap-1.5 sm:gap-2 px-3.5 py-2.5 sm:px-5 sm:py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
-                  <Medal size={18} strokeWidth={2} className="flex-shrink-0 text-[#FFB400] sm:w-6 sm:h-6" />
-                  <span className="font-body font-medium whitespace-nowrap text-[11px] sm:text-base"><span className="font-bold">1M+</span> SEO Readers</span>
-                </div>
-                <div className="flex items-center gap-1.5 sm:gap-2 px-3.5 py-2.5 sm:px-5 sm:py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
-                  <Globe size={18} strokeWidth={2} className="flex-shrink-0 text-[#FFB400] sm:w-6 sm:h-6" />
-                  <span className="font-body font-medium whitespace-nowrap text-[11px] sm:text-base"><span className="font-bold">$3.3M+</span> Raised</span>
-                </div>
-                <div className="flex items-center gap-1.5 sm:gap-2 px-3.5 py-2.5 sm:px-5 sm:py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300 col-span-2 sm:col-span-1 justify-center sm:justify-start">
-                  <TrendingUp size={18} strokeWidth={2} className="flex-shrink-0 text-[#FFB400] sm:w-6 sm:h-6" />
-                  <span className="font-body font-medium whitespace-nowrap text-[11px] sm:text-base"><span className="font-bold">Millions</span> Managed</span>
-                </div>
-              </div>
-            </div>
-            
-            {/* Call-to-Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center lg:justify-start animate-fade-in" style={{
-            animationDelay: '0.4s'
-          }}>
-              <Button 
-                size="lg" 
-                className="w-full sm:w-auto px-8 py-6 font-semibold text-lg bg-gradient-to-r from-[#FF8C42] to-[#FFB020] text-white rounded-lg shadow-lg hover:shadow-[0_0_30px_rgba(255,176,32,0.6)] hover:scale-105 transition-all duration-300"
-                onClick={() => document.getElementById('capabilities')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                Work With Me
-              </Button>
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="w-full sm:w-auto px-8 py-6 text-lg bg-transparent border-2 border-white/80 text-white hover:bg-white hover:text-[#0a0f1a] hover:border-white rounded-lg transition-all duration-300 font-semibold"
-                onClick={() => document.getElementById('social-proof')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                See My Results
-              </Button>
-            </div>
-          </div>
+import { cn } from "@/lib/utils";
+import swimmerBg from "@/assets/gabriel-mangabeira-swimmer-butterfly.png";
+import portraitImg from "@/assets/gabriel-profile-blue.jpg";
 
-          {/* Headshot - Right Side Desktop, Top on Mobile */}
-          <div className="order-1 lg:order-2 animate-fade-in">
-            <div className="relative w-36 h-36 sm:w-52 sm:h-52 lg:w-80 lg:h-80 rounded-full overflow-hidden ring-2 ring-[#FF8C42] shadow-[0_12px_48px_rgba(0,0,0,0.5),_0_0_32px_rgba(255,140,66,0.2)] hover:shadow-[0_16px_64px_rgba(0,0,0,0.6),_0_0_48px_rgba(255,140,66,0.3)] transition-all duration-300">
-              <img src={gabrielAvatar} alt="Gabriel Mangabeira - Olympian and Growth Marketing Strategist headshot" className="w-full h-full object-cover object-center" />
-            </div>
-          </div>
-        </div>
+const HeroSection = () => {
+  const [scrollY, setScrollY] = useState(0);
+  const [showPhase2, setShowPhase2] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setScrollY(currentScrollY);
+      setShowPhase2(currentScrollY > window.innerHeight * 0.4);
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <section id="top" className="relative min-h-screen overflow-hidden">
+      {/* PHASE 1: Swimmer Background */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center transition-opacity duration-300"
+        style={{
+          backgroundImage: `url(${swimmerBg})`,
+          opacity: showPhase2 ? 0 : 1
+        }}
+      />
+
+      {/* Dark gradient overlay for text readability */}
+      <div 
+        className="absolute inset-0 transition-opacity duration-300"
+        style={{
+          background: 'linear-gradient(to bottom, rgba(11, 30, 61, 0.8) 0%, rgba(0, 0, 0, 0.7) 100%)',
+          opacity: showPhase2 ? 0 : 1
+        }}
+      />
+
+      {/* Fixed top-left branding - visible in Phase 1 only */}
+      <div 
+        className="fixed top-8 left-8 sm:top-4 sm:left-4 z-50 transition-opacity duration-300" 
+        style={{ opacity: showPhase2 ? 0 : 1 }}
+      >
+        <h1 className="font-bold text-white text-2xl sm:text-xl tracking-tight">
+          GABRIEL MANGABEIRA
+        </h1>
+        <p className="text-white/90 text-sm font-medium mt-1">
+          Olympian & Growth Marketing Strategist
+        </p>
       </div>
-    </section>;
+
+      {/* Phase 1 Content - Center-right */}
+      <div 
+        className={cn(
+          "absolute right-[10%] md:right-[5%] md:left-[5%] md:max-w-full md:text-center",
+          "top-1/2 -translate-y-1/2 max-w-lg z-10",
+          "transition-opacity duration-300",
+          showPhase2 ? "opacity-0 pointer-events-none" : "opacity-100"
+        )}
+      >
+        <h2 className="text-5xl sm:text-3xl font-bold text-white mb-4 leading-tight">
+          From Olympic Pools to Global Growth
+        </h2>
+        
+        <p className="text-xl sm:text-lg text-white/90 mb-8 leading-relaxed">
+          Fly into digital growth — guided by an Olympian's discipline.
+        </p>
+        
+        {/* CTAs */}
+        <div className="flex gap-4 mb-6 flex-wrap md:justify-center sm:flex-col sm:w-full">
+          <Button 
+            size="lg"
+            className="bg-[#FF7B00] text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow sm:w-full"
+            onClick={() => document.getElementById('capabilities')?.scrollIntoView({ behavior: 'smooth' })}
+          >
+            Start Your Growth Sprint
+          </Button>
+          
+          <Button 
+            size="lg"
+            variant="outline"
+            className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors sm:w-full"
+            onClick={() => document.getElementById('social-proof')?.scrollIntoView({ behavior: 'smooth' })}
+          >
+            See My Results
+          </Button>
+        </div>
+        
+        {/* Proof line */}
+        <p className="text-sm text-white/70 font-medium">
+          1M+ Global SEO Readers · $3.3M+ Raised · Millions Managed
+        </p>
+      </div>
+
+      {/* Scroll indicator - disappears when Phase 2 activates */}
+      <div 
+        className={cn(
+          "absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 text-sm font-medium",
+          "transition-opacity duration-300 animate-bounce",
+          showPhase2 ? "opacity-0" : "opacity-100"
+        )}
+      >
+        ↓ Keep Swimming
+      </div>
+
+      {/* PHASE 2: Light Background */}
+      <div 
+        className="absolute inset-0 bg-[#F7F9FB] transition-opacity duration-300"
+        style={{ opacity: showPhase2 ? 1 : 0 }}
+      />
+
+      {/* Phase 2 Content - Personal Reveal */}
+      <div 
+        className={cn(
+          "absolute inset-0 flex items-center justify-between px-[10%] md:px-[5%] z-10",
+          "md:flex-col md:text-center md:gap-8 md:justify-center",
+          "transition-opacity duration-300",
+          showPhase2 ? "opacity-100" : "opacity-0 pointer-events-none"
+        )}
+      >
+        {/* Left: Text content */}
+        <div className="max-w-xl md:max-w-2xl">
+          <h2 className="text-4xl sm:text-3xl font-bold text-[#0B1E3D] mb-4 leading-tight">
+            Meet Gabriel Mangabeira
+          </h2>
+          
+          <p className="text-xl sm:text-lg text-[#0B1E3D]/80 mb-6 leading-relaxed">
+            Olympian turned Growth Strategist helping Web3, AI & SaaS brands 
+            scale with discipline and data.
+          </p>
+          
+          <p className="text-base text-[#0B1E3D]/70 mb-8 leading-relaxed">
+            After competing on the world stage, I learned that consistency beats 
+            intensity — both in sport and in growth. Now I build systems that help 
+            global startups scale with Olympic precision.
+          </p>
+          
+          <Button 
+            size="lg"
+            className="bg-[#FF7B00] text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow"
+            onClick={() => document.getElementById('capabilities')?.scrollIntoView({ behavior: 'smooth' })}
+          >
+            Book Your Growth Sprint
+          </Button>
+        </div>
+        
+        {/* Right: Portrait */}
+        <img 
+          src={portraitImg}
+          alt="Gabriel Mangabeira - Olympic athlete and growth marketing strategist"
+          className="w-[20vw] md:w-[50vw] sm:w-[80vw] min-w-[280px] md:min-w-0 rounded-2xl shadow-2xl object-cover"
+        />
+      </div>
+    </section>
+  );
 };
+
 export default HeroSection;
