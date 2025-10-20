@@ -5,7 +5,7 @@ import gabrielProfile from "@/assets/gabriel-profile.png";
 
 const HeroSection = () => {
   return (
-    <section id="top" className="relative h-[95vh] flex items-center justify-center overflow-hidden">
+    <section id="top" className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image - Butterfly Swimmer */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
