@@ -18,7 +18,7 @@ const SocialProofSection = () => {
     {
       Icon: Medal,
       number: 2,
-      label: "2x Olympian",
+      label: "Olympian",
       subtitle: "Discipline, focus, and resilience.",
       suffix: "x",
     },
