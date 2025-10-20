@@ -182,7 +182,7 @@ const ChatWithMyAI = () => {
 
       {/* Chat Panel */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-50 w-full md:w-[420px] h-[60vh] md:h-[600px] max-h-[calc(100vh-100px)] bg-card rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-border">
+        <div className="fixed bottom-0 right-0 left-0 md:bottom-8 md:right-8 md:left-auto z-50 w-full md:w-[420px] h-[100vh] md:h-[600px] md:max-h-[calc(100vh-100px)] bg-card md:rounded-2xl shadow-2xl flex flex-col overflow-hidden border-t md:border border-border">
           {/* Header */}
           <div className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground p-4 flex items-center justify-between">
             <div>
