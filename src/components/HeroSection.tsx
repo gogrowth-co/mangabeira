@@ -18,7 +18,7 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-[rgba(11,30,61,0.85)] to-[rgba(0,0,0,0.80)]" />
       
       {/* Content - Centered with Max Width */}
-      <div className="relative z-10 max-w-[900px] mx-auto px-8 pt-16 sm:pt-20 text-center">
+      <div className="relative z-10 max-w-[900px] mx-auto px-8 pt-16 sm:pt-20 pb-12 sm:pb-16 text-center">
         
         {/* Main Headline */}
         <h1 className="text-white mb-6 sm:mb-8 leading-tight animate-fade-in text-[32px] sm:text-5xl md:text-6xl font-bold tracking-tight">
