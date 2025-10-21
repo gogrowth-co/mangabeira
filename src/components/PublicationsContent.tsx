@@ -3,7 +3,7 @@ import web3AthletesCover from "@/assets/web3-for-athletes.png";
 import web2Web3MarketingCover from "@/assets/web2-vs-web3-cover.png";
 import tokenHealthScanCover from "@/assets/vibe-coding-lovable.png";
 import web3SeoGuideCover from "@/assets/web3-seo-cover.png";
-import { Locale } from "@/lib/translations";
+import { Locale, t } from "@/lib/translations";
 
 interface PublicationsContentProps {
   locale: Locale;
@@ -13,45 +13,43 @@ const PublicationsContent = ({ locale }: PublicationsContentProps) => {
   const publications = [
     {
       cover: web3AthletesCover,
-      title: "How Web3 is Elevating the Game for Athletes",
-      description: "How decentralized tech opens new revenue, access, and engagement for athletes.",
-      category: "Web3",
+      title: t('publications', 'web3_athletes_title', locale),
+      description: t('publications', 'web3_athletes_description', locale),
+      category: t('publications', 'category_web3', locale),
       link: "/publications/web3-for-athletes",
     },
     {
       cover: web2Web3MarketingCover,
-      title: "Web2 vs Web3 Marketing: Navigating the Shift",
-      description: "Lessons from crossing the bridge between centralized and decentralized playbooks.",
-      category: "Marketing",
+      title: t('publications', 'web2_vs_web3_title', locale),
+      description: t('publications', 'web2_vs_web3_description', locale),
+      category: t('publications', 'category_marketing', locale),
       link: "/publications/web2-vs-web3-marketing",
     },
     {
       cover: tokenHealthScanCover,
-      title: "How I Vibe Coded Token Health Scan Using Lovable",
-      description: "Building a sentiment-driven scanner blending analytics and Web3 signals.",
-      category: "Web3",
+      title: t('publications', 'vibe_coded_title', locale),
+      description: t('publications', 'vibe_coded_description', locale),
+      category: t('publications', 'category_web3', locale),
       link: "/publications/vibe-coded-token-health-scan",
     },
     {
       cover: web3SeoGuideCover,
-      title: "The Definitive Guide to Web3 SEO",
-      description: "Practical tactics to make decentralized projects discoverable.",
-      category: "Web3",
+      title: t('publications', 'web3_seo_title', locale),
+      description: t('publications', 'web3_seo_description', locale),
+      category: t('publications', 'category_web3', locale),
       link: "/publications/definitive-guide-web3-seo",
     },
   ];
 
   const getCategoryColor = (category: string) => {
-    switch (category) {
-      case "Web3":
-        return "#DD6B20";
-      case "Marketing":
-        return "#1A202C";
-      case "Personal Journey":
-        return "#3182CE";
-      default:
-        return "#1A202C";
-    }
+    const web3Label = t('publications', 'category_web3', locale);
+    const marketingLabel = t('publications', 'category_marketing', locale);
+    const journeyLabel = t('publications', 'category_journey', locale);
+    
+    if (category === web3Label) return "#DD6B20";
+    if (category === marketingLabel) return "#1A202C";
+    if (category === journeyLabel) return "#3182CE";
+    return "#1A202C";
   };
 
   return (
@@ -63,10 +61,10 @@ const PublicationsContent = ({ locale }: PublicationsContentProps) => {
         {/* Section Header */}
         <div className="text-center mb-4 md:mb-5 lg:mb-6">
           <h2 className="font-bold mb-3 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#1A202C' }}>
-            Publications
+            {t('publications', 'section_title', locale)}
           </h2>
           <p className="font-body max-w-[720px] mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#2D3748' }}>
-            Articles and insights on growth, marketing, and the future of Web3.
+            {t('publications', 'section_subtitle', locale)}
           </p>
         </div>
 
@@ -147,7 +145,7 @@ const PublicationsContent = ({ locale }: PublicationsContentProps) => {
                     className="flex items-center text-sm font-semibold transition-colors group-hover:underline"
                     style={{ color: '#FF7E29' }}
                   >
-                    Read Article
+                    {t('publications', 'cta_read_article', locale)}
                     <ArrowRight className="ml-1 h-3.5 w-3.5" />
                   </span>
                 </div>

@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import poolOverhead from "@/assets/pool-overhead.png";
-import { Locale } from "@/lib/translations";
+import { Locale, t } from "@/lib/translations";
 
 interface MyJourneyContentProps {
   locale: Locale;
@@ -14,64 +14,66 @@ interface Milestone {
   description: string;
 }
 
-const olympicJourney: Milestone[] = [
+const getOlympicJourney = (locale: Locale): Milestone[] => [
   {
     year: "1999",
-    role: "Brazilian National Team",
-    description: "Selected to represent Brazil internationally.",
+    role: t('journey', 'olympic_1_role', locale),
+    description: t('journey', 'olympic_1_description', locale),
   },
   {
     year: "2004",
-    role: "Athens Olympic Games",
-    description: "Competed as an Olympian on the world stage.",
+    role: t('journey', 'olympic_2_role', locale),
+    description: t('journey', 'olympic_2_description', locale),
   },
   {
     year: "2008",
-    role: "Beijing Olympic Games",
-    description: "Represented Brazil at a second Olympic Games.",
+    role: t('journey', 'olympic_3_role', locale),
+    description: t('journey', 'olympic_3_description', locale),
   },
 ];
 
-const professionalCareer: Milestone[] = [
+const getProfessionalCareer = (locale: Locale): Milestone[] => [
   {
     year: "2014",
-    role: "Coca-Cola (Engagement & Activation)",
-    description: "Managed athlete relations and consumer experiences during Rio 2016 build-up.",
+    role: t('journey', 'career_1_role', locale),
+    description: t('journey', 'career_1_description', locale),
   },
   {
     year: "2016",
-    role: "Powerade Olympic Ambassador Program",
-    description: "Designed and implemented Olympic sponsorship activations.",
+    role: t('journey', 'career_2_role', locale),
+    description: t('journey', 'career_2_description', locale),
   },
   {
     year: "2017",
-    role: "Russell Marketing (Growth Manager)",
-    description: "Launched 40+ products and crowdfunding campaigns, raising $6M+.",
+    role: t('journey', 'career_3_role', locale),
+    description: t('journey', 'career_3_description', locale),
   },
   {
     year: "2020",
-    role: "Neil Patel Digital (SEO Consultant)",
-    description: "Scaled NP Brasil to 1M+ monthly pageviews via SEO and content ops.",
+    role: t('journey', 'career_4_role', locale),
+    description: t('journey', 'career_4_description', locale),
   },
   {
     year: "2022",
-    role: "Binance LATAM (Growth Marketing Manager)",
-    description: "Managed $1M+ media spend, reduced CAC by 20%, and scaled user communities.",
+    role: t('journey', 'career_5_role', locale),
+    description: t('journey', 'career_5_description', locale),
   },
   {
     year: "2023",
-    role: "Web3 Growth Consultant",
-    description: "Designed GTM strategies, community funnels, and NFT activations for DeFi projects.",
+    role: t('journey', 'career_6_role', locale),
+    description: t('journey', 'career_6_description', locale),
   },
   {
     year: "2025",
-    role: "OPAScope (SEO/AEO Manager)",
-    description: "Driving AI-powered organic growth with automation and search optimization.",
+    role: t('journey', 'career_7_role', locale),
+    description: t('journey', 'career_7_description', locale),
   },
 ];
 
 const MyJourneyContent = ({ locale }: MyJourneyContentProps) => {
   const sectionRef = useRef<HTMLElement>(null);
+  const olympicJourney = getOlympicJourney(locale);
+  const professionalCareer = getProfessionalCareer(locale);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -159,13 +161,13 @@ const MyJourneyContent = ({ locale }: MyJourneyContentProps) => {
         {/* Header */}
         <div className="text-center mb-4 md:mb-5 lg:mb-6">
           <h2 className="font-bold mb-3 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#1A202C' }}>
-            My Journey
+            {t('journey', 'section_title', locale)}
           </h2>
           <p className="font-bold max-w-2xl mx-auto mb-2" style={{ fontSize: '18px', fontWeight: 600, color: '#1A202C' }}>
-            From Olympic Discipline to Digital Growth Leadership
+            {t('journey', 'section_subtitle_main', locale)}
           </p>
           <p className="font-body max-w-2xl mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#2D3748' }}>
-            A timeline of milestones shaping my approach to performance and innovation.
+            {t('journey', 'section_subtitle_secondary', locale)}
           </p>
         </div>
 
@@ -186,7 +188,7 @@ const MyJourneyContent = ({ locale }: MyJourneyContentProps) => {
             
             <h3 className="text-lg font-bold text-foreground mb-5 flex items-center justify-center gap-2">
               <span className="text-xl">🏊</span>
-              <span>Olympic Journey</span>
+              <span>{t('journey', 'olympic_journey_title', locale)}</span>
             </h3>
             {olympicJourney.map((milestone, index) =>
               renderMilestone(milestone, index, index % 2 === 0)
@@ -207,7 +209,7 @@ const MyJourneyContent = ({ locale }: MyJourneyContentProps) => {
             
             <h3 className="text-lg font-bold text-foreground mb-5 flex items-center justify-center gap-2">
               <span className="text-xl">💼</span>
-              <span>Professional Career Transition</span>
+              <span>{t('journey', 'career_transition_title', locale)}</span>
             </h3>
             {professionalCareer.map((milestone, index) =>
               renderMilestone(milestone, index + olympicJourney.length, (index + olympicJourney.length) % 2 === 0)
@@ -234,7 +236,7 @@ const MyJourneyContent = ({ locale }: MyJourneyContentProps) => {
               }}
             >
               <a href="/about">
-                Read my full story →
+                {t('journey', 'cta_read_full_story', locale)}
               </a>
             </Button>
           </div>

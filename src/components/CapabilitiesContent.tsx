@@ -1,7 +1,7 @@
 import { Brain, Link2, BarChart3 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Locale } from "@/lib/translations";
+import { Locale, t } from "@/lib/translations";
 
 interface CapabilitiesContentProps {
   locale: Locale;
@@ -11,21 +11,33 @@ const CapabilitiesContent = ({ locale }: CapabilitiesContentProps) => {
   const capabilities = [
     {
       Icon: Brain,
-      title: "AI-Powered Growth",
-      description: "Optimize campaigns in real time, generate high-converting content, and unlock personalization at scale using AI.",
-      tools: ["ChatGPT", "MidJourney", "Jasper"],
+      title: t('capabilities', 'ai_title', locale),
+      description: t('capabilities', 'ai_description', locale),
+      tools: [
+        t('capabilities', 'ai_tool_1', locale),
+        t('capabilities', 'ai_tool_2', locale),
+        t('capabilities', 'ai_tool_3', locale)
+      ],
     },
     {
       Icon: Link2,
-      title: "Web3 Community Building",
-      description: "Build loyal audiences with tokenized incentives, Discord-native growth, and decentralized engagement tools.",
-      tools: ["Binance", "WalletConnect", "Discord"],
+      title: t('capabilities', 'web3_title', locale),
+      description: t('capabilities', 'web3_description', locale),
+      tools: [
+        t('capabilities', 'web3_tool_1', locale),
+        t('capabilities', 'web3_tool_2', locale),
+        t('capabilities', 'web3_tool_3', locale)
+      ],
     },
     {
       Icon: BarChart3,
-      title: "Data-Driven Performance",
-      description: "Turn complex data into clear growth insights with advanced attribution, automation, and scalable systems.",
-      tools: ["Google Analytics", "Looker Studio", "HubSpot"],
+      title: t('capabilities', 'data_title', locale),
+      description: t('capabilities', 'data_description', locale),
+      tools: [
+        t('capabilities', 'data_tool_1', locale),
+        t('capabilities', 'data_tool_2', locale),
+        t('capabilities', 'data_tool_3', locale)
+      ],
     },
   ];
 
@@ -38,10 +50,10 @@ const CapabilitiesContent = ({ locale }: CapabilitiesContentProps) => {
         {/* Section Header */}
         <div className="text-center mb-4 md:mb-5 lg:mb-6 animate-fade-in">
           <h2 className="font-bold mb-3 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#1A202C' }}>
-            How I Help
+            {t('capabilities', 'section_title', locale)}
           </h2>
           <p className="font-body max-w-3xl mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#2D3748' }}>
-            Blending AI, Web3, and Performance Marketing to deliver measurable results.
+            {t('capabilities', 'section_subtitle', locale)}
           </p>
         </div>
 
@@ -98,7 +110,7 @@ const CapabilitiesContent = ({ locale }: CapabilitiesContentProps) => {
             className="bg-gradient-to-r from-[#FF8C42] to-[#FFB020] text-white font-hero font-bold shadow-lg hover:shadow-xl hover:from-[#FF8C00] hover:to-[#FF6600] hover:scale-105 active:scale-95 transition-all duration-300"
             onClick={() => window.open('https://calendly.com/gabriel-mangabeira/15min', '_blank')}
           >
-            Work With Me
+            {t('capabilities', 'cta_work_with_me', locale)}
           </Button>
         </div>
       </div>

@@ -13,7 +13,7 @@ import jonathanAvatar from "@/assets/jonathan-guimaraes-avatar.png";
 import lucasAvatar from "@/assets/lucas-bhering-avatar.png";
 import willAvatar from "@/assets/will-russell-avatar.png";
 import russellLogo from "@/assets/russell-marketing-logo.png";
-import { Locale } from "@/lib/translations";
+import { Locale, t } from "@/lib/translations";
 
 interface TestimonialsContentProps {
   locale: Locale;
@@ -22,34 +22,34 @@ interface TestimonialsContentProps {
 const TestimonialsContent = ({ locale }: TestimonialsContentProps) => {
   const testimonials = [
     {
-      quote: "Gabriel has been phenomenal over the last 5 years. From PPC to blogging, sales to project management, he excelled in every role. His hunger to learn and grow made him an invaluable teammate — and would make him an asset to any company.",
-      name: "Will Russell",
-      title: "Founder & CEO",
-      company: "Russell Marketing",
+      quote: t('testimonials', 'will_quote', locale),
+      name: t('testimonials', 'will_name', locale),
+      title: t('testimonials', 'will_title', locale),
+      company: t('testimonials', 'will_company', locale),
       avatar: willAvatar,
       logo: russellLogo,
     },
     {
-      quote: "Gabriel is a high-performance professional with a powerful mission: helping social entrepreneurs. His discipline and results-driven mindset make him highly recommended.",
-      name: "Lucas Bhering",
-      title: "Growth Hacker",
+      quote: t('testimonials', 'lucas_quote', locale),
+      name: t('testimonials', 'lucas_name', locale),
+      title: t('testimonials', 'lucas_title', locale),
       company: "",
       avatar: lucasAvatar,
       logo: null,
     },
     {
-      quote: "A great professional with excellent ideas and strategies. From approach to activation, Gabriel delivers impact.",
-      name: "Jonathan Guimarães",
-      title: "Marketing Leader",
+      quote: t('testimonials', 'jonathan_quote', locale),
+      name: t('testimonials', 'jonathan_name', locale),
+      title: t('testimonials', 'jonathan_title', locale),
       company: "",
       avatar: jonathanAvatar,
       logo: null,
     },
     {
-      quote: "I worked with Gabriel during Sponsorise.Me's Rio Olympics crowdfunding program. His Olympian mindset and adaptability were crucial for our success across seven countries. A talented, open-minded marketer always seeking growth.",
-      name: "Lambert Sechet",
-      title: "International Program Manager",
-      company: "Sponsorise.Me",
+      quote: t('testimonials', 'lambert_quote', locale),
+      name: t('testimonials', 'lambert_name', locale),
+      title: t('testimonials', 'lambert_title', locale),
+      company: t('testimonials', 'lambert_company', locale),
       avatar: lambertAvatar,
       logo: null,
     },
@@ -61,10 +61,10 @@ const TestimonialsContent = ({ locale }: TestimonialsContentProps) => {
         {/* Section Header */}
         <div className="text-center mb-12 animate-fade-in">
           <h2 className="font-hero font-bold text-text-primary mb-3" style={{ fontSize: 'clamp(24px, 3.5vw, 36px)', lineHeight: '1.2' }}>
-            What Partners Say
+            {t('testimonials', 'section_title', locale)}
           </h2>
           <p className="text-text-secondary font-body max-w-3xl mx-auto" style={{ fontSize: 'clamp(15px, 1.4vw, 17px)', lineHeight: '1.6' }}>
-            Trusted by global leaders, entrepreneurs, and innovators.
+            {t('testimonials', 'section_subtitle', locale)}
           </p>
         </div>
 
@@ -127,7 +127,7 @@ const TestimonialsContent = ({ locale }: TestimonialsContentProps) => {
           <Button 
             className="bg-gradient-to-r from-[#FF8C42] to-[#FFB020] text-white hover:shadow-[0_0_20px_rgba(255,176,32,0.5)] hover:scale-105 transition-all duration-300 px-8 py-6 text-lg"
           >
-            Want to work together? Let's talk.
+            {t('testimonials', 'cta_work_together', locale)}
           </Button>
         </div>
       </div>

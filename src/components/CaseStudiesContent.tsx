@@ -6,68 +6,69 @@ import binanceLogo from "@/assets/binance-logo.png";
 import npDigitalLogo from "@/assets/np-digital-logo.png";
 import cocaColaLogo from "@/assets/coca-cola-logo.png";
 import russellMarketingLogo from "@/assets/russell-marketing-logo.png";
-import { Locale } from "@/lib/translations";
+import { Locale, t } from "@/lib/translations";
 
 interface CaseStudiesContentProps {
   locale: Locale;
 }
 
-const caseStudies = [
+const getCaseStudies = (locale: Locale) => [
   {
     id: 1,
-    title: "Binance – LATAM Growth Campaigns",
+    title: t('case_studies', 'binance_title', locale),
     logo: binanceLogo,
-    challenge: "Entering the crowded LATAM crypto market with strict regulatory limits.",
-    approach: "Led multi-million-dollar paid media campaigns, localized to LATAM audiences while ensuring compliance.",
-    impact: "7M+ impressions and multi-million ad spend managed.",
-    cta: "See Details",
+    challenge: t('case_studies', 'binance_challenge', locale),
+    approach: t('case_studies', 'binance_approach', locale),
+    impact: t('case_studies', 'binance_impact', locale),
+    cta: t('case_studies', 'binance_cta', locale),
     accent: "border-accent-orange/20 hover:border-accent-orange/40",
     hoverColor: "hover:shadow-accent-orange/10",
-    resultNumber: "7M+",
-    resultText: "impressions and multi-million ad spend managed"
+    resultNumber: t('case_studies', 'binance_result_number', locale),
+    resultText: t('case_studies', 'binance_result_text', locale)
   },
   {
     id: 2,
-    title: "Neil Patel Brasil – SEO at Scale", 
+    title: t('case_studies', 'np_title', locale),
     logo: npDigitalLogo,
-    challenge: "Expanding SEO visibility across Brazil and LATAM at high volume.",
-    approach: "Built a scalable SEO/content operation with localized strategy and optimized workflows.",
-    impact: "1M+ monthly readers reached.",
-    cta: "See Details",
+    challenge: t('case_studies', 'np_challenge', locale),
+    approach: t('case_studies', 'np_approach', locale),
+    impact: t('case_studies', 'np_impact', locale),
+    cta: t('case_studies', 'np_cta', locale),
     accent: "border-accent-orange/20 hover:border-accent-orange/40",
     hoverColor: "hover:shadow-accent-orange/10",
-    resultNumber: "1M+",
-    resultText: "monthly readers reached"
+    resultNumber: t('case_studies', 'np_result_number', locale),
+    resultText: t('case_studies', 'np_result_text', locale)
   },
   {
     id: 3,
-    title: "Russell Marketing – Crowdfunding Success",
+    title: t('case_studies', 'russell_title', locale),
     logo: russellMarketingLogo,
-    challenge: "Helping entrepreneurs launch and scale products on Kickstarter and Indiegogo.",
-    approach: "Designed and managed multi-channel campaigns across acquisition, activation, and referrals.",
-    impact: "$6.3M+ raised in crowdfunding.",
-    cta: "See Details",
+    challenge: t('case_studies', 'russell_challenge', locale),
+    approach: t('case_studies', 'russell_approach', locale),
+    impact: t('case_studies', 'russell_impact', locale),
+    cta: t('case_studies', 'russell_cta', locale),
     accent: "border-accent-orange/20 hover:border-accent-orange/40", 
     hoverColor: "hover:shadow-accent-orange/10",
-    resultNumber: "$6.3M+",
-    resultText: "raised in crowdfunding"
+    resultNumber: t('case_studies', 'russell_result_number', locale),
+    resultText: t('case_studies', 'russell_result_text', locale)
   },
   {
     id: 4,
-    title: "Coca-Cola & Powerade – Olympic Campaigns",
+    title: t('case_studies', 'coca_cola_title', locale),
     logo: cocaColaLogo,
-    challenge: "Activating Olympic sponsorships for Coca-Cola and Powerade in LATAM.",
-    approach: "Created digital-first campaigns merging sports storytelling with brand engagement.",
-    impact: "10M+ impressions delivered during the Games.",
-    cta: "See Details",
+    challenge: t('case_studies', 'coca_cola_challenge', locale),
+    approach: t('case_studies', 'coca_cola_approach', locale),
+    impact: t('case_studies', 'coca_cola_impact', locale),
+    cta: t('case_studies', 'coca_cola_cta', locale),
     accent: "border-accent-orange/20 hover:border-accent-orange/40",
     hoverColor: "hover:shadow-accent-orange/10",
-    resultNumber: "10M+",
-    resultText: "impressions delivered during the Games"
+    resultNumber: t('case_studies', 'coca_cola_result_number', locale),
+    resultText: t('case_studies', 'coca_cola_result_text', locale)
   }
 ];
 
 const CaseStudiesContent = ({ locale }: CaseStudiesContentProps) => {
+  const caseStudies = getCaseStudies(locale);
   const [animatedNumbers, setAnimatedNumbers] = useState({
     1: 0,
     2: 0, 
@@ -160,10 +161,10 @@ const CaseStudiesContent = ({ locale }: CaseStudiesContentProps) => {
       <div className="container mx-auto px-6 md:px-4">
         <div className="text-center mb-4 md:mb-5 lg:mb-6">
           <h2 className="font-bold mb-3 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#1A202C' }}>
-            Featured Growth Stories
+            {t('case_studies', 'section_title', locale)}
           </h2>
           <p className="font-body max-w-3xl mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#2D3748' }}>
-            Results and learnings from campaigns I led.
+            {t('case_studies', 'section_subtitle', locale)}
           </p>
         </div>
 
@@ -201,17 +202,17 @@ const CaseStudiesContent = ({ locale }: CaseStudiesContentProps) => {
               <CardContent className="flex-1 flex flex-col">
                 <div className="space-y-5 flex-1">
                   <div>
-                    <h4 className="font-semibold text-primary mb-2">Challenge:</h4>
+                    <h4 className="font-semibold text-primary mb-2">{t('case_studies', 'label_challenge', locale)}</h4>
                     <p className="text-sm text-muted-foreground leading-relaxed">{study.challenge}</p>
                   </div>
                   
                   <div>
-                    <h4 className="font-semibold text-primary mb-2">Approach:</h4>
+                    <h4 className="font-semibold text-primary mb-2">{t('case_studies', 'label_approach', locale)}</h4>
                     <p className="text-sm text-muted-foreground leading-relaxed">{study.approach}</p>
                   </div>
                   
                   <div>
-                    <h4 className="font-semibold text-primary mb-2">Impact:</h4>
+                    <h4 className="font-semibold text-primary mb-2">{t('case_studies', 'label_impact', locale)}</h4>
                     <div className="text-center p-4 bg-primary/5 rounded-lg">
                       <div className="text-3xl font-bold text-primary mb-2">
                         {formatNumber(animatedNumbers[study.id], study.id)}

@@ -3,7 +3,7 @@ import growthExperimentsImage from "@/assets/growth-experiments-screenshot.png";
 import web3RoastImage from "@/assets/web3-roast-screenshot.png";
 import tokenHealthImage from "@/assets/token-health-scan-screenshot.png";
 import shopifyGraderImage from "@/assets/shopify-grader-screenshot.png";
-import { Locale } from "@/lib/translations";
+import { Locale, t } from "@/lib/translations";
 
 interface ToolsContentProps {
   locale: Locale;
@@ -13,10 +13,10 @@ const ToolsContent = ({ locale }: ToolsContentProps) => {
   const tools = [
     {
       icon: Zap,
-      title: "Growth Experiments Framework",
-      description: "Track, analyze, and learn from your growth experiments.",
+      title: t('tools', 'growth_experiments_title', locale),
+      description: t('tools', 'growth_experiments_description', locale),
       screenshot: growthExperimentsImage,
-      category: "Growth Tool",
+      category: t('tools', 'growth_experiments_category', locale),
       categoryColor: "bg-teal-100 text-teal-700 border-teal-200",
       tags: ["Airtable", "Notion", "Zapier"],
       year: "2024",
@@ -26,10 +26,10 @@ const ToolsContent = ({ locale }: ToolsContentProps) => {
     },
     {
       icon: Flame,
-      title: "Web3 ROAST",
-      description: "Actionable CRO insights tailored for crypto projects.",
+      title: t('tools', 'web3_roast_title', locale),
+      description: t('tools', 'web3_roast_description', locale),
       screenshot: web3RoastImage,
-      category: "Crypto CRO Tool",
+      category: t('tools', 'web3_roast_category', locale),
       categoryColor: "bg-orange-100 text-orange-700 border-orange-200",
       tags: ["NextJS", "OpenAI", "Tailwind"],
       year: "Beta",
@@ -39,10 +39,10 @@ const ToolsContent = ({ locale }: ToolsContentProps) => {
     },
     {
       icon: Coins,
-      title: "Token Health Scan",
-      description: "Scan crypto projects and uncover critical risks before scaling.",
+      title: t('tools', 'token_health_title', locale),
+      description: t('tools', 'token_health_description', locale),
       screenshot: tokenHealthImage,
-      category: "Crypto Risk Tool",
+      category: t('tools', 'token_health_category', locale),
       categoryColor: "bg-purple-100 text-purple-700 border-purple-200",
       tags: ["Web3 APIs", "NextJS", "OpenAI"],
       year: "2024",
@@ -52,10 +52,10 @@ const ToolsContent = ({ locale }: ToolsContentProps) => {
     },
     {
       icon: ShoppingCart,
-      title: "Shopify Grader",
-      description: "Benchmark and optimize your e-commerce store for conversions.",
+      title: t('tools', 'shopify_grader_title', locale),
+      description: t('tools', 'shopify_grader_description', locale),
       screenshot: shopifyGraderImage,
-      category: "E-commerce Tool",
+      category: t('tools', 'shopify_grader_category', locale),
       categoryColor: "bg-green-100 text-green-700 border-green-200",
       tags: ["Shopify API", "NextJS", "CRO"],
       year: "2024",
@@ -86,10 +86,10 @@ const ToolsContent = ({ locale }: ToolsContentProps) => {
         {/* Section Header */}
         <div className="text-center mb-4 md:mb-5 lg:mb-6 animate-fade-in">
           <h2 className="font-bold mb-3 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#1A202C' }}>
-            Tools
+            {t('tools', 'section_title', locale)}
           </h2>
           <p className="font-body max-w-3xl mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#2D3748' }}>
-            Interactive GPTs and graders for fast, practical insights.
+            {t('tools', 'section_subtitle', locale)}
           </p>
         </div>
 
@@ -173,7 +173,7 @@ const ToolsContent = ({ locale }: ToolsContentProps) => {
                       e.currentTarget.style.boxShadow = '0 4px 8px rgba(255, 140, 26, 0.2)';
                     }}
                   >
-                    Try It Now →
+                    {t('tools', 'cta_try_now', locale)}
                   </button>
                 </div>
               </div>

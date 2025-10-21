@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import growthFunnelImage from "@/assets/growth-hacking-funnel.png";
 import growthLoopImage from "@/assets/growth-loops.png";
 import mediaFrameworkImage from "@/assets/unified-media-strategy.png";
-import { Locale } from "@/lib/translations";
+import { Locale, t } from "@/lib/translations";
 
 interface MethodsContentProps {
   locale: Locale;
@@ -18,10 +18,10 @@ const MethodsContent = ({ locale }: MethodsContentProps) => {
         {/* Header */}
         <div className="text-center mb-4 md:mb-5 lg:mb-6 animate-fade-in">
           <h2 className="font-bold mb-3 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#1A202C' }}>
-            Methods I Use
+            {t('methods', 'section_title', locale)}
           </h2>
           <p className="font-body max-w-2xl mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#2D3748' }}>
-            Frameworks I use to drive growth.
+            {t('methods', 'section_subtitle', locale)}
           </p>
         </div>
 
@@ -36,10 +36,10 @@ const MethodsContent = ({ locale }: MethodsContentProps) => {
           }}>
             <CardContent className="p-6 md:p-7 flex flex-col flex-1">
               <h3 className="font-bold mb-2" style={{ fontSize: 'clamp(22px, 2vw, 24px)', lineHeight: '1.3', color: '#0B1B2B' }}>
-                5-Stage Growth Hacking Funnel
+                {t('methods', 'funnel_title', locale)}
               </h3>
               <p className="mb-6" style={{ fontSize: '16px', fontWeight: 500, lineHeight: '1.4', color: '#4A4A4A' }}>
-                Turning users into loyal customers, step by step.
+                {t('methods', 'funnel_tagline', locale)}
               </p>
               
               <div className="flex justify-center mb-6 overflow-hidden" style={{ 
@@ -56,7 +56,7 @@ const MethodsContent = ({ locale }: MethodsContentProps) => {
               </div>
 
               <p className="mb-6 flex-1" style={{ fontSize: 'clamp(15px, 1.3vw, 16px)', fontWeight: 400, lineHeight: '1.6', color: '#4A4A4A' }}>
-                Framework for acquisition, activation, retention, referral, and revenue.
+                {t('methods', 'funnel_description', locale)}
               </p>
 
               <a 
@@ -84,7 +84,7 @@ const MethodsContent = ({ locale }: MethodsContentProps) => {
                   e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
-                See this in action →
+                {t('methods', 'cta_see_in_action', locale)}
               </a>
             </CardContent>
           </Card>
@@ -97,10 +97,10 @@ const MethodsContent = ({ locale }: MethodsContentProps) => {
           }}>
             <CardContent className="p-6 md:p-7 flex flex-col flex-1">
               <h3 className="font-bold mb-2" style={{ fontSize: 'clamp(22px, 2vw, 24px)', lineHeight: '1.3', color: '#0B1B2B' }}>
-                Growth Loops
+                {t('methods', 'loops_title', locale)}
               </h3>
               <p className="mb-6" style={{ fontSize: '16px', fontWeight: 500, lineHeight: '1.4', color: '#4A4A4A' }}>
-                Designing systems where growth compounds.
+                {t('methods', 'loops_tagline', locale)}
               </p>
               
               <div className="flex justify-center mb-6 overflow-hidden" style={{ 
@@ -117,7 +117,7 @@ const MethodsContent = ({ locale }: MethodsContentProps) => {
               </div>
 
               <p className="mb-6 flex-1" style={{ fontSize: 'clamp(15px, 1.3vw, 16px)', fontWeight: 400, lineHeight: '1.6', color: '#4A4A4A' }}>
-                Each user action feeds the next, building momentum.
+                {t('methods', 'loops_description', locale)}
               </p>
 
               <a 
@@ -145,7 +145,7 @@ const MethodsContent = ({ locale }: MethodsContentProps) => {
                   e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
-                See this in action →
+                {t('methods', 'cta_see_in_action', locale)}
               </a>
             </CardContent>
           </Card>
@@ -158,10 +158,10 @@ const MethodsContent = ({ locale }: MethodsContentProps) => {
           }}>
             <CardContent className="p-6 md:p-7 flex flex-col flex-1">
               <h3 className="font-bold mb-2" style={{ fontSize: 'clamp(22px, 2vw, 24px)', lineHeight: '1.3', color: '#0B1B2B' }}>
-                Media Strategy Framework
+                {t('methods', 'media_title', locale)}
               </h3>
               <p className="mb-6" style={{ fontSize: '16px', fontWeight: 500, lineHeight: '1.4', color: '#4A4A4A' }}>
-                Balancing Paid, Owned, and Earned.
+                {t('methods', 'media_tagline', locale)}
               </p>
               
               <div className="flex justify-center mb-6 overflow-hidden" style={{ 
@@ -178,7 +178,7 @@ const MethodsContent = ({ locale }: MethodsContentProps) => {
               </div>
 
               <p className="mb-6 flex-1" style={{ fontSize: 'clamp(15px, 1.3vw, 16px)', fontWeight: 400, lineHeight: '1.6', color: '#4A4A4A' }}>
-                Align campaigns, community, and assets in one plan.
+                {t('methods', 'media_description', locale)}
               </p>
 
               <a 
@@ -206,7 +206,7 @@ const MethodsContent = ({ locale }: MethodsContentProps) => {
                   e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
-                See this in action →
+                {t('methods', 'cta_see_in_action', locale)}
               </a>
             </CardContent>
           </Card>
