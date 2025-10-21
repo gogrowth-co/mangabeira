@@ -4,6 +4,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Helmet } from 'react-helmet-async';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import BlogTemplate from '@/components/BlogTemplate';
 import NotFound from './NotFound';
 
 export default function DynamicPage() {
@@ -50,12 +51,12 @@ export default function DynamicPage() {
       <div className="min-h-screen flex flex-col">
         <Header locale={locale} />
         
-        <main className="flex-1 container mx-auto px-4 py-8">
-          <article 
-            className="prose lg:prose-xl max-w-none dark:prose-invert"
-            dangerouslySetInnerHTML={{ __html: translation.content || '' }}
-          />
-        </main>
+        <BlogTemplate
+          title={translation.title}
+          content={translation.content || ''}
+          category={page.category}
+          publishedDate={page.created_at}
+        />
         
         <Footer locale={locale} />
       </div>
