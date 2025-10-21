@@ -13,10 +13,10 @@ const ToolsContent = ({ locale }: ToolsContentProps) => {
   const tools = [
     {
       icon: Zap,
-      title: t('tools', 'growth_experiments_title', locale),
-      description: t('tools', 'growth_experiments_description', locale),
+      title: t('tools', 'growth_exp_title', locale),
+      description: t('tools', 'growth_exp_description', locale),
       screenshot: growthExperimentsImage,
-      category: t('tools', 'growth_experiments_category', locale),
+      category: t('tools', 'growth_exp_category', locale),
       categoryColor: "bg-teal-100 text-teal-700 border-teal-200",
       tags: ["Airtable", "Notion", "Zapier"],
       year: "2024",
@@ -52,10 +52,10 @@ const ToolsContent = ({ locale }: ToolsContentProps) => {
     },
     {
       icon: ShoppingCart,
-      title: t('tools', 'shopify_grader_title', locale),
-      description: t('tools', 'shopify_grader_description', locale),
+      title: t('tools', 'shopify_title', locale),
+      description: t('tools', 'shopify_description', locale),
       screenshot: shopifyGraderImage,
-      category: t('tools', 'shopify_grader_category', locale),
+      category: t('tools', 'shopify_category', locale),
       categoryColor: "bg-green-100 text-green-700 border-green-200",
       tags: ["Shopify API", "NextJS", "CRO"],
       year: "2024",
@@ -173,7 +173,7 @@ const ToolsContent = ({ locale }: ToolsContentProps) => {
                       e.currentTarget.style.boxShadow = '0 4px 8px rgba(255, 140, 26, 0.2)';
                     }}
                   >
-                    {t('tools', 'cta_try_now', locale)}
+                    {t('tools', 'growth_exp_cta', locale)}
                   </button>
                 </div>
               </div>

@@ -127,7 +127,7 @@ const TestimonialsContent = ({ locale }: TestimonialsContentProps) => {
           <Button 
             className="bg-gradient-to-r from-[#FF8C42] to-[#FFB020] text-white hover:shadow-[0_0_20px_rgba(255,176,32,0.5)] hover:scale-105 transition-all duration-300 px-8 py-6 text-lg"
           >
-            {t('testimonials', 'cta_work_together', locale)}
+            {t('testimonials', 'cta_button', locale)}
           </Button>
         </div>
       </div>

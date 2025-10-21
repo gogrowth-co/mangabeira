@@ -15,41 +15,39 @@ const PublicationsContent = ({ locale }: PublicationsContentProps) => {
       cover: web3AthletesCover,
       title: t('publications', 'web3_athletes_title', locale),
       description: t('publications', 'web3_athletes_description', locale),
-      category: t('publications', 'category_web3', locale),
+      category: t('publications', 'web3_athletes_category', locale),
       link: "/publications/web3-for-athletes",
     },
     {
       cover: web2Web3MarketingCover,
       title: t('publications', 'web2_vs_web3_title', locale),
       description: t('publications', 'web2_vs_web3_description', locale),
-      category: t('publications', 'category_marketing', locale),
+      category: t('publications', 'web2_vs_web3_category', locale),
       link: "/publications/web2-vs-web3-marketing",
     },
     {
       cover: tokenHealthScanCover,
       title: t('publications', 'vibe_coded_title', locale),
       description: t('publications', 'vibe_coded_description', locale),
-      category: t('publications', 'category_web3', locale),
+      category: t('publications', 'vibe_coded_category', locale),
       link: "/publications/vibe-coded-token-health-scan",
     },
     {
       cover: web3SeoGuideCover,
       title: t('publications', 'web3_seo_title', locale),
       description: t('publications', 'web3_seo_description', locale),
-      category: t('publications', 'category_web3', locale),
+      category: t('publications', 'web3_seo_category', locale),
       link: "/publications/definitive-guide-web3-seo",
     },
   ];
 
   const getCategoryColor = (category: string) => {
-    const web3Label = t('publications', 'category_web3', locale);
-    const marketingLabel = t('publications', 'category_marketing', locale);
-    const journeyLabel = t('publications', 'category_journey', locale);
+    const web3Label = t('publications', 'web3_athletes_category', locale);
+    const marketingLabel = t('publications', 'web2_vs_web3_category', locale);
     
     if (category === web3Label) return "#DD6B20";
     if (category === marketingLabel) return "#1A202C";
-    if (category === journeyLabel) return "#3182CE";
-    return "#1A202C";
+    return "#DD6B20"; // default to web3 color
   };
 
   return (
@@ -145,7 +143,7 @@ const PublicationsContent = ({ locale }: PublicationsContentProps) => {
                     className="flex items-center text-sm font-semibold transition-colors group-hover:underline"
                     style={{ color: '#FF7E29' }}
                   >
-                    {t('publications', 'cta_read_article', locale)}
+                    {t('publications', 'web3_athletes_cta', locale)}
                     <ArrowRight className="ml-1 h-3.5 w-3.5" />
                   </span>
                 </div>

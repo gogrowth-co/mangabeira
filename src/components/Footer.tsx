@@ -30,7 +30,7 @@ const Footer = ({ locale }: FooterProps) => {
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           {/* Copyright and Privacy Policy */}
           <div className="text-sm text-muted-foreground text-center md:text-left max-w-2xl">
-            <div>{t('footer', 'copyright', locale)}</div>
+            <div>{t('footer', 'copyright_text', locale)} <a href="https://lovable.dev" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">{t('footer', 'copyright_lovable', locale)}</a></div>
             <div className="mt-1">
               <a 
                 href="/privacy-policy" 

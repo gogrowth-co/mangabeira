@@ -100,7 +100,7 @@ const MethodsContent = ({ locale }: MethodsContentProps) => {
                 {t('methods', 'loops_title', locale)}
               </h3>
               <p className="mb-6" style={{ fontSize: '16px', fontWeight: 500, lineHeight: '1.4', color: '#4A4A4A' }}>
-                {t('methods', 'loops_tagline', locale)}
+                {t('methods', 'loops_subtitle', locale)}
               </p>
               
               <div className="flex justify-center mb-6 overflow-hidden" style={{ 
@@ -145,7 +145,7 @@ const MethodsContent = ({ locale }: MethodsContentProps) => {
                   e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
-                {t('methods', 'cta_see_in_action', locale)}
+                {t('methods', 'loops_cta', locale)}
               </a>
             </CardContent>
           </Card>
@@ -161,7 +161,7 @@ const MethodsContent = ({ locale }: MethodsContentProps) => {
                 {t('methods', 'media_title', locale)}
               </h3>
               <p className="mb-6" style={{ fontSize: '16px', fontWeight: 500, lineHeight: '1.4', color: '#4A4A4A' }}>
-                {t('methods', 'media_tagline', locale)}
+                {t('methods', 'media_subtitle', locale)}
               </p>
               
               <div className="flex justify-center mb-6 overflow-hidden" style={{ 
@@ -206,7 +206,7 @@ const MethodsContent = ({ locale }: MethodsContentProps) => {
                   e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
-                {t('methods', 'cta_see_in_action', locale)}
+                {t('methods', 'media_cta', locale)}
               </a>
             </CardContent>
           </Card>
