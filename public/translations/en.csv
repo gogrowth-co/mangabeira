@@ -1,0 +1,272 @@
+section,key,text,context
+meta,page_title,Gabriel Mangabeira | Olympian & Growth Marketing Strategist,HTML page title
+meta,page_description,"Blending AI, Web3, and performance marketing to deliver measurable growth. 1M+ organic readers, $6M+ raised, and millions in ad spend managed.",HTML meta description
+meta,og_title,Gabriel Mangabeira | Olympian & Growth Marketing Strategist,Open Graph title
+meta,og_description,"Blending AI, Web3, and performance marketing to deliver measurable growth. 1M+ organic readers, $6M+ raised, and millions in ad spend managed.",Open Graph description
+meta,twitter_title,Gabriel Mangabeira | Olympian & Growth Marketing Strategist,Twitter card title
+meta,twitter_description,"Blending AI, Web3, and performance marketing to deliver measurable growth. 1M+ organic readers, $6M+ raised, and millions in ad spend managed.",Twitter card description
+header,brand_name,Gabriel Mangabeira,Logo/brand text in header
+header,nav_about,About,Navigation menu item
+header,nav_methods,Methods,Navigation menu item
+header,nav_case_studies,Case Studies,Navigation menu item
+header,nav_tools,Tools,Navigation menu item
+header,nav_publications,Publications,Navigation menu item
+header,nav_contact,Contact,Navigation menu item
+header,cta_work_with_me,Work With Me,Header CTA button
+header,aria_scroll_to_top,Scroll to top,Accessibility label
+header,aria_open_menu,Open menu,Accessibility label - mobile menu
+header,aria_close_menu,Close menu,Accessibility label - mobile menu
+hero,main_headline,From Olympic Pools to Digital Growth,Main headline
+hero,subheadline,Fly past the noise into scalable growth,Subheadline
+hero,profile_image_alt,Gabriel Mangabeira - Olympic Athlete and Growth Marketing Strategist,Profile image alt text
+hero,profile_name,Gabriel Mangabeira,Name display
+hero,profile_title,Olympian & Growth Marketing Strategist,Title/role display
+hero,proof_olympian,2× Olympian,Proof badge
+hero,proof_readers,1M+ Global Readers,Proof badge
+hero,proof_raised,$6M+ Raised,Proof badge
+hero,cta_primary,Start Your Growth Sprint,Primary CTA button
+hero,cta_secondary,See My Results,Secondary CTA button
+social_proof,section_title,Proven Growth in Action,Section title
+social_proof,section_subtitle,"From Olympic discipline to digital impact, trusted by the IOC, Coca-Cola, and Binance.",Section subtitle
+social_proof,logo_ioc_alt,IOC,Logo alt text
+social_proof,logo_coca_cola_alt,Coca-Cola,Logo alt text
+social_proof,logo_binance_alt,Binance,Logo alt text
+social_proof,stat_olympian_number,2,Stat number
+social_proof,stat_olympian_label,Olympian,Stat label
+social_proof,stat_olympian_subtitle,"Discipline, focus, and resilience.",Stat subtitle
+social_proof,stat_olympian_suffix,x,Stat suffix
+social_proof,stat_raised_number,6000000,Stat number (raw)
+social_proof,stat_raised_label,Raised,Stat label
+social_proof,stat_raised_subtitle,Crowdfunding & DTC launches.,Stat subtitle
+social_proof,stat_raised_suffix,M+,Stat suffix
+social_proof,stat_readers_number,1000000,Stat number (raw)
+social_proof,stat_readers_label,Global Readers,Stat label
+social_proof,stat_readers_subtitle,Scaled audiences across LATAM.,Stat subtitle
+social_proof,stat_readers_suffix,M+,Stat suffix
+social_proof,stat_ad_spend_number,1000000,Stat number (raw)
+social_proof,stat_ad_spend_label,Ad Spend Managed,Stat label
+social_proof,stat_ad_spend_subtitle,High-performing paid campaigns.,Stat subtitle
+social_proof,stat_ad_spend_suffix,M+,Stat suffix
+about,section_title,My Story,Section title
+about,section_subtitle,"From Olympic discipline to digital growth — a journey of focus, performance, and measurable impact.",Section subtitle
+about,image_alt,Gabriel Mangabeira - Olympic athlete turned digital strategist,Professional headshot alt text
+about,narrative_para1,"I grew up in the water, chasing hundredths of a second. That pursuit of excellence took me to the Olympics, where I learned that discipline, resilience, and focus are everything.",First narrative paragraph
+about,narrative_para2,"When I transitioned from the pool to the world of digital marketing, I carried those same principles with me — only now, instead of chasing medals, I help businesses chase measurable growth.",Second narrative paragraph
+about,signal_olympian_title,2x Olympian,Authority signal title
+about,signal_olympian_desc,Represented Brazil on the world stage.,Authority signal description
+about,signal_transition_title,From Olympic Pools to Digital Growth,Authority signal title
+about,signal_transition_desc,Applied Olympic discipline to accelerate measurable digital growth.,Authority signal description
+about,signal_leader_title,Marketing Leader,Authority signal title
+about,signal_leader_desc,Drove growth for global brands including Binance and Coca-Cola.,Authority signal description
+about,signal_global_title,Global Citizen,Authority signal title
+about,signal_global_desc,"Campaigns across 3 languages: English, Portuguese, and Spanish.",Authority signal description
+about,cta_read_story,Read My Full Story,CTA button
+as_seen_on,section_title,As Seen On,Section title
+as_seen_on,section_subtitle,Features & mentions from global media.,Section subtitle
+as_seen_on,logo_olympics_alt,Olympics.com,Logo alt text
+as_seen_on,logo_globo_alt,Globo Esporte,Logo alt text
+as_seen_on,logo_nsc_alt,NSC Total,Logo alt text
+case_studies,section_title,Featured Growth Stories,Section title
+case_studies,section_subtitle,Results and learnings from campaigns I led.,Section subtitle
+case_studies,binance_title,Binance – LATAM Growth Campaigns,Case study title
+case_studies,binance_logo_alt,Binance – LATAM Growth Campaigns logo,Logo alt text
+case_studies,binance_challenge,Entering the crowded LATAM crypto market with strict regulatory limits.,Challenge text
+case_studies,binance_approach,"Led multi-million-dollar paid media campaigns, localized to LATAM audiences while ensuring compliance.",Approach text
+case_studies,binance_result_number,7M+,Result number
+case_studies,binance_result_text,impressions and multi-million ad spend managed,Result text
+case_studies,binance_cta,See Details,CTA button
+case_studies,np_title,Neil Patel Brasil – SEO at Scale,Case study title
+case_studies,np_logo_alt,Neil Patel Brasil – SEO at Scale logo,Logo alt text
+case_studies,np_challenge,Expanding SEO visibility across Brazil and LATAM at high volume.,Challenge text
+case_studies,np_approach,Built a scalable SEO/content operation with localized strategy and optimized workflows.,Approach text
+case_studies,np_result_number,1M+,Result number
+case_studies,np_result_text,monthly readers reached,Result text
+case_studies,np_cta,See Details,CTA button
+case_studies,russell_title,Russell Marketing – Crowdfunding Success,Case study title
+case_studies,russell_logo_alt,Russell Marketing – Crowdfunding Success logo,Logo alt text
+case_studies,russell_challenge,Helping entrepreneurs launch and scale products on Kickstarter and Indiegogo.,Challenge text
+case_studies,russell_approach,"Designed and managed multi-channel campaigns across acquisition, activation, and referrals.",Approach text
+case_studies,russell_result_number,$6.3M+,Result number
+case_studies,russell_result_text,raised in crowdfunding,Result text
+case_studies,russell_cta,See Details,CTA button
+case_studies,coca_cola_title,Coca-Cola & Powerade – Olympic Campaigns,Case study title
+case_studies,coca_cola_logo_alt,Coca-Cola & Powerade – Olympic Campaigns logo,Logo alt text
+case_studies,coca_cola_challenge,Activating Olympic sponsorships for Coca-Cola and Powerade in LATAM.,Challenge text
+case_studies,coca_cola_approach,Created digital-first campaigns merging sports storytelling with brand engagement.,Approach text
+case_studies,coca_cola_result_number,10M+,Result number
+case_studies,coca_cola_result_text,impressions delivered during the Games,Result text
+case_studies,coca_cola_cta,See Details,CTA button
+case_studies,label_challenge,Challenge:,Label for challenge section
+case_studies,label_approach,Approach:,Label for approach section
+case_studies,label_impact,Impact:,Label for impact section
+capabilities,section_title,How I Help,Section title
+capabilities,section_subtitle,"Blending AI, Web3, and Performance Marketing to deliver measurable results.",Section subtitle
+capabilities,ai_title,AI-Powered Growth,Capability title
+capabilities,ai_description,"Optimize campaigns in real time, generate high-converting content, and unlock personalization at scale using AI.",Capability description
+capabilities,ai_tool_1,ChatGPT,Tool badge
+capabilities,ai_tool_2,MidJourney,Tool badge
+capabilities,ai_tool_3,Jasper,Tool badge
+capabilities,web3_title,Web3 Community Building,Capability title
+capabilities,web3_description,"Build loyal audiences with tokenized incentives, Discord-native growth, and decentralized engagement tools.",Capability description
+capabilities,web3_tool_1,Binance,Tool badge
+capabilities,web3_tool_2,WalletConnect,Tool badge
+capabilities,web3_tool_3,Discord,Tool badge
+capabilities,data_title,Data-Driven Performance,Capability title
+capabilities,data_description,"Turn complex data into clear growth insights with advanced attribution, automation, and scalable systems.",Capability description
+capabilities,data_tool_1,Google Analytics,Tool badge
+capabilities,data_tool_2,Looker Studio,Tool badge
+capabilities,data_tool_3,HubSpot,Tool badge
+capabilities,cta_work_with_me,Work With Me,CTA button
+journey,section_title,My Journey,Section title
+journey,section_subtitle_bold,From Olympic Discipline to Digital Growth Leadership,Subtitle bold
+journey,section_subtitle,A timeline of milestones shaping my approach to performance and innovation.,Subtitle regular
+journey,olympic_journey_title,Olympic Journey,Section heading
+journey,olympic_journey_emoji,🏊,Emoji icon
+journey,professional_career_title,Professional Career Transition,Section heading
+journey,professional_career_emoji,💼,Emoji icon
+journey,milestone_1999_year,1999,Year
+journey,milestone_1999_role,Brazilian National Team,Role
+journey,milestone_1999_desc,Selected to represent Brazil internationally.,Description
+journey,milestone_2004_year,2004,Year
+journey,milestone_2004_role,Athens Olympic Games,Role
+journey,milestone_2004_desc,Competed as an Olympian on the world stage.,Description
+journey,milestone_2008_year,2008,Year
+journey,milestone_2008_role,Beijing Olympic Games,Role
+journey,milestone_2008_desc,Represented Brazil at a second Olympic Games.,Description
+journey,milestone_2014_year,2014,Year
+journey,milestone_2014_role,Coca-Cola (Engagement & Activation),Role
+journey,milestone_2014_desc,Managed athlete relations and consumer experiences during Rio 2016 build-up.,Description
+journey,milestone_2016_year,2016,Year
+journey,milestone_2016_role,Powerade Olympic Ambassador Program,Role
+journey,milestone_2016_desc,Designed and implemented Olympic sponsorship activations.,Description
+journey,milestone_2017_year,2017,Year
+journey,milestone_2017_role,Russell Marketing (Growth Manager),Role
+journey,milestone_2017_desc,"Launched 40+ products and crowdfunding campaigns, raising $6M+.",Description
+journey,milestone_2020_year,2020,Year
+journey,milestone_2020_role,Neil Patel Digital (SEO Consultant),Role
+journey,milestone_2020_desc,Scaled NP Brasil to 1M+ monthly pageviews via SEO and content ops.,Description
+journey,milestone_2022_year,2022,Year
+journey,milestone_2022_role,Binance LATAM (Growth Marketing Manager),Role
+journey,milestone_2022_desc,"Managed $1M+ media spend, reduced CAC by 20%, and scaled user communities.",Description
+journey,milestone_2023_year,2023,Year
+journey,milestone_2023_role,Web3 Growth Consultant,Role
+journey,milestone_2023_desc,"Designed GTM strategies, community funnels, and NFT activations for DeFi projects.",Description
+journey,milestone_2025_year,2025,Year
+journey,milestone_2025_role,OPAScope (SEO/AEO Manager),Role
+journey,milestone_2025_desc,Driving AI-powered organic growth with automation and search optimization.,Description
+journey,cta_read_full_story,Read my full story →,CTA button
+methods,section_title,Methods I Use,Section title
+methods,section_subtitle,Frameworks I use to drive growth.,Section subtitle
+methods,funnel_title,5-Stage Growth Hacking Funnel,Method title
+methods,funnel_subtitle,"Turning users into loyal customers, step by step.",Method subtitle
+methods,funnel_image_alt,"5-stage growth funnel: Acquisition, Activation, Retention, Referral, Revenue",Image alt text
+methods,funnel_description,"Framework for acquisition, activation, retention, referral, and revenue.",Method description
+methods,funnel_cta,See this in action →,CTA button
+methods,loops_title,Growth Loops,Method title
+methods,loops_subtitle,"Designing systems where growth compounds.",Method subtitle
+methods,loops_image_alt,"Growth loop: Input → Action → Output, compounding user engagement",Image alt text
+methods,loops_description,"Each user action feeds the next, building momentum.",Method description
+methods,loops_cta,See this in action →,CTA button
+methods,media_title,Media Strategy Framework,Method title
+methods,media_subtitle,"Balancing Paid, Owned, and Earned.",Method subtitle
+methods,media_image_alt,"Unified media strategy: Paid, Owned, Earned segments",Image alt text
+methods,media_description,"Align campaigns, community, and assets in one plan.",Method description
+methods,media_cta,See this in action →,CTA button
+tools,section_title,Tools,Section title
+tools,section_subtitle,"Interactive GPTs and graders for fast, practical insights.",Section subtitle
+tools,growth_exp_title,Growth Experiments Framework,Tool title
+tools,growth_exp_description,"Track, analyze, and learn from your growth experiments.",Tool description
+tools,growth_exp_category,Growth Tool,Category badge
+tools,growth_exp_tag_1,Airtable,Tech stack tag
+tools,growth_exp_tag_2,Notion,Tech stack tag
+tools,growth_exp_tag_3,Zapier,Tech stack tag
+tools,growth_exp_year,2024,Year
+tools,growth_exp_cta,Try It Now →,CTA button
+tools,growth_exp_image_alt,Growth Experiments Framework interface screenshot,Screenshot alt text
+tools,web3_roast_title,Web3 ROAST,Tool title
+tools,web3_roast_description,Actionable CRO insights tailored for crypto projects.,Tool description
+tools,web3_roast_category,Crypto CRO Tool,Category badge
+tools,web3_roast_tag_1,NextJS,Tech stack tag
+tools,web3_roast_tag_2,OpenAI,Tech stack tag
+tools,web3_roast_tag_3,Tailwind,Tech stack tag
+tools,web3_roast_year,Beta,Year
+tools,web3_roast_cta,Try It Now →,CTA button
+tools,web3_roast_image_alt,Web3 ROAST interface screenshot,Screenshot alt text
+tools,token_health_title,Token Health Scan,Tool title
+tools,token_health_description,Scan crypto projects and uncover critical risks before scaling.,Tool description
+tools,token_health_category,Crypto Risk Tool,Category badge
+tools,token_health_tag_1,Web3 APIs,Tech stack tag
+tools,token_health_tag_2,NextJS,Tech stack tag
+tools,token_health_tag_3,OpenAI,Tech stack tag
+tools,token_health_year,2024,Year
+tools,token_health_cta,Try It Now →,CTA button
+tools,token_health_image_alt,Token Health Scan interface screenshot,Screenshot alt text
+tools,shopify_title,Shopify Grader,Tool title
+tools,shopify_description,Benchmark and optimize your e-commerce store for conversions.,Tool description
+tools,shopify_category,E-commerce Tool,Category badge
+tools,shopify_tag_1,Shopify API,Tech stack tag
+tools,shopify_tag_2,NextJS,Tech stack tag
+tools,shopify_tag_3,CRO,Tech stack tag
+tools,shopify_year,2024,Year
+tools,shopify_cta,Try It Now →,CTA button
+tools,shopify_image_alt,Shopify Grader interface screenshot,Screenshot alt text
+publications,section_title,Publications,Section title
+publications,section_subtitle,"Articles and insights on growth, marketing, and the future of Web3.",Section subtitle
+publications,web3_athletes_title,How Web3 is Elevating the Game for Athletes,Publication title
+publications,web3_athletes_description,"How decentralized tech opens new revenue, access, and engagement for athletes.",Publication description
+publications,web3_athletes_category,Web3,Category badge
+publications,web3_athletes_cta,Read Article,CTA text
+publications,web2_vs_web3_title,Web2 vs Web3 Marketing: Navigating the Shift,Publication title
+publications,web2_vs_web3_description,Lessons from crossing the bridge between centralized and decentralized playbooks.,Publication description
+publications,web2_vs_web3_category,Marketing,Category badge
+publications,web2_vs_web3_cta,Read Article,CTA text
+publications,vibe_coded_title,How I Vibe Coded Token Health Scan Using Lovable,Publication title
+publications,vibe_coded_description,Building a sentiment-driven scanner blending analytics and Web3 signals.,Publication description
+publications,vibe_coded_category,Web3,Category badge
+publications,vibe_coded_cta,Read Article,CTA text
+publications,web3_seo_title,The Definitive Guide to Web3 SEO,Publication title
+publications,web3_seo_description,Practical tactics to make decentralized projects discoverable.,Publication description
+publications,web3_seo_category,Web3,Category badge
+publications,web3_seo_cta,Read Article,CTA text
+testimonials,section_title,What Partners Say,Section title
+testimonials,section_subtitle,"Trusted by global leaders, entrepreneurs, and innovators.",Section subtitle
+testimonials,will_quote,"Gabriel has been phenomenal over the last 5 years. From PPC to blogging, sales to project management, he excelled in every role. His hunger to learn and grow made him an invaluable teammate — and would make him an asset to any company.",Testimonial quote
+testimonials,will_name,Will Russell,Name
+testimonials,will_title,Founder & CEO,Title
+testimonials,will_company,Russell Marketing,Company
+testimonials,lucas_quote,"Gabriel is a high-performance professional with a powerful mission: helping social entrepreneurs. His discipline and results-driven mindset make him highly recommended.",Testimonial quote
+testimonials,lucas_name,Lucas Bhering,Name
+testimonials,lucas_title,Growth Hacker,Title
+testimonials,jonathan_quote,"A great professional with excellent ideas and strategies. From approach to activation, Gabriel delivers impact.",Testimonial quote
+testimonials,jonathan_name,Jonathan Guimarães,Name
+testimonials,jonathan_title,Marketing Leader,Title
+testimonials,lambert_quote,"I worked with Gabriel during Sponsorise.Me's Rio Olympics crowdfunding program. His Olympian mindset and adaptability were crucial for our success across seven countries. A talented, open-minded marketer always seeking growth.",Testimonial quote
+testimonials,lambert_name,Lambert Sechet,Name
+testimonials,lambert_title,International Program Manager,Title
+testimonials,lambert_company,Sponsorise.Me,Company
+testimonials,cta_button,Want to work together? Let's talk.,CTA button
+cta,section_headline,Ready to start?,Section headline
+cta,section_subheadline,"Open to collaborations, growth consulting, and new opportunities in Web3 and beyond.",Section subheadline
+cta,cta_primary,Work With Me,Primary CTA button
+cta,cta_secondary,Connect on LinkedIn,Secondary CTA button
+footer,copyright_text,"© 2025 Gabriel Mangabeira. Built with ❤️ in Florianópolis and powered by",Copyright text
+footer,copyright_lovable,Lovable,Lovable link text
+footer,privacy_policy,Privacy Policy,Privacy policy link
+footer,disclaimer,"The perspectives and frameworks shared here are my own, developed from hands-on experience and public-domain research. They do not disclose or represent the proprietary work of any employer or client.",Disclaimer text
+footer,social_linkedin,LinkedIn,Social media label
+footer,social_twitter,Twitter,Social media label
+footer,social_github,Medium,Social media label (note: icon says Github but links to Github)
+chat,bubble_tooltip,Chat with my AI,Tooltip on bubble
+chat,header_title,Chat with my AI,Chat panel header
+chat,header_subtitle,"Ask about my journey, services, case studies, or Web3 growth.",Chat panel subtitle
+chat,empty_state_line1,Ask me anything about Gabriel's journey,,Empty state message
+chat,empty_state_line2,"services, or Web3 expertise!",Empty state message
+chat,input_placeholder,Type your message...,Input field placeholder
+chat,button_send,Send,Send button aria label
+chat,loading_thinking,Thinking...,Loading state message
+chat,disclaimer,AI-generated. May be imperfect.,Disclaimer text
+chat,quick_action_book,Book a call,Quick action button
+chat,quick_action_cases,Case studies,Quick action button
+chat,quick_action_tools,My tools,Quick action button
+chat,quick_action_pubs,Publications,Quick action button
+chat,aria_open_chat,Open chat,Accessibility label
