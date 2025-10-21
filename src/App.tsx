@@ -14,11 +14,17 @@ import Web3SEO from "./pages/Web3SEO";
 import TokenHealthScan from "./pages/TokenHealthScan";
 import About from "./pages/About";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000,
+    },
+  },
+});
 
 const App = () => {
-  // Create QueryClient inside component to ensure proper React context
-  const [queryClient] = useState(() => new QueryClient());
 
   // Redirect component defined inside App to ensure proper React context
   const RootRedirect = () => {
