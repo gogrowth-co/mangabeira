@@ -39,6 +39,7 @@ const Header = ({ locale }: HeaderProps) => {
   // Scroll to top when locale changes
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
+    setIsPastHero(false);
   }, [locale]);
 
   useEffect(() => {
