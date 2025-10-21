@@ -156,9 +156,9 @@ const Header = ({ locale }: HeaderProps) => {
           <div className="hidden md:flex items-center gap-3">
             {/* Language Dropdown */}
             <Select value={locale} onValueChange={(value: Locale) => handleLanguageChange(value)}>
-              <SelectTrigger className="w-[140px] bg-background border-border">
+              <SelectTrigger className="w-[72px] bg-background border-border">
                 <SelectValue>
-                  {locale === 'en' ? 'English' : locale === 'br' ? 'Português' : 'Español'}
+                  {locale === 'en' ? 'EN' : locale === 'br' ? 'BR' : 'ES'}
                 </SelectValue>
               </SelectTrigger>
               <SelectContent className="bg-background border-border z-50">
@@ -200,7 +200,7 @@ const Header = ({ locale }: HeaderProps) => {
                 <Select value={locale} onValueChange={(value: Locale) => handleLanguageChange(value)}>
                   <SelectTrigger className="w-full bg-background border-border">
                     <SelectValue>
-                      {locale === 'en' ? 'English' : locale === 'br' ? 'Português' : 'Español'}
+                      {locale === 'en' ? 'EN' : locale === 'br' ? 'BR' : 'ES'}
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent className="bg-background border-border z-50">

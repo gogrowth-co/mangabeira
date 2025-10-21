@@ -17,56 +17,56 @@ interface Milestone {
 const getOlympicJourney = (locale: Locale): Milestone[] => [
   {
     year: "1999",
-    role: t('journey', 'olympic_1_role', locale),
-    description: t('journey', 'olympic_1_description', locale),
+    role: t('journey', 'milestone_1999_role', locale),
+    description: t('journey', 'milestone_1999_desc', locale),
   },
   {
     year: "2004",
-    role: t('journey', 'olympic_2_role', locale),
-    description: t('journey', 'olympic_2_description', locale),
+    role: t('journey', 'milestone_2004_role', locale),
+    description: t('journey', 'milestone_2004_desc', locale),
   },
   {
     year: "2008",
-    role: t('journey', 'olympic_3_role', locale),
-    description: t('journey', 'olympic_3_description', locale),
+    role: t('journey', 'milestone_2008_role', locale),
+    description: t('journey', 'milestone_2008_desc', locale),
   },
 ];
 
 const getProfessionalCareer = (locale: Locale): Milestone[] => [
   {
     year: "2014",
-    role: t('journey', 'career_1_role', locale),
-    description: t('journey', 'career_1_description', locale),
+    role: t('journey', 'milestone_2014_role', locale),
+    description: t('journey', 'milestone_2014_desc', locale),
   },
   {
     year: "2016",
-    role: t('journey', 'career_2_role', locale),
-    description: t('journey', 'career_2_description', locale),
+    role: t('journey', 'milestone_2016_role', locale),
+    description: t('journey', 'milestone_2016_desc', locale),
   },
   {
     year: "2017",
-    role: t('journey', 'career_3_role', locale),
-    description: t('journey', 'career_3_description', locale),
+    role: t('journey', 'milestone_2017_role', locale),
+    description: t('journey', 'milestone_2017_desc', locale),
   },
   {
     year: "2020",
-    role: t('journey', 'career_4_role', locale),
-    description: t('journey', 'career_4_description', locale),
+    role: t('journey', 'milestone_2020_role', locale),
+    description: t('journey', 'milestone_2020_desc', locale),
   },
   {
     year: "2022",
-    role: t('journey', 'career_5_role', locale),
-    description: t('journey', 'career_5_description', locale),
+    role: t('journey', 'milestone_2022_role', locale),
+    description: t('journey', 'milestone_2022_desc', locale),
   },
   {
     year: "2023",
-    role: t('journey', 'career_6_role', locale),
-    description: t('journey', 'career_6_description', locale),
+    role: t('journey', 'milestone_2023_role', locale),
+    description: t('journey', 'milestone_2023_desc', locale),
   },
   {
     year: "2025",
-    role: t('journey', 'career_7_role', locale),
-    description: t('journey', 'career_7_description', locale),
+    role: t('journey', 'milestone_2025_role', locale),
+    description: t('journey', 'milestone_2025_desc', locale),
   },
 ];
 
@@ -164,10 +164,10 @@ const MyJourneyContent = ({ locale }: MyJourneyContentProps) => {
             {t('journey', 'section_title', locale)}
           </h2>
           <p className="font-bold max-w-2xl mx-auto mb-2" style={{ fontSize: '18px', fontWeight: 600, color: '#1A202C' }}>
-            {t('journey', 'section_subtitle_main', locale)}
+            {t('journey', 'section_subtitle_bold', locale)}
           </p>
           <p className="font-body max-w-2xl mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#2D3748' }}>
-            {t('journey', 'section_subtitle_secondary', locale)}
+            {t('journey', 'section_subtitle', locale)}
           </p>
         </div>
 
@@ -209,7 +209,7 @@ const MyJourneyContent = ({ locale }: MyJourneyContentProps) => {
             
             <h3 className="text-lg font-bold text-foreground mb-5 flex items-center justify-center gap-2">
               <span className="text-xl">💼</span>
-              <span>{t('journey', 'career_transition_title', locale)}</span>
+              <span>{t('journey', 'professional_career_title', locale)}</span>
             </h3>
             {professionalCareer.map((milestone, index) =>
               renderMilestone(milestone, index + olympicJourney.length, (index + olympicJourney.length) % 2 === 0)

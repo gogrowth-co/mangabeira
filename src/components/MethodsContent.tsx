@@ -39,7 +39,7 @@ const MethodsContent = ({ locale }: MethodsContentProps) => {
                 {t('methods', 'funnel_title', locale)}
               </h3>
               <p className="mb-6" style={{ fontSize: '16px', fontWeight: 500, lineHeight: '1.4', color: '#4A4A4A' }}>
-                {t('methods', 'funnel_tagline', locale)}
+                {t('methods', 'funnel_subtitle', locale)}
               </p>
               
               <div className="flex justify-center mb-6 overflow-hidden" style={{ 
@@ -84,7 +84,7 @@ const MethodsContent = ({ locale }: MethodsContentProps) => {
                   e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
-                {t('methods', 'cta_see_in_action', locale)}
+                {t('methods', 'funnel_cta', locale)}
               </a>
             </CardContent>
           </Card>
