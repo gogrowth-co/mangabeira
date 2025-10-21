@@ -201,6 +201,9 @@ export default function AdminEdit() {
               {LANGUAGES.map((lang) => (
                 <AccordionItem key={lang} value={lang}>
                   <AccordionTrigger>
+                    {lang === 'en' ? '🇺🇸 English *' : lang === 'br' ? '🇧🇷 Brazilian Portuguese' : '🇪🇸 Spanish'}
+                  </AccordionTrigger>
+                  <AccordionContent className="pt-4">
                     <LanguageSection
                       language={lang}
                       translation={translations[lang]}
@@ -209,9 +212,6 @@ export default function AdminEdit() {
                       onInputMethodChange={(method) => setInputMethod(prev => ({ ...prev, [lang]: method }))}
                       required={lang === 'en'}
                     />
-                  </AccordionTrigger>
-                  <AccordionContent className="pt-4">
-                    {/* Content is rendered by LanguageSection */}
                   </AccordionContent>
                 </AccordionItem>
               ))}
