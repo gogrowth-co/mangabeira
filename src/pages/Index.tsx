@@ -27,17 +27,17 @@ const Index = () => {
         <SocialProofSection locale={locale} />
         <AboutSection locale={locale} />
         <AsSeenOnSection locale={locale} />
-        <CaseStudiesSection locale={locale} />
-        <CapabilitiesSection locale={locale} />
-        <MyJourneySection locale={locale} />
-        <MethodsSection locale={locale} />
-        <ToolsSection locale={locale} />
-        <PublicationsSection locale={locale} />
-        <TestimonialsSection locale={locale} />
+        <CaseStudiesSection />
+        <CapabilitiesSection />
+        <MyJourneySection />
+        <MethodsSection />
+        <ToolsSection />
+        <PublicationsSection />
+        <TestimonialsSection />
         <CTASection locale={locale} />
       </main>
-      <Footer locale={locale} />
-      <ChatWithMyAI locale={locale} />
+      <Footer />
+      <ChatWithMyAI />
     </>
   );
 };

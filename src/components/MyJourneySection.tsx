@@ -1,11 +1,6 @@
-import { Locale } from "@/lib/translations";
 import MyJourneyContent from "./MyJourneyContent";
 
-interface MyJourneySectionProps {
-  locale: Locale;
-}
-
-const MyJourneySection = ({ locale }: MyJourneySectionProps) => {
+const MyJourneySection = () => {
   return <MyJourneyContent />;
 };
 

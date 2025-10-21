@@ -121,7 +121,7 @@ const PrivacyPolicy = () => {
 
   return (
     <>
-      <Header />
+      <Header locale="en" />
       <main className="font-body bg-background">
         <article className="max-w-3xl mx-auto px-6 py-16 md:py-24">
           {/* Header */}

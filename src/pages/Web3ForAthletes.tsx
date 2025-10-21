@@ -99,7 +99,7 @@ export default function Web3ForAthletes() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Header />
+      <Header locale="en" />
 
       <main>
         <article className="mx-auto w-full max-w-3xl px-4 py-8 md:py-12">

@@ -1,11 +1,6 @@
-import { Locale } from "@/lib/translations";
 import MethodsContent from "./MethodsContent";
 
-interface MethodsSectionProps {
-  locale: Locale;
-}
-
-const MethodsSection = ({ locale }: MethodsSectionProps) => {
+const MethodsSection = () => {
   return <MethodsContent />;
 };
 
