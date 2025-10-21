@@ -79,7 +79,7 @@ export default function AdminNew() {
       
       await createMutation.mutateAsync({
         slug,
-        category: category || null,
+        category: category && category !== 'none' ? category : null,
         translations: translationsToSave,
       });
       
@@ -122,7 +122,7 @@ export default function AdminNew() {
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">None</SelectItem>
+                <SelectItem value="none">None</SelectItem>
                 <SelectItem value="about">About</SelectItem>
                 <SelectItem value="services">Services</SelectItem>
                 <SelectItem value="blog">Blog</SelectItem>
