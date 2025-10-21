@@ -18,25 +18,26 @@ import { useEffect } from "react";
 
 const queryClient = new QueryClient();
 
-// Redirect component for root path based on language preference
-const RootRedirect = () => {
-  const location = useLocation();
-  
-  useEffect(() => {
-    if (location.pathname === '/') {
-      const preferredLang = detectBrowserLanguage();
-      if (preferredLang === 'br') {
-        window.location.href = '/br';
-      } else if (preferredLang === 'es') {
-        window.location.href = '/es';
+const App = () => {
+  // Redirect component defined inside App to ensure proper React context
+  const RootRedirect = () => {
+    const location = useLocation();
+    
+    useEffect(() => {
+      if (location.pathname === '/') {
+        const preferredLang = detectBrowserLanguage();
+        if (preferredLang === 'br') {
+          window.location.href = '/br';
+        } else if (preferredLang === 'es') {
+          window.location.href = '/es';
+        }
       }
-    }
-  }, [location.pathname]);
+    }, [location.pathname]);
 
-  return <Index />;
-};
+    return <Index />;
+  };
 
-const App = () => (
+  return (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
@@ -60,6 +61,7 @@ const App = () => (
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
-);
+  );
+};
 
 export default App;
