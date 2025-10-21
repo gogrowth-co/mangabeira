@@ -4,44 +4,49 @@ import { Card } from "@/components/ui/card";
 import binanceLogo from "@/assets/binance-logo.png";
 import cocaColaLogo from "@/assets/coca-cola-logo.png";
 import iocLogo from "@/assets/ioc-logo.png";
+import { Locale, t } from "@/lib/translations";
 
-const SocialProofSection = () => {
+interface SocialProofSectionProps {
+  locale: Locale;
+}
+
+const SocialProofSection = ({ locale }: SocialProofSectionProps) => {
   const [countUpValues, setCountUpValues] = useState([0, 0, 0, 0]);
 
   const logos = [
-    { src: iocLogo, alt: "IOC", name: "IOC" },
-    { src: cocaColaLogo, alt: "Coca-Cola", name: "Coca-Cola" },
-    { src: binanceLogo, alt: "Binance", name: "Binance" },
+    { src: iocLogo, alt: t('social_proof', 'logo_ioc_alt', locale), name: t('social_proof', 'logo_ioc_alt', locale) },
+    { src: cocaColaLogo, alt: t('social_proof', 'logo_coca_cola_alt', locale), name: t('social_proof', 'logo_coca_cola_alt', locale) },
+    { src: binanceLogo, alt: t('social_proof', 'logo_binance_alt', locale), name: t('social_proof', 'logo_binance_alt', locale) },
   ];
 
   const stats = [
     {
       Icon: Medal,
       number: 2,
-      label: "Olympian",
-      subtitle: "Discipline, focus, and resilience.",
-      suffix: "x",
+      label: t('social_proof', 'stat_olympian_label', locale),
+      subtitle: t('social_proof', 'stat_olympian_subtitle', locale),
+      suffix: t('social_proof', 'stat_olympian_suffix', locale),
     },
     {
       Icon: DollarSign,
       number: 6000000,
-      label: "Raised",
-      subtitle: "Crowdfunding & DTC launches.",
-      suffix: "M+",
+      label: t('social_proof', 'stat_raised_label', locale),
+      subtitle: t('social_proof', 'stat_raised_subtitle', locale),
+      suffix: t('social_proof', 'stat_raised_suffix', locale),
     },
     {
       Icon: TrendingUp,
       number: 1000000,
-      label: "Global Readers",
-      subtitle: "Scaled audiences across LATAM.",
-      suffix: "M+",
+      label: t('social_proof', 'stat_readers_label', locale),
+      subtitle: t('social_proof', 'stat_readers_subtitle', locale),
+      suffix: t('social_proof', 'stat_readers_suffix', locale),
     },
     {
       Icon: Target,
       number: 1000000,
-      label: "Ad Spend Managed",
-      subtitle: "High-performing paid campaigns.",
-      suffix: "M+",
+      label: t('social_proof', 'stat_ad_spend_label', locale),
+      subtitle: t('social_proof', 'stat_ad_spend_subtitle', locale),
+      suffix: t('social_proof', 'stat_ad_spend_suffix', locale),
     },
   ];
 
@@ -95,10 +100,10 @@ const SocialProofSection = () => {
         {/* Section Header */}
         <div className="text-center mb-4 md:mb-5 lg:mb-6 animate-fade-in">
           <h2 className="font-bold mb-3 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#1A202C' }}>
-            Proven Growth in Action
+            {t('social_proof', 'section_title', locale)}
           </h2>
           <p className="font-body max-w-3xl mx-auto" style={{ fontSize: '16px', fontWeight: 500, color: '#2D3748' }}>
-            From Olympic discipline to digital impact, trusted by the IOC, Coca-Cola, and Binance.
+            {t('social_proof', 'section_subtitle', locale)}
           </p>
         </div>
 

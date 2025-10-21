@@ -1,12 +1,17 @@
 import olympicsLogo from "@/assets/olympics-logo.png";
 import globoEsporteLogo from "@/assets/globo-esporte-logo.png";
 import nscTotalLogo from "@/assets/nsc-total-logo.png";
+import { Locale, t } from "@/lib/translations";
 
-const AsSeenOnSection = () => {
+interface AsSeenOnSectionProps {
+  locale: Locale;
+}
+
+const AsSeenOnSection = ({ locale }: AsSeenOnSectionProps) => {
   const logos = [
-    { src: olympicsLogo, alt: "Olympics.com", name: "Olympics.com", url: "https://www.olympics.com/en/athletes/gabriel-mangabeira" },
-    { src: globoEsporteLogo, alt: "Globo Esporte", name: "Globo Esporte", url: "https://ge.globo.com/Jogos-Mundiais-Militares/noticia/2011/07/gabriel-mangabeira-leva-sozinho-cinco-ouros-e-uma-prata-no-maria-lenk.html" },
-    { src: nscTotalLogo, alt: "NSC Total", name: "NSC Total", url: "https://www.nsctotal.com.br/noticias/mangabeira-fica-em-sexto-e-phelps-leva-seu-quinto-ouro" },
+    { src: olympicsLogo, alt: t('as_seen_on', 'logo_olympics_alt', locale), name: t('as_seen_on', 'logo_olympics_alt', locale), url: "https://www.olympics.com/en/athletes/gabriel-mangabeira" },
+    { src: globoEsporteLogo, alt: t('as_seen_on', 'logo_globo_alt', locale), name: t('as_seen_on', 'logo_globo_alt', locale), url: "https://ge.globo.com/Jogos-Mundiais-Militares/noticia/2011/07/gabriel-mangabeira-leva-sozinho-cinco-ouros-e-uma-prata-no-maria-lenk.html" },
+    { src: nscTotalLogo, alt: t('as_seen_on', 'logo_nsc_alt', locale), name: t('as_seen_on', 'logo_nsc_alt', locale), url: "https://www.nsctotal.com.br/noticias/mangabeira-fica-em-sexto-e-phelps-leva-seu-quinto-ouro" },
   ];
 
   return (
@@ -18,10 +23,10 @@ const AsSeenOnSection = () => {
         {/* Section Header */}
         <div className="text-center mb-4 md:mb-5 lg:mb-6">
           <h2 className="font-bold mb-3 md:mb-1.5 lg:mb-2" style={{ fontSize: 'clamp(32px, 3.5vw, 36px)', lineHeight: '1.2', fontWeight: 800, color: '#1A202C' }}>
-            As Seen On
+            {t('as_seen_on', 'section_title', locale)}
           </h2>
           <p className="font-body" style={{ fontSize: '16px', fontWeight: 500, color: '#2D3748' }}>
-            Features & mentions from global media.
+            {t('as_seen_on', 'section_subtitle', locale)}
           </p>
         </div>
 

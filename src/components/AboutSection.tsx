@@ -2,28 +2,33 @@ import { Medal, Zap, TrendingUp, Globe } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import gabrielProfessional from "@/assets/gabriel-professional-new.webp";
+import { Locale, t } from "@/lib/translations";
 
-const AboutSection = () => {
+interface AboutSectionProps {
+  locale: Locale;
+}
+
+const AboutSection = ({ locale }: AboutSectionProps) => {
   const authoritySignals = [
     {
       Icon: Medal,
-      title: "2x Olympian",
-      description: "Represented Brazil on the world stage.",
+      title: t('about', 'signal_olympian_title', locale),
+      description: t('about', 'signal_olympian_desc', locale),
     },
     {
       Icon: Zap,
-      title: "From Olympic Pools to Digital Growth",
-      description: "Applied Olympic discipline to accelerate measurable digital growth.",
+      title: t('about', 'signal_transition_title', locale),
+      description: t('about', 'signal_transition_desc', locale),
     },
     {
       Icon: TrendingUp,
-      title: "Marketing Leader",
-      description: "Drove growth for global brands including Binance and Coca-Cola.",
+      title: t('about', 'signal_leader_title', locale),
+      description: t('about', 'signal_leader_desc', locale),
     },
     {
       Icon: Globe,
-      title: "Global Citizen",
-      description: "Campaigns across 3 languages: English, Portuguese, and Spanish.",
+      title: t('about', 'signal_global_title', locale),
+      description: t('about', 'signal_global_desc', locale),
     },
   ];
 
@@ -36,10 +41,10 @@ const AboutSection = () => {
         {/* Section Header */}
         <div className="text-center mb-8 lg:mb-10">
           <h2 className="font-hero font-bold text-[#0B1B2B] mb-2" style={{ fontSize: 'clamp(28px, 3vw, 36px)' }}>
-            My Story
+            {t('about', 'section_title', locale)}
           </h2>
           <p className="text-[#5B6B7C] font-medium text-base md:text-lg max-w-3xl mx-auto">
-            From Olympic discipline to digital growth — a journey of focus, performance, and measurable impact.
+            {t('about', 'section_subtitle', locale)}
           </p>
         </div>
 
@@ -51,7 +56,7 @@ const AboutSection = () => {
               <div className="w-72 h-72 md:w-80 md:h-80 lg:w-[360px] lg:h-[360px] rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-gray-light to-white-soft animate-fade-in">
                 <img
                   src={gabrielProfessional}
-                  alt="Gabriel Mangabeira - Olympic athlete turned digital strategist"
+                  alt={t('about', 'image_alt', locale)}
                   className="w-full h-full object-cover object-center transform transition-transform duration-700 hover:scale-105"
                 />
               </div>
@@ -65,10 +70,10 @@ const AboutSection = () => {
             {/* Narrative */}
             <div className="text-base md:text-lg font-body mb-6 animate-fade-in" style={{ lineHeight: '1.6em', maxWidth: '65ch', color: '#4A4A4A' }}>
               <p className="mb-5">
-                I grew up in the water, chasing hundredths of a second. That pursuit of excellence took me to the Olympics, where I learned that discipline, resilience, and focus are everything.
+                {t('about', 'narrative_para1', locale)}
               </p>
               <p>
-                When I transitioned from the pool to the world of digital marketing, I carried those same principles with me — only now, instead of chasing medals, I help businesses chase <strong style={{ color: '#1A202C' }}>measurable growth</strong>.
+                {t('about', 'narrative_para2', locale)}
               </p>
             </div>
 
@@ -123,7 +128,7 @@ const AboutSection = () => {
                 }}
                 onClick={() => window.location.href = '/about'}
               >
-                Read My Full Story
+                {t('about', 'cta_read_story', locale)}
                 <span className="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>
               </Button>
             </div>
