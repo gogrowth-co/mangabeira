@@ -14,7 +14,13 @@ import Web3SEO from "./pages/Web3SEO";
 import TokenHealthScan from "./pages/TokenHealthScan";
 import About from "./pages/About";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Admin from "./pages/Admin";
+import AdminNew from "./pages/AdminNew";
+import AdminEdit from "./pages/AdminEdit";
+import AdminEditLanguage from "./pages/AdminEditLanguage";
+import DynamicPage from "./pages/DynamicPage";
 import { useEffect } from "react";
+import { isDevMode } from "./lib/adminCheck";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -61,6 +67,22 @@ const App = () => {
               <Route path="/publications/web3-for-athletes" element={<Web3ForAthletes />} />
               <Route path="/publications/definitive-guide-web3-seo" element={<Web3SEO />} />
               <Route path="/publications/vibe-coded-token-health-scan" element={<TokenHealthScan />} />
+              
+              {/* Admin routes - dev only */}
+              {isDevMode() && (
+                <>
+                  <Route path="/admin" element={<Admin />} />
+                  <Route path="/admin/new" element={<AdminNew />} />
+                  <Route path="/admin/edit/:id" element={<AdminEdit />} />
+                  <Route path="/admin/edit/:id/:lang" element={<AdminEditLanguage />} />
+                </>
+              )}
+              
+              {/* Dynamic pages */}
+              <Route path="/br/:slug" element={<DynamicPage />} />
+              <Route path="/es/:slug" element={<DynamicPage />} />
+              <Route path="/:slug" element={<DynamicPage />} />
+              
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
