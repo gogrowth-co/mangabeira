@@ -670,7 +670,7 @@ export default function Web2VsWeb3Marketing() {
         </article>
       </main>
       
-      <Footer />
+      <Footer locale="en" />
     </div>
   );
 }

@@ -1,7 +1,12 @@
 import PublicationsContent from "./PublicationsContent";
+import { Locale } from "@/lib/translations";
 
-const PublicationsSection = () => {
-  return <PublicationsContent />;
+interface PublicationsSectionProps {
+  locale: Locale;
+}
+
+const PublicationsSection = ({ locale }: PublicationsSectionProps) => {
+  return <PublicationsContent locale={locale} />;
 };
 
 export default PublicationsSection;

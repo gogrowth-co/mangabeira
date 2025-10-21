@@ -6,6 +6,13 @@ import { cn } from "@/lib/utils";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Locale, t, getPathForLocale } from "@/lib/translations";
 import { useLanguage } from "@/contexts/LanguageContext";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface HeaderProps {
   locale: Locale;
@@ -28,6 +35,11 @@ const Header = ({ locale }: HeaderProps) => {
     { label: t('header', 'nav_publications', locale), href: "#publications" },
     { label: t('header', 'nav_contact', locale), href: "#contact" },
   ];
+
+  // Scroll to top when locale changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [locale]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -142,38 +154,19 @@ const Header = ({ locale }: HeaderProps) => {
 
           {/* Language Toggle & CTA - Desktop */}
           <div className="hidden md:flex items-center gap-3">
-            {/* Language Toggle */}
-            <div className="flex items-center gap-1.5 text-sm border border-border rounded-lg px-2 py-1 bg-background/50">
-              <button
-                onClick={() => handleLanguageChange('en')}
-                className={cn(
-                  "px-2 py-0.5 rounded transition-all",
-                  locale === 'en' ? "bg-primary text-primary-foreground font-semibold" : "hover:bg-muted"
-                )}
-              >
-                🇺🇸 EN
-              </button>
-              <span className="text-border">|</span>
-              <button
-                onClick={() => handleLanguageChange('br')}
-                className={cn(
-                  "px-2 py-0.5 rounded transition-all",
-                  locale === 'br' ? "bg-primary text-primary-foreground font-semibold" : "hover:bg-muted"
-                )}
-              >
-                🇧🇷 PT
-              </button>
-              <span className="text-border">|</span>
-              <button
-                onClick={() => handleLanguageChange('es')}
-                className={cn(
-                  "px-2 py-0.5 rounded transition-all",
-                  locale === 'es' ? "bg-primary text-primary-foreground font-semibold" : "hover:bg-muted"
-                )}
-              >
-                🇪🇸 ES
-              </button>
-            </div>
+            {/* Language Dropdown */}
+            <Select value={locale} onValueChange={(value: Locale) => handleLanguageChange(value)}>
+              <SelectTrigger className="w-[140px] bg-background border-border">
+                <SelectValue>
+                  {locale === 'en' ? 'English' : locale === 'br' ? 'Português' : 'Español'}
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent className="bg-background border-border z-50">
+                <SelectItem value="en">English</SelectItem>
+                <SelectItem value="br">Português</SelectItem>
+                <SelectItem value="es">Español</SelectItem>
+              </SelectContent>
+            </Select>
 
             <Button
               size="sm"
@@ -202,37 +195,20 @@ const Header = ({ locale }: HeaderProps) => {
             </SheetTrigger>
 
             <SheetContent side="right" className="w-full sm:w-80 flex flex-col">
-              {/* Language Toggle - Mobile */}
-              <div className="flex items-center justify-center gap-2 text-sm mt-4 mb-6 border border-border rounded-lg px-3 py-2 bg-background/50">
-                <button
-                  onClick={() => handleLanguageChange('en')}
-                  className={cn(
-                    "px-3 py-1 rounded transition-all",
-                    locale === 'en' ? "bg-primary text-primary-foreground font-semibold" : "hover:bg-muted"
-                  )}
-                >
-                  🇺🇸 EN
-                </button>
-                <span className="text-border">|</span>
-                <button
-                  onClick={() => handleLanguageChange('br')}
-                  className={cn(
-                    "px-3 py-1 rounded transition-all",
-                    locale === 'br' ? "bg-primary text-primary-foreground font-semibold" : "hover:bg-muted"
-                  )}
-                >
-                  🇧🇷 PT
-                </button>
-                <span className="text-border">|</span>
-                <button
-                  onClick={() => handleLanguageChange('es')}
-                  className={cn(
-                    "px-3 py-1 rounded transition-all",
-                    locale === 'es' ? "bg-primary text-primary-foreground font-semibold" : "hover:bg-muted"
-                  )}
-                >
-                  🇪🇸 ES
-                </button>
+              {/* Language Dropdown - Mobile */}
+              <div className="mt-4 mb-6">
+                <Select value={locale} onValueChange={(value: Locale) => handleLanguageChange(value)}>
+                  <SelectTrigger className="w-full bg-background border-border">
+                    <SelectValue>
+                      {locale === 'en' ? 'English' : locale === 'br' ? 'Português' : 'Español'}
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent className="bg-background border-border z-50">
+                    <SelectItem value="en">English</SelectItem>
+                    <SelectItem value="br">Português</SelectItem>
+                    <SelectItem value="es">Español</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <nav className="flex flex-col gap-1" aria-label="Mobile navigation">

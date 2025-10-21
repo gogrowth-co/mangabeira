@@ -1,6 +1,11 @@
 import { Linkedin, Twitter, Github } from "lucide-react";
+import { Locale, t } from "@/lib/translations";
 
-const Footer = () => {
+interface FooterProps {
+  locale: Locale;
+}
+
+const Footer = ({ locale }: FooterProps) => {
   const socialLinks = [
     {
       name: "LinkedIn",
@@ -25,17 +30,17 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           {/* Copyright and Privacy Policy */}
           <div className="text-sm text-muted-foreground text-center md:text-left max-w-2xl">
-            <div>© 2025 Gabriel Mangabeira. Built with ❤️ in Florianópolis and powered by <a href="https://lovable.dev/?via=gabriel-mangabeira" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Lovable</a>.</div>
+            <div>{t('footer', 'copyright', locale)}</div>
             <div className="mt-1">
               <a 
                 href="/privacy-policy" 
                 className="text-muted-foreground hover:text-primary transition-colors underline"
               >
-                Privacy Policy
+                {t('footer', 'privacy_policy', locale)}
               </a>
             </div>
             <div className="mt-2 text-xs opacity-75">
-              The perspectives and frameworks shared here are my own, developed from hands-on experience and public-domain research. They do not disclose or represent the proprietary work of any employer or client.
+              {t('footer', 'disclaimer', locale)}
             </div>
           </div>
 

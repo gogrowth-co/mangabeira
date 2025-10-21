@@ -1,7 +1,12 @@
 import TestimonialsContent from "./TestimonialsContent";
+import { Locale } from "@/lib/translations";
 
-const TestimonialsSection = () => {
-  return <TestimonialsContent />;
+interface TestimonialsSectionProps {
+  locale: Locale;
+}
+
+const TestimonialsSection = ({ locale }: TestimonialsSectionProps) => {
+  return <TestimonialsContent locale={locale} />;
 };
 
 export default TestimonialsSection;

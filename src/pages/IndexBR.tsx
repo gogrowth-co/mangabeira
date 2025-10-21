@@ -37,16 +37,16 @@ const IndexBR = () => {
         <SocialProofSection locale={locale} />
         <AboutSection locale={locale} />
         <AsSeenOnSection locale={locale} />
-        <CaseStudiesSection />
-        <CapabilitiesSection />
-        <MyJourneySection />
-        <MethodsSection />
-        <ToolsSection />
-        <PublicationsSection />
-        <TestimonialsSection />
+        <CaseStudiesSection locale={locale} />
+        <CapabilitiesSection locale={locale} />
+        <MyJourneySection locale={locale} />
+        <MethodsSection locale={locale} />
+        <ToolsSection locale={locale} />
+        <PublicationsSection locale={locale} />
+        <TestimonialsSection locale={locale} />
         <CTASection locale={locale} />
       </main>
-      <Footer />
+      <Footer locale={locale} />
       <ChatWithMyAI />
     </>
   );

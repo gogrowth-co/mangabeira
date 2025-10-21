@@ -480,7 +480,7 @@ export default function About() {
         </article>
       </main>
 
-      <Footer />
+      <Footer locale="en" />
     </div>
   );
 }

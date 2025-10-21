@@ -6,6 +6,11 @@ import binanceLogo from "@/assets/binance-logo.png";
 import npDigitalLogo from "@/assets/np-digital-logo.png";
 import cocaColaLogo from "@/assets/coca-cola-logo.png";
 import russellMarketingLogo from "@/assets/russell-marketing-logo.png";
+import { Locale } from "@/lib/translations";
+
+interface CaseStudiesContentProps {
+  locale: Locale;
+}
 
 const caseStudies = [
   {
@@ -62,7 +67,7 @@ const caseStudies = [
   }
 ];
 
-const CaseStudiesSection = () => {
+const CaseStudiesContent = ({ locale }: CaseStudiesContentProps) => {
   const [animatedNumbers, setAnimatedNumbers] = useState({
     1: 0,
     2: 0, 
@@ -243,4 +248,4 @@ const CaseStudiesSection = () => {
   );
 };
 
-export default CaseStudiesSection;
+export default CaseStudiesContent;

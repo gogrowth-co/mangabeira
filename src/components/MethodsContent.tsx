@@ -1,10 +1,14 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight } from "lucide-react";
 import growthFunnelImage from "@/assets/growth-hacking-funnel.png";
 import growthLoopImage from "@/assets/growth-loops.png";
 import mediaFrameworkImage from "@/assets/unified-media-strategy.png";
+import { Locale } from "@/lib/translations";
 
-const MethodsSection = () => {
+interface MethodsContentProps {
+  locale: Locale;
+}
+
+const MethodsContent = ({ locale }: MethodsContentProps) => {
   return (
     <section id="methods" className="py-8 md:py-9 lg:py-10 bg-[#EFF6FA] relative overflow-hidden">
       {/* Subtle top separator */}
@@ -212,4 +216,4 @@ const MethodsSection = () => {
   );
 };
 
-export default MethodsSection;
+export default MethodsContent;

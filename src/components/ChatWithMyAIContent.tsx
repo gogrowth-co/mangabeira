@@ -94,9 +94,9 @@ const ChatWithMyAIContent = () => {
   };
 
   const quickActions = [
-    { key: 'case_studies', text: 'View case studies' },
-    { key: 'book_call', text: 'Book a call' },
-    { key: 'my_experience', text: 'Tell me about your experience' },
+    { key: 'case_studies', text: t('chat', 'quick_action_cases', locale) },
+    { key: 'book_call', text: t('chat', 'quick_action_book', locale) },
+    { key: 'my_experience', text: t('chat', 'quick_action_pubs', locale) },
   ];
 
   return (
@@ -107,7 +107,8 @@ const ChatWithMyAIContent = () => {
         className={`fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full bg-primary text-white shadow-lg transition-all hover:scale-110 hover:shadow-xl md:h-16 md:w-16 ${
           isOpen ? 'hidden' : ''
         }`}
-        aria-label="Open chat with AI assistant"
+        aria-label={t('chat', 'aria_open_chat', locale)}
+        title={t('chat', 'bubble_tooltip', locale)}
       >
         <MessageSquare className="h-6 w-6 mx-auto" />
       </button>
@@ -120,10 +121,10 @@ const ChatWithMyAIContent = () => {
             <div className="flex items-center justify-between border-b border-border p-4 bg-primary/5">
               <div>
                 <h3 className="font-heading text-lg font-semibold text-foreground">
-                  Chat with Gabriel's AI
+                  {t('chat', 'header_title', locale)}
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  Ask about growth marketing, Web3, or my experience
+                  {t('chat', 'header_subtitle', locale)}
                 </p>
               </div>
               <Button
@@ -141,8 +142,8 @@ const ChatWithMyAIContent = () => {
               {messages.length === 0 ? (
                 <div className="flex h-full flex-col items-center justify-center text-center text-muted-foreground">
                   <MessageSquare className="h-12 w-12 mb-4 opacity-50" />
-                  <p className="text-sm mb-1">Ask me anything about:</p>
-                  <p className="text-xs">Growth marketing, Web3, SEO, or my experience</p>
+                  <p className="text-sm mb-1">{t('chat', 'empty_state_line1', locale)}</p>
+                  <p className="text-xs">{t('chat', 'empty_state_line2', locale)}</p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -165,7 +166,7 @@ const ChatWithMyAIContent = () => {
                   {isLoading && messages[messages.length - 1]?.role === 'user' && (
                     <div className="flex justify-start">
                       <div className="max-w-[80%] rounded-2xl bg-muted px-4 py-2">
-                        <p className="text-sm text-muted-foreground">Thinking...</p>
+                        <p className="text-sm text-muted-foreground">{t('chat', 'loading_thinking', locale)}</p>
                       </div>
                     </div>
                   )}
@@ -200,16 +201,16 @@ const ChatWithMyAIContent = () => {
                 <Input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask me anything..."
+                  placeholder={t('chat', 'input_placeholder', locale)}
                   disabled={isLoading}
                   className="flex-1"
                 />
-                <Button type="submit" size="icon" disabled={isLoading || !input.trim()}>
+                <Button type="submit" size="icon" disabled={isLoading || !input.trim()} aria-label={t('chat', 'button_send', locale)}>
                   <Send className="h-4 w-4" />
                 </Button>
               </form>
               <p className="mt-2 text-xs text-muted-foreground text-center">
-                AI responses may not always be accurate
+                {t('chat', 'disclaimer', locale)}
               </p>
             </div>
           </div>

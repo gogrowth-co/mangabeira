@@ -13,8 +13,13 @@ import jonathanAvatar from "@/assets/jonathan-guimaraes-avatar.png";
 import lucasAvatar from "@/assets/lucas-bhering-avatar.png";
 import willAvatar from "@/assets/will-russell-avatar.png";
 import russellLogo from "@/assets/russell-marketing-logo.png";
+import { Locale } from "@/lib/translations";
 
-const TestimonialsSection = () => {
+interface TestimonialsContentProps {
+  locale: Locale;
+}
+
+const TestimonialsContent = ({ locale }: TestimonialsContentProps) => {
   const testimonials = [
     {
       quote: "Gabriel has been phenomenal over the last 5 years. From PPC to blogging, sales to project management, he excelled in every role. His hunger to learn and grow made him an invaluable teammate — and would make him an asset to any company.",
@@ -130,4 +135,4 @@ const TestimonialsSection = () => {
   );
 };
 
-export default TestimonialsSection;
+export default TestimonialsContent;

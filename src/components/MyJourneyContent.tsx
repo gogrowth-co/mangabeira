@@ -2,6 +2,11 @@ import { useEffect, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import poolOverhead from "@/assets/pool-overhead.png";
+import { Locale } from "@/lib/translations";
+
+interface MyJourneyContentProps {
+  locale: Locale;
+}
 
 interface Milestone {
   year: string;
@@ -65,7 +70,7 @@ const professionalCareer: Milestone[] = [
   },
 ];
 
-const MyJourneySection = () => {
+const MyJourneyContent = ({ locale }: MyJourneyContentProps) => {
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -242,7 +247,7 @@ const MyJourneySection = () => {
           transform: translateY(0) !important;
         }
 
-        /* Splash marker pulse effect */
+        /* Splash marker pulse effect */}
         .splash-marker {
           animation: splash-pulse 3s ease-in-out infinite;
         }
@@ -258,21 +263,7 @@ const MyJourneySection = () => {
           }
         }
 
-        /* Podium marker animation */
-        .podium-marker {
-          animation: podium-glow 3s ease-in-out infinite;
-        }
-
-        @keyframes podium-glow {
-          0%, 100% {
-            box-shadow: 0 0 30px rgba(255,122,0,0.5), 0 0 50px rgba(234,179,8,0.3);
-          }
-          50% {
-            box-shadow: 0 0 40px rgba(255,122,0,0.6), 0 0 70px rgba(234,179,8,0.4);
-          }
-        }
-
-        /* Ripple card hover effect */
+        /* Ripple card hover effect */}
         .ripple-card {
           position: relative;
           overflow: hidden;
@@ -313,4 +304,4 @@ const MyJourneySection = () => {
   );
 };
 
-export default MyJourneySection;
+export default MyJourneyContent;

@@ -976,7 +976,7 @@ export default function Web3SEO() {
         </article>
       </main>
 
-      <Footer />
+      <Footer locale="en" />
     </div>
   );
 }

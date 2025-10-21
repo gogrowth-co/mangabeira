@@ -1,11 +1,15 @@
-import { Badge } from "@/components/ui/badge";
 import { ArrowRight } from "lucide-react";
 import web3AthletesCover from "@/assets/web3-for-athletes.png";
 import web2Web3MarketingCover from "@/assets/web2-vs-web3-cover.png";
 import tokenHealthScanCover from "@/assets/vibe-coding-lovable.png";
 import web3SeoGuideCover from "@/assets/web3-seo-cover.png";
+import { Locale } from "@/lib/translations";
 
-const PublicationsSection = () => {
+interface PublicationsContentProps {
+  locale: Locale;
+}
+
+const PublicationsContent = ({ locale }: PublicationsContentProps) => {
   const publications = [
     {
       cover: web3AthletesCover,
@@ -156,4 +160,4 @@ const PublicationsSection = () => {
   );
 };
 
-export default PublicationsSection;
+export default PublicationsContent;

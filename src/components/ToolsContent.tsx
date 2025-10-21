@@ -3,8 +3,13 @@ import growthExperimentsImage from "@/assets/growth-experiments-screenshot.png";
 import web3RoastImage from "@/assets/web3-roast-screenshot.png";
 import tokenHealthImage from "@/assets/token-health-scan-screenshot.png";
 import shopifyGraderImage from "@/assets/shopify-grader-screenshot.png";
+import { Locale } from "@/lib/translations";
 
-const ToolsSection = () => {
+interface ToolsContentProps {
+  locale: Locale;
+}
+
+const ToolsContent = ({ locale }: ToolsContentProps) => {
   const tools = [
     {
       icon: Zap,
@@ -180,4 +185,4 @@ const ToolsSection = () => {
   );
 };
 
-export default ToolsSection;
+export default ToolsContent;

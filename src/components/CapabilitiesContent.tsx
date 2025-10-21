@@ -1,8 +1,13 @@
-import { Brain, Link2, BarChart3, TrendingUp } from "lucide-react";
+import { Brain, Link2, BarChart3 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Locale } from "@/lib/translations";
 
-const CapabilitiesSection = () => {
+interface CapabilitiesContentProps {
+  locale: Locale;
+}
+
+const CapabilitiesContent = ({ locale }: CapabilitiesContentProps) => {
   const capabilities = [
     {
       Icon: Brain,
@@ -101,4 +106,4 @@ const CapabilitiesSection = () => {
   );
 };
 
-export default CapabilitiesSection;
+export default CapabilitiesContent;
