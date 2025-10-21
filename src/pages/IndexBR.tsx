@@ -15,12 +15,12 @@ import ChatWithMyAI from "@/components/ChatWithMyAI";
 import Header from "@/components/Header";
 import SEO from "@/components/SEO";
 
-const Index = () => {
-  const locale = 'en';
+const IndexBR = () => {
+  const locale = 'br';
   
   return (
     <>
-      <SEO locale={locale} path="/" />
+      <SEO locale={locale} path="/br" />
       <Header locale={locale} />
       <main className="font-body">
         <HeroSection locale={locale} />
@@ -42,4 +42,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default IndexBR;
