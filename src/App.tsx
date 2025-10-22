@@ -19,6 +19,9 @@ import AdminNew from "./pages/AdminNew";
 import AdminEdit from "./pages/AdminEdit";
 import AdminEditLanguage from "./pages/AdminEditLanguage";
 import DynamicPage from "./pages/DynamicPage";
+import Publications from "./pages/Publications";
+import PublicationsBR from "./pages/PublicationsBR";
+import PublicationsES from "./pages/PublicationsES";
 import { useEffect } from "react";
 import { isDevMode } from "./lib/adminCheck";
 
@@ -63,6 +66,13 @@ const App = () => {
               <Route path="/es" element={<IndexES />} />
               <Route path="/about" element={<About />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              
+              {/* Publications hub */}
+              <Route path="/publications" element={<Publications />} />
+              <Route path="/br/artigos" element={<PublicationsBR />} />
+              <Route path="/es/articulos" element={<PublicationsES />} />
+              
+              {/* Legacy publication routes */}
               <Route path="/publications/web2-vs-web3-marketing" element={<Web2VsWeb3Marketing />} />
               <Route path="/publications/web3-for-athletes" element={<Web3ForAthletes />} />
               <Route path="/publications/definitive-guide-web3-seo" element={<Web3SEO />} />

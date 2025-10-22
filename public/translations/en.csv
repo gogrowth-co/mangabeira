@@ -270,3 +270,40 @@ chat,quick_action_cases,Case studies,Quick action button
 chat,quick_action_tools,My tools,Quick action button
 chat,quick_action_pubs,Publications,Quick action button
 chat,aria_open_chat,Open chat,Accessibility label
+
+publications_hub,page_title,Publications | Gabriel Mangabeira,Page title
+publications_hub,page_description,Articles and insights on growth marketing Web3 and AI-powered strategies.,Meta description
+publications_hub,canonical_url,/publications,Canonical URL
+publications_hub,hero_title,Publications,H1 title
+publications_hub,hero_subtitle,Insights on growth marketing Web3 and performance strategies,Hero subtitle
+publications_hub,hero_intro,"Explore practical frameworks proven strategies and lessons from real campaigns. From Olympic discipline to digital growth these publications blend data-driven tactics with Web3 innovation.",Intro paragraph
+publications_hub,breadcrumb_home,Home,Breadcrumb
+publications_hub,breadcrumb_current,Publications,Breadcrumb
+publications_hub,filter_all,All,Filter label
+publications_hub,filter_web3,Web3,Filter label
+publications_hub,filter_marketing,Marketing,Filter label
+publications_hub,filter_growth,Growth,Filter label
+publications_hub,filter_seo,SEO,Filter label
+publications_hub,filter_tools,Tools,Filter label
+publications_hub,search_placeholder,Search publications...,Search input
+publications_hub,sort_recent,Most Recent,Sort option
+publications_hub,sort_popular,Most Popular,Sort option
+publications_hub,sort_az,A-Z,Sort option
+publications_hub,results_showing,Showing,Results counter prefix
+publications_hub,results_publications,publications,Results counter suffix
+publications_hub,no_results,No publications found,Empty state
+publications_hub,try_different,Try adjusting your filters or search query.,Empty state helper
+publications_hub,read_time,min read,Reading time suffix
+publications_hub,updated,Updated,Last updated prefix
+publications_hub,read_more,Read Article,CTA text
+publications_hub,translation_available,Available in,Language badge tooltip
+publications_hub,translation_coming,Translation coming soon,Missing translation badge
+publications_hub,featured_title,Featured Publications,Section heading
+publications_hub,featured_subtitle,Top insights and strategies,Section subtitle
+publications_hub,subscribe_title,Stay Updated,CTA heading
+publications_hub,subscribe_desc,Get new publications delivered to your inbox.,CTA description
+publications_hub,subscribe_email_placeholder,your@email.com,Email input placeholder
+publications_hub,subscribe_button,Subscribe,Submit button
+publications_hub,subscribe_success,Thanks for subscribing!,Success message
+publications_hub,share_title,Share this page,Share section heading
+publications_hub,back_to_top,Back to top,Back to top button

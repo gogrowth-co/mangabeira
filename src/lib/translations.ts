@@ -84,14 +84,26 @@ export function t(section: string, key: string, locale: Locale): string {
 }
 
 export function getLocaleFromPath(pathname: string): Locale {
+  // Check for BR paths (including /br/artigos)
   if (pathname.startsWith('/br')) return 'br';
+  // Check for ES paths (including /es/articulos)
   if (pathname.startsWith('/es')) return 'es';
   return 'en';
 }
 
 export function getPathForLocale(locale: Locale, currentPath: string = '/'): string {
-  // Remove existing locale prefix
-  let cleanPath = currentPath.replace(/^\/(br|es)/, '') || '/';
+  // Remove existing locale prefix and handle special paths
+  let cleanPath = currentPath
+    .replace(/^\/(br|es)/, '') // Remove locale prefix
+    .replace(/^\/(artigos|articulos)/, '/publications') // Normalize publications path
+    || '/';
+  
+  // Handle special localized paths for publications
+  if (cleanPath === '/publications') {
+    if (locale === 'br') return '/br/artigos';
+    if (locale === 'es') return '/es/articulos';
+    return '/publications';
+  }
   
   // Add new locale prefix if not English
   if (locale === 'en') return cleanPath;

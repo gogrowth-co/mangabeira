@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           content: string | null
           created_at: string
+          featured_image_alt: string | null
           id: string
           language: string
           meta_description: string | null
@@ -28,6 +29,7 @@ export type Database = {
         Insert: {
           content?: string | null
           created_at?: string
+          featured_image_alt?: string | null
           id?: string
           language: string
           meta_description?: string | null
@@ -38,6 +40,7 @@ export type Database = {
         Update: {
           content?: string | null
           created_at?: string
+          featured_image_alt?: string | null
           id?: string
           language?: string
           meta_description?: string | null
@@ -57,28 +60,46 @@ export type Database = {
       }
       pages: {
         Row: {
+          author_name: string | null
           category: string | null
           created_at: string
+          featured_image: string | null
           id: string
+          is_featured: boolean | null
+          reading_time: number | null
           slug: string
           status: string
+          tags: Json | null
           updated_at: string
+          view_count: number | null
         }
         Insert: {
+          author_name?: string | null
           category?: string | null
           created_at?: string
+          featured_image?: string | null
           id?: string
+          is_featured?: boolean | null
+          reading_time?: number | null
           slug: string
           status?: string
+          tags?: Json | null
           updated_at?: string
+          view_count?: number | null
         }
         Update: {
+          author_name?: string | null
           category?: string | null
           created_at?: string
+          featured_image?: string | null
           id?: string
+          is_featured?: boolean | null
+          reading_time?: number | null
           slug?: string
           status?: string
+          tags?: Json | null
           updated_at?: string
+          view_count?: number | null
         }
         Relationships: []
       }

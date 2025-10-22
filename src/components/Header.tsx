@@ -27,12 +27,14 @@ const Header = ({ locale }: HeaderProps) => {
   const location = useLocation();
   const { setLocale } = useLanguage();
 
+  const publicationsPath = locale === 'en' ? '/publications' : locale === 'br' ? '/br/artigos' : '/es/articulos';
+  
   const navItems = [
     { label: t('header', 'nav_about', locale), href: "#about" },
     { label: t('header', 'nav_methods', locale), href: "#methods" },
     { label: t('header', 'nav_case_studies', locale), href: "#case-studies" },
     { label: t('header', 'nav_tools', locale), href: "#tools" },
-    { label: t('header', 'nav_publications', locale), href: "#publications" },
+    { label: t('header', 'nav_publications', locale), href: publicationsPath, isExternal: true },
     { label: t('header', 'nav_contact', locale), href: "#contact" },
   ];
 
@@ -78,8 +80,13 @@ const Header = ({ locale }: HeaderProps) => {
     return () => observer.disconnect();
   }, [locale]);
 
-  const handleNavClick = (href: string) => {
+  const handleNavClick = (href: string, isExternal?: boolean) => {
     setIsMobileMenuOpen(false);
+    
+    if (isExternal) {
+      navigate(href);
+      return;
+    }
     
     const isHomePage = location.pathname === '/' || location.pathname === '/br' || location.pathname === '/es';
     
@@ -134,7 +141,7 @@ const Header = ({ locale }: HeaderProps) => {
             {navItems.map((item) => (
               <button
                 key={item.href}
-                onClick={() => handleNavClick(item.href)}
+                onClick={() => handleNavClick(item.href, item.isExternal)}
                 className={cn(
                   "text-sm font-medium transition-all duration-200 relative group whitespace-nowrap",
                   activeSection === item.href
@@ -216,7 +223,7 @@ const Header = ({ locale }: HeaderProps) => {
                 {navItems.map((item) => (
                   <button
                     key={item.href}
-                    onClick={() => handleNavClick(item.href)}
+                    onClick={() => handleNavClick(item.href, item.isExternal)}
                     className={cn(
                       "text-left px-4 py-3 rounded-lg text-base font-medium transition-colors",
                       activeSection === item.href
