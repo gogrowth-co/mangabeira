@@ -123,10 +123,15 @@ const Header = ({ locale }: HeaderProps) => {
     <>
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-40 transition-all duration-150",
-          !isHomePage || isPastHero
-            ? "translate-y-0 opacity-100 bg-background/95 backdrop-blur-sm shadow-sm border-b border-border"
-            : "-translate-y-full opacity-0 bg-transparent"
+          "z-40 transition-all duration-150",
+          isHomePage
+            ? cn(
+                "fixed top-0 left-0 right-0",
+                isPastHero
+                  ? "translate-y-0 opacity-100 bg-background/95 backdrop-blur-sm shadow-sm border-b border-border"
+                  : "-translate-y-full opacity-0 bg-transparent"
+              )
+            : "sticky top-0 left-0 right-0 translate-y-0 opacity-100 bg-background/95 backdrop-blur-sm shadow-sm border-b border-border"
         )}
       >
         <div className="max-w-7xl mx-auto px-3 md:px-6 h-14 md:h-16 flex items-center justify-between gap-4">
