@@ -517,7 +517,7 @@ export default function Web3ForAthletes() {
 
       </main>
 
-      <Footer locale="en" />
+      <Footer />
     </div>
   );
 }

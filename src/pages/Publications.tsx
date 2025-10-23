@@ -211,7 +211,7 @@ export default function Publications() {
         </button>
       </main>
       
-      <Footer locale={locale} />
+      <Footer />
     </>
   );
 }

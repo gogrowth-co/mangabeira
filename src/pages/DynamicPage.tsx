@@ -88,7 +88,7 @@ export default function DynamicPage() {
           publishedDate={page.created_at}
         />
         
-        <Footer locale={locale} />
+        <Footer />
       </div>
     </>
   );

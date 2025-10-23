@@ -46,7 +46,7 @@ const IndexBR = () => {
         <TestimonialsSection locale={locale} />
         <CTASection locale={locale} />
       </main>
-      <Footer locale={locale} />
+      <Footer />
       <ChatWithMyAI />
     </>
   );

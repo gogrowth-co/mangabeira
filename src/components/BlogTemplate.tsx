@@ -10,7 +10,7 @@ interface BlogTemplateProps {
 
 const BlogTemplate = ({ title, content, category, publishedDate }: BlogTemplateProps) => {
   return (
-    <div className="min-h-screen bg-background pt-20">
+    <div className="min-h-screen bg-background pt-32">
       {/* Hero Section - Following brand guidelines */}
       <section className="relative bg-navy-deep text-white-pure overflow-hidden">
         <div className="absolute inset-0 bg-gradient-hero opacity-80" />

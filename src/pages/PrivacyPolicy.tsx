@@ -305,7 +305,7 @@ const PrivacyPolicy = () => {
           </footer>
         </article>
       </main>
-      <Footer locale="en" />
+      <Footer />
     </>
   );
 };

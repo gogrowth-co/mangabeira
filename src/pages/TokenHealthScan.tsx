@@ -543,7 +543,7 @@ export default function TokenHealthScan() {
         </article>
       </main>
 
-      <Footer locale="en" />
+      <Footer />
     </div>
   );
 }

@@ -1,11 +1,9 @@
 import { Linkedin, Twitter, Github } from "lucide-react";
-import { Locale, t } from "@/lib/translations";
+import { t } from "@/lib/translations";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-interface FooterProps {
-  locale: Locale;
-}
-
-const Footer = ({ locale }: FooterProps) => {
+const Footer = () => {
+  const { locale } = useLanguage();
   const socialLinks = [
     {
       name: "LinkedIn",
