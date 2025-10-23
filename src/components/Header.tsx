@@ -73,8 +73,11 @@ const Header = ({ locale }: HeaderProps) => {
     const observer = new IntersectionObserver(observerCallback, observerOptions);
 
     navItems.forEach((item) => {
-      const element = document.querySelector(item.href);
-      if (element) observer.observe(element);
+      // Only observe hash links (section anchors), not external routes
+      if (!item.isExternal) {
+        const element = document.querySelector(item.href);
+        if (element) observer.observe(element);
+      }
     });
 
     return () => observer.disconnect();
