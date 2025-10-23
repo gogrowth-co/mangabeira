@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { usePublicPage } from '@/hooks/usePages';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { Locale } from '@/lib/translations';
 import { Helmet } from 'react-helmet-async';
 import { toast } from '@/hooks/use-toast';
 import Header from '@/components/Header';
@@ -18,7 +19,7 @@ export default function DynamicPage() {
   // Detect translation mismatch and redirect to English version
   useEffect(() => {
     if (data?.translation && data.translation.language !== locale && locale !== 'en') {
-      const englishUrl = `/publications/${slug}`;
+      const englishUrl = `/publications/${data.page.slug}`;
       
       toast({
         title: locale === 'br' ? "Tradução em breve" : "Traducción próximamente",
@@ -30,7 +31,7 @@ export default function DynamicPage() {
       
       navigate(englishUrl, { replace: true });
     }
-  }, [data, locale, slug, navigate]);
+  }, [data, locale, navigate]);
 
   if (isLoading || isLoadingTranslations) {
     return (
@@ -47,6 +48,15 @@ export default function DynamicPage() {
   const { page, translation } = data;
   const baseUrl = 'https://mangabeira.net';
   
+  // Use localized slug if available for current locale, otherwise use base slug
+  const currentSlug = translation.slug || page.slug;
+  
+  const getPathPrefix = (targetLocale: Locale) => {
+    if (targetLocale === 'en') return 'publications';
+    if (targetLocale === 'br') return 'br/artigos';
+    return 'es/articulos';
+  };
+  
   return (
     <>
       <Helmet>
@@ -54,18 +64,18 @@ export default function DynamicPage() {
         <meta name="description" content={translation.meta_description || ''} />
         
         {/* Canonical */}
-        <link rel="canonical" href={`${baseUrl}/${locale === 'en' ? '' : locale + '/'}${page.slug}`} />
+        <link rel="canonical" href={`${baseUrl}/${getPathPrefix(locale)}/${currentSlug}`} />
         
-        {/* Language alternates */}
-        <link rel="alternate" hrefLang="en" href={`${baseUrl}/${page.slug}`} />
-        <link rel="alternate" hrefLang="pt-BR" href={`${baseUrl}/br/${page.slug}`} />
-        <link rel="alternate" hrefLang="es" href={`${baseUrl}/es/${page.slug}`} />
+        {/* Language alternates - use base slug, routing will handle localized lookup */}
+        <link rel="alternate" hrefLang="en" href={`${baseUrl}/publications/${page.slug}`} />
+        <link rel="alternate" hrefLang="pt-BR" href={`${baseUrl}/br/artigos/${page.slug}`} />
+        <link rel="alternate" hrefLang="es" href={`${baseUrl}/es/articulos/${page.slug}`} />
         
         {/* Open Graph */}
         <meta property="og:title" content={translation.title} />
         <meta property="og:description" content={translation.meta_description || ''} />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content={`${baseUrl}/${locale === 'en' ? '' : locale + '/'}${page.slug}`} />
+        <meta property="og:url" content={`${baseUrl}/${getPathPrefix(locale)}/${currentSlug}`} />
       </Helmet>
       
       <div className="min-h-screen flex flex-col">

@@ -45,6 +45,7 @@ export default function AdminEdit() {
     title: string;
     meta_description: string;
     content: string;
+    slug?: string;
   }>>({
     en: { title: '', meta_description: '', content: '' },
     br: { title: '', meta_description: '', content: '' },
@@ -73,6 +74,7 @@ export default function AdminEdit() {
           title: t.title || '',
           meta_description: t.meta_description || '',
           content: t.content || '',
+          slug: t.slug || '',
         };
       });
       
@@ -214,6 +216,7 @@ export default function AdminEdit() {
                       onTranslationChange={(field, value) => handleTranslationChange(lang, field, value)}
                       onInputMethodChange={(method) => setInputMethod(prev => ({ ...prev, [lang]: method }))}
                       required={lang === 'en'}
+                      baseSlug={slug}
                     />
                   </AccordionContent>
                 </AccordionItem>

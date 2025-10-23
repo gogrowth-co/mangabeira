@@ -5,6 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { readHTMLFile } from '@/lib/htmlParser';
+import { formatSlug } from '@/lib/slugFormatter';
 import { toast } from 'sonner';
 import { Upload, X } from 'lucide-react';
 
@@ -14,11 +15,13 @@ interface LanguageSectionProps {
     title: string;
     meta_description: string;
     content: string;
+    slug?: string;
   };
   inputMethod: 'file' | 'manual';
   onTranslationChange: (field: string, value: string) => void;
   onInputMethodChange: (method: 'file' | 'manual') => void;
   required?: boolean;
+  baseSlug?: string;
 }
 
 const FLAGS: Record<Locale, string> = {
@@ -40,6 +43,7 @@ export function LanguageSection({
   onTranslationChange,
   onInputMethodChange,
   required,
+  baseSlug,
 }: LanguageSectionProps) {
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -59,6 +63,13 @@ export function LanguageSection({
     } catch (error) {
       console.error('Error parsing HTML file:', error);
       toast.error('Failed to parse HTML file');
+    }
+  };
+
+  const handleSlugBlur = () => {
+    const currentSlug = translation.slug || '';
+    if (currentSlug) {
+      onTranslationChange('slug', formatSlug(currentSlug));
     }
   };
 
@@ -139,6 +150,28 @@ export function LanguageSection({
       {/* Manual Entry Mode */}
       {inputMethod === 'manual' && (
         <div className="space-y-4">
+          {/* Localized Slug - Only for BR and ES */}
+          {language !== 'en' && baseSlug && (
+            <div>
+              <Label htmlFor={`${language}-slug`}>Slug (Localized)</Label>
+              <Input
+                id={`${language}-slug`}
+                value={translation.slug || ''}
+                onChange={(e) => onTranslationChange('slug', e.target.value)}
+                onBlur={handleSlugBlur}
+                placeholder={baseSlug}
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                Full URL: <span className="font-mono">
+                  /{language === 'br' ? 'br/artigos' : 'es/articulos'}/{translation.slug || baseSlug}
+                </span>
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Leave empty to use English slug. Use lowercase and hyphens only.
+              </p>
+            </div>
+          )}
+          
           <div>
             <Label htmlFor={`${language}-title`}>Title {required && '*'}</Label>
             <Input

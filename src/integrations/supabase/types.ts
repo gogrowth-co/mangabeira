@@ -23,6 +23,7 @@ export type Database = {
           language: string
           meta_description: string | null
           page_id: string
+          slug: string | null
           title: string
           updated_at: string
         }
@@ -34,6 +35,7 @@ export type Database = {
           language: string
           meta_description?: string | null
           page_id: string
+          slug?: string | null
           title: string
           updated_at?: string
         }
@@ -45,6 +47,7 @@ export type Database = {
           language?: string
           meta_description?: string | null
           page_id?: string
+          slug?: string | null
           title?: string
           updated_at?: string
         }

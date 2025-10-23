@@ -19,6 +19,7 @@ export default function AdminEditLanguage() {
     title: '',
     meta_description: '',
     content: '',
+    slug: '',
   });
 
   useEffect(() => {
@@ -35,6 +36,7 @@ export default function AdminEditLanguage() {
           title: existingTranslation.title || '',
           meta_description: existingTranslation.meta_description || '',
           content: existingTranslation.content || '',
+          slug: existingTranslation.slug || '',
         });
       }
     }
@@ -108,6 +110,7 @@ export default function AdminEditLanguage() {
             onTranslationChange={handleTranslationChange}
             onInputMethodChange={setInputMethod}
             required={lang === 'en'}
+            baseSlug={page?.slug}
           />
           
           {/* Actions */}

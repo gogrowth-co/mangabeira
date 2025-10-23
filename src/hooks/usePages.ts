@@ -18,6 +18,7 @@ export interface PageTranslation {
   title: string;
   meta_description: string | null;
   content: string | null;
+  slug: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -81,7 +82,27 @@ export function usePublicPage(slug: string, locale: Locale) {
   return useQuery({
     queryKey: ['public-page', slug, locale],
     queryFn: async () => {
-      // First get the page
+      // For non-English locales, first try to find by localized slug
+      if (locale !== 'en') {
+        const { data: translation } = await supabase
+          .from('page_translations')
+          .select(`
+            *,
+            page:pages(*)
+          `)
+          .eq('slug', slug)
+          .eq('language', locale)
+          .maybeSingle();
+        
+        if (translation && translation.page) {
+          return { 
+            page: Array.isArray(translation.page) ? translation.page[0] : translation.page, 
+            translation 
+          };
+        }
+      }
+      
+      // Fall back to base slug lookup
       const { data: page, error: pageError } = await supabase
         .from('pages')
         .select('*')
@@ -130,6 +151,7 @@ export function useCreatePage() {
         title: string;
         meta_description: string | null;
         content: string | null;
+        slug?: string | null;
       }>;
     }) => {
       // Create page
@@ -180,6 +202,7 @@ export function useUpdatePage() {
         title: string;
         meta_description: string | null;
         content: string | null;
+        slug?: string | null;
       }>;
     }) => {
       // Update page
