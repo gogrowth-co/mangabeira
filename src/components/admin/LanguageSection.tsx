@@ -103,6 +103,28 @@ export function LanguageSection({
         </div>
       </RadioGroup>
 
+      {/* Localized Slug - Always visible for BR and ES */}
+      {language !== 'en' && baseSlug && (
+        <div>
+          <Label htmlFor={`${language}-slug`}>Slug (Localized)</Label>
+          <Input
+            id={`${language}-slug`}
+            value={translation.slug || ''}
+            onChange={(e) => onTranslationChange('slug', e.target.value)}
+            onBlur={handleSlugBlur}
+            placeholder={baseSlug}
+          />
+          <p className="text-xs text-muted-foreground mt-1">
+            Full URL: <span className="font-mono">
+              /{language === 'br' ? 'br/artigos' : 'es/articulos'}/{translation.slug || baseSlug}
+            </span>
+          </p>
+          <p className="text-xs text-muted-foreground">
+            Leave empty to use English slug. Use lowercase and hyphens only.
+          </p>
+        </div>
+      )}
+
       {/* File Upload Mode */}
       {inputMethod === 'file' && (
         <div className="space-y-2">
@@ -150,28 +172,6 @@ export function LanguageSection({
       {/* Manual Entry Mode */}
       {inputMethod === 'manual' && (
         <div className="space-y-4">
-          {/* Localized Slug - Only for BR and ES */}
-          {language !== 'en' && baseSlug && (
-            <div>
-              <Label htmlFor={`${language}-slug`}>Slug (Localized)</Label>
-              <Input
-                id={`${language}-slug`}
-                value={translation.slug || ''}
-                onChange={(e) => onTranslationChange('slug', e.target.value)}
-                onBlur={handleSlugBlur}
-                placeholder={baseSlug}
-              />
-              <p className="text-xs text-muted-foreground mt-1">
-                Full URL: <span className="font-mono">
-                  /{language === 'br' ? 'br/artigos' : 'es/articulos'}/{translation.slug || baseSlug}
-                </span>
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Leave empty to use English slug. Use lowercase and hyphens only.
-              </p>
-            </div>
-          )}
-          
           <div>
             <Label htmlFor={`${language}-title`}>Title {required && '*'}</Label>
             <Input
