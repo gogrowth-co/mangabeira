@@ -9,10 +9,10 @@ import NotFound from './NotFound';
 
 export default function DynamicPage() {
   const { slug } = useParams<{ slug: string }>();
-  const { locale } = useLanguage();
+  const { locale, isLoading: isLoadingTranslations } = useLanguage();
   const { data, isLoading, error } = usePublicPage(slug!, locale);
 
-  if (isLoading) {
+  if (isLoading || isLoadingTranslations) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-lg">Loading...</div>
