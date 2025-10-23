@@ -63,7 +63,7 @@ export function PageTable() {
             {pages?.map((page) => (
               <tr key={page.id} className="border-b hover:bg-muted/30">
                 <td className="px-4 py-3 text-sm">{getEnglishTitle(page)}</td>
-                <td className="px-4 py-3 text-sm font-mono text-muted-foreground">/{page.slug}</td>
+                <td className="px-4 py-3 text-sm font-mono text-muted-foreground">/publications/{page.slug}</td>
                 <td className="px-4 py-3">
                   <div className="flex gap-1">
                     {(['en', 'br', 'es'] as Locale[]).map((lang) => (
@@ -107,7 +107,7 @@ export function PageTable() {
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() => window.open(`/${page.slug}`, '_blank')}
+                      onClick={() => window.open(`/publications/${page.slug}`, '_blank')}
                     >
                       <Eye className="h-4 w-4" />
                     </Button>

@@ -175,6 +175,9 @@ export default function AdminEdit() {
               placeholder="my-page-url"
               required
             />
+            <p className="text-sm text-muted-foreground mt-1">
+              Full URL: <span className="font-mono">/publications/{slug || 'your-slug-here'}</span>
+            </p>
           </div>
           
           {/* Category */}
