@@ -24,8 +24,16 @@ export default function PublicationCard({ publication, locale }: PublicationCard
     es: '🇪🇸 ES' 
   };
   
-  const pathPrefix = locale === 'en' ? '' : `/${locale}`;
-  const publicationUrl = `${pathPrefix}/${publication.slug}`;
+  const getPublicationPath = (locale: string, slug: string) => {
+    const pathMap = {
+      en: '/publications',
+      br: '/br/artigos',
+      es: '/es/articulos'
+    };
+    return `${pathMap[locale as keyof typeof pathMap] || pathMap.en}/${slug}`;
+  };
+  
+  const publicationUrl = getPublicationPath(locale, publication.slug);
   
   return (
     <article className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-gray-100">
