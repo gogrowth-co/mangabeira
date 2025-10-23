@@ -55,6 +55,25 @@ Deno.serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  // Referer check to prevent external abuse
+  const referer = req.headers.get('referer') || '';
+  const allowedDomains = [
+    'mangabeira.net',
+    'lovableproject.com',
+    'localhost'
+  ];
+
+  const isAllowedReferer = allowedDomains.some(domain => 
+    referer.includes(domain)
+  );
+
+  if (!isAllowedReferer && referer !== '') {
+    return new Response(
+      JSON.stringify({ error: 'Forbidden' }),
+      { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+  }
+
   try {
     const { messages } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');

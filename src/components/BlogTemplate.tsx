@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import DOMPurify from 'dompurify';
 
 interface BlogTemplateProps {
   title: string;
@@ -58,7 +59,12 @@ const BlogTemplate = ({ title, content, category, publishedDate }: BlogTemplateP
             prose-code:text-accent-blue prose-code:bg-bg-mist prose-code:px-2 prose-code:py-1 prose-code:rounded
             prose-pre:bg-navy-deep prose-pre:text-white-pure">
             {typeof content === 'string' ? (
-              <div dangerouslySetInnerHTML={{ __html: content }} />
+              <div dangerouslySetInnerHTML={{ 
+                __html: DOMPurify.sanitize(content, {
+                  ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'strong', 'em', 'br', 'img', 'div', 'span', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'blockquote', 'code', 'pre'],
+                  ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel']
+                })
+              }} />
             ) : (
               content
             )}
