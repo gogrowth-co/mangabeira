@@ -86,6 +86,9 @@ export default function DynamicPage() {
           content={translation.content || ''}
           category={page.category}
           publishedDate={page.created_at}
+          metaDescription={translation.meta_description || ''}
+          featuredImage={page.featured_image || undefined}
+          readTime={page.read_time || undefined}
         />
         
         <Footer />
