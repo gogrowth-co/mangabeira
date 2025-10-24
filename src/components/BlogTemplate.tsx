@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import DOMPurify from 'dompurify';
 import authorAvatar from "@/assets/gabriel-profile.png";
+import { Locale } from '@/lib/translations';
 
 interface BlogTemplateProps {
   title: string;
@@ -10,7 +11,29 @@ interface BlogTemplateProps {
   metaDescription?: string;
   featuredImage?: string;
   readTime?: string;
+  locale?: Locale;
 }
+
+const translations = {
+  en: {
+    authorTitle: "Olympian & Growth Strategist",
+    defaultReadTime: "8 min read",
+    updatedPrefix: "Updated",
+    avatarAlt: "Gabriel Mangabeira headshot"
+  },
+  br: {
+    authorTitle: "Atleta Olímpico e Estrategista de Growth",
+    defaultReadTime: "8 min de leitura",
+    updatedPrefix: "Atualizado",
+    avatarAlt: "Foto de Gabriel Mangabeira"
+  },
+  es: {
+    authorTitle: "Atleta Olímpico y Estratega de Crecimiento",
+    defaultReadTime: "8 min de lectura",
+    updatedPrefix: "Actualizado",
+    avatarAlt: "Foto de Gabriel Mangabeira"
+  }
+};
 
 const BlogTemplate = ({ 
   title, 
@@ -19,8 +42,10 @@ const BlogTemplate = ({
   publishedDate,
   metaDescription,
   featuredImage,
-  readTime = "8 min read"
+  readTime,
+  locale = 'en'
 }: BlogTemplateProps) => {
+  const t = translations[locale];
   return (
     <div className="min-h-screen bg-background text-foreground">
       <main>
@@ -37,22 +62,22 @@ const BlogTemplate = ({
               <div className="flex items-center gap-3">
                 <img
                   src={authorAvatar}
-                  alt="Gabriel Mangabeira headshot"
+                  alt={t.avatarAlt}
                   className="h-12 w-12 rounded-full object-cover ring-2 ring-primary/20"
                   loading="lazy"
                 />
                 <div className="leading-tight">
                   <div className="font-medium">Gabriel Mangabeira</div>
-                  <div className="text-sm text-muted-foreground">Olympian & Growth Strategist</div>
+                  <div className="text-sm text-muted-foreground">{t.authorTitle}</div>
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 <span className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-                  {readTime}
+                  {readTime || t.defaultReadTime}
                 </span>
                 {publishedDate && (
                   <span className="inline-flex items-center rounded-full border border-border bg-muted/40 px-3 py-1 text-xs font-medium text-muted-foreground">
-                    Updated {new Date(publishedDate).toLocaleDateString('en-US', {
+                    {t.updatedPrefix} {new Date(publishedDate).toLocaleDateString(locale === 'br' ? 'pt-BR' : locale === 'es' ? 'es-ES' : 'en-US', {
                       year: 'numeric',
                       month: 'short'
                     })}

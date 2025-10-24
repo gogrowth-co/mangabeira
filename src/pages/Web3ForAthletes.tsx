@@ -13,7 +13,31 @@ import authorAvatar from "@/assets/gabriel-profile.png";
 const title = "Web3 for Athletes: How to Build a Community, Not Just a Fan Base";
 const description = "Learn how athletes can leverage Web3 to build engaged communities, create sustainable revenue streams, and take control of their digital presence.";
 
-function useSEO() {
+const translations = {
+  en: {
+    authorTitle: "Olympian & Growth Strategist",
+    readTime: "8 min read",
+    updated: "Updated Oct 2025",
+    heroImageAlt: "Web3 for Athletes - Building Communities, Not Just Fan Bases",
+    avatarAlt: "Gabriel Mangabeira headshot"
+  },
+  br: {
+    authorTitle: "Atleta Olímpico e Estrategista de Growth",
+    readTime: "8 min de leitura",
+    updated: "Atualizado Out 2025",
+    heroImageAlt: "Web3 para Atletas - Construindo Comunidades, Não Apenas Bases de Fãs",
+    avatarAlt: "Foto de Gabriel Mangabeira"
+  },
+  es: {
+    authorTitle: "Atleta Olímpico y Estratega de Crecimiento",
+    readTime: "8 min de lectura",
+    updated: "Actualizado Oct 2025",
+    heroImageAlt: "Web3 para Atletas - Construyendo Comunidades, No Solo Bases de Fans",
+    avatarAlt: "Foto de Gabriel Mangabeira"
+  }
+};
+
+function useSEO(locale: 'en' | 'br' | 'es') {
   React.useEffect(() => {
     const url = `${window.location.origin}/publications/web3-for-athletes`;
 
@@ -50,7 +74,7 @@ function useSEO() {
       '@type': 'Article',
       headline: title,
       image: [web3AthletesImage],
-      author: { '@type': 'Person', name: 'Gabriel Mangabeira', jobTitle: 'Olympian & Growth Strategist' },
+      author: { '@type': 'Person', name: 'Gabriel Mangabeira', jobTitle: translations[locale].authorTitle },
       datePublished: '2025-01-15',
       dateModified: '2025-01-15',
       mainEntityOfPage: url,
@@ -88,7 +112,8 @@ function useSEO() {
 
 export default function Web3ForAthletes() {
   const { locale } = useLanguage();
-  useSEO();
+  const t = translations[locale];
+  useSEO(locale);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -115,21 +140,21 @@ export default function Web3ForAthletes() {
               <div className="flex items-center gap-3">
                 <img
                   src={authorAvatar}
-                  alt="Gabriel Mangabeira headshot"
+                  alt={t.avatarAlt}
                   className="h-12 w-12 rounded-full object-cover ring-2 ring-primary/20"
                   loading="lazy"
                 />
                 <div className="leading-tight">
                   <div className="font-medium">Gabriel Mangabeira</div>
-                  <div className="text-sm text-muted-foreground">Olympian & Growth Strategist</div>
+                  <div className="text-sm text-muted-foreground">{t.authorTitle}</div>
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 <span className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-                  8 min read
+                  {t.readTime}
                 </span>
                 <span className="inline-flex items-center rounded-full border border-border bg-muted/40 px-3 py-1 text-xs font-medium text-muted-foreground">
-                  Updated Oct 2025
+                  {t.updated}
                 </span>
               </div>
             </div>
@@ -137,7 +162,7 @@ export default function Web3ForAthletes() {
             <figure className="mt-8 overflow-hidden rounded-lg border border-border">
               <img
                 src={web3AthletesImage}
-                alt="Web3 for Athletes - Building Communities, Not Just Fan Bases"
+                alt={t.heroImageAlt}
                 loading="lazy"
                 className="h-auto w-full object-cover"
               />
