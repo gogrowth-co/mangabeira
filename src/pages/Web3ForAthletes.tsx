@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { useLanguage } from "@/contexts/LanguageContext";
 import CTASection from "@/components/CTASection";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -86,6 +87,7 @@ function useSEO() {
 }
 
 export default function Web3ForAthletes() {
+  const { locale } = useLanguage();
   useSEO();
 
   const scrollToSection = (id: string) => {
@@ -99,7 +101,7 @@ export default function Web3ForAthletes() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Header locale="en" />
+      <Header locale={locale} />
 
       <main>
         <article className="mx-auto w-full max-w-3xl px-4 py-8 md:py-12">
