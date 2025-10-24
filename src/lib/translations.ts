@@ -92,9 +92,38 @@ export function getLocaleFromPath(pathname: string): Locale {
 }
 
 export function getPathForLocale(locale: Locale, currentPath: string = '/'): string {
+  // Localized slug mappings for publications
+  const localizedSlugs: Record<string, Record<Locale, string>> = {
+    'web3-for-athletes': {
+      en: 'web3-for-athletes',
+      br: 'web3-para-atletas',
+      es: 'web3-for-athletes'
+    },
+    'web3-para-atletas': {
+      en: 'web3-for-athletes',
+      br: 'web3-para-atletas',
+      es: 'web3-for-athletes'
+    },
+    'web2-vs-web3-marketing': {
+      en: 'web2-vs-web3-marketing',
+      br: 'web2-vs-web3-marketing',
+      es: 'web2-vs-web3-marketing'
+    },
+    'definitive-guide-web3-seo': {
+      en: 'definitive-guide-web3-seo',
+      br: 'definitive-guide-web3-seo',
+      es: 'definitive-guide-web3-seo'
+    },
+    'vibe-coded-token-health-scan': {
+      en: 'vibe-coded-token-health-scan',
+      br: 'vibe-coded-token-health-scan',
+      es: 'vibe-coded-token-health-scan'
+    }
+  };
+  
   // Extract slug from path
   const pathParts = currentPath.split('/').filter(Boolean);
-  const slug = pathParts[pathParts.length - 1]; // Last part is the slug
+  const currentSlug = pathParts[pathParts.length - 1]; // Last part is the slug
   
   // Remove existing locale prefix and handle special paths
   let cleanPath = currentPath
@@ -109,11 +138,14 @@ export function getPathForLocale(locale: Locale, currentPath: string = '/'): str
     return '/publications';
   }
   
-  // For publication pages, use localized paths with proper structure
+  // For publication pages, use localized slug mappings
   if (cleanPath.startsWith('/publications/')) {
-    if (locale === 'br') return `/br/artigos/${slug}`;
-    if (locale === 'es') return `/es/articulos/${slug}`;
-    return cleanPath;
+    const slugMapping = localizedSlugs[currentSlug];
+    const targetSlug = slugMapping ? slugMapping[locale] : currentSlug;
+    
+    if (locale === 'br') return `/br/artigos/${targetSlug}`;
+    if (locale === 'es') return `/es/articulos/${targetSlug}`;
+    return `/publications/${targetSlug}`;
   }
   
   // Add new locale prefix if not English
