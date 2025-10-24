@@ -1,13 +1,15 @@
 import { useState } from 'react';
-import { usePages, usePublishPage } from '@/hooks/usePages';
+import { usePages, usePublishPage, PageWithTranslations } from '@/hooks/usePages';
 import { LanguageBadge } from './LanguageBadge';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Edit, Eye, CheckCircle } from 'lucide-react';
+import { Edit, Eye, CheckCircle, Lock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { Locale } from '@/lib/translations';
+import { getSystemPageSlug } from '@/lib/systemPageRoutes';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export function PageTable() {
   const [filter, setFilter] = useState<'all' | 'published' | 'draft'>('all');
@@ -31,6 +33,31 @@ export function PageTable() {
 
   const hasTranslation = (page: any, lang: Locale) => {
     return page.translations?.some((t: any) => t.language === lang);
+  };
+
+  const filteredPages = pages?.filter(page => {
+    if (filter === 'all') return true;
+    return page.status === filter;
+  }).sort((a, b) => {
+    if (a.is_system_page && !b.is_system_page) return -1;
+    if (!a.is_system_page && b.is_system_page) return 1;
+    return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+  }) || [];
+
+  const getLocalizedSlug = (page: PageWithTranslations, locale: Locale) => {
+    if (page.is_system_page) {
+      return getSystemPageSlug(page.slug, locale);
+    }
+    const translation = page.translations?.find(t => t.language === locale);
+    return translation?.slug || page.slug;
+  };
+
+  const getViewUrl = (page: PageWithTranslations) => {
+    const enSlug = getLocalizedSlug(page, 'en');
+    if (page.is_system_page) {
+      return `/${enSlug}`;
+    }
+    return `/publications/${enSlug}`;
   };
 
   if (isLoading) {
@@ -60,10 +87,35 @@ export function PageTable() {
             </tr>
           </thead>
           <tbody>
-            {pages?.map((page) => (
+            {filteredPages.map((page) => (
               <tr key={page.id} className="border-b hover:bg-muted/30">
-                <td className="px-4 py-3 text-sm">{getEnglishTitle(page)}</td>
-                <td className="px-4 py-3 text-sm font-mono text-muted-foreground">/publications/{page.slug}</td>
+                <td className="px-4 py-3 text-sm">
+                  <div className="flex items-center gap-2">
+                    {page.is_system_page && (
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger><Lock className="h-4 w-4 text-muted-foreground" /></TooltipTrigger>
+                          <TooltipContent><p>System page</p></TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    )}
+                    {getEnglishTitle(page)}
+                  </div>
+                </td>
+                <td className="px-4 py-3 text-sm font-mono text-muted-foreground">
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger className="cursor-help">{getLocalizedSlug(page, 'en')}</TooltipTrigger>
+                      <TooltipContent>
+                        <div className="space-y-1 text-xs">
+                          <p>EN: /{getLocalizedSlug(page, 'en')}</p>
+                          <p>BR: /br/{getLocalizedSlug(page, 'br')}</p>
+                          <p>ES: /es/{getLocalizedSlug(page, 'es')}</p>
+                        </div>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </td>
                 <td className="px-4 py-3">
                   <div className="flex gap-1">
                     {(['en', 'br', 'es'] as Locale[]).map((lang) => (
@@ -107,7 +159,7 @@ export function PageTable() {
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() => window.open(`/publications/${page.slug}`, '_blank')}
+                      onClick={() => window.open(getViewUrl(page), '_blank')}
                     >
                       <Eye className="h-4 w-4" />
                     </Button>

@@ -12,6 +12,8 @@ import { formatSlug } from '@/lib/slugFormatter';
 import { toast } from 'sonner';
 import { Locale } from '@/lib/translations';
 import { isDevMode } from '@/lib/adminCheck';
+import { Lock } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -150,6 +152,10 @@ export default function AdminEdit() {
   };
 
   const handleDelete = async () => {
+    if (page?.is_system_page) {
+      toast.error('Cannot delete system pages');
+      return;
+    }
     try {
       await deleteMutation.mutateAsync(id!);
       toast.success('Page deleted successfully');
@@ -170,22 +176,31 @@ export default function AdminEdit() {
   return (
     <div className="min-h-screen bg-background p-8">
       <div className="max-w-4xl mx-auto">
+        {page?.is_system_page && (
+          <Alert className="mb-6">
+            <Lock className="h-4 w-4" />
+            <AlertDescription>
+              System page - base slug cannot be modified
+            </AlertDescription>
+          </Alert>
+        )}
         <h1 className="text-3xl font-bold mb-8">Edit Page</h1>
         
         <form onSubmit={handleSubmit} className="space-y-6 bg-card p-6 rounded-lg border">
           {/* Slug */}
           <div>
-            <Label htmlFor="slug">Slug *</Label>
+            <Label htmlFor="slug">Slug * {page?.is_system_page && "(Read-only)"}</Label>
             <Input
               id="slug"
               value={slug}
               onChange={(e) => setSlug(e.target.value)}
               onBlur={handleSlugBlur}
               placeholder="my-page-url"
+              disabled={page?.is_system_page}
               required
             />
             <p className="text-sm text-muted-foreground mt-1">
-              Full URL: <span className="font-mono">/publications/{slug || 'your-slug-here'}</span>
+              {page?.is_system_page ? 'System page slugs are fixed' : `Full URL: /publications/${slug || 'your-slug-here'}`}
             </p>
           </div>
           
@@ -268,10 +283,11 @@ export default function AdminEdit() {
             <Button type="button" variant="outline" onClick={() => navigate('/admin')}>
               Cancel
             </Button>
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button type="button" variant="destructive">Delete Page</Button>
-              </AlertDialogTrigger>
+            {!page?.is_system_page && (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button type="button" variant="destructive">Delete Page</Button>
+                </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle>Are you sure?</AlertDialogTitle>
@@ -285,6 +301,7 @@ export default function AdminEdit() {
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
+            )}
           </div>
         </form>
       </div>

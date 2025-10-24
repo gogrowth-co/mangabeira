@@ -9,12 +9,16 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BlogTemplate from '@/components/BlogTemplate';
 import NotFound from './NotFound';
+import { getBaseSlugFromLocalized, isSystemPageSlug } from '@/lib/systemPageRoutes';
 
 export default function DynamicPage() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const { locale, isLoading: isLoadingTranslations } = useLanguage();
-  const { data, isLoading, error } = usePublicPage(slug!, locale);
+  
+  // Try to resolve system page slug if it's a localized version
+  const resolvedSlug = getBaseSlugFromLocalized(slug!) || slug!;
+  const { data, isLoading, error } = usePublicPage(resolvedSlug, locale);
 
   // Detect translation mismatch and redirect to English version
   useEffect(() => {
@@ -52,9 +56,19 @@ export default function DynamicPage() {
   const currentSlug = translation.slug || page.slug;
   
   const getPathPrefix = (targetLocale: Locale) => {
+    if (page.is_system_page) {
+      if (targetLocale === 'en') return '';
+      if (targetLocale === 'br') return 'br';
+      return 'es';
+    }
     if (targetLocale === 'en') return 'publications';
     if (targetLocale === 'br') return 'br/artigos';
     return 'es/articulos';
+  };
+  
+  const getCurrentPath = () => {
+    const prefix = getPathPrefix(locale);
+    return prefix ? `${prefix}/${currentSlug}` : currentSlug;
   };
   
   return (
@@ -64,18 +78,28 @@ export default function DynamicPage() {
         <meta name="description" content={translation.meta_description || ''} />
         
         {/* Canonical */}
-        <link rel="canonical" href={`${baseUrl}/${getPathPrefix(locale)}/${currentSlug}`} />
+        <link rel="canonical" href={`${baseUrl}/${getCurrentPath()}`} />
         
-        {/* Language alternates - use base slug, routing will handle localized lookup */}
-        <link rel="alternate" hrefLang="en" href={`${baseUrl}/publications/${page.slug}`} />
-        <link rel="alternate" hrefLang="pt-BR" href={`${baseUrl}/br/artigos/${page.slug}`} />
-        <link rel="alternate" hrefLang="es" href={`${baseUrl}/es/articulos/${page.slug}`} />
+        {/* Language alternates */}
+        {page.is_system_page ? (
+          <>
+            <link rel="alternate" hrefLang="en" href={`${baseUrl}/${page.slug}`} />
+            <link rel="alternate" hrefLang="pt-BR" href={`${baseUrl}/br/${translation.slug || page.slug}`} />
+            <link rel="alternate" hrefLang="es" href={`${baseUrl}/es/${translation.slug || page.slug}`} />
+          </>
+        ) : (
+          <>
+            <link rel="alternate" hrefLang="en" href={`${baseUrl}/publications/${page.slug}`} />
+            <link rel="alternate" hrefLang="pt-BR" href={`${baseUrl}/br/artigos/${page.slug}`} />
+            <link rel="alternate" hrefLang="es" href={`${baseUrl}/es/articulos/${page.slug}`} />
+          </>
+        )}
         
         {/* Open Graph */}
         <meta property="og:title" content={translation.title} />
         <meta property="og:description" content={translation.meta_description || ''} />
-        <meta property="og:type" content="article" />
-        <meta property="og:url" content={`${baseUrl}/${getPathPrefix(locale)}/${currentSlug}`} />
+        <meta property="og:type" content={page.is_system_page ? "website" : "article"} />
+        <meta property="og:url" content={`${baseUrl}/${getCurrentPath()}`} />
       </Helmet>
       
       <div className="min-h-screen flex flex-col">

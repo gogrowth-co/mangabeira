@@ -9,6 +9,7 @@ export interface Page {
   status: 'draft' | 'published';
   featured_image: string | null;
   read_time: string | null;
+  is_system_page: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -263,6 +264,16 @@ export function useDeletePage() {
   
   return useMutation({
     mutationFn: async (id: string) => {
+      const { data: page } = await supabase
+        .from('pages')
+        .select('is_system_page')
+        .eq('id', id)
+        .single();
+
+      if (page?.is_system_page) {
+        throw new Error('Cannot delete system pages');
+      }
+
       const { error } = await supabase
         .from('pages')
         .delete()

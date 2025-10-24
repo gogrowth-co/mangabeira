@@ -69,6 +69,7 @@ export type Database = {
           featured_image: string | null
           id: string
           is_featured: boolean | null
+          is_system_page: boolean | null
           read_time: string | null
           reading_time: number | null
           slug: string
@@ -84,6 +85,7 @@ export type Database = {
           featured_image?: string | null
           id?: string
           is_featured?: boolean | null
+          is_system_page?: boolean | null
           read_time?: string | null
           reading_time?: number | null
           slug: string
@@ -99,6 +101,7 @@ export type Database = {
           featured_image?: string | null
           id?: string
           is_featured?: boolean | null
+          is_system_page?: boolean | null
           read_time?: string | null
           reading_time?: number | null
           slug?: string

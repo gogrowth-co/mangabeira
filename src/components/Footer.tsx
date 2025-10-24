@@ -1,9 +1,16 @@
 import { Linkedin, Twitter, Github } from "lucide-react";
 import { t } from "@/lib/translations";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { getSystemPageSlug } from "@/lib/systemPageRoutes";
 
 const Footer = () => {
   const { locale } = useLanguage();
+  
+  const getSystemPageUrl = (baseSlug: string) => {
+    const localizedSlug = getSystemPageSlug(baseSlug, locale);
+    return locale === 'en' ? `/${localizedSlug}` : `/${locale}/${localizedSlug}`;
+  };
+  
   const socialLinks = [
     {
       name: "LinkedIn",
@@ -31,7 +38,7 @@ const Footer = () => {
             <div>{t('footer', 'copyright_text', locale)} <a href="https://lovable.dev" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">{t('footer', 'copyright_lovable', locale)}</a></div>
             <div className="mt-1">
               <a 
-                href="/privacy-policy" 
+                href={getSystemPageUrl('privacy-policy')} 
                 className="text-muted-foreground hover:text-primary transition-colors underline"
               >
                 {t('footer', 'privacy_policy', locale)}

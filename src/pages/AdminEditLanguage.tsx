@@ -8,7 +8,8 @@ import { HeroImageUpload } from '@/components/admin/HeroImageUpload';
 import { toast } from 'sonner';
 import { Locale } from '@/lib/translations';
 import { isDevMode } from '@/lib/adminCheck';
-import { Card } from '@/components/ui/card';
+import { getSystemPageSlug } from '@/lib/systemPageRoutes';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function AdminEditLanguage() {
   const { id, lang } = useParams<{ id: string; lang: Locale }>();
@@ -90,9 +91,38 @@ export default function AdminEditLanguage() {
     return <div className="min-h-screen bg-background p-8 flex items-center justify-center">Loading...</div>;
   }
 
+  const getUrlPreview = () => {
+    const baseUrl = 'https://mangabeira.net';
+    const locales: Locale[] = ['en', 'br', 'es'];
+    return locales.map(locale => {
+      const slug = page.is_system_page ? getSystemPageSlug(page.slug, locale) : (translation.slug || page.slug);
+      const prefix = locale === 'en' ? (page.is_system_page ? '' : '/publications')
+        : locale === 'br' ? (page.is_system_page ? '/br' : '/br/artigos')
+        : (page.is_system_page ? '/es' : '/es/articulos');
+      return { locale: locale.toUpperCase(), url: `${baseUrl}${prefix}/${slug}` };
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background p-8">
       <div className="max-w-4xl mx-auto">
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle>📍 URL Preview</CardTitle>
+            <CardDescription>This page will be accessible at:</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              {getUrlPreview().map(({ locale, url }) => (
+                <div key={locale} className="flex items-center gap-2">
+                  <span className="font-semibold w-8">{locale}:</span>
+                  <code className="text-sm bg-muted px-2 py-1 rounded flex-1">{url}</code>
+                  {lang === locale.toLowerCase() && <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded">Editing</span>}
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
         <h1 className="text-3xl font-bold mb-8">Edit Translation</h1>
         
         <form onSubmit={handleSubmit} className="space-y-6 bg-card p-6 rounded-lg border">
