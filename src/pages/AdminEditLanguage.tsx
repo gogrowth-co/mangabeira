@@ -4,9 +4,11 @@ import { usePage, useUpdatePage } from '@/hooks/usePages';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { LanguageSection } from '@/components/admin/LanguageSection';
+import { HeroImageUpload } from '@/components/admin/HeroImageUpload';
 import { toast } from 'sonner';
 import { Locale } from '@/lib/translations';
 import { isDevMode } from '@/lib/adminCheck';
+import { Card } from '@/components/ui/card';
 
 export default function AdminEditLanguage() {
   const { id, lang } = useParams<{ id: string; lang: Locale }>();
@@ -15,6 +17,8 @@ export default function AdminEditLanguage() {
   const updateMutation = useUpdatePage();
   
   const [inputMethod, setInputMethod] = useState<'file' | 'manual'>('manual');
+  const [localizedImage, setLocalizedImage] = useState<string | null>(null);
+  const [imageAltText, setImageAltText] = useState('');
   const [translation, setTranslation] = useState({
     title: '',
     meta_description: '',
@@ -38,7 +42,10 @@ export default function AdminEditLanguage() {
           content: existingTranslation.content || '',
           slug: existingTranslation.slug || '',
         });
+        setImageAltText(existingTranslation.featured_image_alt || '');
       }
+      // Set localized image if it exists in the page
+      setLocalizedImage(page.featured_image || null);
     }
   }, [page, lang]);
 
@@ -63,6 +70,7 @@ export default function AdminEditLanguage() {
         translations: [{
           language: lang!,
           ...translation,
+          featured_image_alt: imageAltText || null,
         }],
       });
       
@@ -101,6 +109,32 @@ export default function AdminEditLanguage() {
               </div>
             )}
           </div>
+          
+          {/* Hero Image Info */}
+          {localizedImage && (
+            <Card className="p-4 border-blue-200 bg-blue-50 dark:bg-blue-950 dark:border-blue-800">
+              <Label className="text-sm font-semibold mb-2 block">Hero Image</Label>
+              <div className="space-y-2">
+                <img 
+                  src={localizedImage} 
+                  alt="Current hero" 
+                  className="w-full max-h-48 object-cover rounded border"
+                />
+                <p className="text-xs text-muted-foreground">
+                  Using the hero image from the main page. To change this image for all languages, edit it in the main page editor.
+                </p>
+                <HeroImageUpload
+                  currentImage={null}
+                  onImageChange={(url) => {
+                    // This would be for language-specific override in future
+                    toast.info('Language-specific images coming soon');
+                  }}
+                  altText={imageAltText}
+                  onAltTextChange={setImageAltText}
+                />
+              </div>
+            </Card>
+          )}
           
           {/* Language Section */}
           <LanguageSection

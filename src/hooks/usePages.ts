@@ -7,6 +7,8 @@ export interface Page {
   slug: string;
   category: string | null;
   status: 'draft' | 'published';
+  featured_image: string | null;
+  read_time: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -19,6 +21,7 @@ export interface PageTranslation {
   meta_description: string | null;
   content: string | null;
   slug: string | null;
+  featured_image_alt: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -146,6 +149,8 @@ export function useCreatePage() {
     mutationFn: async (data: {
       slug: string;
       category: string | null;
+      featured_image?: string | null;
+      read_time?: string | null;
       translations: Array<{
         language: Locale;
         title: string;
@@ -160,6 +165,8 @@ export function useCreatePage() {
         .insert({
           slug: data.slug,
           category: data.category,
+          featured_image: data.featured_image,
+          read_time: data.read_time,
           status: 'draft',
         })
         .select()
@@ -197,22 +204,27 @@ export function useUpdatePage() {
       slug?: string;
       category?: string | null;
       status?: 'draft' | 'published';
+      featured_image?: string | null;
+      read_time?: string | null;
       translations?: Array<{
         language: Locale;
         title: string;
         meta_description: string | null;
         content: string | null;
         slug?: string | null;
+        featured_image_alt?: string | null;
       }>;
     }) => {
       // Update page
-      const { slug, category, status, translations } = data;
+      const { slug, category, status, featured_image, read_time, translations } = data;
       
-      if (slug !== undefined || category !== undefined || status !== undefined) {
+      if (slug !== undefined || category !== undefined || status !== undefined || featured_image !== undefined || read_time !== undefined) {
         const updateData: any = {};
         if (slug !== undefined) updateData.slug = slug;
         if (category !== undefined) updateData.category = category;
         if (status !== undefined) updateData.status = status;
+        if (featured_image !== undefined) updateData.featured_image = featured_image;
+        if (read_time !== undefined) updateData.read_time = read_time;
         
         const { error: pageError } = await supabase
           .from('pages')

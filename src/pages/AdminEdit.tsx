@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { LanguageSection } from '@/components/admin/LanguageSection';
+import { HeroImageUpload } from '@/components/admin/HeroImageUpload';
 import { formatSlug } from '@/lib/slugFormatter';
 import { toast } from 'sonner';
 import { Locale } from '@/lib/translations';
@@ -35,6 +36,8 @@ export default function AdminEdit() {
   
   const [slug, setSlug] = useState('');
   const [category, setCategory] = useState<string>('');
+  const [featuredImage, setFeaturedImage] = useState<string | null>(null);
+  const [readTime, setReadTime] = useState('');
   const [inputMethod, setInputMethod] = useState<Record<Locale, 'file' | 'manual'>>({
     en: 'manual',
     br: 'manual',
@@ -62,6 +65,8 @@ export default function AdminEdit() {
     if (page) {
       setSlug(page.slug);
       setCategory(page.category || '');
+      setFeaturedImage(page.featured_image || null);
+      setReadTime(page.read_time || '');
       
       const newTranslations: any = {
         en: { title: '', meta_description: '', content: '' },
@@ -121,6 +126,8 @@ export default function AdminEdit() {
         id: id!,
         slug,
         category: category && category !== 'none' ? category : null,
+        featured_image: featuredImage,
+        read_time: readTime || null,
         translations: translationsToSave,
       });
       
@@ -197,6 +204,26 @@ export default function AdminEdit() {
                 <SelectItem value="other">Other</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+          
+          {/* Hero Image */}
+          <HeroImageUpload
+            currentImage={featuredImage}
+            onImageChange={setFeaturedImage}
+          />
+          
+          {/* Read Time */}
+          <div>
+            <Label htmlFor="read-time">Read Time (optional)</Label>
+            <Input
+              id="read-time"
+              value={readTime}
+              onChange={(e) => setReadTime(e.target.value)}
+              placeholder="e.g., 8 min read"
+            />
+            <p className="text-xs text-muted-foreground mt-1">
+              Example: "5 min read", "10 minutos de lectura"
+            </p>
           </div>
           
           {/* Language Sections */}

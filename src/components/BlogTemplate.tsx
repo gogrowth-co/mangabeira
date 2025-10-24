@@ -10,6 +10,7 @@ interface BlogTemplateProps {
   publishedDate?: string;
   metaDescription?: string;
   featuredImage?: string;
+  featuredImageAlt?: string;
   readTime?: string;
   locale?: Locale;
 }
@@ -42,6 +43,7 @@ const BlogTemplate = ({
   publishedDate,
   metaDescription,
   featuredImage,
+  featuredImageAlt,
   readTime,
   locale = 'en'
 }: BlogTemplateProps) => {
@@ -90,7 +92,7 @@ const BlogTemplate = ({
               <figure className="mt-8 overflow-hidden rounded-lg border border-border">
                 <img
                   src={featuredImage}
-                  alt={title}
+                  alt={featuredImageAlt || title}
                   loading="lazy"
                   className="h-auto w-full object-cover"
                 />

@@ -88,6 +88,7 @@ export default function DynamicPage() {
           publishedDate={page.created_at}
           metaDescription={translation.meta_description || ''}
           featuredImage={page.featured_image || undefined}
+          featuredImageAlt={translation.featured_image_alt || translation.title}
           readTime={page.read_time || undefined}
           locale={locale}
         />
