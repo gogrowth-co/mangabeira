@@ -78,8 +78,8 @@ const App = () => {
               <Route path="/publications/definitive-guide-web3-seo" element={<Web3SEO />} />
               <Route path="/publications/vibe-coded-token-health-scan" element={<TokenHealthScan />} />
               
-              {/* Portuguese routes (BR) - when translations are ready */}
-              <Route path="/br/artigos/web3-for-athletes" element={<Web3ForAthletes />} />
+              {/* Portuguese routes (BR) - use localized slugs */}
+              <Route path="/br/artigos/web3-para-atletas" element={<Web3ForAthletes />} />
               <Route path="/br/artigos/web2-vs-web3-marketing" element={<Web2VsWeb3Marketing />} />
               <Route path="/br/artigos/definitive-guide-web3-seo" element={<Web3SEO />} />
               <Route path="/br/artigos/vibe-coded-token-health-scan" element={<TokenHealthScan />} />

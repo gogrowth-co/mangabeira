@@ -92,17 +92,28 @@ export function getLocaleFromPath(pathname: string): Locale {
 }
 
 export function getPathForLocale(locale: Locale, currentPath: string = '/'): string {
+  // Extract slug from path
+  const pathParts = currentPath.split('/').filter(Boolean);
+  const slug = pathParts[pathParts.length - 1]; // Last part is the slug
+  
   // Remove existing locale prefix and handle special paths
   let cleanPath = currentPath
     .replace(/^\/(br|es)/, '') // Remove locale prefix
     .replace(/^\/(artigos|articulos)/, '/publications') // Normalize publications path
     || '/';
   
-  // Handle special localized paths for publications
+  // Handle special localized paths for publications hub
   if (cleanPath === '/publications') {
     if (locale === 'br') return '/br/artigos';
     if (locale === 'es') return '/es/articulos';
     return '/publications';
+  }
+  
+  // For publication pages, use localized paths with proper structure
+  if (cleanPath.startsWith('/publications/')) {
+    if (locale === 'br') return `/br/artigos/${slug}`;
+    if (locale === 'es') return `/es/articulos/${slug}`;
+    return cleanPath;
   }
   
   // Add new locale prefix if not English

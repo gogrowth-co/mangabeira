@@ -21,6 +21,7 @@ export interface Publication {
     meta_description: string | null;
     content: string | null;
     featured_image_alt: string | null;
+    slug: string | null;
   }[];
 }
 

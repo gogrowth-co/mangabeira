@@ -24,13 +24,15 @@ export default function PublicationCard({ publication, locale }: PublicationCard
     es: '🇪🇸 ES' 
   };
   
-  const getPublicationPath = (locale: string, slug: string) => {
+  const getPublicationPath = (currentLocale: string, pubSlug: string) => {
     const pathMap = {
       en: '/publications',
       br: '/br/artigos',
       es: '/es/articulos'
     };
-    return `${pathMap[locale as keyof typeof pathMap] || pathMap.en}/${slug}`;
+    // Use localized slug if available
+    const localizedSlug = currentTranslation?.slug || pubSlug;
+    return `${pathMap[currentLocale as keyof typeof pathMap] || pathMap.en}/${localizedSlug}`;
   };
   
   const publicationUrl = getPublicationPath(locale, publication.slug);
