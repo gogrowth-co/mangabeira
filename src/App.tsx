@@ -72,23 +72,7 @@ const App = () => {
               <Route path="/br/artigos" element={<PublicationsBR />} />
               <Route path="/es/articulos" element={<PublicationsES />} />
               
-              {/* English publication routes - map to existing components */}
-              <Route path="/publications/web3-for-athletes" element={<Web3ForAthletes />} />
-              <Route path="/publications/web2-vs-web3-marketing" element={<Web2VsWeb3Marketing />} />
-              <Route path="/publications/definitive-guide-web3-seo" element={<Web3SEO />} />
-              <Route path="/publications/vibe-coded-token-health-scan" element={<TokenHealthScan />} />
-              
-              {/* Portuguese routes (BR) - use localized slugs */}
-              <Route path="/br/artigos/web3-para-atletas" element={<Web3ForAthletes />} />
-              <Route path="/br/artigos/web2-vs-web3-marketing" element={<Web2VsWeb3Marketing />} />
-              <Route path="/br/artigos/definitive-guide-web3-seo" element={<Web3SEO />} />
-              <Route path="/br/artigos/vibe-coded-token-health-scan" element={<TokenHealthScan />} />
-              
-              {/* Spanish routes (ES) - when translations are ready */}
-              <Route path="/es/articulos/web3-for-athletes" element={<Web3ForAthletes />} />
-              <Route path="/es/articulos/web2-vs-web3-marketing" element={<Web2VsWeb3Marketing />} />
-              <Route path="/es/articulos/definitive-guide-web3-seo" element={<Web3SEO />} />
-              <Route path="/es/articulos/vibe-coded-token-health-scan" element={<TokenHealthScan />} />
+              {/* Publication routes now handled by DynamicPage with localized slug support */}
               
               {/* Redirect old incorrect slugs to correct ones */}
               <Route path="/web3-seo-guide" element={<Navigate to="/publications/definitive-guide-web3-seo" replace />} />
