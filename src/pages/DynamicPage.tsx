@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { usePublicPage } from '@/hooks/usePages';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -13,17 +13,29 @@ import { getBaseSlugFromLocalized, isSystemPageSlug } from '@/lib/systemPageRout
 
 export default function DynamicPage() {
   const { slug } = useParams<{ slug: string }>();
+  const location = useLocation();
   const navigate = useNavigate();
   const { locale, isLoading: isLoadingTranslations } = useLanguage();
   
+  // Derive slug from pathname if useParams doesn't provide it
+  const rawSlug = slug ?? location.pathname.split('/').filter(Boolean).pop() ?? '';
+  
   // Try to resolve system page slug if it's a localized version
-  const resolvedSlug = getBaseSlugFromLocalized(slug!) || slug!;
+  const resolvedSlug = getBaseSlugFromLocalized(rawSlug) || rawSlug;
+  
+  // Early exit if no slug
+  if (!resolvedSlug) {
+    return <NotFound />;
+  }
+  
   const { data, isLoading, error } = usePublicPage(resolvedSlug, locale);
 
   // Detect translation mismatch and redirect to English version
   useEffect(() => {
     if (data?.translation && data.translation.language !== locale && locale !== 'en') {
-      const englishUrl = `/publications/${data.page.slug}`;
+      const englishUrl = data.page.is_system_page 
+        ? `/${data.page.slug}` 
+        : `/publications/${data.page.slug}`;
       
       toast({
         title: locale === 'br' ? "Tradução em breve" : "Traducción próximamente",

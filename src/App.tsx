@@ -64,23 +64,12 @@ const App = () => {
               <Route path="/" element={<RootRedirect />} />
               <Route path="/br" element={<IndexBR />} />
               <Route path="/es" element={<IndexES />} />
-              {/* System pages - managed via admin panel */}
-              <Route path="/about" element={<DynamicPage />} />
-              <Route path="/privacy-policy" element={<DynamicPage />} />
-              
-              {/* System pages - Portuguese (BR) */}
-              <Route path="/br/sobre" element={<DynamicPage />} />
-              <Route path="/br/politica-de-privacidade" element={<DynamicPage />} />
-              
-              {/* System pages - Spanish (ES) */}
-              <Route path="/es/acerca-de" element={<DynamicPage />} />
-              <Route path="/es/politica-de-privacidad" element={<DynamicPage />} />
               
               {/* Redirects for incorrect system page URLs */}
               <Route path="/br/about" element={<Navigate to="/br/sobre" replace />} />
               <Route path="/es/about" element={<Navigate to="/es/acerca-de" replace />} />
               <Route path="/br/privacy-policy" element={<Navigate to="/br/politica-de-privacidade" replace />} />
-              <Route path="/es/privacy-policy" element={<Navigate to="/es/politica-de-privacidad" replace />} />
+              <Route path="/es/privacy-policy" element={<Navigate to="/es/politica-de-privacidade" replace />} />
               
               {/* Publications hub */}
               <Route path="/publications" element={<Publications />} />
