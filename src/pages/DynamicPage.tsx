@@ -123,12 +123,7 @@ export default function DynamicPage() {
             <article className="container mx-auto px-4 max-w-4xl">
               <div 
                 className="prose prose-lg dark:prose-invert max-w-none"
-                dangerouslySetInnerHTML={{ 
-                  __html: DOMPurify.sanitize(translation.content || '', {
-                    ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'img', 'blockquote', 'code', 'pre', 'hr', 'table', 'thead', 'tbody', 'tr', 'th', 'td'],
-                    ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'class', 'target', 'rel']
-                  })
-                }}
+                dangerouslySetInnerHTML={{ __html: translation.content || '' }}
               />
             </article>
           </main>
