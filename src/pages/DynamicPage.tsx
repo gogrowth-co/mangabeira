@@ -121,9 +121,6 @@ export default function DynamicPage() {
         {page.is_system_page ? (
           <main className="pt-20 md:pt-24 pb-16 flex-1">
             <article className="container mx-auto px-4 max-w-4xl">
-              <h1 className="text-4xl md:text-5xl font-bold mb-8 text-foreground">
-                {translation.title}
-              </h1>
               <div 
                 className="prose prose-lg dark:prose-invert max-w-none"
                 dangerouslySetInnerHTML={{ 
