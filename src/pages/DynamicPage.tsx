@@ -5,6 +5,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Locale } from '@/lib/translations';
 import { Helmet } from 'react-helmet-async';
 import { toast } from '@/hooks/use-toast';
+import DOMPurify from 'dompurify';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BlogTemplate from '@/components/BlogTemplate';
@@ -114,20 +115,39 @@ export default function DynamicPage() {
         <meta property="og:url" content={`${baseUrl}/${getCurrentPath()}`} />
       </Helmet>
       
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col bg-background">
         <Header locale={locale} />
         
-        <BlogTemplate
-          title={translation.title}
-          content={translation.content || ''}
-          category={page.category}
-          publishedDate={page.created_at}
-          metaDescription={translation.meta_description || ''}
-          featuredImage={page.featured_image || undefined}
-          featuredImageAlt={translation.featured_image_alt || translation.title}
-          readTime={page.read_time || undefined}
-          locale={locale}
-        />
+        {page.is_system_page ? (
+          <main className="pt-20 md:pt-24 pb-16 flex-1">
+            <article className="container mx-auto px-4 max-w-4xl">
+              <h1 className="text-4xl md:text-5xl font-bold mb-8 text-foreground">
+                {translation.title}
+              </h1>
+              <div 
+                className="prose prose-lg dark:prose-invert max-w-none"
+                dangerouslySetInnerHTML={{ 
+                  __html: DOMPurify.sanitize(translation.content || '', {
+                    ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'img', 'blockquote', 'code', 'pre', 'hr', 'table', 'thead', 'tbody', 'tr', 'th', 'td'],
+                    ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'class', 'target', 'rel']
+                  })
+                }}
+              />
+            </article>
+          </main>
+        ) : (
+          <BlogTemplate
+            title={translation.title}
+            content={translation.content || ''}
+            category={page.category}
+            publishedDate={page.created_at}
+            metaDescription={translation.meta_description || ''}
+            featuredImage={page.featured_image || undefined}
+            featuredImageAlt={translation.featured_image_alt || translation.title}
+            readTime={page.read_time || undefined}
+            locale={locale}
+          />
+        )}
         
         <Footer />
       </div>
