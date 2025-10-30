@@ -36,6 +36,7 @@ export function usePublications(locale: Locale, categoryFilter?: string, searchQ
           translations:page_translations(*)
         `)
         .eq('status', 'published')
+        .eq('is_system_page', false)
         .order('created_at', { ascending: false });
       
       // Filter by category if provided
@@ -83,6 +84,7 @@ export function useFeaturedPublications(locale: Locale) {
           translations:page_translations(*)
         `)
         .eq('status', 'published')
+        .eq('is_system_page', false)
         .eq('is_featured', true)
         .order('updated_at', { ascending: false })
         .limit(3);

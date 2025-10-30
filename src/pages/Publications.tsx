@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { t } from '@/lib/translations';
+import { t, initTranslations } from '@/lib/translations';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PublicationsHubSEO from '@/components/publications/PublicationsHubSEO';
@@ -19,10 +19,15 @@ import {
 } from '@/components/ui/select';
 
 export default function Publications() {
-  const { locale } = useLanguage();
+  const { locale, isLoading: translationsLoading } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [sortOrder, setSortOrder] = useState('recent');
+  
+  // Ensure translations are loaded for the current locale
+  useEffect(() => {
+    initTranslations(locale);
+  }, [locale]);
   
   const { data: publications = [], isLoading } = usePublications(locale, categoryFilter, searchQuery);
   const { data: featured = [] } = useFeaturedPublications(locale);
@@ -46,6 +51,15 @@ export default function Publications() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+  
+  // Show loading state while translations are loading
+  if (translationsLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
   
   return (
     <>
