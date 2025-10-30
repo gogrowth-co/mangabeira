@@ -1,0 +1,7 @@
+/sitemap.xml
+  Content-Type: application/xml
+  Cache-Control: public, max-age=0, must-revalidate
+
+/*.xml
+  Content-Type: application/xml
+  Cache-Control: public, max-age=0, must-revalidate
