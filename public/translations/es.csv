@@ -267,43 +267,43 @@ chat,loading_thinking,Pensando...,Loading state message,
 chat,disclaimer,Generado por IA. Puede ser imperfecto.,Disclaimer text,
 chat,quick_action_book,Reserva una llamada,Quick action button,
 chat,quick_action_cases,Casos de estudio,Quick action button,
-chat,quick_action_tools,Mis herramientas,Quick action button,
-chat,quick_action_pubs,Publicaciones,Quick action button,
-chat,aria_open_chat,Abrir chat,Accessibility label,
+chat,quick_action_tools,Mis herramientas,Quick action button
+chat,quick_action_pubs,Publicaciones,Quick action button
+chat,aria_open_chat,Abrir chat,Accessibility label
 
-publications_hub,page_title,Artículos | Gabriel Mangabeira,Título de página,
-publications_hub,page_description,Artículos e insights sobre growth marketing Web3 y estrategias impulsadas por IA.,Meta descripción,
-publications_hub,canonical_url,/es/articulos,URL canónica,
-publications_hub,hero_title,Artículos,Título H1,
-publications_hub,hero_subtitle,Insights sobre growth marketing Web3 y estrategias de rendimiento,Subtítulo del hero,
-publications_hub,hero_intro,"Explora frameworks prácticos estrategias comprobadas y lecciones de campañas reales. Desde la disciplina olímpica hasta el crecimiento digital estos artículos combinan tácticas basadas en datos con innovación Web3.",Párrafo de introducción,
-publications_hub,breadcrumb_home,Inicio,Breadcrumb,
-publications_hub,breadcrumb_current,Artículos,Breadcrumb,
-publications_hub,filter_all,Todos,Etiqueta de filtro,
-publications_hub,filter_web3,Web3,Etiqueta de filtro,
-publications_hub,filter_marketing,Marketing,Etiqueta de filtro,
-publications_hub,filter_growth,Growth,Etiqueta de filtro,
-publications_hub,filter_seo,SEO,Etiqueta de filtro,
-publications_hub,filter_tools,Herramientas,Etiqueta de filtro,
-publications_hub,search_placeholder,Buscar artículos...,Campo de búsqueda,
-publications_hub,sort_recent,Más Recientes,Opción de ordenación,
-publications_hub,sort_popular,Más Populares,Opción de ordenación,
-publications_hub,sort_az,A-Z,Opción de ordenación,
-publications_hub,results_showing,Mostrando,Prefijo del contador de resultados,
-publications_hub,results_publications,artículos,Sufijo del contador de resultados,
-publications_hub,no_results,No se encontraron artículos,Estado vacío,
-publications_hub,try_different,Intenta ajustar tus filtros o consulta de búsqueda.,Ayuda de estado vacío,
-publications_hub,read_time,min de lectura,Sufijo de tiempo de lectura,
-publications_hub,updated,Actualizado,Prefijo de última actualización,
-publications_hub,read_more,Leer Artículo,Texto del CTA,
-publications_hub,translation_available,Disponible en,Tooltip de badge de idioma,
-publications_hub,translation_coming,Traducción próximamente,Badge de traducción ausente,
-publications_hub,featured_title,Artículos Destacados,Título de sección,
-publications_hub,featured_subtitle,Principales insights y estrategias,Subtítulo de sección,
-publications_hub,subscribe_title,Mantente Actualizado,Título del CTA,
-publications_hub,subscribe_desc,Recibe nuevos artículos directamente en tu correo.,Descripción del CTA,
-publications_hub,subscribe_email_placeholder,tu@email.com,Placeholder del campo de correo,
-publications_hub,subscribe_button,Suscribirse,Botón de envío,
-publications_hub,subscribe_success,¡Gracias por suscribirte!,Mensaje de éxito,
-publications_hub,share_title,Compartir esta página,Título de sección de compartir,
-publications_hub,back_to_top,Volver arriba,Botón volver arriba,
+publications_hub,page_title,Artículos | Gabriel Mangabeira,Título de página
+publications_hub,page_description,Artículos e insights sobre growth marketing Web3 y estrategias impulsadas por IA.,Meta descripción
+publications_hub,canonical_url,/es/articulos,URL canónica
+publications_hub,hero_title,Artículos,Título H1
+publications_hub,hero_subtitle,Insights sobre growth marketing Web3 y estrategias de rendimiento,Subtítulo del hero
+publications_hub,hero_intro,"Explora frameworks prácticos estrategias comprobadas y lecciones de campañas reales. Desde la disciplina olímpica hasta el crecimiento digital estos artículos combinan tácticas basadas en datos con innovación Web3.",Párrafo de introducción
+publications_hub,breadcrumb_home,Inicio,Breadcrumb
+publications_hub,breadcrumb_current,Artículos,Breadcrumb
+publications_hub,filter_all,Todos,Etiqueta de filtro
+publications_hub,filter_web3,Web3,Etiqueta de filtro
+publications_hub,filter_marketing,Marketing,Etiqueta de filtro
+publications_hub,filter_growth,Growth,Etiqueta de filtro
+publications_hub,filter_seo,SEO,Etiqueta de filtro
+publications_hub,filter_tools,Herramientas,Etiqueta de filtro
+publications_hub,search_placeholder,Buscar artículos...,Campo de búsqueda
+publications_hub,sort_recent,Más Recientes,Opción de ordenación
+publications_hub,sort_popular,Más Populares,Opción de ordenación
+publications_hub,sort_az,A-Z,Opción de ordenación
+publications_hub,results_showing,Mostrando,Prefijo del contador de resultados
+publications_hub,results_publications,artículos,Sufijo del contador de resultados
+publications_hub,no_results,No se encontraron artículos,Estado vacío
+publications_hub,try_different,Intenta ajustar tus filtros o consulta de búsqueda.,Ayuda de estado vacío
+publications_hub,read_time,min de lectura,Sufijo de tiempo de lectura
+publications_hub,updated,Actualizado,Prefijo de última actualización
+publications_hub,read_more,Leer Artículo,Texto del CTA
+publications_hub,translation_available,Disponible en,Tooltip de badge de idioma
+publications_hub,translation_coming,Traducción próximamente,Badge de traducción ausente
+publications_hub,featured_title,Artículos Destacados,Título de sección
+publications_hub,featured_subtitle,Principales insights y estrategias,Subtítulo de sección
+publications_hub,subscribe_title,Mantente Actualizado,Título del CTA
+publications_hub,subscribe_desc,Recibe nuevos artículos directamente en tu correo.,Descripción del CTA
+publications_hub,subscribe_email_placeholder,tu@email.com,Placeholder del campo de correo
+publications_hub,subscribe_button,Suscribirse,Botón de envío
+publications_hub,subscribe_success,¡Gracias por suscribirte!,Mensaje de éxito
+publications_hub,share_title,Compartir esta página,Título de sección de compartir
+publications_hub,back_to_top,Volver arriba,Botón volver arriba
