@@ -66,7 +66,7 @@
     --accent-green: 120 60% 50%;     /* #4CAF50 - For growth highlighting */
     
     /* Gradients - Center-focused for text readability */
-    --gradient-hero: radial-gradient(ellipse at center, hsl(var(--navy-deep) / 0.7) 0%, hsl(var(--navy-deep) / 0.4) 40%, transparent 80%);
+    --gradient-hero: linear-gradient(135deg, hsl(210 70% 12%), hsl(210 65% 18%));
     --gradient-cta: linear-gradient(135deg, hsl(var(--hero-orange)), hsl(var(--hero-gold)));
     --gradient-gold: linear-gradient(135deg, hsl(var(--hero-gold)), hsl(var(--hero-gold-hover)));
     
