@@ -23,17 +23,14 @@ let loadingPromises: Record<Locale, Promise<void> | null> = {
 };
 
 async function loadTranslations(locale: Locale): Promise<void> {
-  if (Object.keys(translationCache[locale]).length > 0) {
-    return; // Already loaded
-  }
-
   if (loadingPromises[locale]) {
     return loadingPromises[locale]!;
   }
 
+  // Always (re)load to ensure newly added keys are picked up
   loadingPromises[locale] = (async () => {
     try {
-      const response = await fetch(`/translations/${locale}.csv`);
+      const response = await fetch(`/translations/${locale}.csv`, { cache: 'no-store' });
       const csvText = await response.text();
       
       const result = Papa.parse<TranslationRow>(csvText, {
