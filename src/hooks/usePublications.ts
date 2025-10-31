@@ -45,20 +45,28 @@ export function usePublications(locale: Locale, categoryFilter?: string, searchQ
       }
       
       const { data, error } = await query;
-      
+
       if (error) throw error;
-      
-      // Client-side filtering for search
+
+      // Client-side filtering for locale and search
       let publications = data as Publication[];
-      
+
+      // Filter to only show publications that have translation in the requested locale
+      // For non-English locales, only show publications with translations available
+      if (locale !== 'en') {
+        publications = publications.filter(pub =>
+          pub.translations.some(t => t.language === locale)
+        );
+      }
+
       if (searchQuery && searchQuery.trim()) {
         publications = publications.filter(pub => {
           const translation = pub.translations.find(t => t.language === locale);
           const fallbackTranslation = pub.translations.find(t => t.language === 'en');
           const currentTranslation = translation || fallbackTranslation;
-          
+
           if (!currentTranslation) return false;
-          
+
           const searchLower = searchQuery.toLowerCase();
           return (
             currentTranslation.title.toLowerCase().includes(searchLower) ||
@@ -67,7 +75,7 @@ export function usePublications(locale: Locale, categoryFilter?: string, searchQ
           );
         });
       }
-      
+
       return publications;
     },
   });
@@ -88,9 +96,20 @@ export function useFeaturedPublications(locale: Locale) {
         .eq('is_featured', true)
         .order('updated_at', { ascending: false })
         .limit(3);
-      
+
       if (error) throw error;
-      return data as Publication[];
+
+      let publications = data as Publication[];
+
+      // Filter to only show publications that have translation in the requested locale
+      // For non-English locales, only show publications with translations available
+      if (locale !== 'en') {
+        publications = publications.filter(pub =>
+          pub.translations.some(t => t.language === locale)
+        );
+      }
+
+      return publications;
     },
   });
 }
