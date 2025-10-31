@@ -5,7 +5,7 @@ import { Publication } from '@/hooks/usePublications';
 import PublicationCardSchema from './PublicationCardSchema';
 import web3AthletesImage from '@/assets/web3-for-athletes.png';
 import web2Web3MarketingImage from '@/assets/web2-vs-web3-cover.png';
-import tokenHealthScanImage from '@/assets/vibe-coding-lovable.png';
+import tokenHealthScanImage from '@/assets/token-health-scan-build-cover.png';
 import web3SeoGuideImage from '@/assets/web3-seo-cover.png';
 
 interface PublicationCardProps {
@@ -52,10 +52,21 @@ export default function PublicationCard({ publication, locale }: PublicationCard
   const publicationUrl = getPublicationPath(locale, publication.slug);
 
   // Get the cover image with priority:
-  // 1. Database image (for new publications uploaded via admin)
-  // 2. Hardcoded map (fallback for existing publications with incorrect/missing database URLs)
+  // 1. Imported images map (for existing publications with known images)
+  // 2. Database image if it's a valid URL (for new publications uploaded via admin)
+  // 3. Fallback to hardcoded map with base slug
   const localizedSlug = currentTranslation?.slug || publication.slug;
-  const coverImage = publication.featured_image || coverImageMap[localizedSlug] || coverImageMap[publication.slug];
+
+  // Check if database path is valid (should be a full URL, not a /src/assets path)
+  const isValidDatabaseImage = publication.featured_image &&
+    (publication.featured_image.startsWith('http://') ||
+     publication.featured_image.startsWith('https://')) &&
+    !publication.featured_image.includes('/src/');
+
+  const coverImage =
+    coverImageMap[localizedSlug] ||
+    coverImageMap[publication.slug] ||
+    (isValidDatabaseImage ? publication.featured_image : null);
 
   return (
     <article className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-gray-100">
