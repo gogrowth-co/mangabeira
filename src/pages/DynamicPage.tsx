@@ -16,7 +16,8 @@ import web2Web3MarketingImage from '@/assets/web2-vs-web3-cover.png';
 import tokenHealthScanImage from '@/assets/vibe-coding-lovable.png';
 import web3SeoGuideImage from '@/assets/web3-seo-cover.png';
 
-// Map of publication slugs to their hero images
+// Map of publication slugs to their hero images (fallback for existing publications)
+// New publications uploaded via admin will use Supabase Storage URLs from the database
 const heroImageMap: Record<string, string> = {
   'web3-for-athletes': web3AthletesImage,
   'web3-para-atletas': web3AthletesImage, // BR version
@@ -147,7 +148,7 @@ export default function DynamicPage() {
             category={page.category}
             publishedDate={page.created_at}
             metaDescription={translation.meta_description || ''}
-            featuredImage={heroImageMap[rawSlug] || heroImageMap[page.slug] || page.featured_image || undefined}
+            featuredImage={page.featured_image || heroImageMap[rawSlug] || heroImageMap[page.slug] || undefined}
             featuredImageAlt={translation.featured_image_alt || translation.title}
             readTime={page.read_time || undefined}
             locale={locale}

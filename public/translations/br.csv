@@ -288,43 +288,43 @@ chat,loading_thinking,Pensando...,Loading state message,
 chat,disclaimer,Gerado por IA. Pode ser imperfeito.,Disclaimer text,
 chat,quick_action_book,Agende uma conversa,Quick action button,
 chat,quick_action_cases,Estudos de caso,Quick action button,
-chat,quick_action_tools,Minhas ferramentas,Quick action button,
-chat,quick_action_pubs,Publicações,Quick action button,
-chat,aria_open_chat,Abrir chat,Accessibility label,
+chat,quick_action_tools,Minhas ferramentas,Quick action button
+chat,quick_action_pubs,Publicações,Quick action button
+chat,aria_open_chat,Abrir chat,Accessibility label
 
-publications_hub,page_title,Artigos | Gabriel Mangabeira,Título da página,
-publications_hub,page_description,Artigos e insights sobre growth marketing Web3 e estratégias orientadas por IA.,Meta descrição,
-publications_hub,canonical_url,/br/artigos,URL canônica,
-publications_hub,hero_title,Artigos,Título H1,
-publications_hub,hero_subtitle,Insights sobre growth marketing Web3 e estratégias de performance,Subtítulo do hero,
-publications_hub,hero_intro,"Explore frameworks práticos estratégias comprovadas e lições de campanhas reais. Da disciplina olímpica ao crescimento digital estes artigos combinam táticas orientadas por dados com inovação Web3.",Parágrafo de introdução,
-publications_hub,breadcrumb_home,Início,Breadcrumb,
-publications_hub,breadcrumb_current,Artigos,Breadcrumb,
-publications_hub,filter_all,Todos,Rótulo de filtro,
-publications_hub,filter_web3,Web3,Rótulo de filtro,
-publications_hub,filter_marketing,Marketing,Rótulo de filtro,
-publications_hub,filter_growth,Growth,Rótulo de filtro,
-publications_hub,filter_seo,SEO,Rótulo de filtro,
-publications_hub,filter_tools,Ferramentas,Rótulo de filtro,
-publications_hub,search_placeholder,Buscar artigos...,Campo de busca,
-publications_hub,sort_recent,Mais Recentes,Opção de ordenação,
-publications_hub,sort_popular,Mais Populares,Opção de ordenação,
-publications_hub,sort_az,A-Z,Opção de ordenação,
-publications_hub,results_showing,Mostrando,Prefixo do contador de resultados,
-publications_hub,results_publications,artigos,Sufixo do contador de resultados,
-publications_hub,no_results,Nenhum artigo encontrado,Estado vazio,
-publications_hub,try_different,Tente ajustar seus filtros ou consulta de busca.,Ajuda de estado vazio,
-publications_hub,read_time,min de leitura,Sufixo de tempo de leitura,
-publications_hub,updated,Atualizado,Prefixo de última atualização,
-publications_hub,read_more,Ler Artigo,Texto do CTA,
-publications_hub,translation_available,Disponível em,Tooltip de badge de idioma,
-publications_hub,translation_coming,Tradução em breve,Badge de tradução ausente,
-publications_hub,featured_title,Artigos em Destaque,Título da seção,
-publications_hub,featured_subtitle,Principais insights e estratégias,Subtítulo da seção,
-publications_hub,subscribe_title,Fique Atualizado,Título do CTA,
-publications_hub,subscribe_desc,Receba novos artigos diretamente no seu e-mail.,Descrição do CTA,
-publications_hub,subscribe_email_placeholder,seu@email.com,Placeholder do campo de e-mail,
-publications_hub,subscribe_button,Inscrever-se,Botão de envio,
-publications_hub,subscribe_success,Obrigado por se inscrever!,Mensagem de sucesso,
-publications_hub,share_title,Compartilhar esta página,Título da seção de compartilhamento,
-publications_hub,back_to_top,Voltar ao topo,Botão voltar ao topo,
+publications_hub,page_title,Artigos | Gabriel Mangabeira,Título da página
+publications_hub,page_description,Artigos e insights sobre growth marketing Web3 e estratégias orientadas por IA.,Meta descrição
+publications_hub,canonical_url,/br/artigos,URL canônica
+publications_hub,hero_title,Artigos,Título H1
+publications_hub,hero_subtitle,Insights sobre growth marketing Web3 e estratégias de performance,Subtítulo do hero
+publications_hub,hero_intro,"Explore frameworks práticos estratégias comprovadas e lições de campanhas reais. Da disciplina olímpica ao crescimento digital estes artigos combinam táticas orientadas por dados com inovação Web3.",Parágrafo de introdução
+publications_hub,breadcrumb_home,Início,Breadcrumb
+publications_hub,breadcrumb_current,Artigos,Breadcrumb
+publications_hub,filter_all,Todos,Rótulo de filtro
+publications_hub,filter_web3,Web3,Rótulo de filtro
+publications_hub,filter_marketing,Marketing,Rótulo de filtro
+publications_hub,filter_growth,Growth,Rótulo de filtro
+publications_hub,filter_seo,SEO,Rótulo de filtro
+publications_hub,filter_tools,Ferramentas,Rótulo de filtro
+publications_hub,search_placeholder,Buscar artigos...,Campo de busca
+publications_hub,sort_recent,Mais Recentes,Opção de ordenação
+publications_hub,sort_popular,Mais Populares,Opção de ordenação
+publications_hub,sort_az,A-Z,Opção de ordenação
+publications_hub,results_showing,Mostrando,Prefixo do contador de resultados
+publications_hub,results_publications,artigos,Sufixo do contador de resultados
+publications_hub,no_results,Nenhum artigo encontrado,Estado vazio
+publications_hub,try_different,Tente ajustar seus filtros ou consulta de busca.,Ajuda de estado vazio
+publications_hub,read_time,min de leitura,Sufixo de tempo de leitura
+publications_hub,updated,Atualizado,Prefixo de última atualização
+publications_hub,read_more,Ler Artigo,Texto do CTA
+publications_hub,translation_available,Disponível em,Tooltip de badge de idioma
+publications_hub,translation_coming,Tradução em breve,Badge de tradução ausente
+publications_hub,featured_title,Artigos em Destaque,Título da seção
+publications_hub,featured_subtitle,Principais insights e estratégias,Subtítulo da seção
+publications_hub,subscribe_title,Fique Atualizado,Título do CTA
+publications_hub,subscribe_desc,Receba novos artigos diretamente no seu e-mail.,Descrição do CTA
+publications_hub,subscribe_email_placeholder,seu@email.com,Placeholder do campo de e-mail
+publications_hub,subscribe_button,Inscrever-se,Botão de envio
+publications_hub,subscribe_success,Obrigado por se inscrever!,Mensagem de sucesso
+publications_hub,share_title,Compartilhar esta página,Título da seção de compartilhamento
+publications_hub,back_to_top,Voltar ao topo,Botão voltar ao topo
