@@ -10,34 +10,66 @@ interface PublicationsContentProps {
 }
 
 const PublicationsContent = ({ locale }: PublicationsContentProps) => {
+  // Helper function to generate locale-specific publication paths
+  const getPublicationLink = (englishSlug: string): string => {
+    const localizedSlugs: Record<string, Record<Locale, string>> = {
+      'web3-for-athletes': {
+        en: 'web3-for-athletes',
+        br: 'web3-para-atletas',
+        es: 'web3-for-athletes'
+      },
+      'web2-vs-web3-marketing': {
+        en: 'web2-vs-web3-marketing',
+        br: 'web2-vs-web3-marketing',
+        es: 'web2-vs-web3-marketing'
+      },
+      'vibe-coded-token-health-scan': {
+        en: 'vibe-coded-token-health-scan',
+        br: 'vibe-coded-token-health-scan',
+        es: 'vibe-coded-token-health-scan'
+      },
+      'definitive-guide-web3-seo': {
+        en: 'definitive-guide-web3-seo',
+        br: 'definitive-guide-web3-seo',
+        es: 'definitive-guide-web3-seo'
+      }
+    };
+
+    const localizedSlug = localizedSlugs[englishSlug]?.[locale] || englishSlug;
+
+    if (locale === 'br') return `/br/artigos/${localizedSlug}`;
+    if (locale === 'es') return `/es/articulos/${localizedSlug}`;
+    return `/publications/${localizedSlug}`;
+  };
+
   const publications = [
     {
       cover: web3AthletesCover,
       title: t('publications', 'web3_athletes_title', locale),
       description: t('publications', 'web3_athletes_description', locale),
       category: t('publications', 'web3_athletes_category', locale),
-      link: "/publications/web3-for-athletes",
+      link: getPublicationLink('web3-for-athletes'),
     },
     {
       cover: web2Web3MarketingCover,
       title: t('publications', 'web2_vs_web3_title', locale),
       description: t('publications', 'web2_vs_web3_description', locale),
       category: t('publications', 'web2_vs_web3_category', locale),
-      link: "/publications/web2-vs-web3-marketing",
+      link: getPublicationLink('web2-vs-web3-marketing'),
     },
     {
       cover: tokenHealthScanCover,
       title: t('publications', 'vibe_coded_title', locale),
       description: t('publications', 'vibe_coded_description', locale),
       category: t('publications', 'vibe_coded_category', locale),
-      link: "/publications/vibe-coded-token-health-scan",
+      link: getPublicationLink('vibe-coded-token-health-scan'),
     },
     {
       cover: web3SeoGuideCover,
       title: t('publications', 'web3_seo_title', locale),
       description: t('publications', 'web3_seo_description', locale),
       category: t('publications', 'web3_seo_category', locale),
-      link: "/publications/definitive-guide-web3-seo",
+      link: getPublicationLink('definitive-guide-web3-seo'),
     },
   ];
 

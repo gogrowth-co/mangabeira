@@ -11,24 +11,37 @@ import Footer from '@/components/Footer';
 import BlogTemplate from '@/components/BlogTemplate';
 import NotFound from './NotFound';
 import { getBaseSlugFromLocalized, isSystemPageSlug } from '@/lib/systemPageRoutes';
+import web3AthletesImage from '@/assets/web3-for-athletes.png';
+import web2Web3MarketingImage from '@/assets/web2-vs-web3-cover.png';
+import tokenHealthScanImage from '@/assets/vibe-coding-lovable.png';
+import web3SeoGuideImage from '@/assets/web3-seo-cover.png';
+
+// Map of publication slugs to their hero images
+const heroImageMap: Record<string, string> = {
+  'web3-for-athletes': web3AthletesImage,
+  'web3-para-atletas': web3AthletesImage, // BR version
+  'web2-vs-web3-marketing': web2Web3MarketingImage,
+  'vibe-coded-token-health-scan': tokenHealthScanImage,
+  'definitive-guide-web3-seo': web3SeoGuideImage,
+};
 
 export default function DynamicPage() {
   const { slug } = useParams<{ slug: string }>();
   const location = useLocation();
   const navigate = useNavigate();
   const { locale, isLoading: isLoadingTranslations } = useLanguage();
-  
+
   // Derive slug from pathname if useParams doesn't provide it
   const rawSlug = slug ?? location.pathname.split('/').filter(Boolean).pop() ?? '';
-  
+
   // Try to resolve system page slug if it's a localized version
   const resolvedSlug = getBaseSlugFromLocalized(rawSlug) || rawSlug;
-  
+
   // Early exit if no slug
   if (!resolvedSlug) {
     return <NotFound />;
   }
-  
+
   const { data, isLoading, error } = usePublicPage(resolvedSlug, locale);
 
   // Detect translation mismatch and redirect to English version
@@ -134,7 +147,7 @@ export default function DynamicPage() {
             category={page.category}
             publishedDate={page.created_at}
             metaDescription={translation.meta_description || ''}
-            featuredImage={page.featured_image || undefined}
+            featuredImage={heroImageMap[rawSlug] || heroImageMap[page.slug] || page.featured_image || undefined}
             featuredImageAlt={translation.featured_image_alt || translation.title}
             readTime={page.read_time || undefined}
             locale={locale}
