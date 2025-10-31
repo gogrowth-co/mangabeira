@@ -30,13 +30,24 @@ async function loadTranslations(locale: Locale): Promise<void> {
   // Always (re)load to ensure newly added keys are picked up
   loadingPromises[locale] = (async () => {
     try {
+      console.log(`[TRANSLATIONS] Loading translations for ${locale}...`);
       const response = await fetch(`/translations/${locale}.csv`, { cache: 'no-store' });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
       const csvText = await response.text();
-      
+      console.log(`[TRANSLATIONS] Fetched CSV for ${locale}, length: ${csvText.length}`);
+
       const result = Papa.parse<TranslationRow>(csvText, {
         header: true,
         skipEmptyLines: true,
       });
+
+      if (result.errors.length > 0) {
+        console.error(`[TRANSLATIONS] CSV parsing errors for ${locale}:`, result.errors);
+      }
 
       const cache: Record<string, Record<string, string>> = {};
 
@@ -44,7 +55,7 @@ async function loadTranslations(locale: Locale): Promise<void> {
         const section = row.section?.trim();
         const key = row.key?.trim();
         const text = row.text?.trim() ?? '';
-        
+
         if (section && key) {
           if (!cache[section]) {
             cache[section] = {};
@@ -54,8 +65,13 @@ async function loadTranslations(locale: Locale): Promise<void> {
       });
 
       translationCache[locale] = cache;
+
+      // Log publications_hub specifically
+      const pubHubKeys = cache.publications_hub ? Object.keys(cache.publications_hub) : [];
+      console.log(`[TRANSLATIONS] Loaded ${locale}: ${Object.keys(cache).length} sections, publications_hub has ${pubHubKeys.length} keys`);
+      console.log(`[TRANSLATIONS] publications_hub keys:`, pubHubKeys.slice(0, 10));
     } catch (error) {
-      console.error(`Failed to load translations for ${locale}:`, error);
+      console.error(`[TRANSLATIONS] Failed to load translations for ${locale}:`, error);
       translationCache[locale] = {};
     }
   })();
@@ -69,16 +85,18 @@ export async function initTranslations(locale: Locale): Promise<void> {
 
 export function t(section: string, key: string, locale: Locale): string {
   const sectionCache = translationCache[locale]?.[section];
-  
+
   if (!sectionCache) {
-    console.warn(`Translation section not found: ${section} for locale ${locale}`);
+    console.warn(`[TRANSLATIONS] Section not found: ${section} for locale ${locale}`);
+    console.warn(`[TRANSLATIONS] Available sections for ${locale}:`, Object.keys(translationCache[locale] || {}));
     return `${section}.${key}`;
   }
 
   const translation = sectionCache[key];
-  
+
   if (!translation) {
-    console.warn(`Translation key not found: ${section}.${key} for locale ${locale}`);
+    console.warn(`[TRANSLATIONS] Key not found: ${section}.${key} for locale ${locale}`);
+    console.warn(`[TRANSLATIONS] Available keys in ${section}:`, Object.keys(sectionCache).slice(0, 5));
     return `${section}.${key}`;
   }
 
