@@ -228,6 +228,27 @@ publications,web3_seo_title,The Definitive Guide to Web3 SEO,Publication title
 publications,web3_seo_description,Practical tactics to make decentralized projects discoverable.,Publication description
 publications,web3_seo_category,Web3,Category badge
 publications,web3_seo_cta,Read Article,CTA text
+publications_hub,breadcrumb_home,Home,Breadcrumb navigation
+publications_hub,breadcrumb_current,Publications,Breadcrumb navigation
+publications_hub,hero_title,Publications,Hero section title
+publications_hub,hero_subtitle,"Articles and insights on growth, marketing, and the future of Web3",Hero section subtitle
+publications_hub,hero_intro,"Explore my latest thinking on growth strategies, Web3, AI, and performance marketing. From case studies to practical frameworks, you'll find actionable real-world insights.",Hero section intro
+publications_hub,featured_title,Featured,Featured section title
+publications_hub,featured_subtitle,The most impactful publications,Featured section subtitle
+publications_hub,search_placeholder,Search articles...,Search input placeholder
+publications_hub,sort_recent,Most Recent,Sort option
+publications_hub,sort_popular,Most Popular,Sort option
+publications_hub,sort_az,A-Z,Sort option
+publications_hub,filter_all,All,Filter option
+publications_hub,results_showing,Showing,Results text
+publications_hub,results_publications,publications,Results text
+publications_hub,no_results,No publications found,Empty state
+publications_hub,try_different,Try different search terms or filters,Empty state
+publications_hub,subscribe_title,Stay Updated,Subscribe section
+publications_hub,subscribe_desc,Get new articles and insights delivered straight to your inbox,Subscribe section
+publications_hub,subscribe_email_placeholder,Your email,Subscribe input
+publications_hub,subscribe_button,Subscribe,Subscribe button
+publications_hub,back_to_top,Back to top,Accessibility label
 testimonials,section_title,What Partners Say,Section title
 testimonials,section_subtitle,"Trusted by global leaders, entrepreneurs, and innovators.",Section subtitle
 testimonials,will_quote,"Gabriel has been phenomenal over the last 5 years. From PPC to blogging, sales to project management, he excelled in every role. His hunger to learn and grow made him an invaluable teammate — and would make him an asset to any company.",Testimonial quote
