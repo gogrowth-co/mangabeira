@@ -3,11 +3,24 @@ import { Badge } from '@/components/ui/badge';
 import { Locale, t } from '@/lib/translations';
 import { Publication } from '@/hooks/usePublications';
 import PublicationCardSchema from './PublicationCardSchema';
+import web3AthletesImage from '@/assets/web3-for-athletes.png';
+import web2Web3MarketingImage from '@/assets/web2-vs-web3-cover.png';
+import tokenHealthScanImage from '@/assets/vibe-coding-lovable.png';
+import web3SeoGuideImage from '@/assets/web3-seo-cover.png';
 
 interface PublicationCardProps {
   publication: Publication;
   locale: Locale;
 }
+
+// Map of publication slugs to their cover images
+const coverImageMap: Record<string, string> = {
+  'web3-for-athletes': web3AthletesImage,
+  'web3-para-atletas': web3AthletesImage, // BR version
+  'web2-vs-web3-marketing': web2Web3MarketingImage,
+  'vibe-coded-token-health-scan': tokenHealthScanImage,
+  'definitive-guide-web3-seo': web3SeoGuideImage,
+};
 
 export default function PublicationCard({ publication, locale }: PublicationCardProps) {
   const translation = publication.translations.find(t => t.language === locale);
@@ -36,16 +49,20 @@ export default function PublicationCard({ publication, locale }: PublicationCard
   };
   
   const publicationUrl = getPublicationPath(locale, publication.slug);
-  
+
+  // Get the cover image - check mapped images first, then fallback to database
+  const localizedSlug = currentTranslation?.slug || publication.slug;
+  const coverImage = coverImageMap[localizedSlug] || coverImageMap[publication.slug] || publication.featured_image;
+
   return (
     <article className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-gray-100">
       <PublicationCardSchema publication={publication} translation={currentTranslation} locale={locale} />
-      
+
       {/* Featured Image */}
-      {publication.featured_image && (
+      {coverImage && (
         <a href={publicationUrl} className="block relative aspect-video overflow-hidden">
           <img
-            src={publication.featured_image}
+            src={coverImage}
             alt={currentTranslation.featured_image_alt || currentTranslation.title}
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
