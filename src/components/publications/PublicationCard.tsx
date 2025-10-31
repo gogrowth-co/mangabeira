@@ -13,7 +13,8 @@ interface PublicationCardProps {
   locale: Locale;
 }
 
-// Map of publication slugs to their cover images
+// Map of publication slugs to their cover images (fallback for existing publications)
+// New publications uploaded via admin will use Supabase Storage URLs from the database
 const coverImageMap: Record<string, string> = {
   'web3-for-athletes': web3AthletesImage,
   'web3-para-atletas': web3AthletesImage, // BR version
@@ -50,9 +51,11 @@ export default function PublicationCard({ publication, locale }: PublicationCard
   
   const publicationUrl = getPublicationPath(locale, publication.slug);
 
-  // Get the cover image - check mapped images first, then fallback to database
+  // Get the cover image with priority:
+  // 1. Database image (for new publications uploaded via admin)
+  // 2. Hardcoded map (fallback for existing publications with incorrect/missing database URLs)
   const localizedSlug = currentTranslation?.slug || publication.slug;
-  const coverImage = coverImageMap[localizedSlug] || coverImageMap[publication.slug] || publication.featured_image;
+  const coverImage = publication.featured_image || coverImageMap[localizedSlug] || coverImageMap[publication.slug];
 
   return (
     <article className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-gray-100">
