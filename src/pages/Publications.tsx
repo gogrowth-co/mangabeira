@@ -23,18 +23,28 @@ export default function Publications() {
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [sortOrder, setSortOrder] = useState('recent');
-  
+  const [translationsReady, setTranslationsReady] = useState(false);
+
   // Ensure translations are loaded for the current locale
   useEffect(() => {
-    initTranslations(locale);
+    console.log('[Publications] Loading translations for locale:', locale);
+    setTranslationsReady(false);
+
+    initTranslations(locale).then(() => {
+      console.log('[Publications] Translations loaded successfully for', locale);
+      setTranslationsReady(true);
+    }).catch((error) => {
+      console.error('[Publications] Failed to load translations:', error);
+      setTranslationsReady(true); // Render anyway to show error
+    });
   }, [locale]);
-  
+
   const { data: publications = [], isLoading } = usePublications(locale, categoryFilter, searchQuery);
   const { data: featured = [] } = useFeaturedPublications(locale);
-  
+
   // Get unique categories from publications
   const categories = ['all', ...Array.from(new Set(publications.map(p => p.category)))];
-  
+
   // Sort publications
   const sortedPublications = [...publications].sort((a, b) => {
     if (sortOrder === 'recent') {
@@ -47,13 +57,13 @@ export default function Publications() {
       return aTitle.localeCompare(bTitle);
     }
   });
-  
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-  
+
   // Show loading state while translations are loading
-  if (translationsLoading) {
+  if (translationsLoading || !translationsReady) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
