@@ -44,11 +44,15 @@ async function loadTranslations(locale: Locale): Promise<void> {
       const cache: Record<string, Record<string, string>> = {};
 
       result.data.forEach((row) => {
-        if (row.section && row.key && row.text) {
-          if (!cache[row.section]) {
-            cache[row.section] = {};
+        const section = row.section?.trim();
+        const key = row.key?.trim();
+        const text = row.text?.trim() ?? '';
+        
+        if (section && key) {
+          if (!cache[section]) {
+            cache[section] = {};
           }
-          cache[row.section][row.key] = row.text;
+          cache[section][key] = text;
         }
       });
 
