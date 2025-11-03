@@ -13,7 +13,7 @@ import NotFound from './NotFound';
 import { getBaseSlugFromLocalized, isSystemPageSlug } from '@/lib/systemPageRoutes';
 import web3AthletesImage from '@/assets/web3-for-athletes.png';
 import web2Web3MarketingImage from '@/assets/web2-vs-web3-cover.png';
-import tokenHealthScanImage from '@/assets/vibe-coding-lovable.png';
+import tokenHealthScanImage from '@/assets/token-health-scan-build-cover.png';
 import web3SeoGuideImage from '@/assets/web3-seo-cover.png';
 
 // Map of publication slugs to their hero images (fallback for existing publications)
@@ -148,7 +148,16 @@ export default function DynamicPage() {
             category={page.category}
             publishedDate={page.created_at}
             metaDescription={translation.meta_description || ''}
-            featuredImage={page.featured_image || heroImageMap[rawSlug] || heroImageMap[page.slug] || undefined}
+            featuredImage={
+              heroImageMap[rawSlug] ||
+              heroImageMap[page.slug] ||
+              (page.featured_image &&
+                (page.featured_image.startsWith('http://') || page.featured_image.startsWith('https://')) &&
+                !page.featured_image.includes('/src/')
+                  ? page.featured_image
+                  : undefined) ||
+              undefined
+            }
             featuredImageAlt={translation.featured_image_alt || translation.title}
             readTime={page.read_time || undefined}
             locale={locale}
