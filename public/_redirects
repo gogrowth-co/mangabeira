@@ -1,2 +1,7 @@
-# Serve all other routes through the SPA
-/*    /index.html   200
+# Explicitly serve static files first (prevents SPA from catching them)
+/sitemap.xml    /sitemap.xml    200
+/robots.txt     /robots.txt     200
+/*.xml          /:splat.xml     200
+
+# SPA fallback - serve all other routes through the React app
+/*              /index.html     200
