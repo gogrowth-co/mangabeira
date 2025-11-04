@@ -1,7 +1,2 @@
-# Serve static files directly
-/sitemap.xml /sitemap.xml 200
-/robots.txt /robots.txt 200
-/*.xml /*.xml 200
-
-# Serve all other routes through the SPA
-/* /index.html 200
+# Serve all routes through the SPA, except for static files
+/*    /index.html   200
