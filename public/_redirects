@@ -1,2 +1,2 @@
-# Serve all routes through the SPA, except for static files
+# Serve all other routes through the SPA
 /*    /index.html   200
