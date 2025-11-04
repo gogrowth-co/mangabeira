@@ -1,8 +1,3 @@
-# Serve static SEO files directly (must come before SPA catchall)
-/sitemap.xml    /sitemap.xml    200
-/robots.txt     /robots.txt     200
-/*.xml          /:splat.xml     200
-/*.txt          /:splat.txt     200
-
-# Serve all other routes through the SPA
+# Serve all routes through the SPA
+# Static files in /public are served directly by Netlify before this rule
 /*    /index.html   200
