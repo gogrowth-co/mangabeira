@@ -1,2 +1,8 @@
-# Serve all routes through the SPA, except for static files
+# Serve static SEO files directly (must come before SPA catchall)
+/sitemap.xml    /sitemap.xml    200
+/robots.txt     /robots.txt     200
+/*.xml          /:splat.xml     200
+/*.txt          /:splat.txt     200
+
+# Serve all other routes through the SPA
 /*    /index.html   200
