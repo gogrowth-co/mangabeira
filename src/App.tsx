@@ -22,6 +22,7 @@ import DynamicPage from "./pages/DynamicPage";
 import Publications from "./pages/Publications";
 import PublicationsBR from "./pages/PublicationsBR";
 import PublicationsES from "./pages/PublicationsES";
+import StaticFileRedirect from "./components/StaticFileRedirect";
 import { useEffect } from "react";
 import { isDevMode } from "./lib/adminCheck";
 
@@ -106,6 +107,12 @@ const App = () => {
                 </>
               )}
               
+              {/* Static file routes - must come before dynamic page routes */}
+              <Route path="/sitemap.xml" element={<StaticFileRedirect />} />
+              <Route path="/robots.txt" element={<StaticFileRedirect />} />
+              <Route path="/llms.txt" element={<StaticFileRedirect />} />
+              <Route path="/llms-full.txt" element={<StaticFileRedirect />} />
+
               {/* Dynamic pages */}
               <Route path="/br/:slug" element={<DynamicPage />} />
               <Route path="/es/:slug" element={<DynamicPage />} />
