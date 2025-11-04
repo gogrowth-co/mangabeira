@@ -7,7 +7,7 @@
   for = "/sitemap.xml"
   [headers.values]
     Content-Type = "application/xml"
-    Cache-Control = "public, max-age=0, must-revalidate"
+    Cache-Control = "public, max-age=0, must-revalidate, no-cache"
 
 [[headers]]
   for = "/*.xml"
