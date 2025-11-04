@@ -35,6 +35,18 @@ export default function DynamicPage() {
   // Derive slug from pathname if useParams doesn't provide it
   const rawSlug = slug ?? location.pathname.split('/').filter(Boolean).pop() ?? '';
 
+  // Check if this looks like a static file request (has a file extension)
+  // If so, force a reload to let Netlify serve it properly
+  useEffect(() => {
+    const staticFileExtensions = ['.xml', '.txt', '.pdf', '.json', '.ico', '.svg', '.png', '.jpg', '.jpeg', '.gif', '.webp'];
+    const hasFileExtension = staticFileExtensions.some(ext => rawSlug.toLowerCase().endsWith(ext));
+
+    if (hasFileExtension) {
+      // Force a full page reload to bypass React Router
+      window.location.href = location.pathname;
+    }
+  }, [rawSlug, location.pathname]);
+
   // Try to resolve system page slug if it's a localized version
   const resolvedSlug = getBaseSlugFromLocalized(rawSlug) || rawSlug;
 
