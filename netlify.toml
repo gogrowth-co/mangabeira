@@ -1,0 +1,27 @@
+# Netlify configuration for Lovable.dev deployment
+# IMPORTANT: Redirects are processed in order - specific rules must come BEFORE catch-all
+
+# Serve static files directly (must come before SPA catch-all)
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap.xml"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/robots.txt"
+  to = "/robots.txt"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*.xml"
+  to = "/:splat.xml"
+  status = 200
+  force = true
+
+# SPA catch-all redirect (must come LAST)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
