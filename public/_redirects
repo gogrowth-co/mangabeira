@@ -1,3 +1,4 @@
-# Serve all routes through the SPA
-# Static files in /public are served directly by Netlify before this rule
+# Cloudflare Pages SPA fallback
+# Static files excluded in _routes.json are served directly by Cloudflare
+# All other routes fall through to index.html for client-side routing
 /*    /index.html   200
