@@ -1,4 +1,7 @@
-# Cloudflare Pages SPA fallback
-# Static files excluded in _routes.json are served directly by Cloudflare
-# All other routes fall through to index.html for client-side routing
+# Static files - serve directly (MUST come before SPA catch-all)
+/sitemap.xml    /sitemap.xml    200
+/robots.txt     /robots.txt     200
+/favicon.ico    /favicon.ico    200
+
+# SPA fallback - all other routes go through React Router
 /*    /index.html   200
