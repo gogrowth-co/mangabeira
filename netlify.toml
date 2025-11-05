@@ -2,5 +2,8 @@
   publish = "dist"
   command = "npm run build"
 
+[build.processing]
+  skip_processing = true
+
 # Headers are configured in public/_headers file instead of here
 # to avoid duplication and ensure proper precedence
