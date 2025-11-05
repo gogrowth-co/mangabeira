@@ -22,6 +22,7 @@ import DynamicPage from "./pages/DynamicPage";
 import Publications from "./pages/Publications";
 import PublicationsBR from "./pages/PublicationsBR";
 import PublicationsES from "./pages/PublicationsES";
+import SitemapViewer from "./pages/SitemapViewer";
 import { useEffect } from "react";
 import { isDevMode } from "./lib/adminCheck";
 
@@ -105,7 +106,10 @@ const App = () => {
                   <Route path="/admin/edit/:id/:lang" element={<AdminEditLanguage />} />
                 </>
               )}
-              
+
+              {/* Sitemap viewer for humans */}
+              <Route path="/sitemap-viewer" element={<SitemapViewer />} />
+
               {/* Dynamic pages */}
               <Route path="/br/:slug" element={<DynamicPage />} />
               <Route path="/es/:slug" element={<DynamicPage />} />
