@@ -1,14 +1,21 @@
 /sitemap.xml
   Content-Type: application/xml; charset=utf-8
-  Cache-Control: public, max-age=0, must-revalidate, no-cache, no-store, no-transform
+  Cache-Control: public, max-age=3600, must-revalidate
   X-Content-Type-Options: nosniff
-  Content-Disposition: inline; filename="sitemap.xml"
 
 /*.xml
   Content-Type: application/xml; charset=utf-8
-  Cache-Control: public, max-age=0, must-revalidate, no-cache, no-store, no-transform
+  Cache-Control: public, max-age=3600, must-revalidate
   X-Content-Type-Options: nosniff
 
 /robots.txt
   Content-Type: text/plain; charset=utf-8
-  Cache-Control: public, max-age=0, must-revalidate
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/llms-full.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=3600, must-revalidate
