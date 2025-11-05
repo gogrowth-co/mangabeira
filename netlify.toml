@@ -6,13 +6,13 @@
   skip_processing = true
 
 # Force correct Content-Type headers for SEO files
-# netlify.toml headers override Netlify defaults
+# Critical: sitemap.xml must use application/xml to render correctly in browsers
 [[headers]]
   for = "/sitemap.xml"
   [headers.values]
     Content-Type = "application/xml; charset=utf-8"
-    Cache-Control = "public, max-age=3600, must-revalidate"
     X-Content-Type-Options = "nosniff"
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 [[headers]]
   for = "/*.xml"
