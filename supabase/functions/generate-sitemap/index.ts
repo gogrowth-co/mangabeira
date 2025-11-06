@@ -81,42 +81,54 @@ Deno.serve(async (req) => {
       const esTranslation = page.translations.find(t => t.language === 'es');
 
       const enSlug = enTranslation?.slug || page.slug;
-      const brSlug = brTranslation?.slug || page.slug;
-      const esSlug = esTranslation?.slug || page.slug;
+      const brSlug = brTranslation?.slug;
+      const esSlug = esTranslation?.slug;
 
+      // Build alternate links only for languages that have translations
+      const buildAlternateLinks = () => {
+        let links = `    <xhtml:link rel="alternate" hreflang="en" href="${baseUrl}/${enSlug}"/>`;
+        if (brSlug) {
+          links += `\n    <xhtml:link rel="alternate" hreflang="pt-BR" href="${baseUrl}/br/${brSlug}"/>`;
+        }
+        if (esSlug) {
+          links += `\n    <xhtml:link rel="alternate" hreflang="es" href="${baseUrl}/es/${esSlug}"/>`;
+        }
+        links += `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/${enSlug}"/>`;
+        return links;
+      };
+
+      const alternateLinks = buildAlternateLinks();
+
+      // English version (always exists)
       xml += `  <url>
     <loc>${baseUrl}/${enSlug}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="${baseUrl}/${enSlug}"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="${baseUrl}/br/${brSlug}"/>
-    <xhtml:link rel="alternate" hreflang="es" href="${baseUrl}/es/${esSlug}"/>
+${alternateLinks}
   </url>
 `;
 
-      if (brTranslation) {
+      // Portuguese version (if translation exists)
+      if (brTranslation && brSlug) {
         xml += `  <url>
     <loc>${baseUrl}/br/${brSlug}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="${baseUrl}/${enSlug}"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="${baseUrl}/br/${brSlug}"/>
-    <xhtml:link rel="alternate" hreflang="es" href="${baseUrl}/es/${esSlug}"/>
+${alternateLinks}
   </url>
 `;
       }
 
-      if (esTranslation) {
+      // Spanish version (if translation exists)
+      if (esTranslation && esSlug) {
         xml += `  <url>
     <loc>${baseUrl}/es/${esSlug}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="${baseUrl}/${enSlug}"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="${baseUrl}/br/${brSlug}"/>
-    <xhtml:link rel="alternate" hreflang="es" href="${baseUrl}/es/${esSlug}"/>
+${alternateLinks}
   </url>
 `;
       }
