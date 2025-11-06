@@ -1,5 +1,7 @@
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 import { usePublicPage } from '@/hooks/usePages';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Locale } from '@/lib/translations';
@@ -26,10 +28,30 @@ const heroImageMap: Record<string, string> = {
   'definitive-guide-web3-seo': web3SeoGuideImage,
 };
 
+// Helper function to validate and sanitize JSON-LD schema
+function validateSchema(schemaText: string): string | null {
+  try {
+    // First validate it's parseable JSON
+    const parsed = JSON.parse(schemaText);
+
+    // Re-stringify to ensure clean, safe JSON
+    const cleanJson = JSON.stringify(parsed);
+
+    // Escape any closing script tags that could break DOM injection
+    // This prevents malformed admin content from breaking the page
+    const safeJson = cleanJson.replace(/<\/script>/gi, '<\\/script>');
+
+    return safeJson;
+  } catch (error) {
+    console.warn('[DynamicPage] Invalid JSON-LD schema, skipping:', error);
+    return null;
+  }
+}
+
 // Helper function to extract schema markup and body content from HTML
-function extractHTMLParts(htmlContent: string | null): { 
-  schemas: string[], 
-  bodyContent: string 
+function extractHTMLParts(htmlContent: string | null): {
+  schemas: string[],
+  bodyContent: string
 } {
   if (!htmlContent) {
     return { schemas: [], bodyContent: '' };
@@ -43,7 +65,11 @@ function extractHTMLParts(htmlContent: string | null): {
     const schemaScriptEls = Array.from(
       doc.querySelectorAll('script[type="application/ld+json"]')
     );
-    const schemaScripts = schemaScriptEls.map(script => script.textContent || '');
+
+    // Validate and sanitize each schema before including it
+    const schemaScripts = schemaScriptEls
+      .map(script => validateSchema(script.textContent || ''))
+      .filter((schema): schema is string => schema !== null);
 
     // Remove JSON-LD scripts from the document body to avoid duplicates
     schemaScriptEls.forEach(el => el.remove());
@@ -101,6 +127,23 @@ export default function DynamicPage() {
   const { data, isLoading, error } = usePublicPage(resolvedSlug, locale);
 
   console.log('[DynamicPage] Slug:', resolvedSlug, 'Locale:', locale, 'Data:', data ? 'found' : 'not found');
+
+  // Fetch all translations for hreflang tags (only if we have a page)
+  const { data: allTranslations } = useQuery({
+    queryKey: ['page-translations', data?.page.id],
+    queryFn: async () => {
+      if (!data?.page.id) return [];
+
+      const { data: translations, error } = await supabase
+        .from('page_translations')
+        .select('language, slug')
+        .eq('page_id', data.page.id);
+
+      if (error) throw error;
+      return translations || [];
+    },
+    enabled: !!data?.page.id,
+  });
 
   // Detect translation mismatch and redirect to English version
   useEffect(() => {
@@ -160,28 +203,37 @@ export default function DynamicPage() {
     const prefix = getPathPrefix(locale);
     return prefix ? `${prefix}/${currentSlug}` : currentSlug;
   };
-  
+
+  // Helper to get localized slug for a specific language from allTranslations
+  const getLocalizedSlug = (targetLocale: Locale): string => {
+    if (!allTranslations) return page.slug;
+
+    const localeTranslation = allTranslations.find(t => t.language === targetLocale);
+    // Use translation slug if available and non-empty, otherwise fall back to page.slug
+    return localeTranslation?.slug || page.slug;
+  };
+
   return (
     <>
       <Helmet>
         <title>{translation.title}</title>
         <meta name="description" content={translation.meta_description || ''} />
-        
+
         {/* Canonical */}
         <link rel="canonical" href={`${baseUrl}/${getCurrentPath()}`} />
-        
+
         {/* Language alternates */}
         {page.is_system_page ? (
           <>
-            <link rel="alternate" hrefLang="en" href={`${baseUrl}/${page.slug}`} />
-            <link rel="alternate" hrefLang="pt-BR" href={`${baseUrl}/br/${translation.slug || page.slug}`} />
-            <link rel="alternate" hrefLang="es" href={`${baseUrl}/es/${translation.slug || page.slug}`} />
+            <link rel="alternate" hrefLang="en" href={`${baseUrl}/${getLocalizedSlug('en')}`} />
+            <link rel="alternate" hrefLang="pt-BR" href={`${baseUrl}/br/${getLocalizedSlug('br')}`} />
+            <link rel="alternate" hrefLang="es" href={`${baseUrl}/es/${getLocalizedSlug('es')}`} />
           </>
         ) : (
           <>
-            <link rel="alternate" hrefLang="en" href={`${baseUrl}/publications/${page.slug}`} />
-            <link rel="alternate" hrefLang="pt-BR" href={`${baseUrl}/br/artigos/${page.slug}`} />
-            <link rel="alternate" hrefLang="es" href={`${baseUrl}/es/articulos/${page.slug}`} />
+            <link rel="alternate" hrefLang="en" href={`${baseUrl}/publications/${getLocalizedSlug('en')}`} />
+            <link rel="alternate" hrefLang="pt-BR" href={`${baseUrl}/br/artigos/${getLocalizedSlug('br')}`} />
+            <link rel="alternate" hrefLang="es" href={`${baseUrl}/es/articulos/${getLocalizedSlug('es')}`} />
           </>
         )}
         
