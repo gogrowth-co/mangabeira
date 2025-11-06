@@ -145,9 +145,54 @@ export default function DynamicPage() {
     enabled: !!data?.page.id,
   });
 
-  // Detect translation mismatch and redirect to English version
+  // Extract schema markup and body content
+  const { schemas, bodyContent } = useMemo(
+    () => extractHTMLParts(data?.translation?.content),
+    [data?.translation?.content]
+  );
+
+  // Safely inject JSON-LD schemas into document head
   useEffect(() => {
-    if (data?.translation && data.translation.language !== locale && locale !== 'en') {
+    const addedScripts: HTMLScriptElement[] = [];
+    
+    schemas.forEach((schemaJson, index) => {
+      try {
+        // Parse and re-stringify to ensure validity
+        const parsed = JSON.parse(schemaJson);
+        const safeJson = JSON.stringify(parsed).replace(/<\/script>/gi, '<\\/script>');
+        
+        const scriptEl = document.createElement('script');
+        scriptEl.type = 'application/ld+json';
+        scriptEl.text = safeJson;
+        scriptEl.setAttribute('data-dynamic-schema', index.toString());
+        
+        document.head.appendChild(scriptEl);
+        addedScripts.push(scriptEl);
+      } catch (e) {
+        console.warn('[DynamicPage] Skipping invalid JSON-LD schema:', e);
+      }
+    });
+    
+    // Cleanup on unmount or when schemas change
+    return () => {
+      addedScripts.forEach(el => el.remove());
+    };
+  }, [schemas]);
+
+  // Check if localized translation exists
+  const hasLocalizedTranslation = allTranslations?.some(
+    t => t.language === locale && (t.slug ?? '') !== ''
+  );
+
+  // Only redirect to English if locale is not English AND no localized translation exists
+  useEffect(() => {
+    if (
+      locale !== 'en' && 
+      data?.translation && 
+      data.translation.language !== locale && 
+      allTranslations && 
+      !hasLocalizedTranslation
+    ) {
       const englishUrl = data.page.is_system_page 
         ? `/${data.page.slug}` 
         : `/publications/${data.page.slug}`;
@@ -156,13 +201,13 @@ export default function DynamicPage() {
         title: locale === 'br' ? "Tradução em breve" : "Traducción próximamente",
         description: locale === 'br' 
           ? "Esta publicação ainda não está disponível em Português. Mostrando versão em Inglês."
-          : "Esta publicación aún no está disponible en Español. Mostrando versión en Inglés.",
+          : "Esta publicación aún no está disponible en Español. Mostrando versão en Inglês.",
         duration: 5000,
       });
       
       navigate(englishUrl, { replace: true });
     }
-  }, [data, locale, navigate]);
+  }, [data, locale, navigate, allTranslations, hasLocalizedTranslation]);
 
   if (isLoading || isLoadingTranslations) {
     return (
@@ -172,7 +217,7 @@ export default function DynamicPage() {
     );
   }
 
-  if (error || !data?.translation) {
+  if (error || !data?.page) {
     return <NotFound />;
   }
 
@@ -181,12 +226,6 @@ export default function DynamicPage() {
   
   // Use localized slug if available for current locale, otherwise use base slug
   const currentSlug = translation.slug || page.slug;
-  
-  // Extract schema markup and body content
-  const { schemas, bodyContent } = useMemo(
-    () => extractHTMLParts(translation.content),
-    [translation.content]
-  );
   
   const getPathPrefix = (targetLocale: Locale) => {
     if (page.is_system_page) {
@@ -242,15 +281,6 @@ export default function DynamicPage() {
         <meta property="og:description" content={translation.meta_description || ''} />
         <meta property="og:type" content={page.is_system_page ? "website" : "article"} />
         <meta property="og:url" content={`${baseUrl}/${getCurrentPath()}`} />
-        
-        {/* Inject JSON-LD schemas into document head for reliable detection */}
-        {schemas.map((schema, index) => (
-          <script 
-            key={`schema-${index}`} 
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: schema }}
-          />
-        ))}
       </Helmet>
       
       <div className="min-h-screen flex flex-col bg-background">
