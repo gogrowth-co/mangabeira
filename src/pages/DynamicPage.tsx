@@ -1,5 +1,5 @@
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { usePublicPage } from '@/hooks/usePages';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Locale } from '@/lib/translations';
@@ -25,6 +25,30 @@ const heroImageMap: Record<string, string> = {
   'vibe-coded-token-health-scan': tokenHealthScanImage,
   'definitive-guide-web3-seo': web3SeoGuideImage,
 };
+
+// Helper function to extract schema markup and body content from HTML
+function extractHTMLParts(htmlContent: string | null): { 
+  schemas: string[], 
+  bodyContent: string 
+} {
+  if (!htmlContent) {
+    return { schemas: [], bodyContent: '' };
+  }
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlContent, 'text/html');
+  
+  // Extract all schema markup scripts from head
+  const schemaScripts = Array.from(
+    doc.querySelectorAll('script[type="application/ld+json"]')
+  ).map(script => script.textContent || '');
+  
+  // Get body content or fall back to full content
+  const body = doc.querySelector('body');
+  const bodyContent = body ? body.innerHTML : htmlContent;
+  
+  return { schemas: schemaScripts, bodyContent };
+}
 
 export default function DynamicPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -94,6 +118,12 @@ export default function DynamicPage() {
   // Use localized slug if available for current locale, otherwise use base slug
   const currentSlug = translation.slug || page.slug;
   
+  // Extract schema markup and body content
+  const { schemas, bodyContent } = useMemo(
+    () => extractHTMLParts(translation.content),
+    [translation.content]
+  );
+  
   const getPathPrefix = (targetLocale: Locale) => {
     if (page.is_system_page) {
       if (targetLocale === 'en') return '';
@@ -139,6 +169,13 @@ export default function DynamicPage() {
         <meta property="og:description" content={translation.meta_description || ''} />
         <meta property="og:type" content={page.is_system_page ? "website" : "article"} />
         <meta property="og:url" content={`${baseUrl}/${getCurrentPath()}`} />
+        
+        {/* Schema markup extracted from HTML content */}
+        {schemas.map((schema, index) => (
+          <script key={index} type="application/ld+json">
+            {schema}
+          </script>
+        ))}
       </Helmet>
       
       <div className="min-h-screen flex flex-col bg-background">
@@ -149,14 +186,14 @@ export default function DynamicPage() {
             <article className="container mx-auto px-4 max-w-4xl">
               <div 
                 className="prose prose-lg dark:prose-invert max-w-none"
-                dangerouslySetInnerHTML={{ __html: translation.content || '' }}
+                dangerouslySetInnerHTML={{ __html: bodyContent }}
               />
             </article>
           </main>
         ) : (
           <BlogTemplate
             title={translation.title}
-            content={translation.content || ''}
+            content={bodyContent}
             category={page.category}
             publishedDate={page.created_at}
             metaDescription={translation.meta_description || ''}
