@@ -81,6 +81,15 @@ export function usePage(id: string | undefined) {
   });
 }
 
+// Map of known localized slugs to their English equivalents
+const localizedToEnglish: Record<string, string> = {
+  // Brazilian Portuguese versions
+  'construindo-comunidade-web3-atletas': 'web3-for-athletes',
+  'web3-para-atletas': 'web3-for-athletes',
+  // Spanish versions can be added here as needed
+  // Add more mappings as you create localized content
+};
+
 // Fetch published page by slug and language (public route)
 export function usePublicPage(slug: string, locale: Locale) {
   return useQuery({
@@ -103,6 +112,31 @@ export function usePublicPage(slug: string, locale: Locale) {
             page: Array.isArray(translation.page) ? translation.page[0] : translation.page, 
             translation 
           };
+        }
+        
+        // If no localized slug found, try mapping to English slug
+        const englishSlug = localizedToEnglish[slug] || slug;
+        if (englishSlug !== slug) {
+          const { data: page } = await supabase
+            .from('pages')
+            .select('*')
+            .eq('slug', englishSlug)
+            .eq('status', 'published')
+            .maybeSingle();
+          
+          if (page) {
+            // Get translation for requested language
+            const { data: localizedTranslation } = await supabase
+              .from('page_translations')
+              .select('*')
+              .eq('page_id', page.id)
+              .eq('language', locale)
+              .maybeSingle();
+            
+            if (localizedTranslation) {
+              return { page, translation: localizedTranslation };
+            }
+          }
         }
       }
       

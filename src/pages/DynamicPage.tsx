@@ -170,12 +170,6 @@ export default function DynamicPage() {
         <meta property="og:type" content={page.is_system_page ? "website" : "article"} />
         <meta property="og:url" content={`${baseUrl}/${getCurrentPath()}`} />
         
-        {/* Schema markup extracted from HTML content */}
-        {schemas.map((schema, index) => (
-          <script key={index} type="application/ld+json">
-            {schema}
-          </script>
-        ))}
       </Helmet>
       
       <div className="min-h-screen flex flex-col bg-background">
@@ -184,6 +178,14 @@ export default function DynamicPage() {
         {page.is_system_page ? (
           <main className="pt-20 md:pt-24 pb-16 flex-1">
             <article className="container mx-auto px-4 max-w-4xl">
+              {/* Render schema markup directly in body for reliable detection */}
+              {schemas.map((schema, index) => (
+                <script 
+                  key={index} 
+                  type="application/ld+json"
+                  dangerouslySetInnerHTML={{ __html: schema }}
+                />
+              ))}
               <div 
                 className="prose prose-lg dark:prose-invert max-w-none"
                 dangerouslySetInnerHTML={{ __html: bodyContent }}
@@ -191,26 +193,36 @@ export default function DynamicPage() {
             </article>
           </main>
         ) : (
-          <BlogTemplate
-            title={translation.title}
-            content={bodyContent}
-            category={page.category}
-            publishedDate={page.created_at}
-            metaDescription={translation.meta_description || ''}
-            featuredImage={
-              heroImageMap[rawSlug] ||
-              heroImageMap[page.slug] ||
-              (page.featured_image &&
-                (page.featured_image.startsWith('http://') || page.featured_image.startsWith('https://')) &&
-                !page.featured_image.includes('/src/')
-                  ? page.featured_image
-                  : undefined) ||
-              undefined
-            }
-            featuredImageAlt={translation.featured_image_alt || translation.title}
-            readTime={page.read_time || undefined}
-            locale={locale}
-          />
+          <>
+            {/* Render schema markup directly in body for reliable detection */}
+            {schemas.map((schema, index) => (
+              <script 
+                key={index} 
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: schema }}
+              />
+            ))}
+            <BlogTemplate
+              title={translation.title}
+              content={bodyContent}
+              category={page.category}
+              publishedDate={page.created_at}
+              metaDescription={translation.meta_description || ''}
+              featuredImage={
+                heroImageMap[rawSlug] ||
+                heroImageMap[page.slug] ||
+                (page.featured_image &&
+                  (page.featured_image.startsWith('http://') || page.featured_image.startsWith('https://')) &&
+                  !page.featured_image.includes('/src/')
+                    ? page.featured_image
+                    : undefined) ||
+                undefined
+              }
+              featuredImageAlt={translation.featured_image_alt || translation.title}
+              readTime={page.read_time || undefined}
+              locale={locale}
+            />
+          </>
         )}
         
         <Footer />
