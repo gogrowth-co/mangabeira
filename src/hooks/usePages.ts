@@ -95,6 +95,7 @@ export function usePublicPage(slug: string, locale: Locale) {
   return useQuery({
     queryKey: ['public-page', slug, locale],
     queryFn: async () => {
+      console.log('[usePublicPage] Fetching slug:', slug, 'locale:', locale);
       // For non-English locales, first try to find by localized slug
       if (locale !== 'en') {
         const { data: translation } = await supabase
@@ -108,6 +109,7 @@ export function usePublicPage(slug: string, locale: Locale) {
           .maybeSingle();
         
         if (translation && translation.page) {
+          console.log('[usePublicPage] Found by localized slug');
           return { 
             page: Array.isArray(translation.page) ? translation.page[0] : translation.page, 
             translation 
@@ -117,6 +119,7 @@ export function usePublicPage(slug: string, locale: Locale) {
         // If no localized slug found, try mapping to English slug
         const englishSlug = localizedToEnglish[slug] || slug;
         if (englishSlug !== slug) {
+          console.log('[usePublicPage] Using English slug fallback:', englishSlug);
           const { data: page } = await supabase
             .from('pages')
             .select('*')
@@ -161,6 +164,7 @@ export function usePublicPage(slug: string, locale: Locale) {
       
       // If no translation for requested language, try English fallback
       if (!translation && locale !== 'en') {
+        console.log('[usePublicPage] No translation found for', locale, '- falling back to English');
         const { data: fallback } = await supabase
           .from('page_translations')
           .select('*')
@@ -171,6 +175,7 @@ export function usePublicPage(slug: string, locale: Locale) {
         return { page, translation: fallback };
       }
       
+      console.log('[usePublicPage] Returning translation:', translation?.language, 'Content length:', translation?.content?.length || 0);
       return { page, translation };
     },
   });
