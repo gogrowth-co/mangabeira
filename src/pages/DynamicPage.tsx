@@ -38,18 +38,29 @@ function extractHTMLParts(htmlContent: string | null): {
   try {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, 'text/html');
-    
-    // Extract all schema markup scripts
-    const schemaScripts = Array.from(
+
+    // Extract all schema markup scripts (JSON-LD)
+    const schemaScriptEls = Array.from(
       doc.querySelectorAll('script[type="application/ld+json"]')
-    ).map(script => script.textContent || '');
-    
+    );
+    const schemaScripts = schemaScriptEls.map(script => script.textContent || '');
+
+    // Remove JSON-LD scripts from the document body to avoid duplicates
+    schemaScriptEls.forEach(el => el.remove());
+
+    // Strip potentially global-affecting tags/styles from imported HTML to avoid site-wide overrides
+    // Remove any <style> tags and external stylesheets/metadata that could leak globally
+    doc.querySelectorAll('style, link[rel="stylesheet"], meta').forEach(el => el.remove());
+
+    // Remove any remaining script tags for safety (we already captured JSON-LD)
+    doc.querySelectorAll('script').forEach(el => el.remove());
+
     // Get body content or fall back to full content
     const body = doc.querySelector('body');
     const bodyContent = body ? body.innerHTML : htmlContent;
-    
+
     console.log('[DynamicPage] Extracted schemas:', schemaScripts.length, 'Body content length:', bodyContent.length);
-    
+
     return { schemas: schemaScripts, bodyContent: bodyContent || htmlContent };
   } catch (error) {
     console.error('[DynamicPage] Error parsing HTML:', error);

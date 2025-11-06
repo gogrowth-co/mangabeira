@@ -128,7 +128,7 @@ export function usePublicPage(slug: string, locale: Locale) {
             .maybeSingle();
           
           if (page) {
-            // Get translation for requested language
+            // Prefer localized translation
             const { data: localizedTranslation } = await supabase
               .from('page_translations')
               .select('*')
@@ -138,6 +138,18 @@ export function usePublicPage(slug: string, locale: Locale) {
             
             if (localizedTranslation) {
               return { page, translation: localizedTranslation };
+            }
+
+            // Fallback to English translation if localized is missing
+            const { data: englishTranslation } = await supabase
+              .from('page_translations')
+              .select('*')
+              .eq('page_id', page.id)
+              .eq('language', 'en')
+              .maybeSingle();
+
+            if (englishTranslation) {
+              return { page, translation: englishTranslation };
             }
           }
         }
