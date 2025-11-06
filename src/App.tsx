@@ -8,10 +8,6 @@ import Index from "./pages/Index";
 import IndexBR from "./pages/IndexBR";
 import IndexES from "./pages/IndexES";
 import NotFound from "./pages/NotFound";
-import Web2VsWeb3Marketing from "./pages/Web2VsWeb3Marketing";
-import Web3ForAthletes from "./pages/Web3ForAthletes";
-import Web3SEO from "./pages/Web3SEO";
-import TokenHealthScan from "./pages/TokenHealthScan";
 import About from "./pages/About";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Admin from "./pages/Admin";
@@ -76,11 +72,8 @@ const App = () => {
               <Route path="/br/artigos" element={<PublicationsBR />} />
               <Route path="/es/articulos" element={<PublicationsES />} />
               
-              {/* English publication routes */}
-              <Route path="/publications/web3-for-athletes" element={<Web3ForAthletes />} />
-              <Route path="/publications/web2-vs-web3-marketing" element={<Web2VsWeb3Marketing />} />
-              <Route path="/publications/definitive-guide-web3-seo" element={<Web3SEO />} />
-              <Route path="/publications/vibe-coded-token-health-scan" element={<TokenHealthScan />} />
+              {/* English publication routes - load from database via DynamicPage */}
+              <Route path="/publications/:slug" element={<DynamicPage />} />
               
               {/* Portuguese routes (BR) - load from database via DynamicPage */}
               <Route path="/br/artigos/:slug" element={<DynamicPage />} />
