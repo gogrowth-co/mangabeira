@@ -5,6 +5,10 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// In-memory cache
+let sitemapCache: { xml: string; timestamp: number } | null = null;
+const CACHE_TTL = 3600000; // 1 hour in milliseconds
+
 interface Page {
   slug: string;
   updated_at: string;
@@ -20,6 +24,18 @@ Deno.serve(async (req) => {
   }
 
   try {
+    // Check cache first
+    const now = Date.now();
+    if (sitemapCache && (now - sitemapCache.timestamp) < CACHE_TTL) {
+      console.log('Returning cached sitemap');
+      return new Response(sitemapCache.xml, {
+        headers: {
+          ...corsHeaders,
+          'Content-Type': 'text/xml; charset=utf-8',
+          'Cache-Control': 'public, max-age=3600, s-maxage=3600',
+        },
+      });
+    }
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
@@ -138,10 +154,16 @@ ${alternateLinks}
 
     console.log('Generated sitemap with', pages?.length || 0, 'dynamic pages');
 
+    // Update cache
+    sitemapCache = {
+      xml,
+      timestamp: Date.now(),
+    };
+
     return new Response(xml, {
       headers: {
         ...corsHeaders,
-        'Content-Type': 'application/xml; charset=utf-8',
+        'Content-Type': 'text/xml; charset=utf-8',
         'Cache-Control': 'public, max-age=3600, s-maxage=3600',
       },
     });
