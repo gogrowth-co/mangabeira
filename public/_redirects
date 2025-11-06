@@ -1,2 +1,5 @@
-# Serve all other routes through the SPA (static files like /sitemap.xml are served directly)
+# Serve sitemap.xml directly with proper headers (must come before catch-all)
+/sitemap.xml  /sitemap.xml  200
+
+# Serve all other routes through the SPA
 /*    /index.html   200
