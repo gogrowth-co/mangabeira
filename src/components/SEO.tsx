@@ -32,45 +32,151 @@ const SEO = ({ locale, path = '/' }: SEOProps) => {
   // Language attribute
   const htmlLang = locale === 'br' ? 'pt-BR' : locale === 'es' ? 'es' : 'en';
 
-  // Structured data for Person schema
-  const personSchema = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Gabriel Mangabeira",
-    "jobTitle": t('hero', 'profile_title', locale),
-    "description": description,
-    "url": baseUrl,
-    "image": `${baseUrl}/og-mangabeira.png`,
-    "sameAs": [
-      "https://www.linkedin.com/in/mangabeira/",
-      "https://twitter.com/gabrielmangabe1",
-      "https://github.com/gabrielmangabeira",
-      "https://www.olympics.com/en/athletes/gabriel-mangabeira"
-    ],
-    "knowsAbout": ["Growth Marketing", "Web3", "AI", "SEO", "Performance Marketing"],
-    "alumniOf": "Brazilian Olympic Team",
-    "award": ["Olympic Athlete", "2x Olympian"],
-    "inLanguage": [htmlLang]
+  // Localized descriptions based on locale
+  const localizedDescriptions = {
+    en: "Official website of Gabriel Mangabeira — Growth Marketing Strategist specialized in Web3, AI, and digital transformation.",
+    br: "Site oficial de Gabriel Mangabeira — Estrategista de Growth Marketing especializado em Web3, IA e transformação digital.",
+    es: "Sitio web oficial de Gabriel Mangabeira — Estratega de Growth Marketing especializado en Web3, IA y transformación digital."
   };
 
-  // Structured data for WebPage
-  const webPageSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": title,
-    "description": description,
-    "url": canonicalUrl,
-    "inLanguage": htmlLang,
-    "isPartOf": {
-      "@type": "WebSite",
-      "name": "Gabriel Mangabeira",
-      "url": baseUrl
-    },
-    "about": {
-      "@type": "Person",
-      "name": "Gabriel Mangabeira"
-    }
+  const localizedOrgDescriptions = {
+    en: "A digital growth lab led by Gabriel Mangabeira, helping Web3 and AI-driven companies grow through data, automation, and storytelling.",
+    br: "Um laboratório de crescimento digital liderado por Gabriel Mangabeira, ajudando empresas de Web3 e IA a crescer através de dados, automação e storytelling.",
+    es: "Un laboratorio de crecimiento digital dirigido por Gabriel Mangabeira, ayudando a empresas de Web3 e IA a crecer a través de datos, automatización y storytelling."
   };
+
+  const localizedPersonDescriptions = {
+    en: "Gabriel Mangabeira is a two-time Olympian turned Growth Marketing Strategist helping Web3 and AI companies scale with data, creativity, and automation.",
+    br: "Gabriel Mangabeira é um atleta olímpico de duas olimpíadas que se tornou Estrategista de Growth Marketing ajudando empresas de Web3 e IA a escalar com dados, criatividade e automação.",
+    es: "Gabriel Mangabeira es un atleta olímpico de dos olimpiadas convertido en Estratega de Growth Marketing que ayuda a empresas de Web3 e IA a escalar con datos, creatividad y automatización."
+  };
+
+  const localizedPageDescriptions = {
+    en: "Homepage of Gabriel Mangabeira — Growth Marketing Strategist and former Olympian, building AI-driven Web3 growth systems and digital communities.",
+    br: "Página inicial de Gabriel Mangabeira — Estrategista de Growth Marketing e ex-atleta olímpico, construindo sistemas de crescimento Web3 impulsionados por IA e comunidades digitais.",
+    es: "Página de inicio de Gabriel Mangabeira — Estratega de Growth Marketing y ex-atleta olímpico, construyendo sistemas de crecimiento Web3 impulsados por IA y comunidades digitales."
+  };
+
+  const localizedSearchTarget = {
+    en: "https://mangabeira.net/search?q={search_term_string}",
+    br: "https://mangabeira.net/br/buscar?q={search_term_string}",
+    es: "https://mangabeira.net/es/buscar?q={search_term_string}"
+  };
+
+  // Comprehensive structured data schema
+  const comprehensiveSchema = [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "url": baseUrl,
+      "name": "Mangabeira.net",
+      "alternateName": "Gabriel Mangabeira",
+      "inLanguage": htmlLang,
+      "description": localizedDescriptions[locale],
+      "publisher": {
+        "@type": "Organization",
+        "name": "Mangabeira.net",
+        "logo": {
+          "@type": "ImageObject",
+          "url": `${baseUrl}/images/swimming-icon.png`
+        }
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": localizedSearchTarget[locale],
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Mangabeira.net",
+      "url": baseUrl,
+      "logo": `${baseUrl}/images/swimming-icon.png`,
+      "description": localizedOrgDescriptions[locale],
+      "founder": {
+        "@type": "Person",
+        "name": "Gabriel Mangabeira",
+        "url": `${baseUrl}/about`
+      },
+      "sameAs": [
+        "https://x.com/manga82",
+        "https://linkedin.com/in/mangabeira",
+        "https://medium.com/@mangabeira"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Business inquiries",
+        "email": "hello@mangabeira.net",
+        "availableLanguage": ["en", "pt-BR", "es"]
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Gabriel Mangabeira",
+      "url": baseUrl,
+      "image": `${baseUrl}/images/gabriel-professional-about.png`,
+      "jobTitle": t('hero', 'profile_title', locale),
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Mangabeira.net"
+      },
+      "alumniOf": [
+        { "@type": "Organization", "name": "University of Florida" },
+        { "@type": "Organization", "name": "Coca-Cola Company" },
+        { "@type": "Organization", "name": "Binance" },
+        { "@type": "Organization", "name": "International Olympic Committee" }
+      ],
+      "sameAs": [
+        "https://x.com/manga82",
+        "https://linkedin.com/in/mangabeira",
+        "https://medium.com/@mangabeira"
+      ],
+      "knowsAbout": [
+        "Growth Marketing",
+        "Web3 Strategy",
+        "Tokenomics",
+        "DeFi Marketing",
+        "AI-powered Growth",
+        "Community Building",
+        "Content Systems",
+        "SEO and AEO"
+      ],
+      "description": localizedPersonDescriptions[locale]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "url": canonicalUrl,
+      "name": title,
+      "description": localizedPageDescriptions[locale],
+      "inLanguage": htmlLang,
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": locale === 'en' ? 'Home' : locale === 'br' ? 'Início' : 'Inicio',
+            "item": canonicalUrl
+          }
+        ]
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": locale === 'en' ? 'Home' : locale === 'br' ? 'Início' : 'Inicio',
+          "item": canonicalUrl
+        }
+      ]
+    }
+  ];
 
   return (
     <Helmet>
@@ -116,10 +222,7 @@ const SEO = ({ locale, path = '/' }: SEOProps) => {
 
       {/* Structured Data */}
       <script type="application/ld+json">
-        {JSON.stringify(personSchema)}
-      </script>
-      <script type="application/ld+json">
-        {JSON.stringify(webPageSchema)}
+        {JSON.stringify(comprehensiveSchema)}
       </script>
     </Helmet>
   );
