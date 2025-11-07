@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Locale, initTranslations, getLocaleFromPath, getPathForLocale } from '@/lib/translations';
+import { Locale, initTranslations, getLocaleFromPath, getPathForLocale, getPathForLocaleSync } from '@/lib/translations';
 
 interface LanguageContextType {
   locale: Locale;
@@ -34,13 +34,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     }
   }, [location.pathname]);
 
-  const setLocale = (newLocale: Locale) => {
+  const setLocale = async (newLocale: Locale) => {
     localStorage.setItem('preferred_language', newLocale);
     setLocaleState(newLocale);
     
     // Navigate to the new locale path
     const currentPath = location.pathname + location.search + location.hash;
-    const newPath = getPathForLocale(newLocale, currentPath);
+    const newPath = await getPathForLocale(newLocale, currentPath);
     navigate(newPath);
   };
 

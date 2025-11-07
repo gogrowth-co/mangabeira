@@ -4,7 +4,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Locale, t, getPathForLocale } from "@/lib/translations";
+import { Locale, t, getPathForLocaleSync } from "@/lib/translations";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
   Select,
@@ -94,7 +94,7 @@ const Header = ({ locale }: HeaderProps) => {
     const isHomePage = location.pathname === '/' || location.pathname === '/br' || location.pathname === '/es';
     
     if (!isHomePage) {
-      navigate(getPathForLocale(locale, `/${href}`));
+      navigate(getPathForLocaleSync(locale, `/${href}`));
     } else {
       const element = document.querySelector(href);
       if (element) {
@@ -107,7 +107,7 @@ const Header = ({ locale }: HeaderProps) => {
     const isHomePage = location.pathname === '/' || location.pathname === '/br' || location.pathname === '/es';
     
     if (!isHomePage) {
-      navigate(getPathForLocale(locale, '/'));
+      navigate(getPathForLocaleSync(locale, '/'));
     } else {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }

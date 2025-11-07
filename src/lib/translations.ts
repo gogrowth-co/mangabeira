@@ -1,5 +1,6 @@
 import Papa from 'papaparse';
 import { getSystemPageSlug } from './systemPageRoutes';
+import { supabase } from '@/integrations/supabase/client';
 
 export type Locale = 'en' | 'br' | 'es';
 
@@ -8,6 +9,14 @@ interface TranslationRow {
   key: string;
   text: string;
   context?: string;
+}
+
+interface SlugMapping {
+  [baseSlug: string]: {
+    en: string;
+    br: string;
+    es: string;
+  };
 }
 
 const translationCache: Record<Locale, Record<string, Record<string, string>>> = {
@@ -21,6 +30,13 @@ let loadingPromises: Record<Locale, Promise<void> | null> = {
   br: null,
   es: null,
 };
+
+// Cache for slug mappings
+let slugMappingCache: SlugMapping | null = null;
+let slugMappingPromise: Promise<SlugMapping> | null = null;
+
+// Reverse mapping: localized slug -> base slug
+let reverseSlugCache: Record<string, string> = {};
 
 async function loadTranslations(locale: Locale): Promise<void> {
   if (loadingPromises[locale]) {
@@ -80,7 +96,10 @@ async function loadTranslations(locale: Locale): Promise<void> {
 }
 
 export async function initTranslations(locale: Locale): Promise<void> {
-  await loadTranslations(locale);
+  await Promise.all([
+    loadTranslations(locale),
+    fetchSlugMappings() // Pre-load slug mappings
+  ]);
 }
 
 export function t(section: string, key: string, locale: Locale): string {
@@ -103,6 +122,86 @@ export function t(section: string, key: string, locale: Locale): string {
   return translation;
 }
 
+// Fetch slug mappings from database
+async function fetchSlugMappings(): Promise<SlugMapping> {
+  if (slugMappingPromise) {
+    return slugMappingPromise;
+  }
+
+  if (slugMappingCache) {
+    return slugMappingCache;
+  }
+
+  slugMappingPromise = (async () => {
+    try {
+      console.log('[SLUG MAPPING] Fetching slug mappings from database...');
+      
+      const { data: pages, error } = await supabase
+        .from('pages')
+        .select(`
+          id,
+          slug,
+          page_translations (
+            language,
+            slug
+          )
+        `)
+        .eq('status', 'published');
+
+      if (error) {
+        console.error('[SLUG MAPPING] Error fetching pages:', error);
+        return {};
+      }
+
+      const mapping: SlugMapping = {};
+      const reverseMapping: Record<string, string> = {};
+
+      pages?.forEach((page: any) => {
+        const baseSlug = page.slug;
+        const locales: Record<string, string> = {
+          en: baseSlug,
+          br: baseSlug,
+          es: baseSlug,
+        };
+
+        // Map each translation's slug to its locale
+        page.page_translations?.forEach((translation: any) => {
+          const locale = translation.language as Locale;
+          const localizedSlug = translation.slug || baseSlug;
+          locales[locale] = localizedSlug;
+
+          // Build reverse mapping: localized slug -> base slug
+          if (localizedSlug !== baseSlug) {
+            reverseMapping[localizedSlug] = baseSlug;
+          }
+        });
+
+        mapping[baseSlug] = locales as { en: string; br: string; es: string };
+
+        console.log(`[SLUG MAPPING] ${baseSlug}:`, locales);
+      });
+
+      slugMappingCache = mapping;
+      reverseSlugCache = reverseMapping;
+      
+      console.log('[SLUG MAPPING] Cache updated:', Object.keys(mapping).length, 'pages');
+      return mapping;
+    } catch (error) {
+      console.error('[SLUG MAPPING] Failed to fetch slug mappings:', error);
+      return {};
+    } finally {
+      slugMappingPromise = null;
+    }
+  })();
+
+  return slugMappingPromise;
+}
+
+// Get base slug from a localized slug
+function getBaseSlug(localizedSlug: string): string {
+  return reverseSlugCache[localizedSlug] || localizedSlug;
+}
+
 export function getLocaleFromPath(pathname: string): Locale {
   // Check for BR paths (including /br/artigos)
   if (pathname.startsWith('/br')) return 'br';
@@ -111,36 +210,7 @@ export function getLocaleFromPath(pathname: string): Locale {
   return 'en';
 }
 
-export function getPathForLocale(locale: Locale, currentPath: string = '/'): string {
-  // Localized slug mappings for publications
-  const localizedSlugs: Record<string, Record<Locale, string>> = {
-    'web3-for-athletes': {
-      en: 'web3-for-athletes',
-      br: 'web3-para-atletas',
-      es: 'web3-for-athletes'
-    },
-    'web3-para-atletas': {
-      en: 'web3-for-athletes',
-      br: 'web3-para-atletas',
-      es: 'web3-for-athletes'
-    },
-    'web2-vs-web3-marketing': {
-      en: 'web2-vs-web3-marketing',
-      br: 'web2-vs-web3-marketing',
-      es: 'web2-vs-web3-marketing'
-    },
-    'definitive-guide-web3-seo': {
-      en: 'definitive-guide-web3-seo',
-      br: 'definitive-guide-web3-seo',
-      es: 'definitive-guide-web3-seo'
-    },
-    'vibe-coded-token-health-scan': {
-      en: 'vibe-coded-token-health-scan',
-      br: 'vibe-coded-token-health-scan',
-      es: 'vibe-coded-token-health-scan'
-    }
-  };
-  
+export async function getPathForLocale(locale: Locale, currentPath: string = '/'): Promise<string> {
   // Extract slug from path
   const pathParts = currentPath.split('/').filter(Boolean);
   const currentSlug = pathParts[pathParts.length - 1]; // Last part is the slug
@@ -158,10 +228,18 @@ export function getPathForLocale(locale: Locale, currentPath: string = '/'): str
     return '/publications';
   }
   
-  // For publication pages, use localized slug mappings
+  // For publication pages, use dynamic slug mappings from database
   if (cleanPath.startsWith('/publications/')) {
-    const slugMapping = localizedSlugs[currentSlug];
+    const slugMappings = await fetchSlugMappings();
+    
+    // Get the base slug (in case we're currently on a localized slug)
+    const baseSlug = getBaseSlug(currentSlug);
+    
+    // Get the mapping for this publication
+    const slugMapping = slugMappings[baseSlug];
     const targetSlug = slugMapping ? slugMapping[locale] : currentSlug;
+    
+    console.log(`[PATH LOCALE] Current: ${currentSlug}, Base: ${baseSlug}, Target (${locale}): ${targetSlug}`);
     
     if (locale === 'br') return `/br/artigos/${targetSlug}`;
     if (locale === 'es') return `/es/articulos/${targetSlug}`;
@@ -169,6 +247,44 @@ export function getPathForLocale(locale: Locale, currentPath: string = '/'): str
   }
   
   // Add new locale prefix if not English
+  if (locale === 'en') return cleanPath;
+  return `/${locale}${cleanPath}`;
+}
+
+// Synchronous version for backwards compatibility (uses cached data)
+export function getPathForLocaleSync(locale: Locale, currentPath: string = '/'): string {
+  const pathParts = currentPath.split('/').filter(Boolean);
+  const currentSlug = pathParts[pathParts.length - 1];
+  
+  let cleanPath = currentPath
+    .replace(/^\/(br|es)/, '')
+    .replace(/^\/(artigos|articulos)/, '/publications')
+    || '/';
+  
+  if (cleanPath === '/publications') {
+    if (locale === 'br') return '/br/artigos';
+    if (locale === 'es') return '/es/articulos';
+    return '/publications';
+  }
+  
+  if (cleanPath.startsWith('/publications/')) {
+    // Use cached mappings if available
+    if (slugMappingCache) {
+      const baseSlug = getBaseSlug(currentSlug);
+      const slugMapping = slugMappingCache[baseSlug];
+      const targetSlug = slugMapping ? slugMapping[locale] : currentSlug;
+      
+      if (locale === 'br') return `/br/artigos/${targetSlug}`;
+      if (locale === 'es') return `/es/articulos/${targetSlug}`;
+      return `/publications/${targetSlug}`;
+    }
+    
+    // Fallback to current slug if cache not ready
+    if (locale === 'br') return `/br/artigos/${currentSlug}`;
+    if (locale === 'es') return `/es/articulos/${currentSlug}`;
+    return `/publications/${currentSlug}`;
+  }
+  
   if (locale === 'en') return cleanPath;
   return `/${locale}${cleanPath}`;
 }
