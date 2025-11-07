@@ -94,7 +94,7 @@ const SEO = ({ locale, path = '/' }: SEOProps) => {
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:title" content={ogTitle} />
       <meta property="og:description" content={ogDescription} />
-      <meta property="og:image" content={`${baseUrl}/og-mangabeira.png`} />
+      <meta property="og:image" content={`${baseUrl}/images/swimming-icon.png`} />
       <meta property="og:locale" content={htmlLang.replace('-', '_')} />
       {locale !== 'en' && <meta property="og:locale:alternate" content="en_US" />}
       {locale !== 'br' && <meta property="og:locale:alternate" content="pt_BR" />}
@@ -105,7 +105,7 @@ const SEO = ({ locale, path = '/' }: SEOProps) => {
       <meta property="twitter:url" content={canonicalUrl} />
       <meta property="twitter:title" content={twitterTitle} />
       <meta property="twitter:description" content={twitterDescription} />
-      <meta property="twitter:image" content={`${baseUrl}/og-mangabeira.png`} />
+      <meta property="twitter:image" content={`${baseUrl}/images/swimming-icon.png`} />
 
       {/* Mobile Optimization */}
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
