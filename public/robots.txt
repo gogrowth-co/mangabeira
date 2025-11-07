@@ -6,5 +6,5 @@ Allow: /
 # Disallow: /private/
 
 Sitemap: https://mangabeira.net/sitemap.xml
-LLMs: https://mangabeira.net/llms.txt
-LLMs-Full: https://mangabeira.net/llms-full.txt
+
+# AI crawler files available at /llms.txt and /llms-full.txt
