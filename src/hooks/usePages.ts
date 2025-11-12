@@ -211,24 +211,26 @@ export function useCreatePage() {
         slug?: string | null;
       }>;
     }) => {
-      // Create page
-      const { data: page, error: pageError } = await supabase
+      // Generate ID client-side to avoid RLS issues with draft pages
+      const newId = crypto.randomUUID();
+      
+      // Create page with generated ID
+      const { error: pageError } = await supabase
         .from('pages')
         .insert({
+          id: newId,
           slug: data.slug,
           category: data.category,
           featured_image: data.featured_image,
           read_time: data.read_time,
           status: 'draft',
-        })
-        .select()
-        .single();
+        });
       
       if (pageError) throw pageError;
       
       // Create translations
       const translationsToInsert = data.translations.map(t => ({
-        page_id: page.id,
+        page_id: newId,
         ...t,
       }));
       
@@ -238,7 +240,7 @@ export function useCreatePage() {
       
       if (translationsError) throw translationsError;
       
-      return page;
+      return { id: newId };
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['pages'] });
