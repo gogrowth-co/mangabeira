@@ -11,7 +11,7 @@ import { HeroImageUpload } from '@/components/admin/HeroImageUpload';
 import { formatSlug } from '@/lib/slugFormatter';
 import { toast } from 'sonner';
 import { Locale } from '@/lib/translations';
-import { isDevMode } from '@/lib/adminCheck';
+import { useAuth } from '@/contexts/AuthContext';
 import { Lock } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
@@ -31,7 +31,19 @@ const LANGUAGES: Locale[] = ['en', 'br', 'es'];
 export default function AdminEdit() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { user, isAdmin, loading } = useAuth();
   const { data: page, isLoading } = usePage(id);
+  
+  useEffect(() => {
+    if (!loading && (!user || !isAdmin)) {
+      navigate('/auth');
+    }
+  }, [user, isAdmin, loading, navigate]);
+
+  if (loading || !user || !isAdmin) {
+    return null;
+  }
+  
   const updateMutation = useUpdatePage();
   const deleteMutation = useDeletePage();
   const publishMutation = usePublishPage();
@@ -56,12 +68,6 @@ export default function AdminEdit() {
     br: { title: '', meta_description: '', content: '' },
     es: { title: '', meta_description: '', content: '' },
   });
-
-  useEffect(() => {
-    if (!isDevMode()) {
-      navigate('/');
-    }
-  }, [navigate]);
 
   useEffect(() => {
     if (page) {
@@ -164,10 +170,6 @@ export default function AdminEdit() {
       toast.error('Failed to delete page');
     }
   };
-
-  if (!isDevMode()) {
-    return null;
-  }
 
   if (isLoading) {
     return <div className="min-h-screen bg-background p-8 flex items-center justify-center">Loading...</div>;

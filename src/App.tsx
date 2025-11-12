@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { LanguageProvider, detectBrowserLanguage } from "./contexts/LanguageContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import Index from "./pages/Index";
 import IndexBR from "./pages/IndexBR";
 import IndexES from "./pages/IndexES";
@@ -18,8 +19,8 @@ import DynamicPage from "./pages/DynamicPage";
 import Publications from "./pages/Publications";
 import PublicationsBR from "./pages/PublicationsBR";
 import PublicationsES from "./pages/PublicationsES";
+import Auth from "./pages/Auth";
 import { useEffect } from "react";
-import { isDevMode } from "./lib/adminCheck";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -55,8 +56,9 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <LanguageProvider>
-            <Routes>
+          <AuthProvider>
+            <LanguageProvider>
+              <Routes>
               <Route path="/" element={<RootRedirect />} />
               <Route path="/br" element={<IndexBR />} />
               <Route path="/es" element={<IndexES />} />
@@ -89,15 +91,14 @@ const App = () => {
               <Route path="/es/web3-seo-guide" element={<Navigate to="/es/articulos/definitive-guide-web3-seo" replace />} />
               <Route path="/es/token-health-scan" element={<Navigate to="/es/articulos/vibe-coded-token-health-scan" replace />} />
               
-              {/* Admin routes - dev only */}
-              {isDevMode() && (
-                <>
-                  <Route path="/admin" element={<Admin />} />
-                  <Route path="/admin/new" element={<AdminNew />} />
-                  <Route path="/admin/edit/:id" element={<AdminEdit />} />
-                  <Route path="/admin/edit/:id/:lang" element={<AdminEditLanguage />} />
-                </>
-              )}
+              {/* Auth route */}
+              <Route path="/auth" element={<Auth />} />
+              
+              {/* Admin routes - requires authentication */}
+              <Route path="/admin" element={<Admin />} />
+              <Route path="/admin/new" element={<AdminNew />} />
+              <Route path="/admin/edit/:id" element={<AdminEdit />} />
+              <Route path="/admin/edit/:id/:lang" element={<AdminEditLanguage />} />
               
               {/* Dynamic pages */}
               <Route path="/br/:slug" element={<DynamicPage />} />
@@ -106,8 +107,9 @@ const App = () => {
               
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
-            </Routes>
-          </LanguageProvider>
+              </Routes>
+            </LanguageProvider>
+          </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

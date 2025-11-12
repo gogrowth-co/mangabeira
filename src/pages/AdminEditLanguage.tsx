@@ -7,15 +7,26 @@ import { LanguageSection } from '@/components/admin/LanguageSection';
 import { HeroImageUpload } from '@/components/admin/HeroImageUpload';
 import { toast } from 'sonner';
 import { Locale } from '@/lib/translations';
-import { isDevMode } from '@/lib/adminCheck';
+import { useAuth } from '@/contexts/AuthContext';
 import { getSystemPageSlug } from '@/lib/systemPageRoutes';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function AdminEditLanguage() {
   const { id, lang } = useParams<{ id: string; lang: Locale }>();
   const navigate = useNavigate();
+  const { user, isAdmin, loading } = useAuth();
   const { data: page, isLoading } = usePage(id);
   const updateMutation = useUpdatePage();
+  
+  useEffect(() => {
+    if (!loading && (!user || !isAdmin)) {
+      navigate('/auth');
+    }
+  }, [user, isAdmin, loading, navigate]);
+
+  if (loading || !user || !isAdmin) {
+    return null;
+  }
   
   const [inputMethod, setInputMethod] = useState<'file' | 'manual'>('manual');
   const [localizedImage, setLocalizedImage] = useState<string | null>(null);
@@ -26,12 +37,6 @@ export default function AdminEditLanguage() {
     content: '',
     slug: '',
   });
-
-  useEffect(() => {
-    if (!isDevMode()) {
-      navigate('/');
-    }
-  }, [navigate]);
 
   useEffect(() => {
     if (page && lang) {
@@ -82,10 +87,6 @@ export default function AdminEditLanguage() {
       toast.error('Failed to update translation');
     }
   };
-
-  if (!isDevMode()) {
-    return null;
-  }
 
   if (isLoading) {
     return <div className="min-h-screen bg-background p-8 flex items-center justify-center">Loading...</div>;
