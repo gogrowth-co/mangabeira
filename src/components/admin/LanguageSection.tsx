@@ -8,6 +8,7 @@ import { readHTMLFile } from '@/lib/htmlParser';
 import { formatSlug } from '@/lib/slugFormatter';
 import { toast } from 'sonner';
 import { Upload, X } from 'lucide-react';
+import { RichTextEditor } from './RichTextEditor';
 
 interface LanguageSectionProps {
   language: Locale;
@@ -197,13 +198,13 @@ export function LanguageSection({
           </div>
 
           <div>
-            <Label htmlFor={`${language}-content`}>Content (HTML)</Label>
-            <Textarea
-              id={`${language}-content`}
-              value={translation.content}
-              onChange={(e) => onTranslationChange('content', e.target.value)}
-              rows={10}
-              placeholder="Paste HTML content here..."
+            <Label htmlFor={`${language}-content`}>
+              Content {required && <span className="text-destructive">*</span>}
+            </Label>
+            <RichTextEditor
+              content={translation.content}
+              onChange={(html) => onTranslationChange('content', html)}
+              placeholder={`Enter ${language.toUpperCase()} content with rich formatting`}
             />
           </div>
         </div>
