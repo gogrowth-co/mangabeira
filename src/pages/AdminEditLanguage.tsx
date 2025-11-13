@@ -27,6 +27,7 @@ export default function AdminEditLanguage() {
     meta_description: '',
     content: '',
     slug: '',
+    schema: null as object | null,
   });
   
   useEffect(() => {
@@ -37,13 +38,14 @@ export default function AdminEditLanguage() {
 
   useEffect(() => {
     if (page && lang) {
-      const existingTranslation = page.translations?.find((t: any) => t.language === lang);
+      const existingTranslation: any = page.translations?.find((t: any) => t.language === lang);
       if (existingTranslation) {
         setTranslation({
           title: existingTranslation.title || '',
           meta_description: existingTranslation.meta_description || '',
           content: existingTranslation.content || '',
           slug: existingTranslation.slug || '',
+          schema: existingTranslation.schema || null,
         });
         setImageAltText(existingTranslation.featured_image_alt || '');
       }
@@ -56,7 +58,7 @@ export default function AdminEditLanguage() {
     return null;
   }
 
-  const handleTranslationChange = (field: string, value: string) => {
+  const handleTranslationChange = (field: string, value: string | object | null) => {
     setTranslation(prev => ({
       ...prev,
       [field]: value,

@@ -9,6 +9,7 @@ import { formatSlug } from '@/lib/slugFormatter';
 import { toast } from 'sonner';
 import { Upload, X } from 'lucide-react';
 import { RichTextEditor } from './RichTextEditor';
+import { SchemaEditor } from './SchemaEditor';
 
 interface LanguageSectionProps {
   language: Locale;
@@ -17,9 +18,10 @@ interface LanguageSectionProps {
     meta_description: string;
     content: string;
     slug?: string;
+    schema?: object | null;
   };
   inputMethod: 'file' | 'manual';
-  onTranslationChange: (field: string, value: string) => void;
+  onTranslationChange: (field: string, value: string | object | null) => void;
   onInputMethodChange: (method: 'file' | 'manual') => void;
   required?: boolean;
   baseSlug?: string;
@@ -207,6 +209,13 @@ export function LanguageSection({
               placeholder={`Enter ${language.toUpperCase()} content with rich formatting`}
             />
           </div>
+
+          {/* Schema Editor */}
+          <SchemaEditor
+            schema={translation.schema || null}
+            onChange={(schema) => onTranslationChange('schema', schema)}
+            articleTitle={translation.title}
+          />
         </div>
       )}
     </div>

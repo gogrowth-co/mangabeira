@@ -44,17 +44,18 @@ export default function AdminNew() {
     title: string;
     meta_description: string;
     content: string;
+    schema?: object | null;
   }>>({
-    en: { title: '', meta_description: '', content: '' },
-    br: { title: '', meta_description: '', content: '' },
-    es: { title: '', meta_description: '', content: '' },
+    en: { title: '', meta_description: '', content: '', schema: null },
+    br: { title: '', meta_description: '', content: '', schema: null },
+    es: { title: '', meta_description: '', content: '', schema: null },
   });
 
   const handleSlugBlur = () => {
     setSlug(formatSlug(slug));
   };
 
-  const handleTranslationChange = (lang: Locale, field: string, value: string) => {
+  const handleTranslationChange = (lang: Locale, field: string, value: string | object | null) => {
     setTranslations(prev => ({
       ...prev,
       [lang]: {

@@ -145,17 +145,43 @@ export default function DynamicPage() {
     enabled: !!data?.page.id,
   });
 
-  // Extract schema markup and body content
-  const { schemas, bodyContent } = useMemo(
+  // Extract schema markup and body content from HTML (for backward compatibility)
+  const { schemas: contentSchemas, bodyContent } = useMemo(
     () => extractHTMLParts(data?.translation?.content),
     [data?.translation?.content]
   );
+
+  // Get schema from database (prioritize this over content-extracted schemas)
+  const dbSchema = useMemo(() => {
+    const translationData: any = data?.translation;
+    if (translationData?.schema) {
+      try {
+        const schemaJson = typeof translationData.schema === 'string' 
+          ? translationData.schema 
+          : JSON.stringify(translationData.schema);
+        return validateSchema(schemaJson);
+      } catch (e) {
+        console.warn('[DynamicPage] Invalid schema in database:', e);
+        return null;
+      }
+    }
+    return null;
+  }, [data?.translation]);
+
+  // Combine database schema with content-extracted schemas (db schema takes priority)
+  const allSchemas = useMemo(() => {
+    const schemas: string[] = [];
+    if (dbSchema) schemas.push(dbSchema);
+    // Add content schemas as fallback/additional schemas
+    schemas.push(...contentSchemas);
+    return schemas;
+  }, [dbSchema, contentSchemas]);
 
   // Safely inject JSON-LD schemas into document head
   useEffect(() => {
     const addedScripts: HTMLScriptElement[] = [];
     
-    schemas.forEach((schemaJson, index) => {
+    allSchemas.forEach((schemaJson, index) => {
       try {
         // Parse and re-stringify to ensure validity
         const parsed = JSON.parse(schemaJson);
@@ -177,7 +203,7 @@ export default function DynamicPage() {
     return () => {
       addedScripts.forEach(el => el.remove());
     };
-  }, [schemas]);
+  }, [allSchemas]);
 
   // Check if localized translation exists
   const hasLocalizedTranslation = allTranslations?.some(

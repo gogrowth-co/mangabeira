@@ -63,10 +63,11 @@ export default function AdminEdit() {
     meta_description: string;
     content: string;
     slug?: string;
+    schema?: object | null;
   }>>({
-    en: { title: '', meta_description: '', content: '' },
-    br: { title: '', meta_description: '', content: '' },
-    es: { title: '', meta_description: '', content: '' },
+    en: { title: '', meta_description: '', content: '', schema: null },
+    br: { title: '', meta_description: '', content: '', schema: null },
+    es: { title: '', meta_description: '', content: '', schema: null },
   });
 
   useEffect(() => {
@@ -77,9 +78,9 @@ export default function AdminEdit() {
       setReadTime(page.read_time || '');
       
       const newTranslations: any = {
-        en: { title: '', meta_description: '', content: '' },
-        br: { title: '', meta_description: '', content: '' },
-        es: { title: '', meta_description: '', content: '' },
+        en: { title: '', meta_description: '', content: '', schema: null },
+        br: { title: '', meta_description: '', content: '', schema: null },
+        es: { title: '', meta_description: '', content: '', schema: null },
       };
       
       page.translations?.forEach((t: any) => {
@@ -88,6 +89,7 @@ export default function AdminEdit() {
           meta_description: t.meta_description || '',
           content: t.content || '',
           slug: t.slug || '',
+          schema: t.schema || null,
         };
       });
       
@@ -99,7 +101,7 @@ export default function AdminEdit() {
     setSlug(formatSlug(slug));
   };
 
-  const handleTranslationChange = (lang: Locale, field: string, value: string) => {
+  const handleTranslationChange = (lang: Locale, field: string, value: string | object | null) => {
     setTranslations(prev => ({
       ...prev,
       [lang]: {
