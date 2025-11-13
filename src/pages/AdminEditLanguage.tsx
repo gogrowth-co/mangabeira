@@ -18,16 +18,7 @@ export default function AdminEditLanguage() {
   const { data: page, isLoading } = usePage(id);
   const updateMutation = useUpdatePage();
   
-  useEffect(() => {
-    if (!loading && (!user || !isAdmin)) {
-      navigate('/auth');
-    }
-  }, [user, isAdmin, loading, navigate]);
-
-  if (loading || !user || !isAdmin) {
-    return null;
-  }
-  
+  // All useState hooks MUST come before any conditional returns
   const [inputMethod, setInputMethod] = useState<'file' | 'manual'>('manual');
   const [localizedImage, setLocalizedImage] = useState<string | null>(null);
   const [imageAltText, setImageAltText] = useState('');
@@ -37,6 +28,12 @@ export default function AdminEditLanguage() {
     content: '',
     slug: '',
   });
+  
+  useEffect(() => {
+    if (!loading && (!user || !isAdmin)) {
+      navigate('/auth');
+    }
+  }, [user, isAdmin, loading, navigate]);
 
   useEffect(() => {
     if (page && lang) {
@@ -54,6 +51,10 @@ export default function AdminEditLanguage() {
       setLocalizedImage(page.featured_image || null);
     }
   }, [page, lang]);
+
+  if (loading || !user || !isAdmin) {
+    return null;
+  }
 
   const handleTranslationChange = (field: string, value: string) => {
     setTranslation(prev => ({
