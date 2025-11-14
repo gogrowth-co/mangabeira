@@ -34,6 +34,11 @@ export default function AdminEdit() {
   const { user, isAdmin, loading } = useAuth();
   const { data: page, isLoading } = usePage(id);
   
+  // Call all hooks BEFORE any conditional returns
+  const updateMutation = useUpdatePage();
+  const deleteMutation = useDeletePage();
+  const publishMutation = usePublishPage();
+  
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) {
       navigate('/auth');
@@ -43,10 +48,6 @@ export default function AdminEdit() {
   if (loading || !user || !isAdmin) {
     return null;
   }
-  
-  const updateMutation = useUpdatePage();
-  const deleteMutation = useDeletePage();
-  const publishMutation = usePublishPage();
   
   const [slug, setSlug] = useState('');
   const [category, setCategory] = useState<string>('');
