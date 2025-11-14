@@ -39,16 +39,6 @@ export default function AdminEdit() {
   const deleteMutation = useDeletePage();
   const publishMutation = usePublishPage();
   
-  useEffect(() => {
-    if (!loading && (!user || !isAdmin)) {
-      navigate('/auth');
-    }
-  }, [user, isAdmin, loading, navigate]);
-
-  if (loading || !user || !isAdmin) {
-    return null;
-  }
-  
   const [slug, setSlug] = useState('');
   const [category, setCategory] = useState<string>('');
   const [featuredImage, setFeaturedImage] = useState<string | null>(null);
@@ -70,6 +60,12 @@ export default function AdminEdit() {
     br: { title: '', meta_description: '', content: '', schema: null },
     es: { title: '', meta_description: '', content: '', schema: null },
   });
+  
+  useEffect(() => {
+    if (!loading && (!user || !isAdmin)) {
+      navigate('/auth');
+    }
+  }, [user, isAdmin, loading, navigate]);
 
   useEffect(() => {
     if (page) {
@@ -97,6 +93,10 @@ export default function AdminEdit() {
       setTranslations(newTranslations);
     }
   }, [page]);
+
+  if (loading || !user || !isAdmin) {
+    return null;
+  }
 
   const handleSlugBlur = () => {
     setSlug(formatSlug(slug));
