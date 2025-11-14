@@ -1,0 +1,264 @@
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.58.0';
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+};
+
+// In-memory cache for prerendered pages (1 hour TTL)
+const cache = new Map<string, { html: string; timestamp: number }>();
+const CACHE_TTL = 60 * 60 * 1000; // 1 hour
+
+// Bot user agents to detect
+const BOT_USER_AGENTS = [
+  'googlebot',
+  'bingbot',
+  'slurp', // Yahoo
+  'duckduckbot',
+  'baiduspider',
+  'yandexbot',
+  'twitterbot',
+  'facebookexternalhit',
+  'linkedinbot',
+  'whatsapp',
+  'telegrambot',
+  'slackbot',
+  'discordbot',
+  'pinterestbot',
+  'tumblr',
+  'redditbot',
+  'applebot',
+  'petalbot',
+];
+
+function isBot(userAgent: string): boolean {
+  const ua = userAgent.toLowerCase();
+  return BOT_USER_AGENTS.some(bot => ua.includes(bot));
+}
+
+function sanitizeHTML(html: string): string {
+  // Basic sanitization - remove script tags and dangerous attributes
+  return html
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
+    .replace(/javascript:/gi, '');
+}
+
+function generateHTML(data: {
+  title: string;
+  description: string;
+  content: string;
+  schema?: object;
+  featuredImage?: string;
+  locale: string;
+  canonicalUrl: string;
+  alternateUrls: { locale: string; url: string }[];
+}): string {
+  const schemaScript = data.schema 
+    ? `<script type="application/ld+json">${JSON.stringify(data.schema)}</script>`
+    : '';
+
+  const ogImage = data.featuredImage || 'https://mangabeira.net/og-mangabeira.png';
+
+  return `<!DOCTYPE html>
+<html lang="${data.locale}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${data.title}</title>
+  <meta name="description" content="${data.description}">
+  <link rel="canonical" href="${data.canonicalUrl}">
+  ${data.alternateUrls.map(alt => 
+    `<link rel="alternate" hreflang="${alt.locale}" href="${alt.url}">`
+  ).join('\n  ')}
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="${data.title}">
+  <meta property="og:description" content="${data.description}">
+  <meta property="og:image" content="${ogImage}">
+  <meta property="og:url" content="${data.canonicalUrl}">
+  <meta property="og:type" content="website">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${data.title}">
+  <meta name="twitter:description" content="${data.description}">
+  <meta name="twitter:image" content="${ogImage}">
+  
+  ${schemaScript}
+</head>
+<body>
+  <main>
+    ${sanitizeHTML(data.content)}
+  </main>
+</body>
+</html>`;
+}
+
+Deno.serve(async (req) => {
+  // Handle CORS preflight
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { headers: corsHeaders });
+  }
+
+  try {
+    const userAgent = req.headers.get('user-agent') || '';
+    const url = new URL(req.url);
+    const path = url.searchParams.get('path') || '/';
+
+    console.log('Prerender request:', { path, userAgent, isBot: isBot(userAgent) });
+
+    // If not a bot, return a simple redirect instruction
+    if (!isBot(userAgent)) {
+      return new Response(null, {
+        status: 302,
+        headers: {
+          ...corsHeaders,
+          'Location': path,
+        },
+      });
+    }
+
+    // Check cache
+    const cacheKey = path;
+    const cached = cache.get(cacheKey);
+    if (cached && (Date.now() - cached.timestamp < CACHE_TTL)) {
+      console.log('Serving from cache:', cacheKey);
+      return new Response(cached.html, {
+        headers: {
+          ...corsHeaders,
+          'Content-Type': 'text/html; charset=utf-8',
+          'Cache-Control': 'public, max-age=3600',
+        },
+      });
+    }
+
+    // Initialize Supabase client
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseKey = Deno.env.get('SUPABASE_ANON_KEY')!;
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    // Parse locale and slug from path
+    const pathParts = path.split('/').filter(Boolean);
+    let locale = 'en';
+    let slug = '';
+
+    if (pathParts.length === 0) {
+      // Homepage
+      locale = 'en';
+      slug = 'home';
+    } else if (pathParts.length === 1 && ['br', 'es'].includes(pathParts[0])) {
+      // Localized homepage
+      locale = pathParts[0];
+      slug = 'home';
+    } else if (pathParts.length === 1) {
+      // English page
+      locale = 'en';
+      slug = pathParts[0];
+    } else if (pathParts.length === 2 && ['br', 'es'].includes(pathParts[0])) {
+      // Localized page
+      locale = pathParts[0];
+      slug = pathParts[1];
+    }
+
+    console.log('Parsed path:', { locale, slug });
+
+    // Fetch page data from Supabase
+    const { data: pageData, error } = await supabase
+      .from('pages')
+      .select(`
+        id,
+        slug,
+        featured_image,
+        status,
+        page_translations!inner(
+          language,
+          title,
+          meta_description,
+          content,
+          schema,
+          slug
+        )
+      `)
+      .eq('status', 'published')
+      .or(`slug.eq.${slug},page_translations.slug.eq.${slug}`)
+      .single();
+
+    if (error || !pageData) {
+      console.error('Page not found:', error);
+      const notFoundHTML = generateHTML({
+        title: '404 - Page Not Found',
+        description: 'The requested page could not be found.',
+        content: '<h1>404 - Page Not Found</h1><p>The requested page could not be found.</p>',
+        locale,
+        canonicalUrl: `https://mangabeira.net${path}`,
+        alternateUrls: [],
+      });
+      return new Response(notFoundHTML, {
+        status: 404,
+        headers: {
+          ...corsHeaders,
+          'Content-Type': 'text/html; charset=utf-8',
+        },
+      });
+    }
+
+    // Find the translation for the current locale
+    const translation = pageData.page_translations.find(
+      (t: any) => t.language === locale
+    ) || pageData.page_translations[0];
+
+    const baseUrl = 'https://mangabeira.net';
+    const localePrefix = locale === 'en' ? '' : `/${locale}`;
+    const canonicalUrl = `${baseUrl}${localePrefix}/${translation.slug || slug}`;
+
+    // Build alternate URLs
+    const alternateUrls = pageData.page_translations.map((t: any) => ({
+      locale: t.language === 'br' ? 'pt-BR' : t.language === 'es' ? 'es-ES' : 'en-US',
+      url: `${baseUrl}${t.language === 'en' ? '' : `/${t.language}`}/${t.slug || slug}`,
+    }));
+
+    // Generate HTML
+    const html = generateHTML({
+      title: translation.title,
+      description: translation.meta_description || '',
+      content: translation.content || '<p>Content not available.</p>',
+      schema: translation.schema,
+      featuredImage: pageData.featured_image,
+      locale: locale === 'br' ? 'pt-BR' : locale === 'es' ? 'es-ES' : 'en',
+      canonicalUrl,
+      alternateUrls,
+    });
+
+    // Cache the result
+    cache.set(cacheKey, { html, timestamp: Date.now() });
+
+    // Clean old cache entries
+    if (cache.size > 100) {
+      const entries = Array.from(cache.entries());
+      entries.sort((a, b) => a[1].timestamp - b[1].timestamp);
+      const toDelete = entries.slice(0, 50);
+      toDelete.forEach(([key]) => cache.delete(key));
+    }
+
+    console.log('Generated and cached prerendered HTML for:', path);
+
+    return new Response(html, {
+      headers: {
+        ...corsHeaders,
+        'Content-Type': 'text/html; charset=utf-8',
+        'Cache-Control': 'public, max-age=3600',
+      },
+    });
+
+  } catch (error) {
+    console.error('Prerender error:', error);
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+      headers: {
+        ...corsHeaders,
+        'Content-Type': 'application/json',
+      },
+    });
+  }
+});
