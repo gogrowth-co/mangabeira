@@ -14,3 +14,6 @@ verify_jwt = false
 
 [functions.submit-indexnow]
 verify_jwt = false
+
+[functions.generate-rss]
+verify_jwt = false
