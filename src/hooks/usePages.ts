@@ -316,6 +316,25 @@ export function useUpdatePage() {
         } catch (error) {
           console.error('Failed to refresh sitemap cache:', error);
         }
+        
+        // Submit to IndexNow for instant search engine indexing
+        try {
+          const slug = variables.slug || (await supabase
+            .from('pages')
+            .select('slug')
+            .eq('id', variables.id)
+            .single()
+          ).data?.slug;
+          
+          if (slug) {
+            await supabase.functions.invoke('submit-indexnow', {
+              body: { slug }
+            });
+            console.log('URLs submitted to IndexNow after page update');
+          }
+        } catch (error) {
+          console.error('Failed to submit to IndexNow:', error);
+        }
       }
     },
   });
@@ -373,6 +392,24 @@ export function usePublishPage() {
         console.log('Sitemap cache refreshed after page publish');
       } catch (error) {
         console.error('Failed to refresh sitemap cache:', error);
+      }
+      
+      // Submit to IndexNow for instant search engine indexing
+      try {
+        const { data: page } = await supabase
+          .from('pages')
+          .select('slug')
+          .eq('id', id)
+          .single();
+        
+        if (page?.slug) {
+          await supabase.functions.invoke('submit-indexnow', {
+            body: { slug: page.slug }
+          });
+          console.log('URLs submitted to IndexNow after page publish');
+        }
+      } catch (error) {
+        console.error('Failed to submit to IndexNow:', error);
       }
     },
   });
