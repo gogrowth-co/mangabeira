@@ -20,6 +20,7 @@ import Publications from "./pages/Publications";
 import PublicationsBR from "./pages/PublicationsBR";
 import PublicationsES from "./pages/PublicationsES";
 import Auth from "./pages/Auth";
+import Sitemap from "./pages/Sitemap";
 import { useEffect } from "react";
 
 const queryClient = new QueryClient({
@@ -62,6 +63,9 @@ const App = () => {
               <Route path="/" element={<RootRedirect />} />
               <Route path="/br" element={<IndexBR />} />
               <Route path="/es" element={<IndexES />} />
+              
+              {/* Dynamic sitemap */}
+              <Route path="/sitemap.xml" element={<Sitemap />} />
               
               {/* Redirects for incorrect system page URLs */}
               <Route path="/br/about" element={<Navigate to="/br/sobre" replace />} />
