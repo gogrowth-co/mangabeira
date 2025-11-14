@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.translate-content]
 verify_jwt = false
+
+[functions.prerender]
+verify_jwt = false
