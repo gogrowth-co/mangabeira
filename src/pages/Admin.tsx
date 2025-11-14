@@ -2,8 +2,10 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PageTable } from '@/components/admin/PageTable';
 import { Button } from '@/components/ui/button';
-import { Plus, LogOut } from 'lucide-react';
+import { Plus, LogOut, RefreshCw } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from '@/hooks/use-toast';
 
 export default function Admin() {
   const navigate = useNavigate();
@@ -44,6 +46,29 @@ export default function Admin() {
             <Button onClick={() => navigate('/admin/new')}>
               <Plus className="mr-2 h-4 w-4" />
               New Page
+            </Button>
+            <Button 
+              onClick={async () => { 
+                try {
+                  await supabase.functions.invoke('generate-sitemap', { 
+                    body: { forceRefresh: true } 
+                  }); 
+                  toast({ 
+                    title: "Success", 
+                    description: "Sitemap refreshed successfully!" 
+                  }); 
+                } catch (error) {
+                  toast({ 
+                    title: "Error", 
+                    description: "Failed to refresh sitemap",
+                    variant: "destructive"
+                  }); 
+                }
+              }} 
+              variant="outline"
+            >
+              <RefreshCw className="mr-2 h-4 w-4" />
+              Refresh Sitemap
             </Button>
             <Button onClick={handleSignOut} variant="outline">
               <LogOut className="mr-2 h-4 w-4" />
