@@ -304,9 +304,19 @@ export function useUpdatePage() {
         }
       }
     },
-    onSuccess: (_, variables) => {
+    onSuccess: async (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['pages'] });
       queryClient.invalidateQueries({ queryKey: ['page', variables.id] });
+      
+      // Refresh sitemap cache if status is published
+      if (variables.status === 'published') {
+        try {
+          await supabase.functions.invoke('generate-sitemap');
+          console.log('Sitemap cache refreshed after page update');
+        } catch (error) {
+          console.error('Failed to refresh sitemap cache:', error);
+        }
+      }
     },
   });
 }
@@ -353,9 +363,17 @@ export function usePublishPage() {
       
       if (error) throw error;
     },
-    onSuccess: (_, id) => {
+    onSuccess: async (_, id) => {
       queryClient.invalidateQueries({ queryKey: ['pages'] });
       queryClient.invalidateQueries({ queryKey: ['page', id] });
+      
+      // Refresh sitemap cache after publishing
+      try {
+        await supabase.functions.invoke('generate-sitemap');
+        console.log('Sitemap cache refreshed after page publish');
+      } catch (error) {
+        console.error('Failed to refresh sitemap cache:', error);
+      }
     },
   });
 }
