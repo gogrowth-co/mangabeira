@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.prerender]
 verify_jwt = false
+
+[functions.generate-sitemap]
+verify_jwt = false
