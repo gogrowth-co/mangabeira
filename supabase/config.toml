@@ -11,3 +11,6 @@ verify_jwt = false
 
 [functions.generate-sitemap]
 verify_jwt = false
+
+[functions.submit-indexnow]
+verify_jwt = false
