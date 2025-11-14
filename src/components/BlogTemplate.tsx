@@ -100,7 +100,7 @@ const BlogTemplate = ({
             )}
           </header>
 
-          <section className="prose prose-neutral dark:prose-invert max-w-none">
+          <section className="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pb-2 prose-h2:border-b prose-h2:border-border prose-h3:text-2xl prose-h3:mt-10 prose-h3:mb-4 prose-p:leading-relaxed prose-p:mb-6 prose-a:text-primary prose-a:font-medium prose-a:no-underline hover:prose-a:underline prose-strong:text-primary prose-strong:font-bold prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-6 prose-code:bg-muted prose-code:rounded prose-code:px-1.5 prose-img:rounded-xl prose-img:shadow-xl prose-table:border prose-table:rounded-lg">
             {typeof content === 'string' ? (
               <div dangerouslySetInnerHTML={{ 
                 __html: DOMPurify.sanitize(content, {
