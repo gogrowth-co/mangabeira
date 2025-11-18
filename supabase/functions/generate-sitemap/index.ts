@@ -58,18 +58,25 @@ Deno.serve(async (req) => {
 
     // System pages with their language variants
     const systemPages = [
-      { path: '', priority: '1.0', changefreq: 'weekly' },
-      { path: 'br', priority: '1.0', changefreq: 'weekly' },
-      { path: 'es', priority: '1.0', changefreq: 'weekly' },
-      { path: 'publications', priority: '0.9', changefreq: 'daily' },
-      { path: 'publicacoes', priority: '0.9', changefreq: 'daily' },
-      { path: 'publicaciones', priority: '0.9', changefreq: 'daily' },
-      { path: 'about', priority: '0.8', changefreq: 'monthly' },
-      { path: 'sobre', priority: '0.8', changefreq: 'monthly' },
-      { path: 'acerca-de', priority: '0.8', changefreq: 'monthly' },
-      { path: 'privacy-policy', priority: '0.3', changefreq: 'yearly' },
-      { path: 'politica-de-privacidade', priority: '0.3', changefreq: 'yearly' },
-      { path: 'politica-de-privacidad', priority: '0.3', changefreq: 'yearly' },
+      // Homepage
+      { path: '', priority: '1.0', changefreq: 'weekly', title: 'Home' },
+      { path: 'br', priority: '1.0', changefreq: 'weekly', title: 'Home (BR)' },
+      { path: 'es', priority: '1.0', changefreq: 'weekly', title: 'Home (ES)' },
+      
+      // Publications hub
+      { path: 'publications', priority: '0.9', changefreq: 'daily', title: 'Publications' },
+      { path: 'br/artigos', priority: '0.9', changefreq: 'daily', title: 'Artigos (BR)' },
+      { path: 'es/articulos', priority: '0.9', changefreq: 'daily', title: 'Artículos (ES)' },
+      
+      // About pages
+      { path: 'about', priority: '0.8', changefreq: 'monthly', title: 'About' },
+      { path: 'br/sobre', priority: '0.8', changefreq: 'monthly', title: 'Sobre (BR)' },
+      { path: 'es/acerca-de', priority: '0.8', changefreq: 'monthly', title: 'Acerca de (ES)' },
+      
+      // Privacy policy
+      { path: 'privacy-policy', priority: '0.3', changefreq: 'yearly', title: 'Privacy Policy' },
+      { path: 'br/politica-de-privacidade', priority: '0.3', changefreq: 'yearly', title: 'Política de Privacidade (BR)' },
+      { path: 'es/politica-de-privacidad', priority: '0.3', changefreq: 'yearly', title: 'Política de Privacidad (ES)' },
     ];
 
     let xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -152,7 +159,15 @@ ${alternateLinks}
 
     xml += `</urlset>`;
 
-    console.log('Generated sitemap with', pages?.length || 0, 'dynamic pages');
+    const totalSystemPages = systemPages.length;
+    const totalDynamicPages = pages?.length || 0;
+    const totalUrls = totalSystemPages + (totalDynamicPages * 3); // Each dynamic page can have up to 3 language versions
+    
+    console.log(`Generated sitemap successfully:
+    - System pages: ${totalSystemPages}
+    - Dynamic pages: ${totalDynamicPages}
+    - Total URLs: ~${totalUrls}
+    - Cache TTL: ${CACHE_TTL / 1000 / 60} minutes`);
 
     // Update cache
     sitemapCache = {
