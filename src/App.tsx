@@ -20,7 +20,6 @@ import Publications from "./pages/Publications";
 import PublicationsBR from "./pages/PublicationsBR";
 import PublicationsES from "./pages/PublicationsES";
 import Auth from "./pages/Auth";
-import Sitemap from "./pages/Sitemap";
 import RssFeed from "./pages/RssFeed";
 import { useEffect } from "react";
 
@@ -64,9 +63,6 @@ const App = () => {
               <Route path="/" element={<RootRedirect />} />
               <Route path="/br" element={<IndexBR />} />
               <Route path="/es" element={<IndexES />} />
-              
-              {/* Dynamic sitemap */}
-              <Route path="/sitemap.xml" element={<Sitemap />} />
               
               {/* RSS feeds */}
               <Route path="/rss/:lang.xml" element={<RssFeed />} />
