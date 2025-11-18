@@ -1,4 +1,87 @@
+# General rule - allow all bots
 User-agent: *
+Allow: /
+
+# Search Engine Bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: bingbot
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: PetalBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+# AI & LLM Bots
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-CloudVertexBot
+Allow: /
+
+User-agent: MistralAI-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# E-commerce & Social Bots
+User-agent: Amazonbot
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: meta-externalfetcher
+Allow: /
+
+# Archive & Research Bots
+User-agent: archive.org_bot
+Allow: /
+
+User-agent: Anchor Browser
+Allow: /
+
+User-agent: Novellum
+Allow: /
+
+User-agent: ProRataInc
+Allow: /
+
+User-agent: Timpibot
 Allow: /
 
 # Optional disallow rules for admin paths
