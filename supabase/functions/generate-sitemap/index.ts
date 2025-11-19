@@ -31,8 +31,9 @@ Deno.serve(async (req) => {
       return new Response(sitemapCache.xml, {
         headers: {
           ...corsHeaders,
-        'Content-Type': 'application/xml; charset=utf-8',
-          'Cache-Control': 'public, max-age=3600, s-maxage=3600',
+          'Content-Type': 'application/xml; charset=utf-8',
+          'Cache-Control': 'public, max-age=3600, s-maxage=3600, must-revalidate',
+          'X-Content-Type-Options': 'nosniff',
         },
       });
     }
@@ -179,7 +180,8 @@ ${alternateLinks}
       headers: {
         ...corsHeaders,
         'Content-Type': 'application/xml; charset=utf-8',
-        'Cache-Control': 'public, max-age=3600, s-maxage=3600',
+        'Cache-Control': 'public, max-age=3600, s-maxage=3600, must-revalidate',
+        'X-Content-Type-Options': 'nosniff',
       },
     });
   } catch (error) {
