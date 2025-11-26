@@ -5,11 +5,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Checkbox } from '@/components/ui/checkbox';
 import { readHTMLFile } from '@/lib/htmlParser';
 import { validateContentStructure } from '@/lib/contentCleaner';
 import { formatSlug } from '@/lib/slugFormatter';
 import { toast } from 'sonner';
-import { Upload, X, AlertCircle, CheckCircle2, Info } from 'lucide-react';
+import { Upload, X, AlertCircle, CheckCircle2, Info, Palette } from 'lucide-react';
 import { RichTextEditor } from './RichTextEditor';
 import { SchemaEditor } from './SchemaEditor';
 
@@ -23,8 +24,10 @@ interface LanguageSectionProps {
     schema?: object | null;
   };
   inputMethod: 'file' | 'manual';
+  preserveStyles?: boolean;
   onTranslationChange: (field: string, value: string | object | null) => void;
   onInputMethodChange: (method: 'file' | 'manual') => void;
+  onPreserveStylesChange?: (value: boolean) => void;
   required?: boolean;
   baseSlug?: string;
 }
@@ -45,8 +48,10 @@ export function LanguageSection({
   language,
   translation,
   inputMethod,
+  preserveStyles = false,
   onTranslationChange,
   onInputMethodChange,
+  onPreserveStylesChange,
   required,
   baseSlug,
 }: LanguageSectionProps) {
@@ -133,6 +138,31 @@ export function LanguageSection({
           </div>
         </div>
       </RadioGroup>
+
+      {/* Preserve Styles Toggle */}
+      {onPreserveStylesChange && (
+        <div className="flex items-start space-x-3 p-3 border border-border rounded-lg bg-muted/20">
+          <Checkbox
+            id={`preserve-styles-${language}`}
+            checked={preserveStyles}
+            onCheckedChange={onPreserveStylesChange}
+          />
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-1">
+              <Palette className="h-4 w-4 text-primary" />
+              <Label
+                htmlFor={`preserve-styles-${language}`}
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+              >
+                Preserve original styling
+              </Label>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Keep Tailwind classes and custom styles from uploaded HTML instead of applying default prose styles
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Localized Slug - Always visible for BR and ES */}
       {language !== 'en' && baseSlug && (
