@@ -13,6 +13,7 @@ interface BlogTemplateProps {
   featuredImageAlt?: string;
   readTime?: string;
   locale?: Locale;
+  preserveStyles?: boolean;
 }
 
 const translations = {
@@ -45,7 +46,8 @@ const BlogTemplate = ({
   featuredImage,
   featuredImageAlt,
   readTime,
-  locale = 'en'
+  locale = 'en',
+  preserveStyles = false
 }: BlogTemplateProps) => {
   const t = translations[locale];
   return (
@@ -100,18 +102,33 @@ const BlogTemplate = ({
             )}
           </header>
 
-          <section className="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pb-2 prose-h2:border-b prose-h2:border-border prose-h3:text-2xl prose-h3:mt-10 prose-h3:mb-4 prose-p:leading-relaxed prose-p:mb-6 prose-a:text-primary prose-a:font-medium prose-a:no-underline hover:prose-a:underline prose-strong:text-primary prose-strong:font-bold prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-6 prose-code:bg-muted prose-code:rounded prose-code:px-1.5 prose-img:rounded-xl prose-img:shadow-xl prose-table:border prose-table:rounded-lg">
-            {typeof content === 'string' ? (
-              <div dangerouslySetInnerHTML={{ 
-                __html: DOMPurify.sanitize(content, {
-                  ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'strong', 'em', 'br', 'img', 'div', 'span', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'blockquote', 'code', 'pre', 'section', 'article', 'figure', 'figcaption'],
-                  ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel', 'title']
-                })
-              }} />
-            ) : (
-              content
-            )}
-          </section>
+          {preserveStyles ? (
+            <section className="article-content w-full">
+              {typeof content === 'string' ? (
+                <div dangerouslySetInnerHTML={{ 
+                  __html: DOMPurify.sanitize(content, {
+                    ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'strong', 'em', 'br', 'img', 'div', 'span', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'blockquote', 'code', 'pre', 'section', 'article', 'figure', 'figcaption', 'header', 'footer', 'nav', 'aside', 'main'],
+                    ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel', 'title', 'style', 'data-*']
+                  })
+                }} />
+              ) : (
+                content
+              )}
+            </section>
+          ) : (
+            <section className="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pb-2 prose-h2:border-b prose-h2:border-border prose-h3:text-2xl prose-h3:mt-10 prose-h3:mb-4 prose-p:leading-relaxed prose-p:mb-6 prose-a:text-primary prose-a:font-medium prose-a:no-underline hover:prose-a:underline prose-strong:text-primary prose-strong:font-bold prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-6 prose-code:bg-muted prose-code:rounded prose-code:px-1.5 prose-img:rounded-xl prose-img:shadow-xl prose-table:border prose-table:rounded-lg">
+              {typeof content === 'string' ? (
+                <div dangerouslySetInnerHTML={{ 
+                  __html: DOMPurify.sanitize(content, {
+                    ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'strong', 'em', 'br', 'img', 'div', 'span', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'blockquote', 'code', 'pre', 'section', 'article', 'figure', 'figcaption'],
+                    ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel', 'title']
+                  })
+                }} />
+              ) : (
+                content
+              )}
+            </section>
+          )}
         </article>
       </main>
     </div>

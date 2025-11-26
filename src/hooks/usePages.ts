@@ -9,6 +9,7 @@ export interface Page {
   status: 'draft' | 'published';
   featured_image: string | null;
   read_time: string | null;
+  preserve_styles: boolean | null;
   is_system_page: boolean;
   created_at: string;
   updated_at: string;
@@ -203,6 +204,7 @@ export function useCreatePage() {
       category: string | null;
       featured_image?: string | null;
       read_time?: string | null;
+      preserve_styles?: boolean;
       translations: Array<{
         language: Locale;
         title: string;
@@ -223,6 +225,7 @@ export function useCreatePage() {
           category: data.category,
           featured_image: data.featured_image,
           read_time: data.read_time,
+          preserve_styles: data.preserve_styles || false,
           status: 'draft',
         });
       
@@ -260,6 +263,7 @@ export function useUpdatePage() {
       status?: 'draft' | 'published';
       featured_image?: string | null;
       read_time?: string | null;
+      preserve_styles?: boolean;
       translations?: Array<{
         language: Locale;
         title: string;
@@ -270,15 +274,16 @@ export function useUpdatePage() {
       }>;
     }) => {
       // Update page
-      const { slug, category, status, featured_image, read_time, translations } = data;
+      const { slug, category, status, featured_image, read_time, preserve_styles, translations } = data;
       
-      if (slug !== undefined || category !== undefined || status !== undefined || featured_image !== undefined || read_time !== undefined) {
+      if (slug !== undefined || category !== undefined || status !== undefined || featured_image !== undefined || read_time !== undefined || preserve_styles !== undefined) {
         const updateData: any = {};
         if (slug !== undefined) updateData.slug = slug;
         if (category !== undefined) updateData.category = category;
         if (status !== undefined) updateData.status = status;
         if (featured_image !== undefined) updateData.featured_image = featured_image;
         if (read_time !== undefined) updateData.read_time = read_time;
+        if (preserve_styles !== undefined) updateData.preserve_styles = preserve_styles;
         
         const { error: pageError } = await supabase
           .from('pages')

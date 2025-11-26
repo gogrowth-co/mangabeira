@@ -34,6 +34,7 @@ export default function AdminNew() {
   const [category, setCategory] = useState<string>('');
   const [featuredImage, setFeaturedImage] = useState<string | null>(null);
   const [readTime, setReadTime] = useState('');
+  const [preserveStyles, setPreserveStyles] = useState(false);
   const [inputMethod, setInputMethod] = useState<Record<Locale, 'file' | 'manual'>>({
     en: 'file',
     br: 'file',
@@ -91,6 +92,7 @@ export default function AdminNew() {
         category: category && category !== 'none' ? category : null,
         featured_image: featuredImage,
         read_time: readTime || null,
+        preserve_styles: preserveStyles,
         translations: translationsToSave,
       });
       
@@ -172,8 +174,10 @@ export default function AdminNew() {
                       language={lang}
                       translation={translations[lang]}
                       inputMethod={inputMethod[lang]}
+                      preserveStyles={preserveStyles}
                       onTranslationChange={(field, value) => handleTranslationChange(lang, field, value)}
                       onInputMethodChange={(method) => setInputMethod(prev => ({ ...prev, [lang]: method }))}
+                      onPreserveStylesChange={setPreserveStyles}
                       required={lang === 'en'}
                     />
                   </AccordionContent>

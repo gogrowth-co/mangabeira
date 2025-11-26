@@ -73,6 +73,7 @@ export type Database = {
           id: string
           is_featured: boolean | null
           is_system_page: boolean | null
+          preserve_styles: boolean | null
           read_time: string | null
           reading_time: number | null
           slug: string
@@ -89,6 +90,7 @@ export type Database = {
           id?: string
           is_featured?: boolean | null
           is_system_page?: boolean | null
+          preserve_styles?: boolean | null
           read_time?: string | null
           reading_time?: number | null
           slug: string
@@ -105,6 +107,7 @@ export type Database = {
           id?: string
           is_featured?: boolean | null
           is_system_page?: boolean | null
+          preserve_styles?: boolean | null
           read_time?: string | null
           reading_time?: number | null
           slug?: string

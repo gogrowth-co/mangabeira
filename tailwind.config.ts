@@ -4,6 +4,14 @@ export default {
   darkMode: ["class"],
   content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
   prefix: "",
+  safelist: [
+    // Safelist common Tailwind patterns for styled HTML content uploads
+    { pattern: /^(bg|text|border|rounded|shadow|p|m|w|h|flex|grid|gap)-/ },
+    { pattern: /^(from|to|via)-/ }, // Gradients
+    { pattern: /^(justify|items|content|self)-/ }, // Flexbox/Grid alignment
+    { pattern: /^(font|leading|tracking)-/ }, // Typography
+    { pattern: /^(max-w|min-w|max-h|min-h)-/ }, // Sizing
+  ],
   theme: {
     container: {
       center: true,

@@ -43,6 +43,7 @@ export default function AdminEdit() {
   const [category, setCategory] = useState<string>('');
   const [featuredImage, setFeaturedImage] = useState<string | null>(null);
   const [readTime, setReadTime] = useState('');
+  const [preserveStyles, setPreserveStyles] = useState(false);
   const [inputMethod, setInputMethod] = useState<Record<Locale, 'file' | 'manual'>>({
     en: 'manual',
     br: 'manual',
@@ -73,6 +74,7 @@ export default function AdminEdit() {
       setCategory(page.category || '');
       setFeaturedImage(page.featured_image || null);
       setReadTime(page.read_time || '');
+      setPreserveStyles(page.preserve_styles || false);
       
       const newTranslations: any = {
         en: { title: '', meta_description: '', content: '', schema: null },
@@ -139,6 +141,7 @@ export default function AdminEdit() {
         category: category && category !== 'none' ? category : null,
         featured_image: featuredImage,
         read_time: readTime || null,
+        preserve_styles: preserveStyles,
         translations: translationsToSave,
       });
       
@@ -260,8 +263,10 @@ export default function AdminEdit() {
                       language={lang}
                       translation={translations[lang]}
                       inputMethod={inputMethod[lang]}
+                      preserveStyles={preserveStyles}
                       onTranslationChange={(field, value) => handleTranslationChange(lang, field, value)}
                       onInputMethodChange={(method) => setInputMethod(prev => ({ ...prev, [lang]: method }))}
+                      onPreserveStylesChange={setPreserveStyles}
                       required={lang === 'en'}
                       baseSlug={slug}
                     />

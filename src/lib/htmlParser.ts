@@ -12,10 +12,46 @@ export interface ParsedHTML {
   };
 }
 
+/**
+ * Unescapes HTML entities in a string
+ */
 function unescapeHTMLEntities(html: string): string {
   const textarea = document.createElement('textarea');
   textarea.innerHTML = html;
   return textarea.value;
+}
+
+/**
+ * Detects if content contains double-escaped HTML (from TextEdit/Cocoa)
+ */
+function detectDoubleEscapedHTML(content: string): boolean {
+  return content.includes('&lt;article') || 
+         content.includes('&lt;div class=') ||
+         content.includes('&lt;section') ||
+         content.includes('&lt;!DOCTYPE');
+}
+
+/**
+ * Extracts double-escaped HTML content from Cocoa/TextEdit wrappers
+ */
+function extractDoubleEscapedContent(doc: Document): string {
+  // Get all text content from p.p1 and span.s1 wrappers
+  const textContent = doc.body.textContent || '';
+  
+  // Unescape once to get the actual HTML
+  const unescaped = unescapeHTMLEntities(textContent);
+  
+  // Parse the recovered HTML
+  const parser = new DOMParser();
+  const recoveredDoc = parser.parseFromString(unescaped, 'text/html');
+  
+  // Extract the article/main content
+  const article = recoveredDoc.querySelector('article') || 
+                  recoveredDoc.querySelector('main') ||
+                  recoveredDoc.querySelector('.content') ||
+                  recoveredDoc.body;
+  
+  return article.innerHTML;
 }
 
 function cleanHTMLContent(doc: Document): string {
@@ -160,9 +196,19 @@ export function parseHTMLFile(htmlContent: string): ParsedHTML {
   
   const warnings: string[] = [];
   
-  // Check for document-level tags
-  if (processedContent.includes('<!DOCTYPE') || processedContent.includes('<html') || processedContent.includes('<body')) {
-    warnings.push('Document contains full HTML structure (DOCTYPE, html, body tags) - extracting content only');
+  // Check if this is double-escaped HTML from TextEdit/Cocoa
+  let content: string;
+  if (detectDoubleEscapedHTML(processedContent)) {
+    console.log('Detected double-escaped HTML from TextEdit/Cocoa, extracting...');
+    content = extractDoubleEscapedContent(doc);
+    warnings.push('Content was double-escaped (from TextEdit/Cocoa) and has been recovered');
+  } else {
+    // Check for document-level tags
+    if (processedContent.includes('<!DOCTYPE') || processedContent.includes('<html') || processedContent.includes('<body')) {
+      warnings.push('Document contains full HTML structure (DOCTYPE, html, body tags) - extracting content only');
+    }
+    // Normal processing
+    content = cleanHTMLContent(doc);
   }
   
   // Extract title
@@ -182,8 +228,7 @@ export function parseHTMLFile(htmlContent: string): ParsedHTML {
   const schema = extractSchema(doc);
   const hasSchema = schema !== null;
   
-  // Clean and extract body content
-  const content = cleanHTMLContent(doc);
+  // Content already extracted above
   const contentLength = content.length;
   
   if (contentLength === 0) {
