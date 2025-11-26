@@ -4,10 +4,11 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { readHTMLFile } from '@/lib/htmlParser';
 import { formatSlug } from '@/lib/slugFormatter';
 import { toast } from 'sonner';
-import { Upload, X } from 'lucide-react';
+import { Upload, X, AlertCircle, CheckCircle2, Info } from 'lucide-react';
 import { RichTextEditor } from './RichTextEditor';
 import { SchemaEditor } from './SchemaEditor';
 
@@ -59,10 +60,36 @@ export function LanguageSection({
 
     try {
       const parsed = await readHTMLFile(file);
+      
+      // Update all fields with parsed data
       onTranslationChange('title', parsed.title);
       onTranslationChange('meta_description', parsed.metaDescription);
       onTranslationChange('content', parsed.content);
-      toast.success(`File "${file.name}" uploaded successfully`);
+      if (parsed.schema) {
+        onTranslationChange('schema', parsed.schema);
+      }
+      
+      // Auto-switch to manual mode so user can edit the content
+      onInputMethodChange('manual');
+      
+      // Show success message with extraction info
+      const infoMessages = [
+        `Title: ${parsed.extractionInfo.titleSource}`,
+        `Meta: ${parsed.extractionInfo.hasMetaDescription ? 'Found' : 'Missing'}`,
+        `Schema: ${parsed.extractionInfo.hasSchema ? 'Found' : 'Not found'}`,
+        `Content: ${parsed.extractionInfo.contentLength} chars`,
+      ];
+      
+      toast.success(`File uploaded - ${infoMessages.join(' • ')}`);
+      
+      // Show warnings if any
+      if (parsed.warnings.length > 0) {
+        setTimeout(() => {
+          parsed.warnings.forEach(warning => {
+            toast.warning(warning);
+          });
+        }, 500);
+      }
     } catch (error) {
       console.error('Error parsing HTML file:', error);
       toast.error('Failed to parse HTML file');
@@ -175,6 +202,49 @@ export function LanguageSection({
       {/* Manual Entry Mode */}
       {inputMethod === 'manual' && (
         <div className="space-y-4">
+          {/* Show helpful validation info */}
+          {hasContent && (
+            <Alert>
+              <Info className="h-4 w-4" />
+              <AlertDescription className="text-xs">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    {translation.title ? (
+                      <CheckCircle2 className="h-3 w-3 text-green-600" />
+                    ) : (
+                      <AlertCircle className="h-3 w-3 text-amber-600" />
+                    )}
+                    <span>Title: {translation.title ? 'Set' : 'Missing (required)'}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {translation.meta_description ? (
+                      <CheckCircle2 className="h-3 w-3 text-green-600" />
+                    ) : (
+                      <AlertCircle className="h-3 w-3 text-amber-600" />
+                    )}
+                    <span>Meta Description: {translation.meta_description ? `${translation.meta_description.length} chars` : 'Missing (recommended)'}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {translation.content ? (
+                      <CheckCircle2 className="h-3 w-3 text-green-600" />
+                    ) : (
+                      <AlertCircle className="h-3 w-3 text-amber-600" />
+                    )}
+                    <span>Content: {translation.content ? `${translation.content.length} chars` : 'Missing (required)'}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {translation.schema ? (
+                      <CheckCircle2 className="h-3 w-3 text-green-600" />
+                    ) : (
+                      <Info className="h-3 w-3 text-blue-600" />
+                    )}
+                    <span>Schema: {translation.schema ? 'Configured' : 'Optional'}</span>
+                  </div>
+                </div>
+              </AlertDescription>
+            </Alert>
+          )}
+
           <div>
             <Label htmlFor={`${language}-title`}>Title {required && '*'}</Label>
             <Input
