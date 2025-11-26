@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { readHTMLFile } from '@/lib/htmlParser';
+import { validateContentStructure } from '@/lib/contentCleaner';
 import { formatSlug } from '@/lib/slugFormatter';
 import { toast } from 'sonner';
 import { Upload, X, AlertCircle, CheckCircle2, Info } from 'lucide-react';
@@ -203,47 +204,63 @@ export function LanguageSection({
       {inputMethod === 'manual' && (
         <div className="space-y-4">
           {/* Show helpful validation info */}
-          {hasContent && (
-            <Alert>
-              <Info className="h-4 w-4" />
-              <AlertDescription className="text-xs">
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    {translation.title ? (
-                      <CheckCircle2 className="h-3 w-3 text-green-600" />
-                    ) : (
-                      <AlertCircle className="h-3 w-3 text-amber-600" />
+          {hasContent && (() => {
+            const contentValidation = translation.content ? validateContentStructure(translation.content) : null;
+            return (
+              <Alert>
+                <Info className="h-4 w-4" />
+                <AlertDescription className="text-xs">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      {translation.title ? (
+                        <CheckCircle2 className="h-3 w-3 text-green-600" />
+                      ) : (
+                        <AlertCircle className="h-3 w-3 text-amber-600" />
+                      )}
+                      <span>Title: {translation.title ? 'Set' : 'Missing (required)'}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {translation.meta_description ? (
+                        <CheckCircle2 className="h-3 w-3 text-green-600" />
+                      ) : (
+                        <AlertCircle className="h-3 w-3 text-amber-600" />
+                      )}
+                      <span>Meta Description: {translation.meta_description ? `${translation.meta_description.length} chars` : 'Missing (recommended)'}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {translation.content ? (
+                        <CheckCircle2 className="h-3 w-3 text-green-600" />
+                      ) : (
+                        <AlertCircle className="h-3 w-3 text-amber-600" />
+                      )}
+                      <span>Content: {translation.content ? `${translation.content.length} chars` : 'Missing (required)'}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {translation.schema ? (
+                        <CheckCircle2 className="h-3 w-3 text-green-600" />
+                      ) : (
+                        <Info className="h-3 w-3 text-blue-600" />
+                      )}
+                      <span>Schema: {translation.schema ? 'Configured' : 'Optional'}</span>
+                    </div>
+                    
+                    {/* Content structure warnings */}
+                    {contentValidation && contentValidation.warnings.length > 0 && (
+                      <div className="mt-2 pt-2 border-t border-border space-y-1">
+                        <div className="font-medium text-amber-600">Content Issues:</div>
+                        {contentValidation.warnings.map((warning, idx) => (
+                          <div key={idx} className="flex items-start gap-2 text-amber-600">
+                            <AlertCircle className="h-3 w-3 mt-0.5 flex-shrink-0" />
+                            <span>{warning}</span>
+                          </div>
+                        ))}
+                      </div>
                     )}
-                    <span>Title: {translation.title ? 'Set' : 'Missing (required)'}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    {translation.meta_description ? (
-                      <CheckCircle2 className="h-3 w-3 text-green-600" />
-                    ) : (
-                      <AlertCircle className="h-3 w-3 text-amber-600" />
-                    )}
-                    <span>Meta Description: {translation.meta_description ? `${translation.meta_description.length} chars` : 'Missing (recommended)'}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {translation.content ? (
-                      <CheckCircle2 className="h-3 w-3 text-green-600" />
-                    ) : (
-                      <AlertCircle className="h-3 w-3 text-amber-600" />
-                    )}
-                    <span>Content: {translation.content ? `${translation.content.length} chars` : 'Missing (required)'}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {translation.schema ? (
-                      <CheckCircle2 className="h-3 w-3 text-green-600" />
-                    ) : (
-                      <Info className="h-3 w-3 text-blue-600" />
-                    )}
-                    <span>Schema: {translation.schema ? 'Configured' : 'Optional'}</span>
-                  </div>
-                </div>
-              </AlertDescription>
-            </Alert>
-          )}
+                </AlertDescription>
+              </Alert>
+            );
+          })()}
 
           <div>
             <Label htmlFor={`${language}-title`}>Title {required && '*'}</Label>
