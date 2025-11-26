@@ -13,6 +13,7 @@ import Footer from '@/components/Footer';
 import BlogTemplate from '@/components/BlogTemplate';
 import NotFound from './NotFound';
 import { getBaseSlugFromLocalized, isSystemPageSlug } from '@/lib/systemPageRoutes';
+import { cleanContentForRendering } from '@/lib/contentCleaner';
 import web3AthletesImage from '@/assets/web3-for-athletes.png';
 import web2Web3MarketingImage from '@/assets/web2-vs-web3-cover.png';
 import tokenHealthScanImage from '@/assets/token-health-scan-build-cover.png';
@@ -145,10 +146,16 @@ export default function DynamicPage() {
     enabled: !!data?.page.id,
   });
 
-  // Extract schema markup and body content from HTML (for backward compatibility)
-  const { schemas: contentSchemas, bodyContent } = useMemo(
+  // Clean and extract content
+  const { schemas: contentSchemas, bodyContent: rawBodyContent } = useMemo(
     () => extractHTMLParts(data?.translation?.content),
     [data?.translation?.content]
+  );
+  
+  // Apply content cleaning to unescape entities and remove wrappers
+  const bodyContent = useMemo(
+    () => cleanContentForRendering(rawBodyContent),
+    [rawBodyContent]
   );
 
   // Get schema from database (prioritize this over content-extracted schemas)

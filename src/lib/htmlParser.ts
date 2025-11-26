@@ -12,9 +12,23 @@ export interface ParsedHTML {
   };
 }
 
+function unescapeHTMLEntities(html: string): string {
+  const textarea = document.createElement('textarea');
+  textarea.innerHTML = html;
+  return textarea.value;
+}
+
 function cleanHTMLContent(doc: Document): string {
-  // Clone the body to avoid modifying the original
-  const bodyClone = doc.body.cloneNode(true) as HTMLElement;
+  // Try to find the main article content
+  let contentElement = doc.querySelector('article, main, [role="main"], .article-content, .post-content');
+  
+  // If no specific content container, use body
+  if (!contentElement) {
+    contentElement = doc.body;
+  }
+  
+  // Clone to avoid modifying the original
+  const contentClone = contentElement.cloneNode(true) as HTMLElement;
   
   // Remove unwanted elements
   const unwantedSelectors = [
@@ -32,20 +46,39 @@ function cleanHTMLContent(doc: Document): string {
     '.advertisement',
     '#comments',
     '.social-share',
+    '.social-sharing',
+    'button',
+    'form',
   ];
   
   unwantedSelectors.forEach(selector => {
-    bodyClone.querySelectorAll(selector).forEach(el => el.remove());
+    contentClone.querySelectorAll(selector).forEach(el => el.remove());
   });
   
-  // Remove empty paragraphs and divs
-  bodyClone.querySelectorAll('p, div').forEach(el => {
-    if (!el.textContent?.trim()) {
+  // Remove empty elements
+  contentClone.querySelectorAll('p, div, span').forEach(el => {
+    if (!el.textContent?.trim() && !el.querySelector('img')) {
       el.remove();
     }
   });
   
-  return bodyClone.innerHTML.trim();
+  // Remove word processor wrapper classes (p1, s1, etc.)
+  contentClone.querySelectorAll('[class^="p"], [class^="s"]').forEach(el => {
+    const className = el.getAttribute('class');
+    if (className && /^[ps]\d+$/.test(className)) {
+      // Remove the class but keep the element
+      el.removeAttribute('class');
+    }
+  });
+  
+  let cleanedHTML = contentClone.innerHTML.trim();
+  
+  // Unescape HTML entities if they were incorrectly escaped
+  if (cleanedHTML.includes('&lt;') || cleanedHTML.includes('&gt;')) {
+    cleanedHTML = unescapeHTMLEntities(cleanedHTML);
+  }
+  
+  return cleanedHTML;
 }
 
 function extractSchema(doc: Document): object | null {
@@ -116,10 +149,21 @@ function extractMetaDescription(doc: Document): string {
 }
 
 export function parseHTMLFile(htmlContent: string): ParsedHTML {
+  // First check if content has escaped HTML entities and unescape if needed
+  let processedContent = htmlContent;
+  if (htmlContent.includes('&lt;') || htmlContent.includes('&gt;')) {
+    processedContent = unescapeHTMLEntities(htmlContent);
+  }
+  
   const parser = new DOMParser();
-  const doc = parser.parseFromString(htmlContent, 'text/html');
+  const doc = parser.parseFromString(processedContent, 'text/html');
   
   const warnings: string[] = [];
+  
+  // Check for document-level tags
+  if (processedContent.includes('<!DOCTYPE') || processedContent.includes('<html') || processedContent.includes('<body')) {
+    warnings.push('Document contains full HTML structure (DOCTYPE, html, body tags) - extracting content only');
+  }
   
   // Extract title
   const { title, source: titleSource } = extractTitle(doc);
