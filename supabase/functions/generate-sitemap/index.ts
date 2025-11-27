@@ -7,7 +7,7 @@ const corsHeaders = {
 
 // In-memory cache
 let sitemapCache: { xml: string; timestamp: number } | null = null;
-const CACHE_TTL = 3600000; // 1 hour in milliseconds
+const CACHE_TTL = 300000; // 5 minutes in milliseconds
 
 interface Page {
   slug: string;
@@ -24,9 +24,12 @@ Deno.serve(async (req) => {
   }
 
   try {
-    // Check cache first
+    // Check cache first (allow bypass with ?refresh=true)
+    const url = new URL(req.url);
+    const forceRefresh = url.searchParams.get('refresh') === 'true';
+    
     const now = Date.now();
-    if (sitemapCache && (now - sitemapCache.timestamp) < CACHE_TTL) {
+    if (!forceRefresh && sitemapCache && (now - sitemapCache.timestamp) < CACHE_TTL) {
       console.log('Returning cached sitemap');
       return new Response(sitemapCache.xml, {
         headers: {
@@ -110,14 +113,14 @@ Deno.serve(async (req) => {
 
       // Build alternate links only for languages that have translations
       const buildAlternateLinks = () => {
-        let links = `    <xhtml:link rel="alternate" hreflang="en" href="${baseUrl}/${enSlug}"/>`;
+        let links = `    <xhtml:link rel="alternate" hreflang="en" href="${baseUrl}/publications/${enSlug}"/>`;
         if (brSlug) {
-          links += `\n    <xhtml:link rel="alternate" hreflang="pt-BR" href="${baseUrl}/br/${brSlug}"/>`;
+          links += `\n    <xhtml:link rel="alternate" hreflang="pt-BR" href="${baseUrl}/br/artigos/${brSlug}"/>`;
         }
         if (esSlug) {
-          links += `\n    <xhtml:link rel="alternate" hreflang="es" href="${baseUrl}/es/${esSlug}"/>`;
+          links += `\n    <xhtml:link rel="alternate" hreflang="es" href="${baseUrl}/es/articulos/${esSlug}"/>`;
         }
-        links += `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/${enSlug}"/>`;
+        links += `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/publications/${enSlug}"/>`;
         return links;
       };
 
@@ -125,7 +128,7 @@ Deno.serve(async (req) => {
 
       // English version (always exists)
       xml += `  <url>
-    <loc>${baseUrl}/${enSlug}</loc>
+    <loc>${baseUrl}/publications/${enSlug}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -136,7 +139,7 @@ ${alternateLinks}
       // Portuguese version (if translation exists)
       if (brTranslation && brSlug) {
         xml += `  <url>
-    <loc>${baseUrl}/br/${brSlug}</loc>
+    <loc>${baseUrl}/br/artigos/${brSlug}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -148,7 +151,7 @@ ${alternateLinks}
       // Spanish version (if translation exists)
       if (esTranslation && esSlug) {
         xml += `  <url>
-    <loc>${baseUrl}/es/${esSlug}</loc>
+    <loc>${baseUrl}/es/articulos/${esSlug}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
