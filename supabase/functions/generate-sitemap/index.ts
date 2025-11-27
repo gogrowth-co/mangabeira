@@ -58,7 +58,7 @@ Deno.serve(async (req) => {
     if (error) throw error;
 
     const baseUrl = 'https://mangabeira.net';
-    const now = new Date().toISOString().split('T')[0];
+    const today = new Date().toISOString().split('T')[0];
 
     // System pages with their language variants
     const systemPages = [
@@ -93,7 +93,7 @@ Deno.serve(async (req) => {
       const url = page.path ? `${baseUrl}/${page.path}` : baseUrl;
       xml += `  <url>
     <loc>${url}</loc>
-    <lastmod>${now}</lastmod>
+    <lastmod>${today}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
   </url>
@@ -107,9 +107,9 @@ Deno.serve(async (req) => {
       const brTranslation = page.translations.find(t => t.language === 'br');
       const esTranslation = page.translations.find(t => t.language === 'es');
 
-      const enSlug = enTranslation?.slug || page.slug;
-      const brSlug = brTranslation?.slug;
-      const esSlug = esTranslation?.slug;
+      const enSlug = enTranslation?.slug?.trim() || page.slug;
+      const brSlug = brTranslation?.slug?.trim();
+      const esSlug = esTranslation?.slug?.trim();
 
       // Build alternate links only for languages that have translations
       const buildAlternateLinks = () => {
