@@ -46,21 +46,22 @@ Deno.serve(async (req) => {
     const today = new Date().toISOString().split('T')[0];
 
     // System pages with their language variants
+    // NOTE: Publications hub uses /artigos (BR) and /articulos (ES), not /publicacoes or /publicaciones
     const systemPages = [
       // Homepage
       { path: '', priority: '1.0', changefreq: 'weekly', title: 'Home' },
       { path: 'br', priority: '1.0', changefreq: 'weekly', title: 'Home (BR)' },
       { path: 'es', priority: '1.0', changefreq: 'weekly', title: 'Home (ES)' },
       
-      // Publications hub
-      { path: 'publications', priority: '0.9', changefreq: 'daily', title: 'Publications' },
-      { path: 'br/artigos', priority: '0.9', changefreq: 'daily', title: 'Artigos (BR)' },
-      { path: 'es/articulos', priority: '0.9', changefreq: 'daily', title: 'Artículos (ES)' },
+      // Publications hub - CORRECT URL STRUCTURE
+      { path: 'publications', priority: '0.9', changefreq: 'weekly', title: 'Publications' },
+      { path: 'br/artigos', priority: '0.9', changefreq: 'weekly', title: 'Artigos (BR)' },
+      { path: 'es/articulos', priority: '0.9', changefreq: 'weekly', title: 'Artículos (ES)' },
       
       // About pages
-      { path: 'about', priority: '0.8', changefreq: 'monthly', title: 'About' },
-      { path: 'br/sobre', priority: '0.8', changefreq: 'monthly', title: 'Sobre (BR)' },
-      { path: 'es/acerca-de', priority: '0.8', changefreq: 'monthly', title: 'Acerca de (ES)' },
+      { path: 'about', priority: '0.9', changefreq: 'monthly', title: 'About' },
+      { path: 'br/sobre', priority: '0.9', changefreq: 'monthly', title: 'Sobre (BR)' },
+      { path: 'es/acerca-de', priority: '0.9', changefreq: 'monthly', title: 'Acerca de (ES)' },
       
       // Privacy policy
       { path: 'privacy-policy', priority: '0.3', changefreq: 'yearly', title: 'Privacy Policy' },
@@ -73,14 +74,41 @@ Deno.serve(async (req) => {
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 `;
 
-    // Add system pages
+    // Helper to build hreflang links for system pages
+    const buildSystemHreflang = (basePath: string) => {
+      const pathMap: Record<string, { en: string; br: string; es: string }> = {
+        'home': { en: '', br: 'br', es: 'es' },
+        'publications': { en: 'publications', br: 'br/artigos', es: 'es/articulos' },
+        'about': { en: 'about', br: 'br/sobre', es: 'es/acerca-de' },
+        'privacy': { en: 'privacy-policy', br: 'br/politica-de-privacidade', es: 'es/politica-de-privacidad' }
+      };
+      
+      let pageType = 'home';
+      if (basePath.includes('publication') || basePath.includes('artigos') || basePath.includes('articulos')) pageType = 'publications';
+      else if (basePath.includes('about') || basePath.includes('sobre') || basePath.includes('acerca')) pageType = 'about';
+      else if (basePath.includes('privacy') || basePath.includes('privacidade') || basePath.includes('privacidad')) pageType = 'privacy';
+      
+      const paths = pathMap[pageType];
+      const enUrl = paths.en ? `${baseUrl}/${paths.en}` : baseUrl;
+      const brUrl = `${baseUrl}/${paths.br}`;
+      const esUrl = `${baseUrl}/${paths.es}`;
+      
+      return `    <xhtml:link rel="alternate" hreflang="en" href="${enUrl}"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="${brUrl}"/>
+    <xhtml:link rel="alternate" hreflang="es" href="${esUrl}"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="${enUrl}"/>`;
+    };
+
+    // Add system pages with proper hreflang
     for (const page of systemPages) {
       const url = page.path ? `${baseUrl}/${page.path}` : baseUrl;
+      const hreflang = buildSystemHreflang(page.path);
       xml += `  <url>
     <loc>${url}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
+${hreflang}
   </url>
 `;
     }
@@ -96,7 +124,7 @@ Deno.serve(async (req) => {
       const brSlug = brTranslation?.slug?.trim();
       const esSlug = esTranslation?.slug?.trim();
 
-      // Build alternate links only for languages that have translations
+      // Build alternate links - CRITICAL: Include x-default and only existing translations
       const buildAlternateLinks = () => {
         let links = `    <xhtml:link rel="alternate" hreflang="en" href="${baseUrl}/publications/${enSlug}"/>`;
         if (brSlug) {
@@ -105,6 +133,7 @@ Deno.serve(async (req) => {
         if (esSlug) {
           links += `\n    <xhtml:link rel="alternate" hreflang="es" href="${baseUrl}/es/articulos/${esSlug}"/>`;
         }
+        // x-default ALWAYS points to English version (primary language)
         links += `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/publications/${enSlug}"/>`;
         return links;
       };
