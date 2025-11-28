@@ -203,10 +203,13 @@ function getBaseSlug(localizedSlug: string): string {
 }
 
 export function getLocaleFromPath(pathname: string): Locale {
-  // Check for BR paths (including /br/artigos)
+  // Check for BR paths (including /br/artigos and /br/servicos)
   if (pathname.startsWith('/br')) return 'br';
-  // Check for ES paths (including /es/articulos)
+  // Check for ES paths (including /es/articulos and /es/servicios)
   if (pathname.startsWith('/es')) return 'es';
+  // Check for specific BR/ES audit paths without prefix (edge case)
+  if (pathname.includes('servicos/web3-auditoria-de-growth')) return 'br';
+  if (pathname.includes('servicios/web3-auditoria-de-growth')) return 'es';
   return 'en';
 }
 
@@ -219,7 +222,15 @@ export async function getPathForLocale(locale: Locale, currentPath: string = '/'
   let cleanPath = currentPath
     .replace(/^\/(br|es)/, '') // Remove locale prefix
     .replace(/^\/(artigos|articulos)/, '/publications') // Normalize publications path
+    .replace(/^\/(servicos|servicios)/, '/services') // Normalize services path
     || '/';
+  
+  // Handle Web3 Growth Audit page
+  if (cleanPath === '/services/web3-growth-audit' || cleanPath.includes('web3-auditoria-de-growth')) {
+    if (locale === 'br') return '/br/servicos/web3-auditoria-de-growth';
+    if (locale === 'es') return '/es/servicios/web3-auditoria-de-growth';
+    return '/services/web3-growth-audit';
+  }
   
   // Handle special localized paths for publications hub
   if (cleanPath === '/publications') {
@@ -259,7 +270,15 @@ export function getPathForLocaleSync(locale: Locale, currentPath: string = '/'):
   let cleanPath = currentPath
     .replace(/^\/(br|es)/, '')
     .replace(/^\/(artigos|articulos)/, '/publications')
+    .replace(/^\/(servicos|servicios)/, '/services')
     || '/';
+  
+  // Handle Web3 Growth Audit page
+  if (cleanPath === '/services/web3-growth-audit' || cleanPath.includes('web3-auditoria-de-growth')) {
+    if (locale === 'br') return '/br/servicos/web3-auditoria-de-growth';
+    if (locale === 'es') return '/es/servicios/web3-auditoria-de-growth';
+    return '/services/web3-growth-audit';
+  }
   
   if (cleanPath === '/publications') {
     if (locale === 'br') return '/br/artigos';

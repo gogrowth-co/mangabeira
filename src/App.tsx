@@ -70,6 +70,10 @@ const App = () => {
               <Route path="/br/servicos/web3-auditoria-de-growth" element={<Web3GrowthAudit locale="br" />} />
               <Route path="/es/servicios/web3-auditoria-de-growth" element={<Web3GrowthAudit locale="es" />} />
               
+              {/* Redirects for audit pages without locale prefix */}
+              <Route path="/servicos/web3-auditoria-de-growth" element={<Navigate to="/br/servicos/web3-auditoria-de-growth" replace />} />
+              <Route path="/servicios/web3-auditoria-de-growth" element={<Navigate to="/es/servicios/web3-auditoria-de-growth" replace />} />
+              
               {/* RSS feeds */}
               <Route path="/rss/:lang.xml" element={<RssFeed />} />
               
