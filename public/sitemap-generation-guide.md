@@ -1,23 +1,31 @@
-# Sitemap Generation Guide for mangabeira.net
+# Sitemap & RSS Feed Generation Guide for mangabeira.net
 
 ## Overview
-The sitemap is **automatically generated and saved to Supabase Storage** whenever publications are created, updated, published, or deleted. It's served at `https://mangabeira.net/sitemap.xml`.
+
+The sitemap and RSS feeds are **automatically generated and saved to Supabase Storage** whenever publications are created, updated, published, or deleted. The sitemap is served at `https://mangabeira.net/sitemap.xml` and RSS feeds at `/rss/en.xml`, `/rss/br.xml`, and `/rss/es.xml`.
 
 ## Automated Regeneration
 
-The sitemap regenerates automatically on these events:
-- **Publishing a page**: Triggers sitemap update and IndexNow submission
-- **Updating a published page**: Triggers sitemap update and IndexNow submission  
-- **Deleting a page**: Triggers sitemap update
+Both the sitemap and RSS feeds regenerate automatically on these events:
+- **Publishing a page**: Triggers sitemap, RSS feeds, and IndexNow submission
+- **Updating a published page**: Triggers sitemap, RSS feeds, and IndexNow submission  
+- **Deleting a page**: Triggers sitemap and RSS feeds update
 
 ### Manual Regeneration
-Click the **"Refresh Sitemap"** button in the Admin dashboard (`/admin`) to manually regenerate the sitemap.
+Click the **"Refresh Feeds"** button in the Admin dashboard (`/admin`) to manually regenerate both the sitemap and all RSS feeds.
 
 ## Technical Implementation
 
+### Sitemap
 1. **Edge Function**: `supabase/functions/generate-sitemap/index.ts` generates XML and saves to storage
 2. **Storage**: Sitemap stored at `blog-images/sitemap.xml` in Supabase Storage
 3. **Serving**: `_redirects` routes `/sitemap.xml` → storage URL for direct access
+4. **Hooks**: `src/hooks/usePages.ts` triggers regeneration after publish/update/delete mutations
+
+### RSS Feeds
+1. **Edge Function**: `supabase/functions/generate-rss/index.ts` generates all 3 language feeds (en, br, es) and saves to storage
+2. **Storage**: Feeds stored at `blog-images/rss-en.xml`, `rss-br.xml`, `rss-es.xml` in Supabase Storage
+3. **Serving**: `_redirects` routes `/rss/*.xml` → storage URLs for direct access
 4. **Hooks**: `src/hooks/usePages.ts` triggers regeneration after publish/update/delete mutations
 
 ## URL Structure
@@ -135,13 +143,76 @@ ORDER BY p.updated_at DESC
 
 ## When to Regenerate
 
-The sitemap regenerates **automatically** when:
+The sitemap and RSS feeds regenerate **automatically** when:
 - Publishing a new article
 - Updating existing published content
 - Deleting a page
-- Using the "Refresh Sitemap" button in `/admin`
+- Using the "Refresh Feeds" button in `/admin`
 
 **No manual intervention needed** - the system handles this automatically!
+
+---
+
+## RSS Feed Structure
+
+RSS feeds are generated for all three languages with the following structure:
+
+### Feed URLs
+- **English**: `https://mangabeira.net/rss/en.xml` (also available at `/rss.xml`)
+- **Portuguese (BR)**: `https://mangabeira.net/rss/br.xml`
+- **Spanish**: `https://mangabeira.net/rss/es.xml`
+
+### Feed Format
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Mangabeira.net - Web3 Growth Marketing</title>
+    <link>https://mangabeira.net/publications</link>
+    <description>Expert insights on Web3, DeFi, and tokenomics</description>
+    <language>en-US</language>
+    <lastBuildDate>Wed, 29 Jan 2025 12:00:00 GMT</lastBuildDate>
+    <atom:link href="https://mangabeira.net/rss/en.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Article Title</title>
+      <link>https://mangabeira.net/publications/article-slug</link>
+      <guid isPermaLink="true">https://mangabeira.net/publications/article-slug</guid>
+      <description>Meta description of the article</description>
+      <content:encoded><![CDATA[Full HTML content of the article]]></content:encoded>
+      <pubDate>Wed, 29 Jan 2025 10:00:00 GMT</pubDate>
+      <author>Gabriel Mangabeira</author>
+    </item>
+  </channel>
+</rss>
+```
+
+### Feed Content Rules
+- **Only published, non-system pages** are included
+- **Language-specific translations** - each feed only includes items with translations in that language
+- **Full content** - The `<content:encoded>` tag contains the complete HTML content
+- **Proper dates** - Uses RFC 822 date format for `<pubDate>` and `<lastBuildDate>`
+- **Limit** - Maximum of 50 most recent publications per feed
+
+### Feed Metadata by Language
+
+**English (en)**
+- Title: "Mangabeira.net - Web3 Growth Marketing"
+- Description: "Expert insights on Web3, DeFi, and tokenomics"
+- Language: en-US
+- Path Prefix: /publications
+
+**Portuguese (br)**
+- Title: "Mangabeira.net - Marketing de Crescimento Web3"
+- Description: "Insights especializados em Web3, DeFi e tokenomics"
+- Language: pt-BR
+- Path Prefix: /br/artigos
+
+**Spanish (es)**
+- Title: "Mangabeira.net - Marketing de Crecimiento Web3"
+- Description: "Perspectivas expertas sobre Web3, DeFi y tokenomics"
+- Language: es-ES
+- Path Prefix: /es/articulos
 
 ## Verification
 
@@ -155,7 +226,8 @@ After generation, verify:
 
 ## Notes
 
-- **Automated approach**: Sitemap stored in Supabase Storage and regenerated on content changes
+- **Automated approach**: Sitemap and RSS feeds stored in Supabase Storage and regenerated on content changes
 - **Direct access**: Served via redirect for fast crawler access (no edge function cold starts)
-- **No caching issues**: Storage file updates immediately reflect on the live site
-- The `generate-sitemap` edge function handles generation and storage upload automatically
+- **No caching issues**: Storage files update immediately reflect on the live site
+- The `generate-sitemap` and `generate-rss` edge functions handle generation and storage upload automatically
+- **Content syndication**: RSS feeds enable search engines, AI crawlers, and feed readers to discover and index content efficiently
