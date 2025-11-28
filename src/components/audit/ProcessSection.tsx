@@ -4,7 +4,7 @@ const ProcessSection = () => {
   const processSteps = [
     {
       day: "1",
-      bgColor: "bg-[#1FB6FF]",
+      bgColor: "bg-aqua",
       textColor: "text-white",
       title: "AI Scrapes & Scores Your Data",
       items: [
@@ -17,8 +17,8 @@ const ProcessSection = () => {
     },
     {
       day: "2",
-      bgColor: "bg-[#FFB800]",
-      textColor: "text-[#0A2540]",
+      bgColor: "bg-gold",
+      textColor: "text-navy",
       title: "Human Interpretation",
       subtitle: "The part AI cannot do",
       items: [
@@ -32,7 +32,7 @@ const ProcessSection = () => {
     },
     {
       day: "3",
-      bgColor: "bg-[#1FB6FF]",
+      bgColor: "bg-aqua",
       textColor: "text-white",
       title: "Your Roadmap Delivered",
       items: [
@@ -50,12 +50,11 @@ const ProcessSection = () => {
         {/* Section header */}
         <div className="text-center mb-12">
           <h2 
-            className="text-3xl font-bold text-[#0A2540] mb-2"
-            style={{ fontFamily: "Montserrat, sans-serif" }}
+            className="font-hero text-3xl font-bold text-navy mb-2"
           >
             How It Works
           </h2>
-          <p className="text-gray-500" style={{ fontFamily: "Inter, sans-serif" }}>
+          <p className="font-body text-muted-foreground">
             Clear. Visual. 72 hours.
           </p>
         </div>
@@ -74,8 +73,7 @@ const ProcessSection = () => {
 
               {/* Title */}
               <h3 
-                className="font-bold text-[#0A2540] text-xl mb-4 text-center"
-                style={{ fontFamily: "Montserrat, sans-serif" }}
+                className="font-hero font-bold text-navy text-xl mb-4 text-center"
               >
                 {step.title}
               </h3>
@@ -83,15 +81,14 @@ const ProcessSection = () => {
               {/* Subtitle if exists */}
               {step.subtitle && (
                 <p 
-                  className="italic text-gray-600 text-center mb-4"
-                  style={{ fontFamily: "Playfair Display, serif" }}
+                  className="font-accent italic text-muted-foreground text-center mb-4"
                 >
                   {step.subtitle}
                 </p>
               )}
 
               {/* Items list */}
-              <ul className="space-y-2 text-gray-600 text-sm" style={{ fontFamily: "Inter, sans-serif" }}>
+              <ul className="font-body space-y-2 text-gray-600 text-sm">
                 {step.items.map((item, itemIndex) => (
                   <li key={itemIndex} className="flex items-start">
                     <span className="mr-2">•</span>
@@ -114,7 +111,7 @@ const ProcessSection = () => {
         <div className="text-center mt-12">
           <Button
             size="lg"
-            className="bg-[#FFB800] text-[#0A2540] font-semibold px-8 py-4 rounded-lg hover:scale-105 hover:shadow-xl transition-all duration-300"
+            className="bg-gold text-navy font-semibold px-8 py-4 rounded-lg hover:scale-105 shadow-button hover:shadow-button-hover transition-all duration-300"
             onClick={() => window.scrollTo({ top: document.getElementById('pricing')?.offsetTop || 0, behavior: 'smooth' })}
           >
             Get My Audit →

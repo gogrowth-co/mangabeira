@@ -35,12 +35,11 @@ const FeaturesGrid = () => {
   ];
 
   return (
-    <section className="bg-[#0A2540] py-20 px-6">
+    <section className="bg-navy py-20 px-6">
       <div className="max-w-6xl mx-auto">
         {/* Section header */}
         <h2 
-          className="text-3xl font-bold text-white text-center mb-12"
-          style={{ fontFamily: "Montserrat, sans-serif" }}
+          className="font-hero text-3xl font-bold text-white text-center mb-12"
         >
           What's Included in Your Audit
         </h2>
@@ -52,18 +51,16 @@ const FeaturesGrid = () => {
             return (
               <div
                 key={index}
-                className="bg-white rounded-xl p-6 border-l-4 border-[#1FB6FF] shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                className="bg-white rounded-xl p-6 border-l-4 border-aqua shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
               >
-                <Icon className="h-8 w-8 text-[#1FB6FF] mb-4" />
+                <Icon className="h-8 w-8 text-aqua mb-4" />
                 <h3 
-                  className="font-semibold text-[#0A2540] mb-2"
-                  style={{ fontFamily: "Montserrat, sans-serif" }}
+                  className="font-hero font-semibold text-navy mb-2"
                 >
                   {feature.title}
                 </h3>
                 <p 
-                  className="text-gray-600 text-sm leading-relaxed"
-                  style={{ fontFamily: "Inter, sans-serif" }}
+                  className="font-body text-gray-600 text-sm leading-relaxed"
                 >
                   {feature.description}
                 </p>
