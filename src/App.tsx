@@ -21,6 +21,7 @@ import PublicationsBR from "./pages/PublicationsBR";
 import PublicationsES from "./pages/PublicationsES";
 import Auth from "./pages/Auth";
 import RssFeed from "./pages/RssFeed";
+import Web3GrowthAudit from "./pages/Web3GrowthAudit";
 import { useEffect } from "react";
 
 const queryClient = new QueryClient({
@@ -63,6 +64,9 @@ const App = () => {
               <Route path="/" element={<RootRedirect />} />
               <Route path="/br" element={<IndexBR />} />
               <Route path="/es" element={<IndexES />} />
+              
+              {/* Web3 Growth Audit */}
+              <Route path="/web3-growth-audit" element={<Web3GrowthAudit />} />
               
               {/* RSS feeds */}
               <Route path="/rss/:lang.xml" element={<RssFeed />} />
