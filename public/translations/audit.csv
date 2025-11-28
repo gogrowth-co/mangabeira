@@ -1,0 +1,101 @@
+key,en,pt-br,es
+audit.meta.title,Web3 Growth Audit | Find Your Growth Leaks in 72 Hours | Mangabeira.net,Auditoria de Crescimento Web3 | Encontre Seus Vazamentos de Crescimento em 72 Horas | Mangabeira.net,Auditoría de Crecimiento Web3 | Encuentra Tus Fugas de Crecimiento en 72 Horas | Mangabeira.net
+audit.meta.description,"AI + Human Web3 Growth Audit — Find your top growth leaks in 72 hours. On-chain, Reddit, and funnel insights delivered via Notion + Loom.","Auditoria de Crescimento Web3 com IA + Humano — Encontre seus principais vazamentos de crescimento em 72 horas. Insights on-chain, Reddit e funil entregues via Notion + Loom.","Auditoría de Crecimiento Web3 con IA + Humano — Encuentra tus principales fugas de crecimiento en 72 horas. Insights on-chain, Reddit y embudo entregados via Notion + Loom."
+audit.hero.eyebrow,AI + HUMAN WEB3 GROWTH AUDIT,AUDITORIA DE CRESCIMENTO WEB3 COM IA + HUMANO,AUDITORÍA DE CRECIMIENTO WEB3 CON IA + HUMANO
+audit.hero.headline,Find Your Growth Leaks in 72 Hours — With Data You Can Act On Immediately,Encontre Seus Vazamentos de Crescimento em 72 Horas — Com Dados Para Agir Imediatamente,Encuentra Tus Fugas de Crecimiento en 72 Horas — Con Datos Para Actuar Inmediatamente
+audit.hero.subheadline,"Your Reddit, on-chain, and funnel data — analyzed by AI, interpreted by a strategist with 10+ years in growth.","Seus dados de Reddit, on-chain e funil — analisados por IA, interpretados por um estrategista com 10+ anos em growth.","Tus datos de Reddit, on-chain y embudo — analizados por IA, interpretados por un estratega con 10+ años en growth."
+audit.hero.cta.primary,Diagnose My Growth Leaks →,Diagnosticar Meus Vazamentos →,Diagnosticar Mis Fugas →
+audit.hero.cta.secondary,See a Sample Audit →,Ver Exemplo de Auditoria →,Ver Ejemplo de Auditoría →
+audit.hero.trust.label,Trusted by operators across:,Confiado por operadores em:,Confiado por operadores en:
+audit.hero.trust.logos,Binance · Neil Patel Digital · L1 Ecosystems · Olympic Programs,Binance · Neil Patel Digital · Ecossistemas L1 · Programas Olímpicos,Binance · Neil Patel Digital · Ecosistemas L1 · Programas Olímpicos
+audit.proof.title,Sample Findings From Real Web3 Audits,Descobertas Reais de Auditorias Web3,Hallazgos Reales de Auditorías Web3
+audit.proof.card1.title,Wallet Cohort Analysis,Análise de Coorte de Carteiras,Análisis de Cohorte de Wallets
+audit.proof.card1.context,(DeFi protocol),(protocolo DeFi),(protocolo DeFi)
+audit.proof.card1.result,"Identified that 42% of ""active"" Reddit users were low-value wallets → reallocated spend to 10 high-signal subreddits","Identificou que 42% dos usuários ""ativos"" do Reddit eram carteiras de baixo valor → realocou investimento para 10 subreddits de alto sinal","Identificó que 42% de usuarios ""activos"" de Reddit eran wallets de bajo valor → reasignó inversión a 10 subreddits de alta señal"
+audit.proof.card2.title,Discord → Mint Funnel,Funil Discord → Mint,Embudo Discord → Mint
+audit.proof.card2.context,(NFT pre-launch),(pré-lançamento NFT),(pre-lanzamiento NFT)
+audit.proof.card2.result,"Found 28% drop-off between 'Join Discord' → 'View Mint Page' → +23% verified mints","Encontrou 28% de abandono entre 'Entrar no Discord' → 'Ver Página de Mint' → +23% mints verificados","Encontró 28% de abandono entre 'Unirse a Discord' → 'Ver Página de Mint' → +23% mints verificados"
+audit.proof.card3.title,Token Visibility Gap,Gap de Visibilidade do Token,Brecha de Visibilidad del Token
+audit.proof.card3.context,(L1 ecosystem),(ecossistema L1),(ecosistema L1)
+audit.proof.card3.result,Revealed 4× discovery boost potential by optimizing multi-platform listing hygiene,Revelou potencial de 4× mais descoberta otimizando a higiene de listagem multi-plataforma,Reveló potencial de 4× más descubrimiento optimizando la higiene de listado multi-plataforma
+audit.proof.caption,Each insight came from the same hybrid process you're about to get.,Cada insight veio do mesmo processo híbrido que você está prestes a receber.,Cada insight vino del mismo proceso híbrido que estás a punto de recibir.
+audit.process.title,How It Works,Como Funciona,Cómo Funciona
+audit.process.subtitle,"Clear. Visual. 72 hours.","Claro. Visual. 72 horas.","Claro. Visual. 72 horas."
+audit.process.step1.day,Day 1,Dia 1,Día 1
+audit.process.step1.title,AI Scrapes & Scores Your Data,IA Coleta e Pontua Seus Dados,IA Recopila y Puntúa Tus Datos
+audit.process.step1.item1,Reddit Sentiment Scan,Scan de Sentimento do Reddit,Escaneo de Sentimiento de Reddit
+audit.process.step1.item2,Wallet Cohort Analysis (Dune + Etherscan + DeBank),Análise de Coorte de Carteiras (Dune + Etherscan + DeBank),Análisis de Cohorte de Wallets (Dune + Etherscan + DeBank)
+audit.process.step1.item3,Token Discovery & Visibility Score,Score de Descoberta e Visibilidade do Token,Score de Descubrimiento y Visibilidad del Token
+audit.process.step1.item4,Funnel Drop-Off Map,Mapa de Abandono do Funil,Mapa de Abandono del Embudo
+audit.process.step1.item5,Community-to-Holders Correlation,Correlação Comunidade-Holders,Correlación Comunidad-Holders
+audit.process.step2.day,Day 2,Dia 2,Día 2
+audit.process.step2.title,Human Interpretation,Interpretação Humana,Interpretación Humana
+audit.process.step2.subtitle,The part AI cannot do,A parte que a IA não consegue fazer,La parte que la IA no puede hacer
+audit.process.step2.item1,What matters,O que importa,Lo que importa
+audit.process.step2.item2,What's leaking,O que está vazando,Lo que está fugando
+audit.process.step2.item3,What's fake traction,O que é tração falsa,Lo que es tracción falsa
+audit.process.step2.item4,What's real,O que é real,Lo que es real
+audit.process.step2.item5,What to fix first,O que corrigir primeiro,Qué arreglar primero
+audit.process.step2.footer,No AI hallucinations. No generic advice. Actual strategic judgment.,Sem alucinações de IA. Sem conselhos genéricos. Julgamento estratégico real.,Sin alucinaciones de IA. Sin consejos genéricos. Juicio estratégico real.
+audit.process.step3.day,Day 3,Dia 3,Día 3
+audit.process.step3.title,Your Roadmap Delivered,Seu Roadmap Entregue,Tu Roadmap Entregado
+audit.process.step3.item1,Notion dashboard summarizing findings,Dashboard Notion resumindo descobertas,Dashboard Notion resumiendo hallazgos
+audit.process.step3.item2,"Loom walkthrough explaining the ""why""","Walkthrough em Loom explicando o ""porquê""","Walkthrough en Loom explicando el ""porqué"""
+audit.process.step3.item3,90-day roadmap with highest-ROI moves,Roadmap de 90 dias com ações de maior ROI,Roadmap de 90 días con acciones de mayor ROI
+audit.process.step3.item4,Growth Score across 5 pillars,Score de Crescimento em 5 pilares,Score de Crecimiento en 5 pilares
+audit.process.cta,Get My Audit →,Obter Minha Auditoria →,Obtener Mi Auditoría →
+audit.features.title,What's Included in Your Audit,O Que Está Incluído na Sua Auditoria,Qué Está Incluido en Tu Auditoría
+audit.features.item1.title,Reddit Sentiment & Community Reality Check,Sentimento do Reddit & Verificação de Realidade da Comunidade,Sentimiento de Reddit & Verificación de Realidad de la Comunidad
+audit.features.item1.description,Know whether your community is actually healthy — or just loud.,Saiba se sua comunidade é realmente saudável — ou apenas barulhenta.,Sabe si tu comunidad es realmente saludable — o solo ruidosa.
+audit.features.item2.title,Wallet Cohort Quality Scan,Scan de Qualidade de Coorte de Carteiras,Escaneo de Calidad de Cohorte de Wallets
+audit.features.item2.description,See which wallets are real contributors vs empty noise.,Veja quais carteiras são contribuidores reais vs ruído vazio.,Ve cuáles wallets son contribuidores reales vs ruido vacío.
+audit.features.item3.title,On-Chain Visibility Score,Score de Visibilidade On-Chain,Score de Visibilidad On-Chain
+audit.features.item3.description,How easily can new holders discover you across Web3 surfaces?,Com que facilidade novos holders podem te descobrir nas superfícies Web3?,¿Con qué facilidad pueden descubrirte nuevos holders en las superficies Web3?
+audit.features.item4.title,Cross-Platform Funnel Map,Mapa de Funil Multi-Plataforma,Mapa de Embudo Multi-Plataforma
+audit.features.item4.description,Where users drop between Discord → Website → Mint → On-chain actions.,Onde os usuários abandonam entre Discord → Site → Mint → Ações on-chain.,Dónde los usuarios abandonan entre Discord → Sitio → Mint → Acciones on-chain.
+audit.features.item5.title,Token/Engagement Feedback Loop,Loop de Feedback Token/Engajamento,Loop de Feedback Token/Engagement
+audit.features.item5.description,"Understand what drives holding, selling, or ignoring your token.","Entenda o que impulsiona manter, vender ou ignorar seu token.","Entiende qué impulsa mantener, vender o ignorar tu token."
+audit.features.item6.title,90-Day Growth Plan,Plano de Crescimento de 90 Dias,Plan de Crecimiento de 90 Días
+audit.features.item6.description,Clear actions. No theory. No guesswork.,Ações claras. Sem teoria. Sem adivinhação.,Acciones claras. Sin teoría. Sin adivinanzas.
+audit.pricing.title,Simple Pricing,Preços Simples,Precios Simples
+audit.pricing.subtitle,Choose Your Depth,Escolha Sua Profundidade,Elige Tu Profundidad
+audit.pricing.tier1.name,Starter,Inicial,Inicial
+audit.pricing.tier1.price,$197,$197,$197
+audit.pricing.tier1.ideal,Ideal for: Early teams validating traction,Ideal para: Times iniciais validando tração,Ideal para: Equipos iniciales validando tracción
+audit.pricing.tier1.feature1,Reddit + On-chain snapshot,Snapshot Reddit + On-chain,Snapshot Reddit + On-chain
+audit.pricing.tier1.feature2,Top 3 growth leaks identified,Top 3 vazamentos de crescimento identificados,Top 3 fugas de crecimiento identificadas
+audit.pricing.tier1.cta,Start Audit →,Iniciar Auditoria →,Iniciar Auditoría →
+audit.pricing.tier2.name,Pro,Pro,Pro
+audit.pricing.tier2.price,$497,$497,$497
+audit.pricing.tier2.badge,Most Popular,Mais Popular,Más Popular
+audit.pricing.tier2.ideal,Ideal for: Teams needing a full diagnosis,Ideal para: Times que precisam de diagnóstico completo,Ideal para: Equipos que necesitan diagnóstico completo
+audit.pricing.tier2.feature1,Full hybrid audit,Auditoria híbrida completa,Auditoría híbrida completa
+audit.pricing.tier2.feature2,Notion dashboard,Dashboard Notion,Dashboard Notion
+audit.pricing.tier2.feature3,90-day roadmap,Roadmap de 90 dias,Roadmap de 90 días
+audit.pricing.tier2.feature4,Loom walkthrough,Walkthrough em Loom,Walkthrough en Loom
+audit.pricing.tier2.cta,Start Audit →,Iniciar Auditoria →,Iniciar Auditoría →
+audit.pricing.tier3.name,Elite,Elite,Elite
+audit.pricing.tier3.price,$997,$997,$997
+audit.pricing.tier3.ideal,Ideal for: Funded teams or protocols,Ideal para: Times com funding ou protocolos,Ideal para: Equipos con funding o protocolos
+audit.pricing.tier3.feature1,Everything in Pro,Tudo do Pro,Todo del Pro
+audit.pricing.tier3.feature2,60-min strategy call,Call de estratégia de 60 min,Llamada de estrategia de 60 min
+audit.pricing.tier3.feature3,Custom AI Agent recommendations,Recomendações de AI Agents personalizadas,Recomendaciones de AI Agents personalizadas
+audit.pricing.tier3.cta,Start Audit →,Iniciar Auditoria →,Iniciar Auditoría →
+audit.pricing.guarantee,"If I can't identify at least 3 actionable insights, I'll redo the audit free.","Se eu não identificar pelo menos 3 insights acionáveis, refaço a auditoria grátis.","Si no identifico al menos 3 insights accionables, rehago la auditoría gratis."
+audit.faq.title,Frequently Asked Questions,Perguntas Frequentes,Preguntas Frecuentes
+audit.faq.q1.question,Do you need private data?,Você precisa de dados privados?,¿Necesitas datos privados?
+audit.faq.q1.answer,No — only public URLs + wallets.,Não — apenas URLs públicas + carteiras.,No — solo URLs públicas + wallets.
+audit.faq.q2.question,How fast is delivery?,Qual a velocidade de entrega?,¿Qué tan rápida es la entrega?
+audit.faq.q2.answer,72 hours after intake form submission.,72 horas após envio do formulário de intake.,72 horas después del envío del formulario de intake.
+audit.faq.q3.question,Who runs the audit?,Quem executa a auditoria?,¿Quién ejecuta la auditoría?
+audit.faq.q3.answer,AI does the heavy lifting. I personally interpret every signal and build the roadmap.,A IA faz o trabalho pesado. Eu pessoalmente interpreto cada sinal e construo o roadmap.,La IA hace el trabajo pesado. Yo personalmente interpreto cada señal y construyo el roadmap.
+audit.faq.q4.question,Do you accept crypto?,Você aceita cripto?,¿Aceptas cripto?
+audit.faq.q4.answer,Yes — USDT + ETH via CoinGate (or Stripe for fiat).,Sim — USDT + ETH via CoinGate (ou Stripe para fiat).,Sí — USDT + ETH via CoinGate (o Stripe para fiat).
+audit.faq.q5.question,What happens after I pay?,O que acontece depois que eu pago?,¿Qué pasa después de pagar?
+audit.faq.q5.answer,You'll complete a short intake. Your 3-day window starts immediately.,Você preencherá um intake curto. Sua janela de 3 dias começa imediatamente.,Completarás un intake corto. Tu ventana de 3 días comienza inmediatamente.
+audit.final.title,Ready to Stop Guessing and Start Scaling?,Pronto Para Parar de Adivinhar e Começar a Escalar?,¿Listo Para Dejar de Adivinar y Empezar a Escalar?
+audit.final.subtext,Get a real diagnosis of your Web3 growth engine — backed by data, distilled by a strategist.,Obtenha um diagnóstico real do seu motor de crescimento Web3 — baseado em dados, destilado por um estrategista.,Obtén un diagnóstico real de tu motor de crecimiento Web3 — respaldado por datos, destilado por un estratega.
+audit.final.cta,Start My Audit →,Iniciar Minha Auditoria →,Iniciar Mi Auditoría →
+audit.final.trust1,Delivered in 72 hours,Entregue em 72 horas,Entregado en 72 horas
+audit.final.trust2,3+ actionable insights guaranteed,3+ insights acionáveis garantidos,3+ insights accionables garantizados
+audit.final.trust3,Secure payment via Stripe or Crypto,Pagamento seguro via Stripe ou Cripto,Pago seguro via Stripe o Cripto

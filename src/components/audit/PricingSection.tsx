@@ -1,45 +1,52 @@
 import { Button } from "@/components/ui/button";
 import { Check, Shield } from "lucide-react";
+import { ta } from "@/lib/auditTranslations";
 
-const PricingSection = () => {
+type Locale = 'en' | 'br' | 'es';
+
+interface PricingSectionProps {
+  locale: Locale;
+}
+
+const PricingSection = ({ locale }: PricingSectionProps) => {
   const tiers = [
     {
-      name: "Starter",
-      price: "$197",
-      idealFor: "Early teams validating traction",
+      name: ta('audit.pricing.tier1.name', locale),
+      price: ta('audit.pricing.tier1.price', locale),
+      idealFor: ta('audit.pricing.tier1.ideal', locale),
       features: [
-        "Reddit + On-chain snapshot",
-        "Top 3 growth leaks identified"
+        ta('audit.pricing.tier1.feature1', locale),
+        ta('audit.pricing.tier1.feature2', locale)
       ],
-      cta: "Start Audit →",
+      cta: ta('audit.pricing.tier1.cta', locale),
       featured: false,
       buttonClass: "border-2 border-navy text-navy bg-white hover:bg-navy hover:text-white"
     },
     {
-      name: "Pro",
-      price: "$497",
-      badge: "Most Popular",
-      idealFor: "Teams needing a full diagnosis",
+      name: ta('audit.pricing.tier2.name', locale),
+      price: ta('audit.pricing.tier2.price', locale),
+      badge: ta('audit.pricing.tier2.badge', locale),
+      idealFor: ta('audit.pricing.tier2.ideal', locale),
       features: [
-        "Full hybrid audit",
-        "Notion dashboard",
-        "90-day roadmap",
-        "Loom walkthrough"
+        ta('audit.pricing.tier2.feature1', locale),
+        ta('audit.pricing.tier2.feature2', locale),
+        ta('audit.pricing.tier2.feature3', locale),
+        ta('audit.pricing.tier2.feature4', locale)
       ],
-      cta: "Start Audit →",
+      cta: ta('audit.pricing.tier2.cta', locale),
       featured: true,
       buttonClass: "bg-gold text-navy hover:scale-105 shadow-button hover:shadow-button-hover"
     },
     {
-      name: "Elite",
-      price: "$997",
-      idealFor: "Funded teams or protocols",
+      name: ta('audit.pricing.tier3.name', locale),
+      price: ta('audit.pricing.tier3.price', locale),
+      idealFor: ta('audit.pricing.tier3.ideal', locale),
       features: [
-        "Everything in Pro",
-        "60-min strategy call",
-        "Custom AI Agent recommendations"
+        ta('audit.pricing.tier3.feature1', locale),
+        ta('audit.pricing.tier3.feature2', locale),
+        ta('audit.pricing.tier3.feature3', locale)
       ],
-      cta: "Start Audit →",
+      cta: ta('audit.pricing.tier3.cta', locale),
       featured: false,
       buttonClass: "border-2 border-navy text-navy bg-white hover:bg-navy hover:text-white"
     }
@@ -53,10 +60,10 @@ const PricingSection = () => {
           <h2 
             className="font-hero text-3xl font-bold text-navy mb-2"
           >
-            Simple Pricing
+            {ta('audit.pricing.title', locale)}
           </h2>
           <p className="font-body text-muted-foreground">
-            Choose Your Depth
+            {ta('audit.pricing.subtitle', locale)}
           </p>
         </div>
 
@@ -120,7 +127,7 @@ const PricingSection = () => {
           <p 
             className="font-accent text-gray-700 italic leading-relaxed"
           >
-            If I can't identify at least 3 actionable insights, I'll redo the audit free.
+            {ta('audit.pricing.guarantee', locale)}
           </p>
         </div>
       </div>

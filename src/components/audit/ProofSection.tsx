@@ -1,19 +1,27 @@
-const ProofSection = () => {
+import { ta } from "@/lib/auditTranslations";
+
+type Locale = 'en' | 'br' | 'es';
+
+interface ProofSectionProps {
+  locale: Locale;
+}
+
+const ProofSection = ({ locale }: ProofSectionProps) => {
   const proofCards = [
     {
-      title: "Wallet Cohort Analysis",
-      context: "(DeFi protocol)",
-      result: "Identified that 42% of 'active' Reddit users were low-value wallets → reallocated spend to 10 high-signal subreddits"
+      title: ta('audit.proof.card1.title', locale),
+      context: ta('audit.proof.card1.context', locale),
+      result: ta('audit.proof.card1.result', locale)
     },
     {
-      title: "Discord → Mint Funnel",
-      context: "(NFT pre-launch)",
-      result: "Found 28% drop-off between 'Join Discord' → 'View Mint Page' → +23% verified mints"
+      title: ta('audit.proof.card2.title', locale),
+      context: ta('audit.proof.card2.context', locale),
+      result: ta('audit.proof.card2.result', locale)
     },
     {
-      title: "Token Visibility Gap",
-      context: "(L1 ecosystem)",
-      result: "Revealed 4× discovery boost potential by optimizing multi-platform listing hygiene"
+      title: ta('audit.proof.card3.title', locale),
+      context: ta('audit.proof.card3.context', locale),
+      result: ta('audit.proof.card3.result', locale)
     }
   ];
 
@@ -24,7 +32,7 @@ const ProofSection = () => {
         <h2 
           className="font-hero text-3xl font-bold text-navy text-center"
         >
-          Sample Findings From Real Web3 Audits
+          {ta('audit.proof.title', locale)}
         </h2>
 
         {/* Proof cards */}
@@ -49,7 +57,7 @@ const ProofSection = () => {
         <p 
           className="font-accent text-center text-muted-foreground text-sm mt-8 italic"
         >
-          Each insight came from the same hybrid process you're about to get.
+          {ta('audit.proof.caption', locale)}
         </p>
       </div>
     </section>

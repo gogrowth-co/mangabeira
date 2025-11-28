@@ -1,45 +1,52 @@
 import { Button } from "@/components/ui/button";
+import { ta } from "@/lib/auditTranslations";
 
-const ProcessSection = () => {
+type Locale = 'en' | 'br' | 'es';
+
+interface ProcessSectionProps {
+  locale: Locale;
+}
+
+const ProcessSection = ({ locale }: ProcessSectionProps) => {
   const processSteps = [
     {
-      day: "1",
+      day: ta('audit.process.step1.day', locale),
       bgColor: "bg-aqua",
       textColor: "text-white",
-      title: "AI Scrapes & Scores Your Data",
+      title: ta('audit.process.step1.title', locale),
       items: [
-        "Reddit Sentiment Scan",
-        "Wallet Cohort Analysis (Dune + Etherscan + DeBank)",
-        "Token Discovery & Visibility Score",
-        "Funnel Drop-Off Map",
-        "Community-to-Holders Correlation"
+        ta('audit.process.step1.item1', locale),
+        ta('audit.process.step1.item2', locale),
+        ta('audit.process.step1.item3', locale),
+        ta('audit.process.step1.item4', locale),
+        ta('audit.process.step1.item5', locale)
       ]
     },
     {
-      day: "2",
+      day: ta('audit.process.step2.day', locale),
       bgColor: "bg-gold",
       textColor: "text-navy",
-      title: "Human Interpretation",
-      subtitle: "The part AI cannot do",
+      title: ta('audit.process.step2.title', locale),
+      subtitle: ta('audit.process.step2.subtitle', locale),
       items: [
-        "What matters",
-        "What's leaking",
-        "What's fake traction",
-        "What's real",
-        "What to fix first"
+        ta('audit.process.step2.item1', locale),
+        ta('audit.process.step2.item2', locale),
+        ta('audit.process.step2.item3', locale),
+        ta('audit.process.step2.item4', locale),
+        ta('audit.process.step2.item5', locale)
       ],
-      footer: "No AI hallucinations. No generic advice. Actual strategic judgment."
+      footer: ta('audit.process.step2.footer', locale)
     },
     {
-      day: "3",
+      day: ta('audit.process.step3.day', locale),
       bgColor: "bg-aqua",
       textColor: "text-white",
-      title: "Your Roadmap Delivered",
+      title: ta('audit.process.step3.title', locale),
       items: [
-        "Notion dashboard summarizing findings",
-        "Loom walkthrough explaining the 'why'",
-        "90-day roadmap with highest-ROI moves",
-        "Growth Score across 5 pillars"
+        ta('audit.process.step3.item1', locale),
+        ta('audit.process.step3.item2', locale),
+        ta('audit.process.step3.item3', locale),
+        ta('audit.process.step3.item4', locale)
       ]
     }
   ];
@@ -52,10 +59,10 @@ const ProcessSection = () => {
           <h2 
             className="font-hero text-3xl font-bold text-navy mb-2"
           >
-            How It Works
+            {ta('audit.process.title', locale)}
           </h2>
           <p className="font-body text-muted-foreground">
-            Clear. Visual. 72 hours.
+            {ta('audit.process.subtitle', locale)}
           </p>
         </div>
 
@@ -114,7 +121,7 @@ const ProcessSection = () => {
             className="bg-gold text-navy font-semibold px-8 py-4 rounded-lg hover:scale-105 shadow-button hover:shadow-button-hover transition-all duration-300"
             onClick={() => window.scrollTo({ top: document.getElementById('pricing')?.offsetTop || 0, behavior: 'smooth' })}
           >
-            Get My Audit →
+            {ta('audit.process.cta', locale)}
           </Button>
         </div>
       </div>
