@@ -1,36 +1,43 @@
 import { BarChart3, Wallet, Eye, GitBranch, TrendingUp, Map } from "lucide-react";
+import { ta } from "@/lib/auditTranslations";
 
-const FeaturesGrid = () => {
+type Locale = 'en' | 'br' | 'es';
+
+interface FeaturesGridProps {
+  locale: Locale;
+}
+
+const FeaturesGrid = ({ locale }: FeaturesGridProps) => {
   const features = [
     {
       icon: BarChart3,
-      title: "Reddit Sentiment & Community Reality Check",
-      description: "Know whether your community is actually healthy — or just loud."
+      title: ta('audit.features.item1.title', locale),
+      description: ta('audit.features.item1.description', locale)
     },
     {
       icon: Wallet,
-      title: "Wallet Cohort Quality Scan",
-      description: "See which wallets are real contributors vs empty noise."
+      title: ta('audit.features.item2.title', locale),
+      description: ta('audit.features.item2.description', locale)
     },
     {
       icon: Eye,
-      title: "On-Chain Visibility Score",
-      description: "How easily can new holders discover you across Web3 surfaces?"
+      title: ta('audit.features.item3.title', locale),
+      description: ta('audit.features.item3.description', locale)
     },
     {
       icon: GitBranch,
-      title: "Cross-Platform Funnel Map",
-      description: "Where users drop between Discord → Website → Mint → On-chain actions."
+      title: ta('audit.features.item4.title', locale),
+      description: ta('audit.features.item4.description', locale)
     },
     {
       icon: TrendingUp,
-      title: "Token/Engagement Feedback Loop",
-      description: "Understand what drives holding, selling, or ignoring your token."
+      title: ta('audit.features.item5.title', locale),
+      description: ta('audit.features.item5.description', locale)
     },
     {
       icon: Map,
-      title: "90-Day Growth Plan",
-      description: "Clear actions. No theory. No guesswork."
+      title: ta('audit.features.item6.title', locale),
+      description: ta('audit.features.item6.description', locale)
     }
   ];
 
@@ -41,7 +48,7 @@ const FeaturesGrid = () => {
         <h2 
           className="font-hero text-3xl font-bold text-white text-center mb-12"
         >
-          What's Included in Your Audit
+          {ta('audit.features.title', locale)}
         </h2>
 
         {/* Features grid */}

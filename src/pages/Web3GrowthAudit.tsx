@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AuditHero from "@/components/audit/AuditHero";
@@ -8,43 +9,58 @@ import FeaturesGrid from "@/components/audit/FeaturesGrid";
 import PricingSection from "@/components/audit/PricingSection";
 import FAQSection from "@/components/audit/FAQSection";
 import FinalCTA from "@/components/audit/FinalCTA";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { loadAuditTranslations, ta } from "@/lib/auditTranslations";
 
-const Web3GrowthAudit = () => {
-  const { locale } = useLanguage();
+type Locale = 'en' | 'br' | 'es';
+
+interface Web3GrowthAuditProps {
+  locale?: Locale;
+}
+
+const Web3GrowthAudit = ({ locale = 'en' }: Web3GrowthAuditProps) => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    loadAuditTranslations(locale).then(() => setIsLoading(false));
+  }, [locale]);
+
+  if (isLoading) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
+
+  const getCanonicalUrl = () => {
+    if (locale === 'br') return 'https://mangabeira.net/br/servicos/web3-auditoria-de-growth';
+    if (locale === 'es') return 'https://mangabeira.net/es/servicios/web3-auditoria-de-growth';
+    return 'https://mangabeira.net/services/web3-growth-audit';
+  };
 
   return (
     <>
       <Helmet>
-        <title>Web3 Growth Audit | Find Your Growth Leaks in 72 Hours | Mangabeira.net</title>
+        <title>{ta('audit.meta.title', locale)}</title>
         <meta 
           name="description" 
-          content="AI + Human Web3 Growth Audit — Find your top growth leaks in 72 hours. On-chain, Reddit, and funnel insights delivered via Notion + Loom." 
+          content={ta('audit.meta.description', locale)} 
         />
-        <link rel="canonical" href="https://mangabeira.net/services/web3-growth-audit" />
+        <link rel="canonical" href={getCanonicalUrl()} />
         
         {/* Open Graph */}
-        <meta property="og:title" content="Web3 Growth Audit | Find Your Growth Leaks in 72 Hours" />
-        <meta property="og:description" content="AI + Human Web3 Growth Audit — Find your top growth leaks in 72 hours. On-chain, Reddit, and funnel insights delivered via Notion + Loom." />
-        <meta property="og:url" content="https://mangabeira.net/services/web3-growth-audit" />
+        <meta property="og:title" content={ta('audit.meta.title', locale)} />
+        <meta property="og:description" content={ta('audit.meta.description', locale)} />
+        <meta property="og:url" content={getCanonicalUrl()} />
         <meta property="og:type" content="website" />
-        
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Web3 Growth Audit | Find Your Growth Leaks in 72 Hours" />
-        <meta name="twitter:description" content="AI + Human Web3 Growth Audit — Find your top growth leaks in 72 hours. On-chain, Reddit, and funnel insights delivered via Notion + Loom." />
       </Helmet>
 
       <Header locale={locale} />
       
       <main>
-        <AuditHero />
-        <ProofSection />
-        <ProcessSection />
-        <FeaturesGrid />
-        <PricingSection />
-        <FAQSection />
-        <FinalCTA />
+        <AuditHero locale={locale} />
+        <ProofSection locale={locale} />
+        <ProcessSection locale={locale} />
+        <FeaturesGrid locale={locale} />
+        <PricingSection locale={locale} />
+        <FAQSection locale={locale} />
+        <FinalCTA locale={locale} />
       </main>
 
       <Footer />

@@ -4,28 +4,35 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { ta } from "@/lib/auditTranslations";
 
-const FAQSection = () => {
+type Locale = 'en' | 'br' | 'es';
+
+interface FAQSectionProps {
+  locale: Locale;
+}
+
+const FAQSection = ({ locale }: FAQSectionProps) => {
   const faqs = [
     {
-      question: "Do you need private data?",
-      answer: "No — only public URLs + wallets."
+      question: ta('audit.faq.q1.question', locale),
+      answer: ta('audit.faq.q1.answer', locale)
     },
     {
-      question: "How fast is delivery?",
-      answer: "72 hours after intake form submission."
+      question: ta('audit.faq.q2.question', locale),
+      answer: ta('audit.faq.q2.answer', locale)
     },
     {
-      question: "Who runs the audit?",
-      answer: "AI does the heavy lifting. I personally interpret every signal and build the roadmap."
+      question: ta('audit.faq.q3.question', locale),
+      answer: ta('audit.faq.q3.answer', locale)
     },
     {
-      question: "Do you accept crypto?",
-      answer: "Yes — USDT + ETH via CoinGate (or Stripe for fiat)."
+      question: ta('audit.faq.q4.question', locale),
+      answer: ta('audit.faq.q4.answer', locale)
     },
     {
-      question: "What happens after I pay?",
-      answer: "You'll complete a short intake. Your 3-day window starts immediately."
+      question: ta('audit.faq.q5.question', locale),
+      answer: ta('audit.faq.q5.answer', locale)
     }
   ];
 
@@ -36,7 +43,7 @@ const FAQSection = () => {
         <h2 
           className="font-hero text-3xl font-bold text-navy text-center mb-12"
         >
-          Frequently Asked Questions
+          {ta('audit.faq.title', locale)}
         </h2>
 
         {/* FAQ accordion */}
