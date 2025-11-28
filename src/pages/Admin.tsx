@@ -50,17 +50,26 @@ export default function Admin() {
             <Button 
               onClick={async () => { 
                 try {
-                  const { data, error } = await supabase.functions.invoke('generate-sitemap'); 
-                  if (error) throw error;
+                  const [sitemapResult, rssResult] = await Promise.all([
+                    supabase.functions.invoke('generate-sitemap'),
+                    supabase.functions.invoke('generate-rss')
+                  ]);
+                  
+                  if (sitemapResult.error) throw sitemapResult.error;
+                  if (rssResult.error) throw rssResult.error;
+                  
+                  const totalUrls = sitemapResult.data?.totalUrls || 0;
+                  const totalPages = rssResult.data?.totalPages || 0;
+                  
                   toast({ 
                     title: "Success", 
-                    description: `Sitemap refreshed! Total URLs: ${data?.totalUrls || 'N/A'}` 
+                    description: `Sitemap refreshed (${totalUrls} URLs) & RSS feeds regenerated (${totalPages} publications)!` 
                   }); 
                 } catch (error) {
-                  console.error('Sitemap refresh error:', error);
+                  console.error('Feed refresh error:', error);
                   toast({ 
                     title: "Error", 
-                    description: "Failed to refresh sitemap",
+                    description: "Failed to refresh feeds",
                     variant: "destructive"
                   }); 
                 }
@@ -68,7 +77,7 @@ export default function Admin() {
               variant="outline"
             >
               <RefreshCw className="mr-2 h-4 w-4" />
-              Refresh Sitemap
+              Refresh Feeds
             </Button>
             <Button 
               onClick={async () => { 

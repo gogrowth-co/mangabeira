@@ -313,13 +313,20 @@ export function useUpdatePage() {
       queryClient.invalidateQueries({ queryKey: ['pages'] });
       queryClient.invalidateQueries({ queryKey: ['page', variables.id] });
       
-      // Regenerate sitemap and submit to IndexNow if published
+      // Regenerate sitemap, RSS feeds, and submit to IndexNow if published
       if (variables.status === 'published') {
         try {
           await supabase.functions.invoke('generate-sitemap');
           console.log('[useUpdatePage] Sitemap regenerated');
         } catch (error) {
           console.error('[useUpdatePage] Failed to regenerate sitemap:', error);
+        }
+        
+        try {
+          await supabase.functions.invoke('generate-rss');
+          console.log('[useUpdatePage] RSS feeds regenerated');
+        } catch (error) {
+          console.error('[useUpdatePage] Failed to regenerate RSS feeds:', error);
         }
         
         // Submit to IndexNow for instant search engine indexing
@@ -371,12 +378,19 @@ export function useDeletePage() {
     onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ['pages'] });
       
-      // Regenerate sitemap after deletion
+      // Regenerate sitemap and RSS feeds after deletion
       try {
         await supabase.functions.invoke('generate-sitemap');
         console.log('[useDeletePage] Sitemap regenerated');
       } catch (error) {
         console.error('[useDeletePage] Failed to regenerate sitemap:', error);
+      }
+      
+      try {
+        await supabase.functions.invoke('generate-rss');
+        console.log('[useDeletePage] RSS feeds regenerated');
+      } catch (error) {
+        console.error('[useDeletePage] Failed to regenerate RSS feeds:', error);
       }
     },
   });
@@ -399,12 +413,19 @@ export function usePublishPage() {
       queryClient.invalidateQueries({ queryKey: ['pages'] });
       queryClient.invalidateQueries({ queryKey: ['page', id] });
       
-      // Regenerate sitemap after publishing
+      // Regenerate sitemap and RSS feeds after publishing
       try {
         await supabase.functions.invoke('generate-sitemap');
         console.log('[usePublishPage] Sitemap regenerated');
       } catch (error) {
         console.error('[usePublishPage] Failed to regenerate sitemap:', error);
+      }
+      
+      try {
+        await supabase.functions.invoke('generate-rss');
+        console.log('[usePublishPage] RSS feeds regenerated');
+      } catch (error) {
+        console.error('[usePublishPage] Failed to regenerate RSS feeds:', error);
       }
       
       // Submit to IndexNow for instant search engine indexing

@@ -5,10 +5,6 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// In-memory cache for each language
-const rssCache: Record<string, { xml: string; timestamp: number }> = {};
-const CACHE_TTL = 3600000; // 1 hour in milliseconds
-
 const BASE_URL = 'https://mangabeira.net';
 
 interface Translation {
@@ -67,34 +63,6 @@ Deno.serve(async (req) => {
   }
 
   try {
-    // Get language from query parameters (default to 'en')
-    const url = new URL(req.url);
-    const language = url.searchParams.get('lang') || 'en';
-    
-    // Validate language
-    if (!['en', 'br', 'es'].includes(language)) {
-      return new Response(
-        JSON.stringify({ error: 'Invalid language. Use: en, br, or es' }),
-        {
-          status: 400,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        }
-      );
-    }
-
-    // Check cache first
-    const now = Date.now();
-    if (rssCache[language] && (now - rssCache[language].timestamp) < CACHE_TTL) {
-      console.log(`Returning cached RSS feed for language: ${language}`);
-      return new Response(rssCache[language].xml, {
-        headers: {
-          ...corsHeaders,
-          'Content-Type': 'application/rss+xml; charset=utf-8',
-          'Cache-Control': 'public, max-age=3600, s-maxage=3600',
-        },
-      });
-    }
-
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
@@ -122,11 +90,15 @@ Deno.serve(async (req) => {
 
     if (error) throw error;
 
-    const metadata = feedMetadata[language as keyof typeof feedMetadata];
     const buildDate = formatRFC822Date(new Date().toISOString());
+    const feedCounts: Record<string, number> = {};
 
-    // Start RSS XML
-    let xml = `<?xml version="1.0" encoding="UTF-8"?>
+    // Generate RSS feeds for all three languages
+    for (const language of ['en', 'br', 'es']) {
+      const metadata = feedMetadata[language as keyof typeof feedMetadata];
+      
+      // Start RSS XML
+      let xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>${escapeXml(metadata.title)}</title>
@@ -137,23 +109,24 @@ Deno.serve(async (req) => {
     <atom:link href="${BASE_URL}/rss/${language}.xml" rel="self" type="application/rss+xml" />
 `;
 
-    // Add items
-    for (const page of (pages as Page[]) || []) {
-      // Find translation for requested language
-      const translation = page.translations.find(t => t.language === language);
-      
-      // Skip if no translation exists for this language
-      if (!translation || !translation.slug) continue;
+      let itemCount = 0;
+      // Add items
+      for (const page of (pages as Page[]) || []) {
+        // Find translation for requested language
+        const translation = page.translations.find(t => t.language === language);
+        
+        // Skip if no translation exists for this language
+        if (!translation || !translation.slug) continue;
 
-      const title = translation.title;
-      const description = translation.meta_description || '';
-      const content = translation.content || '';
-      const slug = translation.slug;
-      const link = `${BASE_URL}${metadata.pathPrefix}/${slug}`;
-      const pubDate = formatRFC822Date(page.updated_at);
-      const author = page.author_name || 'Gabriel Mangabeira';
+        const title = translation.title;
+        const description = translation.meta_description || '';
+        const content = translation.content || '';
+        const slug = translation.slug;
+        const link = `${BASE_URL}${metadata.pathPrefix}/${slug}`;
+        const pubDate = formatRFC822Date(page.updated_at);
+        const author = page.author_name || 'Gabriel Mangabeira';
 
-      xml += `    <item>
+        xml += `    <item>
       <title>${escapeXml(title)}</title>
       <link>${link}</link>
       <guid isPermaLink="true">${link}</guid>
@@ -163,28 +136,45 @@ Deno.serve(async (req) => {
       <author>${escapeXml(author)}</author>
     </item>
 `;
-    }
+        itemCount++;
+      }
 
-    xml += `  </channel>
+      xml += `  </channel>
 </rss>`;
 
-    console.log(`Generated RSS feed for ${language} with ${pages?.length || 0} items`);
+      feedCounts[language] = itemCount;
+      console.log(`Generated RSS feed for ${language} with ${itemCount} items`);
 
-    // Update cache
-    rssCache[language] = {
-      xml,
-      timestamp: Date.now(),
-    };
+      // Upload to storage
+      const fileName = `rss-${language}.xml`;
+      const { error: uploadError } = await supabase.storage
+        .from('blog-images')
+        .upload(fileName, xml, {
+          contentType: 'application/rss+xml; charset=utf-8',
+          upsert: true,
+        });
 
-    return new Response(xml, {
-      headers: {
-        ...corsHeaders,
-        'Content-Type': 'application/rss+xml; charset=utf-8',
-        'Cache-Control': 'public, max-age=3600, s-maxage=3600',
-      },
-    });
+      if (uploadError) {
+        console.error(`Error uploading RSS feed for ${language}:`, uploadError);
+        throw uploadError;
+      }
+    }
+
+    console.log('All RSS feeds generated and uploaded successfully');
+
+    return new Response(
+      JSON.stringify({ 
+        success: true, 
+        message: 'RSS feeds generated successfully',
+        feeds: feedCounts,
+        totalPages: pages?.length || 0
+      }),
+      {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      }
+    );
   } catch (error) {
-    console.error('Error generating RSS feed:', error);
+    console.error('Error generating RSS feeds:', error);
     return new Response(
       JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
       {
