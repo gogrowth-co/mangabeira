@@ -2,7 +2,7 @@
 /*    /.netlify/functions/prerender?path=:splat  200  User-Agent:*bot* User-Agent:*facebook* User-Agent:*twitter* User-Agent:*linkedin* User-Agent:*whatsapp* User-Agent:*telegram* User-Agent:*slack* User-Agent:*discord*
 
 # Sitemap - redirect to edge function
-/sitemap.xml https://hetemmltaoirimmoxzku.supabase.co/functions/v1/generate-sitemap 200!
+/sitemap.xml https://hetemmltaoirimmoxzku.supabase.co/functions/v1/generate-sitemap 302
 
 # Serve all other routes through the SPA for regular users
 /*    /index.html   200
