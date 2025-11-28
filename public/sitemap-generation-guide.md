@@ -1,7 +1,24 @@
 # Sitemap Generation Guide for mangabeira.net
 
 ## Overview
-This document provides instructions for generating the sitemap.xml file with optimal SEO/AEO performance.
+The sitemap is **automatically generated and saved to Supabase Storage** whenever publications are created, updated, published, or deleted. It's served at `https://mangabeira.net/sitemap.xml`.
+
+## Automated Regeneration
+
+The sitemap regenerates automatically on these events:
+- **Publishing a page**: Triggers sitemap update and IndexNow submission
+- **Updating a published page**: Triggers sitemap update and IndexNow submission  
+- **Deleting a page**: Triggers sitemap update
+
+### Manual Regeneration
+Click the **"Refresh Sitemap"** button in the Admin dashboard (`/admin`) to manually regenerate the sitemap.
+
+## Technical Implementation
+
+1. **Edge Function**: `supabase/functions/generate-sitemap/index.ts` generates XML and saves to storage
+2. **Storage**: Sitemap stored at `blog-images/sitemap.xml` in Supabase Storage
+3. **Serving**: `_redirects` routes `/sitemap.xml` → storage URL for direct access
+4. **Hooks**: `src/hooks/usePages.ts` triggers regeneration after publish/update/delete mutations
 
 ## URL Structure
 
@@ -118,12 +135,13 @@ ORDER BY p.updated_at DESC
 
 ## When to Regenerate
 
-Regenerate the sitemap when:
+The sitemap regenerates **automatically** when:
 - Publishing a new article
-- Updating existing content
-- Adding/removing translations
-- Changing URL structure
-- Updating system pages
+- Updating existing published content
+- Deleting a page
+- Using the "Refresh Sitemap" button in `/admin`
+
+**No manual intervention needed** - the system handles this automatically!
 
 ## Verification
 
@@ -137,7 +155,7 @@ After generation, verify:
 
 ## Notes
 
-- Static file approach is preferred over dynamic edge function for SEO performance
-- Direct file access is faster for search engine crawlers
-- No CDN caching issues with static approach
-- The `generate-sitemap` edge function can be used as utility for manual regeneration
+- **Automated approach**: Sitemap stored in Supabase Storage and regenerated on content changes
+- **Direct access**: Served via redirect for fast crawler access (no edge function cold starts)
+- **No caching issues**: Storage file updates immediately reflect on the live site
+- The `generate-sitemap` edge function handles generation and storage upload automatically

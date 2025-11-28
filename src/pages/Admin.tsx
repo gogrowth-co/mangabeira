@@ -50,14 +50,14 @@ export default function Admin() {
             <Button 
               onClick={async () => { 
                 try {
-                  await supabase.functions.invoke('generate-sitemap', { 
-                    body: { forceRefresh: true } 
-                  }); 
+                  const { data, error } = await supabase.functions.invoke('generate-sitemap'); 
+                  if (error) throw error;
                   toast({ 
                     title: "Success", 
-                    description: "Sitemap refreshed successfully!" 
+                    description: `Sitemap refreshed! Total URLs: ${data?.totalUrls || 'N/A'}` 
                   }); 
                 } catch (error) {
+                  console.error('Sitemap refresh error:', error);
                   toast({ 
                     title: "Error", 
                     description: "Failed to refresh sitemap",
