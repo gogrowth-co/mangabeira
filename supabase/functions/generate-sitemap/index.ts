@@ -24,6 +24,8 @@ Deno.serve(async (req) => {
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
+    console.log('[generate-sitemap] Starting sitemap generation...');
+
     // Fetch all published pages with translations
     const { data: pages, error } = await supabase
       .from('pages')
@@ -181,17 +183,34 @@ ${alternateLinks}
     const totalDynamicPages = pages?.length || 0;
     const totalUrls = totalSystemPages + (totalDynamicPages * 3); // Each dynamic page can have up to 3 language versions
     
-    console.log(`Generated sitemap successfully:
+    console.log(`[generate-sitemap] Generated sitemap successfully:
     - System pages: ${totalSystemPages}
     - Dynamic pages: ${totalDynamicPages}
     - Total URLs: ~${totalUrls}`);
 
-    return new Response(xml, {
+    // Save to storage bucket for serving
+    const { error: uploadError } = await supabase.storage
+      .from('blog-images')
+      .upload('sitemap.xml', new Blob([xml], { type: 'application/xml' }), {
+        contentType: 'application/xml',
+        upsert: true,
+      });
+
+    if (uploadError) {
+      console.error('[generate-sitemap] Failed to upload to storage:', uploadError);
+      throw uploadError;
+    }
+
+    console.log('[generate-sitemap] Sitemap saved to storage successfully');
+
+    return new Response(JSON.stringify({ 
+      success: true, 
+      message: 'Sitemap generated and saved',
+      totalUrls 
+    }), {
       headers: {
         ...corsHeaders,
-        'Content-Type': 'application/xml; charset=utf-8',
-        'Cache-Control': 'public, max-age=300, s-maxage=300, must-revalidate',
-        'X-Content-Type-Options': 'nosniff',
+        'Content-Type': 'application/json',
       },
     });
   } catch (error) {

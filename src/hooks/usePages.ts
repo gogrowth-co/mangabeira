@@ -313,16 +313,13 @@ export function useUpdatePage() {
       queryClient.invalidateQueries({ queryKey: ['pages'] });
       queryClient.invalidateQueries({ queryKey: ['page', variables.id] });
       
-      // Refresh sitemap cache if status is published
+      // Regenerate sitemap and submit to IndexNow if published
       if (variables.status === 'published') {
         try {
-          const response = await fetch(
-            `https://hetemmltaoirimmoxzku.supabase.co/functions/v1/generate-sitemap?refresh=true`,
-            { method: 'GET' }
-          );
-          console.log('Sitemap regenerated:', response.status);
+          await supabase.functions.invoke('generate-sitemap');
+          console.log('[useUpdatePage] Sitemap regenerated');
         } catch (error) {
-          console.error('Failed to refresh sitemap cache:', error);
+          console.error('[useUpdatePage] Failed to regenerate sitemap:', error);
         }
         
         // Submit to IndexNow for instant search engine indexing
@@ -338,10 +335,10 @@ export function useUpdatePage() {
             await supabase.functions.invoke('submit-indexnow', {
               body: { slug }
             });
-            console.log('URLs submitted to IndexNow after page update');
+            console.log('[useUpdatePage] URLs submitted to IndexNow');
           }
         } catch (error) {
-          console.error('Failed to submit to IndexNow:', error);
+          console.error('[useUpdatePage] Failed to submit to IndexNow:', error);
         }
       }
     },
@@ -371,8 +368,16 @@ export function useDeletePage() {
       
       if (error) throw error;
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ['pages'] });
+      
+      // Regenerate sitemap after deletion
+      try {
+        await supabase.functions.invoke('generate-sitemap');
+        console.log('[useDeletePage] Sitemap regenerated');
+      } catch (error) {
+        console.error('[useDeletePage] Failed to regenerate sitemap:', error);
+      }
     },
   });
 }
@@ -394,15 +399,12 @@ export function usePublishPage() {
       queryClient.invalidateQueries({ queryKey: ['pages'] });
       queryClient.invalidateQueries({ queryKey: ['page', id] });
       
-      // Refresh sitemap cache after publishing
+      // Regenerate sitemap after publishing
       try {
-        const response = await fetch(
-          `https://hetemmltaoirimmoxzku.supabase.co/functions/v1/generate-sitemap?refresh=true`,
-          { method: 'GET' }
-        );
-        console.log('Sitemap regenerated:', response.status);
+        await supabase.functions.invoke('generate-sitemap');
+        console.log('[usePublishPage] Sitemap regenerated');
       } catch (error) {
-        console.error('Failed to refresh sitemap cache:', error);
+        console.error('[usePublishPage] Failed to regenerate sitemap:', error);
       }
       
       // Submit to IndexNow for instant search engine indexing
@@ -417,10 +419,10 @@ export function usePublishPage() {
           await supabase.functions.invoke('submit-indexnow', {
             body: { slug: page.slug }
           });
-          console.log('URLs submitted to IndexNow after page publish');
+          console.log('[usePublishPage] URLs submitted to IndexNow');
         }
       } catch (error) {
-        console.error('Failed to submit to IndexNow:', error);
+        console.error('[usePublishPage] Failed to submit to IndexNow:', error);
       }
     },
   });

@@ -1,3 +1,6 @@
+# Serve sitemap from storage
+/sitemap.xml https://hetemmltaoirimmoxzku.supabase.co/storage/v1/object/public/blog-images/sitemap.xml 200
+
 # Prerender for bots - proxy through edge function
 /*    /.netlify/functions/prerender?path=:splat  200  User-Agent:*bot* User-Agent:*facebook* User-Agent:*twitter* User-Agent:*linkedin* User-Agent:*whatsapp* User-Agent:*telegram* User-Agent:*slack* User-Agent:*discord*
 
