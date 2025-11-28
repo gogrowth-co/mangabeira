@@ -66,7 +66,7 @@ const App = () => {
               <Route path="/es" element={<IndexES />} />
               
               {/* Web3 Growth Audit */}
-              <Route path="/web3-growth-audit" element={<Web3GrowthAudit />} />
+              <Route path="/services/web3-growth-audit" element={<Web3GrowthAudit />} />
               
               {/* RSS feeds */}
               <Route path="/rss/:lang.xml" element={<RssFeed />} />

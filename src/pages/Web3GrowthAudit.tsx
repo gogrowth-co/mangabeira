@@ -21,12 +21,12 @@ const Web3GrowthAudit = () => {
           name="description" 
           content="AI + Human Web3 Growth Audit — Find your top growth leaks in 72 hours. On-chain, Reddit, and funnel insights delivered via Notion + Loom." 
         />
-        <link rel="canonical" href="https://mangabeira.net/web3-growth-audit" />
+        <link rel="canonical" href="https://mangabeira.net/services/web3-growth-audit" />
         
         {/* Open Graph */}
         <meta property="og:title" content="Web3 Growth Audit | Find Your Growth Leaks in 72 Hours" />
         <meta property="og:description" content="AI + Human Web3 Growth Audit — Find your top growth leaks in 72 hours. On-chain, Reddit, and funnel insights delivered via Notion + Loom." />
-        <meta property="og:url" content="https://mangabeira.net/web3-growth-audit" />
+        <meta property="og:url" content="https://mangabeira.net/services/web3-growth-audit" />
         <meta property="og:type" content="website" />
         
         {/* Twitter Card */}
