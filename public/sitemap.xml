@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- Homepage -->
+  <url>
+    <loc>https://mangabeira.net/</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es" />
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es" />
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es" />
+  </url>
+
+  <!-- Publications Hub -->
+  <url>
+    <loc>https://mangabeira.net/publications</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/publicacoes" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/publicaciones" />
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/publicacoes</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/publicacoes" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/publicaciones" />
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/publicaciones</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/publicacoes" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/publicaciones" />
+  </url>
+
+  <!-- About -->
+  <url>
+    <loc>https://mangabeira.net/about</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/about" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/sobre" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/acerca-de" />
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/sobre</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/about" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/sobre" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/acerca-de" />
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/acerca-de</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/about" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/sobre" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/acerca-de" />
+  </url>
+
+  <!-- Privacy Policy -->
+  <url>
+    <loc>https://mangabeira.net/privacy-policy</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/privacy-policy" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/politica-de-privacidade" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/politica-de-privacidad" />
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/politica-de-privacidade</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/privacy-policy" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/politica-de-privacidade" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/politica-de-privacidad" />
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/politica-de-privacidad</loc>
+    <lastmod>2025-01-28</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/privacy-policy" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/politica-de-privacidade" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/politica-de-privacidad" />
+  </url>
+
+  <!-- Publication: web3-for-athletes -->
+  <url>
+    <loc>https://mangabeira.net/web3-for-athletes</loc>
+    <lastmod>2025-01-28T00:10:22.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/web3-for-athletes" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/web3-para-atletas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/web3-para-atletas" />
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/web3-para-atletas</loc>
+    <lastmod>2025-01-28T00:10:22.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/web3-for-athletes" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/web3-para-atletas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/web3-para-atletas" />
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/web3-para-atletas</loc>
+    <lastmod>2025-01-28T00:10:22.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/web3-for-athletes" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/web3-para-atletas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/web3-para-atletas" />
+  </url>
+
+  <!-- Publication: vibe-coding-lovable -->
+  <url>
+    <loc>https://mangabeira.net/vibe-coding-lovable</loc>
+    <lastmod>2025-01-28T00:00:07.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/vibe-coding-lovable" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/vibe-coding-lovable" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/vibe-coding-lovable" />
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/vibe-coding-lovable</loc>
+    <lastmod>2025-01-28T00:00:07.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/vibe-coding-lovable" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/vibe-coding-lovable" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/vibe-coding-lovable" />
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/vibe-coding-lovable</loc>
+    <lastmod>2025-01-28T00:00:07.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/vibe-coding-lovable" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/vibe-coding-lovable" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/vibe-coding-lovable" />
+  </url>
+
+  <!-- Publication: web2-vs-web3-marketing -->
+  <url>
+    <loc>https://mangabeira.net/web2-vs-web3-marketing</loc>
+    <lastmod>2025-01-27T23:59:17.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/web2-vs-web3-marketing" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/web2-vs-web3-marketing" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/web2-vs-web3-marketing" />
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/web2-vs-web3-marketing</loc>
+    <lastmod>2025-01-27T23:59:17.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/web2-vs-web3-marketing" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/web2-vs-web3-marketing" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/web2-vs-web3-marketing" />
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/web2-vs-web3-marketing</loc>
+    <lastmod>2025-01-27T23:59:17.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/web2-vs-web3-marketing" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/web2-vs-web3-marketing" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/web2-vs-web3-marketing" />
+  </url>
+
+  <!-- Publication: seo-web3-ultimate-guide -->
+  <url>
+    <loc>https://mangabeira.net/seo-web3-ultimate-guide</loc>
+    <lastmod>2025-01-27T23:58:46.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/seo-web3-ultimate-guide" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/seo-web3-guia-definitivo" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/seo-web3-guia-definitiva" />
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/seo-web3-guia-definitivo</loc>
+    <lastmod>2025-01-27T23:58:46.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/seo-web3-ultimate-guide" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/seo-web3-guia-definitivo" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/seo-web3-guia-definitiva" />
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/seo-web3-guia-definitiva</loc>
+    <lastmod>2025-01-27T23:58:46.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/seo-web3-ultimate-guide" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/seo-web3-guia-definitivo" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/seo-web3-guia-definitiva" />
+  </url>
+
+  <!-- Publication: token-health-scanner -->
+  <url>
+    <loc>https://mangabeira.net/token-health-scanner</loc>
+    <lastmod>2025-01-27T23:57:30.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/token-health-scanner" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/token-health-scanner" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/token-health-scanner" />
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/token-health-scanner</loc>
+    <lastmod>2025-01-27T23:57:30.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/token-health-scanner" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/token-health-scanner" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/token-health-scanner" />
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/token-health-scanner</loc>
+    <lastmod>2025-01-27T23:57:30.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/token-health-scanner" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/token-health-scanner" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/token-health-scanner" />
+  </url>
+
+  <!-- Publication: web3-marketing-roast -->
+  <url>
+    <loc>https://mangabeira.net/web3-marketing-roast</loc>
+    <lastmod>2025-01-27T23:56:52.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/web3-marketing-roast" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/web3-marketing-roast" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/web3-marketing-roast" />
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/web3-marketing-roast</loc>
+    <lastmod>2025-01-27T23:56:52.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/web3-marketing-roast" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/web3-marketing-roast" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/web3-marketing-roast" />
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/web3-marketing-roast</loc>
+    <lastmod>2025-01-27T23:56:52.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/web3-marketing-roast" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/web3-marketing-roast" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/web3-marketing-roast" />
+  </url>
+</urlset>
