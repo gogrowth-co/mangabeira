@@ -316,8 +316,11 @@ export function useUpdatePage() {
       // Refresh sitemap cache if status is published
       if (variables.status === 'published') {
         try {
-          await supabase.functions.invoke('generate-sitemap');
-          console.log('Sitemap cache refreshed after page update');
+          const response = await fetch(
+            `https://hetemmltaoirimmoxzku.supabase.co/functions/v1/generate-sitemap?refresh=true`,
+            { method: 'GET' }
+          );
+          console.log('Sitemap regenerated:', response.status);
         } catch (error) {
           console.error('Failed to refresh sitemap cache:', error);
         }
@@ -393,8 +396,11 @@ export function usePublishPage() {
       
       // Refresh sitemap cache after publishing
       try {
-        await supabase.functions.invoke('generate-sitemap');
-        console.log('Sitemap cache refreshed after page publish');
+        const response = await fetch(
+          `https://hetemmltaoirimmoxzku.supabase.co/functions/v1/generate-sitemap?refresh=true`,
+          { method: 'GET' }
+        );
+        console.log('Sitemap regenerated:', response.status);
       } catch (error) {
         console.error('Failed to refresh sitemap cache:', error);
       }

@@ -5,10 +5,6 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// In-memory cache
-let sitemapCache: { xml: string; timestamp: number } | null = null;
-const CACHE_TTL = 300000; // 5 minutes in milliseconds
-
 interface Page {
   slug: string;
   updated_at: string;
@@ -24,22 +20,6 @@ Deno.serve(async (req) => {
   }
 
   try {
-    // Check cache first (allow bypass with ?refresh=true)
-    const url = new URL(req.url);
-    const forceRefresh = url.searchParams.get('refresh') === 'true';
-    
-    const now = Date.now();
-    if (!forceRefresh && sitemapCache && (now - sitemapCache.timestamp) < CACHE_TTL) {
-      console.log('Returning cached sitemap');
-      return new Response(sitemapCache.xml, {
-        headers: {
-          ...corsHeaders,
-          'Content-Type': 'application/xml; charset=utf-8',
-          'Cache-Control': 'public, max-age=3600, s-maxage=3600, must-revalidate',
-          'X-Content-Type-Options': 'nosniff',
-        },
-      });
-    }
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
@@ -56,6 +36,11 @@ Deno.serve(async (req) => {
       .eq('is_system_page', false);
 
     if (error) throw error;
+
+    console.log(`[generate-sitemap] Query returned ${pages?.length || 0} published pages`);
+    if (pages) {
+      console.log(`[generate-sitemap] Page slugs: ${pages.map(p => p.slug).join(', ')}`);
+    }
 
     const baseUrl = 'https://mangabeira.net';
     const today = new Date().toISOString().split('T')[0];
@@ -170,20 +155,13 @@ ${alternateLinks}
     console.log(`Generated sitemap successfully:
     - System pages: ${totalSystemPages}
     - Dynamic pages: ${totalDynamicPages}
-    - Total URLs: ~${totalUrls}
-    - Cache TTL: ${CACHE_TTL / 1000 / 60} minutes`);
-
-    // Update cache
-    sitemapCache = {
-      xml,
-      timestamp: Date.now(),
-    };
+    - Total URLs: ~${totalUrls}`);
 
     return new Response(xml, {
       headers: {
         ...corsHeaders,
         'Content-Type': 'application/xml; charset=utf-8',
-        'Cache-Control': 'public, max-age=3600, s-maxage=3600, must-revalidate',
+        'Cache-Control': 'public, max-age=300, s-maxage=300, must-revalidate',
         'X-Content-Type-Options': 'nosniff',
       },
     });
