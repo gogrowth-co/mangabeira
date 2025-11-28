@@ -18,12 +18,11 @@ const ProofSection = () => {
   ];
 
   return (
-    <section id="proof" className="bg-[#F5F7FA] py-20 px-6">
+    <section id="proof" className="bg-gray-light py-20 px-6">
       <div className="max-w-6xl mx-auto">
         {/* Section header */}
         <h2 
-          className="text-3xl font-bold text-[#0A2540] text-center"
-          style={{ fontFamily: "Montserrat, sans-serif" }}
+          className="font-hero text-3xl font-bold text-navy text-center"
         >
           Sample Findings From Real Web3 Audits
         </h2>
@@ -33,13 +32,13 @@ const ProofSection = () => {
           {proofCards.map((card, index) => (
             <div
               key={index}
-              className="bg-white rounded-xl p-6 border-l-4 border-[#1FB6FF] shadow-[0_4px_20px_rgba(10,37,64,0.08)] hover:shadow-[0_8px_30px_rgba(10,37,64,0.12)] hover:-translate-y-1 transition-all duration-300"
+              className="bg-white rounded-xl p-6 border-l-4 border-aqua shadow-[0_4px_20px_rgba(10,37,64,0.08)] hover:shadow-[0_8px_30px_rgba(10,37,64,0.12)] hover:-translate-y-1 transition-all duration-300"
             >
-              <h3 className="font-semibold text-[#0A2540] mb-1" style={{ fontFamily: "Montserrat, sans-serif" }}>
+              <h3 className="font-hero font-semibold text-navy mb-1">
                 {card.title}
               </h3>
-              <p className="text-sm text-gray-500 mb-3">{card.context}</p>
-              <p className="text-gray-700 text-sm leading-relaxed" style={{ fontFamily: "Inter, sans-serif" }}>
+              <p className="text-sm text-muted-foreground mb-3">{card.context}</p>
+              <p className="font-body text-gray-700 text-sm leading-relaxed">
                 {card.result}
               </p>
             </div>
@@ -48,8 +47,7 @@ const ProofSection = () => {
 
         {/* Caption */}
         <p 
-          className="text-center text-gray-500 text-sm mt-8 italic"
-          style={{ fontFamily: "Playfair Display, serif" }}
+          className="font-accent text-center text-muted-foreground text-sm mt-8 italic"
         >
           Each insight came from the same hybrid process you're about to get.
         </p>

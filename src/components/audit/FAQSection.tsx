@@ -34,8 +34,7 @@ const FAQSection = () => {
       <div className="max-w-3xl mx-auto">
         {/* Section header */}
         <h2 
-          className="text-3xl font-bold text-[#0A2540] text-center mb-12"
-          style={{ fontFamily: "Montserrat, sans-serif" }}
+          className="font-hero text-3xl font-bold text-navy text-center mb-12"
         >
           Frequently Asked Questions
         </h2>
@@ -45,14 +44,12 @@ const FAQSection = () => {
           {faqs.map((faq, index) => (
             <AccordionItem key={index} value={`item-${index}`}>
               <AccordionTrigger 
-                className="font-semibold text-[#0A2540] text-left hover:text-[#1FB6FF] transition-colors"
-                style={{ fontFamily: "Montserrat, sans-serif" }}
+                className="font-hero font-semibold text-navy text-left hover:text-aqua transition-colors"
               >
                 {faq.question}
               </AccordionTrigger>
               <AccordionContent 
-                className="text-gray-600 leading-relaxed"
-                style={{ fontFamily: "Inter, sans-serif" }}
+                className="font-body text-muted-foreground leading-relaxed"
               >
                 {faq.answer}
               </AccordionContent>
