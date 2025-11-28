@@ -214,12 +214,16 @@ export function getLocaleFromPath(pathname: string): Locale {
 }
 
 export async function getPathForLocale(locale: Locale, currentPath: string = '/'): Promise<string> {
+  // Strip query string and hash from the path
+  const [pathOnly] = currentPath.split('?');
+  const [cleanPathname] = pathOnly.split('#');
+  
   // Extract slug from path
-  const pathParts = currentPath.split('/').filter(Boolean);
+  const pathParts = cleanPathname.split('/').filter(Boolean);
   const currentSlug = pathParts[pathParts.length - 1]; // Last part is the slug
   
   // Remove existing locale prefix and handle special paths
-  let cleanPath = currentPath
+  let cleanPath = cleanPathname
     .replace(/^\/(br|es)/, '') // Remove locale prefix
     .replace(/^\/(artigos|articulos)/, '/publications') // Normalize publications path
     .replace(/^\/(servicos|servicios)/, '/services') // Normalize services path
@@ -264,10 +268,14 @@ export async function getPathForLocale(locale: Locale, currentPath: string = '/'
 
 // Synchronous version for backwards compatibility (uses cached data)
 export function getPathForLocaleSync(locale: Locale, currentPath: string = '/'): string {
-  const pathParts = currentPath.split('/').filter(Boolean);
+  // Strip query string and hash from the path
+  const [pathOnly] = currentPath.split('?');
+  const [cleanPathname] = pathOnly.split('#');
+  
+  const pathParts = cleanPathname.split('/').filter(Boolean);
   const currentSlug = pathParts[pathParts.length - 1];
   
-  let cleanPath = currentPath
+  let cleanPath = cleanPathname
     .replace(/^\/(br|es)/, '')
     .replace(/^\/(artigos|articulos)/, '/publications')
     .replace(/^\/(servicos|servicios)/, '/services')
