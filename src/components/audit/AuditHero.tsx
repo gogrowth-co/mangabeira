@@ -70,7 +70,7 @@ const AuditHero = () => {
             <p className="text-white/50 text-sm font-body mb-6 uppercase tracking-wide">
               Trusted by operators across
             </p>
-            <div className="flex flex-wrap justify-center items-center gap-8 opacity-60 grayscale">
+            <div className="flex flex-wrap justify-center items-center gap-8 opacity-90">
               <img src={binanceLogo} alt="Binance" className="h-6" />
               <img src={eigenlayerLogo} alt="EigenLayer" className="h-8" />
               <span className="text-white/70 font-hero text-sm">L1 Ecosystems</span>
