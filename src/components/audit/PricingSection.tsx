@@ -15,6 +15,7 @@ const PricingSection = () => {
       ],
       cta: "Start Starter Audit",
       highlighted: false,
+      paymentUrl: "https://buy.stripe.com/7sY7sK6nubvDcDC26v2ZO02",
     },
     {
       name: "Pro",
@@ -30,6 +31,7 @@ const PricingSection = () => {
       ],
       cta: "Start Pro Audit",
       highlighted: true,
+      paymentUrl: "https://buy.stripe.com/4gM8wO13abvDcDCcL92ZO03",
     },
     {
       name: "Elite",
@@ -45,6 +47,7 @@ const PricingSection = () => {
       ],
       cta: "Start Elite Audit",
       highlighted: false,
+      paymentUrl: "https://buy.stripe.com/00w6oG8vCbvD0UUcL92ZO04",
     },
   ];
 
@@ -108,7 +111,7 @@ const PricingSection = () => {
                     ? 'bg-gradient-cta hover:shadow-button-hover text-white shadow-md'
                     : 'border-2 border-primary text-primary hover:bg-primary hover:text-white'
                 }`}
-                onClick={() => window.open('https://calendly.com/gabriel-mangabeira/15min', '_blank')}
+                onClick={() => window.open(tier.paymentUrl, '_blank')}
               >
                 {tier.cta}
               </button>
