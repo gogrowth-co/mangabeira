@@ -112,14 +112,6 @@ const PricingSection = () => {
             </div>
           ))}
         </div>
-        
-        {/* Guarantee Box */}
-        <div className="max-w-2xl mx-auto mt-12 p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-center">
-          <span className="text-3xl mb-3 block">🛡️</span>
-          <p className="text-white font-body font-medium">
-            If I don't find at least 3 meaningful insights, I refund the entire fee.
-          </p>
-        </div>
       </div>
     </section>
   );
