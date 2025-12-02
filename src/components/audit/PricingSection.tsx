@@ -6,6 +6,7 @@ const PricingSection = () => {
       name: "Starter",
       price: "$197",
       description: "For early teams needing fast clarity.",
+      badge: undefined,
       features: [
         "6–8 key insights",
         "Light audit + actions",
@@ -19,6 +20,7 @@ const PricingSection = () => {
       name: "Pro",
       price: "$497",
       description: "For teams who want clarity and a plan.",
+      badge: "Best for 90% of teams",
       features: [
         "Full audit (all channels)",
         "12–20 high-impact insights",
@@ -33,6 +35,7 @@ const PricingSection = () => {
       name: "Elite",
       price: "$997",
       description: "For funded teams or major launches.",
+      badge: undefined,
       features: [
         "Everything in Pro",
         "Deeper cohort & sentiment analysis",
@@ -65,10 +68,10 @@ const PricingSection = () => {
                 tier.highlighted ? 'md:-translate-y-4 border-t-4 border-[hsl(var(--gold-olympic))]' : ''
               }`}
             >
-              {tier.highlighted && (
+              {tier.highlighted && tier.badge && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <span className="bg-[hsl(var(--gold-olympic))] text-primary font-hero font-bold text-sm px-4 py-1 rounded-full">
-                    Most Popular
+                  <span className="bg-[#FFB800] text-[#0A2540] font-hero font-bold text-sm px-4 py-1 rounded-full">
+                    {tier.badge}
                   </span>
                 </div>
               )}
@@ -111,6 +114,13 @@ const PricingSection = () => {
               </button>
             </div>
           ))}
+        </div>
+        
+        {/* Urgency Line */}
+        <div className="max-w-3xl mx-auto mt-10 text-center">
+          <p className="text-white/80 text-sm font-body">
+            I take 5 audit clients per month for quality. 2 slots available this week.
+          </p>
         </div>
       </div>
     </section>

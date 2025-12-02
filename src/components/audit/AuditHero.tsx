@@ -64,6 +64,11 @@ const AuditHero = () => {
           >
             Diagnose My Growth Leaks →
           </button>
+          
+          {/* Guarantee Text */}
+          <p className="text-white/80 text-sm font-body mt-4">
+            If I don't find at least 3 meaningful insights, you don't pay.
+          </p>
 
           {/* Trust Logos Bar (bottom of hero) */}
           <div className="mt-16 pt-8 border-t border-white/10">

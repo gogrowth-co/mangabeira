@@ -13,7 +13,7 @@ const FAQSection = () => {
       a: "Me — a former Olympian and Web3 growth operator with 10+ years experience."
     },
     {
-      q: "What happens after I pay?",
+      q: "What happens after I buy?",
       a: "You immediately get an intake form + your delivery date."
     },
     {

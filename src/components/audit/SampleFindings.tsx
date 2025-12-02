@@ -36,6 +36,10 @@ const SampleFindings = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {findings.map((finding, i) => (
             <div key={i} className="bg-card rounded-xl p-6 border-l-4 border-[hsl(var(--aqua-bright))] shadow-lg">
+              {/* Tiny Label */}
+              <div className="text-xs text-[hsl(var(--aqua-bright))] font-hero font-semibold mb-2">
+                ✔ {i === 0 ? 'Reddit' : i === 1 ? 'Discord' : 'Token visibility'}
+              </div>
               <div className="flex items-center gap-2 mb-4">
                 <span className={`w-3 h-3 rounded-full ${finding.color}`}></span>
                 <span className="font-hero font-semibold text-primary">{finding.category}</span>
