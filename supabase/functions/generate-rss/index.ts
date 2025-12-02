@@ -150,7 +150,7 @@ Deno.serve(async (req) => {
       const { error: uploadError } = await supabase.storage
         .from('blog-images')
         .upload(fileName, xml, {
-          contentType: 'application/rss+xml; charset=utf-8',
+          contentType: 'text/xml',
           upsert: true,
         });
 

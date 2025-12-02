@@ -191,8 +191,8 @@ ${alternateLinks}
     // Save to storage bucket for serving
     const { error: uploadError } = await supabase.storage
       .from('blog-images')
-      .upload('sitemap.xml', new Blob([xml], { type: 'application/xml' }), {
-        contentType: 'application/xml',
+      .upload('sitemap.xml', new Blob([xml], { type: 'text/xml' }), {
+        contentType: 'text/xml',
         upsert: true,
       });
 
