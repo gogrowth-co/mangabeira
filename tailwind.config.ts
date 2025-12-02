@@ -55,23 +55,15 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Brand-specific colors
-        navy: {
-          DEFAULT: "hsl(var(--navy-deep))",
-          deep: "hsl(var(--navy-deep))",
-        },
-        aqua: {
-          DEFAULT: "hsl(var(--aqua-bright))",
-          bright: "hsl(var(--aqua-bright))",
-        },
-        gold: {
-          DEFAULT: "hsl(var(--hero-gold))",
-          olympic: "hsl(var(--hero-gold))",
-          hover: "hsl(var(--hero-gold-hover))",
-          orange: "hsl(var(--hero-orange))",
-        },
-        charcoal: "hsl(var(--charcoal))",
-        "gray-light": "hsl(var(--gray-light))",
+        // Audit page brand colors
+        navy: '#0A2540',
+        aqua: '#1FB6FF',
+        gold: '#FFB800',
+        charcoal: '#333333',
+        'light-gray': '#F5F7FA',
+        // Existing Brand-specific colors
+        "navy-deep": "hsl(var(--navy-deep))",
+        "aqua-bright": "hsl(var(--aqua-bright))",
         "white-pure": "hsl(var(--white-pure))",
         "white-soft": "hsl(var(--white-soft))",
         // Design system tokens
@@ -93,6 +85,10 @@ export default {
         hero: ["var(--font-hero)", "sans-serif"],
         body: ["var(--font-body)", "sans-serif"],
         accent: ["var(--font-accent)", "serif"],
+        // Audit page fonts
+        heading: ['Montserrat', 'sans-serif'],
+        'body-audit': ['Inter', 'sans-serif'],
+        'accent-audit': ['"Playfair Display"', 'serif'],
       },
       backgroundImage: {
         "gradient-hero": "var(--gradient-hero)",
@@ -102,6 +98,8 @@ export default {
       boxShadow: {
         "button": "var(--shadow-button)",
         "button-hover": "var(--shadow-button-hover)",
+        'card': '0 4px 20px rgba(10, 37, 64, 0.08)',
+        'card-hover': '0 8px 30px rgba(10, 37, 64, 0.12)',
       },
       textShadow: {
         "hero": "var(--text-shadow-hero)",
