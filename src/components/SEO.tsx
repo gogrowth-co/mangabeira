@@ -196,9 +196,9 @@ const SEO = ({ locale, path = '/' }: SEOProps) => {
       <link rel="alternate" hrefLang="x-default" href={alternateUrls.en} />
 
       {/* RSS Feeds */}
-      <link rel="alternate" type="application/rss+xml" title="Mangabeira.net RSS Feed (English)" href={`${baseUrl}/rss/en.xml`} hrefLang="en" />
-      <link rel="alternate" type="application/rss+xml" title="Mangabeira.net RSS Feed (Portuguese)" href={`${baseUrl}/rss/br.xml`} hrefLang="pt-BR" />
-      <link rel="alternate" type="application/rss+xml" title="Mangabeira.net RSS Feed (Spanish)" href={`${baseUrl}/rss/es.xml`} hrefLang="es" />
+      <link rel="alternate" type="application/rss+xml" title="Mangabeira.net RSS Feed (English)" href={`${baseUrl}/rss/rss-en.xml`} hrefLang="en" />
+      <link rel="alternate" type="application/rss+xml" title="Mangabeira.net RSS Feed (Portuguese)" href={`${baseUrl}/rss/rss-br.xml`} hrefLang="pt-BR" />
+      <link rel="alternate" type="application/rss+xml" title="Mangabeira.net RSS Feed (Spanish)" href={`${baseUrl}/rss/rss-es.xml`} hrefLang="es" />
 
       {/* Open Graph / Facebook */}
       <meta property="og:type" content="website" />
