@@ -22,6 +22,7 @@ import PublicationsES from "./pages/PublicationsES";
 import Auth from "./pages/Auth";
 import RssFeed from "./pages/RssFeed";
 import Web3GrowthAudit from "./pages/Web3GrowthAudit";
+import AuditPaymentSuccess from "./pages/AuditPaymentSuccess";
 import { useEffect } from "react";
 
 const queryClient = new QueryClient({
@@ -67,6 +68,7 @@ const App = () => {
               
               {/* Web3 Growth Audit */}
               <Route path="/services/web3-growth-audit" element={<Web3GrowthAudit />} />
+              <Route path="/services/web3-growth-audit/payment-success" element={<AuditPaymentSuccess />} />
               <Route path="/br/servicos/web3-auditoria-de-growth" element={<Web3GrowthAudit />} />
               <Route path="/es/servicios/web3-auditoria-de-growth" element={<Web3GrowthAudit />} />
               
