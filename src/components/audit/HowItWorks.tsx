@@ -137,7 +137,7 @@ const HowItWorks = () => {
         <div className="text-center mt-12">
           <button 
             className="bg-gradient-cta hover:shadow-button-hover text-white font-hero font-bold text-lg px-10 py-4 rounded-lg transition-all duration-200"
-            onClick={() => window.open('https://calendly.com/gabriel-mangabeira/15min', '_blank')}
+            onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
           >
             Get My Audit →
           </button>
