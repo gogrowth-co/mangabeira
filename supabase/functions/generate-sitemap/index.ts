@@ -189,12 +189,10 @@ ${alternateLinks}
     - Total URLs: ~${totalUrls}`);
 
     // Save to storage bucket for serving
-    // Note: Using text/plain because Supabase Storage doesn't support XML mime types
-    // The _headers file will serve it with the correct Content-Type
     const { error: uploadError } = await supabase.storage
       .from('blog-images')
-      .upload('sitemap.xml', new Blob([xml], { type: 'text/plain' }), {
-        contentType: 'text/plain',
+      .upload('sitemap.xml', new Blob([xml], { type: 'application/xml' }), {
+        contentType: 'application/xml',
         upsert: true,
       });
 
