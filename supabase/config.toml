@@ -4,7 +4,7 @@ project_id = "hetemmltaoirimmoxzku"
 verify_jwt = false
 
 [functions.translate-content]
-verify_jwt = false
+verify_jwt = true
 
 [functions.prerender]
 verify_jwt = false

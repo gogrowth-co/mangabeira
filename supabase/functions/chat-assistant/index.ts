@@ -5,6 +5,59 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Input validation constants
+const MAX_MESSAGE_LENGTH = 2000;
+const MAX_MESSAGES = 15;
+
+interface Message {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
+function validateMessages(messages: unknown): { valid: boolean; error?: string; sanitized?: Message[] } {
+  if (!Array.isArray(messages)) {
+    return { valid: false, error: 'Messages must be an array' };
+  }
+  
+  if (messages.length === 0) {
+    return { valid: false, error: 'Messages array cannot be empty' };
+  }
+  
+  if (messages.length > MAX_MESSAGES) {
+    return { valid: false, error: `Maximum ${MAX_MESSAGES} messages allowed` };
+  }
+  
+  const sanitized: Message[] = [];
+  
+  for (const msg of messages) {
+    if (typeof msg !== 'object' || msg === null) {
+      return { valid: false, error: 'Each message must be an object' };
+    }
+    
+    const { role, content } = msg as Record<string, unknown>;
+    
+    if (role !== 'user' && role !== 'assistant') {
+      return { valid: false, error: 'Message role must be "user" or "assistant"' };
+    }
+    
+    if (typeof content !== 'string') {
+      return { valid: false, error: 'Message content must be a string' };
+    }
+    
+    if (content.length === 0) {
+      return { valid: false, error: 'Message content cannot be empty' };
+    }
+    
+    if (content.length > MAX_MESSAGE_LENGTH) {
+      return { valid: false, error: `Message content exceeds ${MAX_MESSAGE_LENGTH} characters` };
+    }
+    
+    sanitized.push({ role, content: content.trim() });
+  }
+  
+  return { valid: true, sanitized };
+}
+
 const SYSTEM_PROMPT = `You are Gabriel Mangabeira's site assistant. Be concise, helpful, and professional.
 
 **About Gabriel:**
@@ -68,6 +121,7 @@ Deno.serve(async (req) => {
   );
 
   if (!isAllowedReferer && referer !== '') {
+    console.log('Blocked request from referer:', referer);
     return new Response(
       JSON.stringify({ error: 'Forbidden' }),
       { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -75,14 +129,25 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { messages } = await req.json();
+    const body = await req.json();
+    
+    // Validate input
+    const validation = validateMessages(body.messages);
+    if (!validation.valid) {
+      console.log('Validation failed:', validation.error);
+      return new Response(
+        JSON.stringify({ error: validation.error }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     
     if (!LOVABLE_API_KEY) {
       throw new Error('LOVABLE_API_KEY is not configured');
     }
 
-    console.log('Processing chat request with', messages.length, 'messages');
+    console.log('Processing chat request with', validation.sanitized!.length, 'messages');
 
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
@@ -94,7 +159,7 @@ Deno.serve(async (req) => {
         model: 'google/gemini-2.5-flash',
         messages: [
           { role: 'system', content: SYSTEM_PROMPT },
-          ...messages,
+          ...validation.sanitized!,
         ],
         temperature: 0.6,
         max_tokens: 450,
@@ -137,7 +202,7 @@ Deno.serve(async (req) => {
   } catch (error) {
     console.error('Chat error:', error);
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
+      JSON.stringify({ error: 'An error occurred processing your request' }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }

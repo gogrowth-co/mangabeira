@@ -324,14 +324,20 @@ export default function DynamicPage() {
             <article className="container mx-auto px-4 max-w-4xl">
               <div 
                 className="prose prose-lg dark:prose-invert max-w-none"
-                dangerouslySetInnerHTML={{ __html: bodyContent }}
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(bodyContent, {
+                  ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'strong', 'em', 'br', 'img', 'div', 'span', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'blockquote', 'code', 'pre', 'figure', 'figcaption', 'hr', 'sub', 'sup'],
+                  ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel', 'title', 'width', 'height', 'loading']
+                }) }}
               />
             </article>
           </main>
         ) : (
           <BlogTemplate
             title={translation.title}
-            content={<div dangerouslySetInnerHTML={{ __html: bodyContent }} />}
+            content={<div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(bodyContent, {
+              ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'strong', 'em', 'br', 'img', 'div', 'span', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'blockquote', 'code', 'pre', 'figure', 'figcaption', 'hr', 'sub', 'sup'],
+              ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel', 'title', 'width', 'height', 'loading']
+            }) }} />}
             category={page.category}
             publishedDate={page.created_at}
             metaDescription={translation.meta_description || ''}

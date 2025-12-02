@@ -1,10 +1,15 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
+
+// Input validation constants
+const MAX_CSV_SIZE = 500000; // 500KB max
+const ALLOWED_LANGUAGES = ['br', 'es'];
 
 serve(async (req) => {
   // Handle CORS preflight requests
@@ -12,30 +17,87 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
-  // Referer check to prevent external abuse
-  const referer = req.headers.get('referer') || '';
-  const allowedDomains = [
-    'mangabeira.net',
-    'lovableproject.com',
-    'localhost'
-  ];
-
-  const isAllowedReferer = allowedDomains.some(domain => 
-    referer.includes(domain)
-  );
-
-  if (!isAllowedReferer && referer !== '') {
+  // Verify JWT - this function requires authentication
+  const authHeader = req.headers.get('authorization');
+  if (!authHeader) {
     return new Response(
-      JSON.stringify({ error: 'Forbidden' }),
-      { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      JSON.stringify({ error: 'Missing authorization header' }),
+      { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+  }
+
+  // Verify the user is authenticated and is an admin
+  try {
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
+    
+    const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+      global: { headers: { Authorization: authHeader } }
+    });
+    
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    
+    if (userError || !user) {
+      console.log('Auth error:', userError?.message);
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Check if user has admin role
+    const { data: hasAdminRole, error: roleError } = await supabase
+      .rpc('has_role', { _user_id: user.id, _role: 'admin' });
+    
+    if (roleError || !hasAdminRole) {
+      console.log('Not admin:', user.id);
+      return new Response(
+        JSON.stringify({ error: 'Forbidden - Admin access required' }),
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    console.log('Admin user verified:', user.id);
+  } catch (authError) {
+    console.error('Auth verification error:', authError);
+    return new Response(
+      JSON.stringify({ error: 'Authentication failed' }),
+      { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }
 
   try {
     const { csvContent, targetLanguage } = await req.json();
     
-    if (!csvContent || !targetLanguage) {
-      throw new Error("csvContent and targetLanguage are required");
+    // Validate required fields
+    if (!csvContent || typeof csvContent !== 'string') {
+      return new Response(
+        JSON.stringify({ error: 'csvContent is required and must be a string' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    
+    if (!targetLanguage || typeof targetLanguage !== 'string') {
+      return new Response(
+        JSON.stringify({ error: 'targetLanguage is required and must be a string' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Validate CSV size
+    if (csvContent.length > MAX_CSV_SIZE) {
+      return new Response(
+        JSON.stringify({ error: `CSV content exceeds maximum size of ${MAX_CSV_SIZE} bytes` }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Validate target language
+    if (!ALLOWED_LANGUAGES.includes(targetLanguage)) {
+      return new Response(
+        JSON.stringify({ error: `Invalid target language. Allowed: ${ALLOWED_LANGUAGES.join(', ')}` }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
@@ -66,7 +128,7 @@ CRITICAL RULES:
 
 Return ONLY the translated CSV with no additional commentary or markdown formatting.`;
 
-    console.log(`Translating to ${targetLanguage}...`);
+    console.log(`Translating to ${targetLanguage}, content size: ${csvContent.length} bytes`);
 
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
@@ -80,7 +142,7 @@ Return ONLY the translated CSV with no additional commentary or markdown formatt
           { role: 'system', content: systemPrompt },
           { role: 'user', content: `Translate this CSV to ${languageNames[targetLanguage]}:\n\n${csvContent}` }
         ],
-        temperature: 0.3, // Lower temperature for more consistent translation
+        temperature: 0.3,
       }),
     });
 
@@ -120,7 +182,7 @@ Return ONLY the translated CSV with no additional commentary or markdown formatt
   } catch (error) {
     console.error('Translation error:', error);
     return new Response(JSON.stringify({ 
-      error: error instanceof Error ? error.message : "Translation failed" 
+      error: "Translation failed. Please try again." 
     }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
