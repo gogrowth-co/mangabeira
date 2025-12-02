@@ -15,7 +15,7 @@ const FinalCTA = () => {
           
           <Button 
             className="bg-gold hover:bg-[#E6A600] text-navy font-heading font-bold text-xl px-12 py-5 rounded-lg shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-200"
-            onClick={() => window.open('https://calendly.com/gabriel-mangabeira/15min', '_blank')}
+            onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
           >
             Start My Audit →
           </Button>

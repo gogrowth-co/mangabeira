@@ -60,7 +60,7 @@ const AuditHero = () => {
           {/* Primary CTA Button */}
           <button 
             className="bg-[#FFB800] hover:bg-[#E6A600] text-[#0A2540] font-hero font-bold text-lg px-10 py-4 rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
-            onClick={() => window.open('https://calendly.com/gabriel-mangabeira/15min', '_blank')}
+            onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
           >
             Diagnose My Growth Leaks →
           </button>
