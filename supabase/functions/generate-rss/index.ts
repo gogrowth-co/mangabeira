@@ -146,11 +146,13 @@ Deno.serve(async (req) => {
       console.log(`Generated RSS feed for ${language} with ${itemCount} items`);
 
       // Upload to storage
+      // Note: Using text/plain because Supabase Storage doesn't support XML mime types
+      // The _headers file will serve it with the correct Content-Type
       const fileName = `rss-${language}.xml`;
       const { error: uploadError } = await supabase.storage
         .from('blog-images')
         .upload(fileName, xml, {
-          contentType: 'text/xml',
+          contentType: 'text/plain',
           upsert: true,
         });
 
