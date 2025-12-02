@@ -1,3 +1,5 @@
+import gabrielProfile from "@/assets/gabriel-profile-blue.jpg";
+
 const WhyTrustSection = () => {
   const credentials = ["10+ years in growth across Web2 + Web3", "Operator experience with Binance, L1 ecosystems & major Web3 startups", "Combines qualitative + quantitative insights", "Designed for founders, growth leads & community teams", "Olympic-level discipline applied to analysis"];
   return <section className="py-20 lg:py-28 bg-muted">
@@ -21,8 +23,8 @@ const WhyTrustSection = () => {
               "You're not buying a static report. You're buying pattern recognition sharpened across thousands of Web3 data points."
             </p>
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-[hsl(var(--gold-olympic))] text-xl">
-                🏊
+              <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[hsl(var(--gold-olympic))]">
+                <img src={gabrielProfile} alt="Gabriel Mangabeira" className="w-full h-full object-cover" />
               </div>
               <div>
                 <p className="font-hero font-semibold text-primary">Gabriel Mangabeira</p>
