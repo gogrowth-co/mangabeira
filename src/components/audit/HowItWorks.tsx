@@ -141,6 +141,9 @@ const HowItWorks = () => {
           >
             Get My Audit →
           </button>
+          <p className="text-muted-foreground text-sm font-body mt-3">
+            Delivered in 72 hours.
+          </p>
         </div>
       </div>
     </section>

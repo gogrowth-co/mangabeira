@@ -26,6 +26,16 @@ const AuditSystemMap = () => {
             </p>
           </div>
         </div>
+        
+        {/* CTA Button */}
+        <div className="text-center mt-12">
+          <button 
+            className="bg-gradient-cta hover:shadow-button-hover text-white font-hero font-bold text-lg px-10 py-4 rounded-lg transition-all duration-200"
+            onClick={() => window.open('https://calendly.com/gabriel-mangabeira/15min', '_blank')}
+          >
+            Start Your Audit →
+          </button>
+        </div>
       </div>
     </section>
   );
