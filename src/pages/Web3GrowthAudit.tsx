@@ -13,7 +13,6 @@ import GuaranteeSection from "@/components/audit/GuaranteeSection";
 import FounderReactions from "@/components/audit/FounderReactions";
 import FAQSection from "@/components/audit/FAQSection";
 import FinalCTA from "@/components/audit/FinalCTA";
-import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 
 const Web3GrowthAudit = () => {
@@ -43,7 +42,7 @@ const Web3GrowthAudit = () => {
         <link rel="canonical" href="https://mangabeira.net/services/web3-growth-audit" />
       </Helmet>
 
-      <Header />
+      <Header locale="en" />
       
       <main>
         <AuditHero />
@@ -62,16 +61,16 @@ const Web3GrowthAudit = () => {
 
       {/* Sticky Mobile CTA */}
       <div 
-        className={`fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 md:hidden z-50 transition-transform duration-300 ${
+        className={`fixed bottom-0 left-0 right-0 bg-white border-t border-border p-4 md:hidden z-50 transition-transform duration-300 ${
           showStickyMobile ? 'translate-y-0' : 'translate-y-full'
         }`}
       >
-        <Button 
-          className="w-full bg-gold hover:bg-[#E6A600] text-navy font-heading font-bold py-3 rounded-lg"
+        <button 
+          className="w-full bg-gradient-cta hover:shadow-button-hover text-white font-hero font-bold py-3 rounded-lg transition-all duration-200"
           onClick={() => window.scrollTo({ top: document.getElementById('pricing')?.offsetTop || 0, behavior: 'smooth' })}
         >
           Diagnose My Growth Leaks →
-        </Button>
+        </button>
       </div>
 
       <Footer />

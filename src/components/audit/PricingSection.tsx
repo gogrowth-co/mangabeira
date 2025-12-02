@@ -1,133 +1,123 @@
-import { Button } from "@/components/ui/button";
-import { Check, Shield } from "lucide-react";
-import { ta } from "@/lib/auditTranslations";
+import { Check } from "lucide-react";
 
-type Locale = 'en' | 'br' | 'es';
-
-interface PricingSectionProps {
-  locale: Locale;
-}
-
-const PricingSection = ({ locale }: PricingSectionProps) => {
+const PricingSection = () => {
   const tiers = [
     {
-      name: ta('audit.pricing.tier1.name', locale),
-      price: ta('audit.pricing.tier1.price', locale),
-      idealFor: ta('audit.pricing.tier1.ideal', locale),
+      name: "Starter",
+      price: "$197",
+      description: "For early teams needing fast clarity.",
       features: [
-        ta('audit.pricing.tier1.feature1', locale),
-        ta('audit.pricing.tier1.feature2', locale)
+        "6–8 key insights",
+        "Light audit + actions",
+        "Delivered in 72 hours",
+        "Notion report"
       ],
-      cta: ta('audit.pricing.tier1.cta', locale),
-      featured: false,
-      buttonClass: "border-2 border-navy text-navy bg-white hover:bg-navy hover:text-white"
+      cta: "Start Starter Audit",
+      highlighted: false,
     },
     {
-      name: ta('audit.pricing.tier2.name', locale),
-      price: ta('audit.pricing.tier2.price', locale),
-      badge: ta('audit.pricing.tier2.badge', locale),
-      idealFor: ta('audit.pricing.tier2.ideal', locale),
+      name: "Pro",
+      price: "$497",
+      description: "For teams who want clarity and a plan.",
       features: [
-        ta('audit.pricing.tier2.feature1', locale),
-        ta('audit.pricing.tier2.feature2', locale),
-        ta('audit.pricing.tier2.feature3', locale),
-        ta('audit.pricing.tier2.feature4', locale)
+        "Full audit (all channels)",
+        "12–20 high-impact insights",
+        "90-day roadmap",
+        "Loom walkthrough",
+        "Priority delivery"
       ],
-      cta: ta('audit.pricing.tier2.cta', locale),
-      featured: true,
-      buttonClass: "bg-gold text-navy hover:scale-105 shadow-button hover:shadow-button-hover"
+      cta: "Start Pro Audit",
+      highlighted: true,
     },
     {
-      name: ta('audit.pricing.tier3.name', locale),
-      price: ta('audit.pricing.tier3.price', locale),
-      idealFor: ta('audit.pricing.tier3.ideal', locale),
+      name: "Elite",
+      price: "$997",
+      description: "For funded teams or major launches.",
       features: [
-        ta('audit.pricing.tier3.feature1', locale),
-        ta('audit.pricing.tier3.feature2', locale),
-        ta('audit.pricing.tier3.feature3', locale)
+        "Everything in Pro",
+        "Deeper cohort & sentiment analysis",
+        "Token + narrative + liquidity loop audit",
+        "Launch/campaign prep insights",
+        "Advanced cross-platform funnel map"
       ],
-      cta: ta('audit.pricing.tier3.cta', locale),
-      featured: false,
-      buttonClass: "border-2 border-navy text-navy bg-white hover:bg-navy hover:text-white"
-    }
+      cta: "Start Elite Audit",
+      highlighted: false,
+    },
   ];
 
   return (
-    <section id="pricing" className="bg-gray-light py-20 px-6">
-      <div className="max-w-6xl mx-auto">
-        {/* Section header */}
-        <div className="text-center mb-12">
-          <h2 
-            className="font-hero text-3xl font-bold text-navy mb-2"
-          >
-            {ta('audit.pricing.title', locale)}
+    <section id="pricing" className="py-20 lg:py-28 bg-gradient-to-br from-[hsl(var(--navy-deep))] to-[#0D3251]">
+      <div className="container mx-auto px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="font-hero font-bold text-3xl md:text-4xl text-white mb-4">
+            Pricing
           </h2>
-          <p className="font-body text-muted-foreground">
-            {ta('audit.pricing.subtitle', locale)}
+          <p className="font-body text-lg text-white/70">
+            Choose How Deep You Want to Go
           </p>
         </div>
-
-        {/* Pricing cards */}
-        <div className="grid md:grid-cols-3 gap-6 items-stretch">
-          {tiers.map((tier, index) => (
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          {tiers.map((tier, i) => (
             <div
-              key={index}
-              className={`bg-white rounded-xl p-8 shadow-lg transition-all duration-300 flex flex-col ${
-                tier.featured ? "scale-105 border-2 border-gold shadow-xl" : ""
+              key={i}
+              className={`bg-white rounded-xl p-8 shadow-lg transform transition-all duration-300 flex flex-col ${
+                tier.highlighted ? 'md:-translate-y-4 border-t-4 border-[hsl(var(--gold-olympic))]' : ''
               }`}
             >
-              {/* Badge if featured */}
-              {tier.badge && (
-                <div className="bg-gold text-navy text-xs uppercase font-semibold px-3 py-1 rounded-full inline-block w-fit mb-4">
-                  {tier.badge}
+              {tier.highlighted && (
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                  <span className="bg-[hsl(var(--gold-olympic))] text-primary font-hero font-bold text-sm px-4 py-1 rounded-full">
+                    Most Popular
+                  </span>
                 </div>
               )}
-
-              {/* Tier name */}
-              <h3 
-                className="font-hero text-2xl font-bold text-navy mb-2"
-              >
-                {tier.name}
-              </h3>
-
-              {/* Price */}
-              <div className="text-4xl font-bold text-navy mb-4">
-                {tier.price}
+              
+              <div className="mb-6 pt-4">
+                <span className={`inline-block px-3 py-1 rounded-full text-sm font-hero font-semibold mb-4 ${
+                  tier.highlighted 
+                    ? 'bg-[hsl(var(--aqua-bright))]/10 text-[hsl(var(--aqua-bright))]' 
+                    : 'bg-muted text-muted-foreground'
+                }`}>
+                  {tier.name}
+                </span>
+                <div className="flex items-baseline gap-1">
+                  <span className="font-hero font-bold text-4xl text-primary">{tier.price}</span>
+                </div>
               </div>
-
-              {/* Ideal for */}
-              <p className="font-accent text-sm text-muted-foreground mb-6 italic">
-                Ideal for: {tier.idealFor}
+              
+              <p className="font-body text-muted-foreground mb-6">
+                {tier.description}
               </p>
-
-              {/* Features */}
+              
               <ul className="space-y-3 mb-8 flex-grow">
-                {tier.features.map((feature, featureIndex) => (
-                  <li key={featureIndex} className="flex items-start text-sm text-gray-700">
-                    <Check className="h-5 w-5 text-aqua mr-2 flex-shrink-0 mt-0.5" />
-                    <span className="font-body">{feature}</span>
+                {tier.features.map((feature, j) => (
+                  <li key={j} className="flex items-center gap-2 font-body text-foreground">
+                    <Check className={`h-5 w-5 flex-shrink-0 ${tier.highlighted ? 'text-[hsl(var(--gold-olympic))]' : 'text-[hsl(var(--aqua-bright))]'}`} />
+                    {feature}
                   </li>
                 ))}
               </ul>
-
-              {/* CTA */}
-              <Button
-                className={`w-full rounded-lg font-semibold transition-all duration-300 ${tier.buttonClass}`}
+              
+              <button 
+                className={`w-full py-3 rounded-lg font-hero font-bold transition-all duration-200 ${
+                  tier.highlighted
+                    ? 'bg-gradient-cta hover:shadow-button-hover text-white shadow-md'
+                    : 'border-2 border-primary text-primary hover:bg-primary hover:text-white'
+                }`}
                 onClick={() => window.open('https://calendly.com/gabriel-mangabeira/15min', '_blank')}
               >
                 {tier.cta}
-              </Button>
+              </button>
             </div>
           ))}
         </div>
-
-        {/* Guarantee box */}
-        <div className="bg-white p-6 rounded-xl border border-border max-w-xl mx-auto mt-12 flex items-start gap-4">
-          <Shield className="h-6 w-6 text-aqua flex-shrink-0 mt-1" />
-          <p 
-            className="font-accent text-gray-700 italic leading-relaxed"
-          >
-            {ta('audit.pricing.guarantee', locale)}
+        
+        {/* Guarantee Box */}
+        <div className="max-w-2xl mx-auto mt-12 p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-center">
+          <span className="text-3xl mb-3 block">🛡️</span>
+          <p className="text-white font-body font-medium">
+            If I don't find at least 3 meaningful insights, I refund the entire fee.
           </p>
         </div>
       </div>
