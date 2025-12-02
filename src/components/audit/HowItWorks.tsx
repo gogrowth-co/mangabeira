@@ -1,71 +1,12 @@
-import { Button } from "@/components/ui/button";
-
 const HowItWorks = () => {
-  const steps = [
-    {
-      day: "Day 1",
-      dayNum: "1",
-      badgeColor: "bg-aqua/10 text-aqua",
-      badgeBg: "bg-aqua",
-      title: "Deep Data Scan",
-      description: "I analyze every relevant channel:",
-      items: [
-        "Reddit sentiment & discussion clusters",
-        "Discord behaviors & engagement loops",
-        "Website & dApp funnel paths",
-        "On-chain activity & wallet cohorts",
-        "Social footprint, SEO, PR narratives"
-      ],
-      channels: ["Reddit", "Discord", "Explorer", "GA", "X"],
-      bulletColor: "text-aqua",
-      arrow: "text-aqua"
-    },
-    {
-      day: "Day 2",
-      dayNum: "2",
-      badgeColor: "bg-gold/10 text-gold",
-      badgeBg: "bg-gold text-navy",
-      title: "Insights That Actually Matter",
-      description: "You receive a structured breakdown of:",
-      items: [
-        "What's driving or blocking growth",
-        "Where users fall off",
-        "What levers work",
-        "What patterns are hidden beneath the surface"
-      ],
-      channels: [],
-      bulletColor: "text-gold",
-      arrow: "text-gold"
-    },
-    {
-      day: "Day 3",
-      dayNum: "3",
-      badgeColor: "bg-navy text-white",
-      badgeBg: "bg-aqua text-white",
-      title: "Your Action Roadmap",
-      description: "A clear, prioritized plan:",
-      items: [
-        "What to fix",
-        "Why it matters",
-        "How to fix it",
-        "What to do first",
-        "What NOT to waste time on"
-      ],
-      channels: [],
-      bulletColor: "text-navy",
-      arrow: "",
-      border: "border-2 border-aqua/20"
-    }
-  ];
-
   return (
-    <section className="py-20 lg:py-28 bg-light-gray">
+    <section className="py-20 lg:py-28 bg-muted">
       <div className="container mx-auto px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="font-heading font-bold text-3xl md:text-4xl text-navy mb-4">
+          <h2 className="font-hero font-bold text-3xl md:text-4xl text-primary mb-4">
             How It Works
           </h2>
-          <p className="font-body-audit text-lg text-charcoal/70">
+          <p className="font-body text-lg text-muted-foreground">
             Clear. Visual. 72 hours.
           </p>
         </div>
@@ -73,82 +14,133 @@ const HowItWorks = () => {
         {/* 3 Steps */}
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {steps.map((step, idx) => (
-              <div key={idx} className="relative">
-                <div className={`bg-white rounded-xl p-8 shadow-card h-full hover:shadow-card-hover transition-shadow ${step.border || ''}`}>
-                  {/* Day Badge */}
-                  <div className={`inline-flex items-center gap-2 ${step.badgeColor} px-4 py-2 rounded-full font-heading font-semibold text-sm mb-6`}>
-                    <span className={`w-6 h-6 ${step.badgeBg} rounded-full flex items-center justify-center text-xs font-bold`}>{step.dayNum}</span>
-                    {step.day}
-                  </div>
-                  
-                  <h3 className="font-heading font-bold text-xl text-navy mb-4">
-                    {step.title}
-                  </h3>
-                  
-                  <p className="font-body-audit text-charcoal/80 mb-6">
-                    {step.description}
-                  </p>
-                  
-                  <ul className="space-y-3">
-                    {step.items.map((item, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm font-body-audit text-charcoal/70">
-                        <span className={`${step.bulletColor} mt-1`}>•</span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                  
-                  {/* Channel Icons or Priority Tags */}
-                  {step.channels.length > 0 ? (
-                    <div className="flex gap-3 mt-6 pt-6 border-t border-gray-100">
-                      {step.channels.map((ch, i) => (
-                        <span key={i} className="w-8 h-8 bg-light-gray rounded-lg flex items-center justify-center text-xs text-charcoal/50">
-                          {ch[0]}
-                        </span>
-                      ))}
-                    </div>
-                  ) : idx === 2 ? (
-                    <div className="flex flex-wrap gap-2 mt-6 pt-6 border-t border-gray-100">
-                      {["Immediate", "Week 1", "30 Days", "90 Days"].map((tag, i) => (
-                        <span key={i} className={`px-3 py-1 rounded-full text-xs font-heading font-medium ${
-                          i === 0 ? 'bg-red-100 text-red-700' :
-                          i === 1 ? 'bg-yellow-100 text-yellow-700' :
-                          i === 2 ? 'bg-blue-100 text-blue-700' :
-                          'bg-green-100 text-green-700'
-                        }`}>
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="mt-6 pt-6 border-t border-gray-100">
-                      <div className="bg-light-gray rounded-lg p-3 text-center">
-                        <span className="text-xs text-charcoal/50 font-body-audit">Notion insight card preview</span>
-                      </div>
-                    </div>
-                  )}
+            
+            {/* Step 1 */}
+            <div className="relative">
+              <div className="bg-card rounded-xl p-8 shadow-card h-full">
+                <div className="inline-flex items-center gap-2 bg-[hsl(var(--aqua-bright))]/10 text-[hsl(var(--aqua-bright))] px-4 py-2 rounded-full font-hero font-semibold text-sm mb-6">
+                  <span className="w-6 h-6 bg-[hsl(var(--aqua-bright))] text-white rounded-full flex items-center justify-center text-xs">1</span>
+                  Day 1
                 </div>
                 
-                {/* Connector Arrow */}
-                {idx < 2 && (
-                  <div className={`hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2 ${step.arrow} text-2xl`}>
-                    →
-                  </div>
-                )}
+                <h3 className="font-hero font-bold text-xl text-primary mb-4">
+                  Deep Data Scan
+                </h3>
+                
+                <p className="font-body text-muted-foreground mb-6">
+                  I analyze every relevant channel:
+                </p>
+                
+                <ul className="space-y-3">
+                  {["Reddit sentiment & discussion clusters", "Discord behaviors & engagement loops", "Website & dApp funnel paths", "On-chain activity & wallet cohorts", "Social footprint, SEO, PR narratives"].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm font-body text-muted-foreground">
+                      <span className="text-[hsl(var(--aqua-bright))] mt-1">•</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                
+                <div className="flex gap-3 mt-6 pt-6 border-t border-border">
+                  {["Reddit", "Discord", "Explorer", "GA", "X"].map((ch, i) => (
+                    <span key={i} className="w-8 h-8 bg-muted rounded-lg flex items-center justify-center text-xs text-muted-foreground">
+                      {ch[0]}
+                    </span>
+                  ))}
+                </div>
               </div>
-            ))}
+              
+              <div className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2 text-[hsl(var(--aqua-bright))] text-2xl">
+                →
+              </div>
+            </div>
+            
+            {/* Step 2 */}
+            <div className="relative">
+              <div className="bg-card rounded-xl p-8 shadow-card h-full">
+                <div className="inline-flex items-center gap-2 bg-[hsl(var(--gold-olympic))]/10 text-[hsl(var(--gold-olympic))] px-4 py-2 rounded-full font-hero font-semibold text-sm mb-6">
+                  <span className="w-6 h-6 bg-[hsl(var(--gold-olympic))] text-primary rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                  Day 2
+                </div>
+                
+                <h3 className="font-hero font-bold text-xl text-primary mb-4">
+                  Insights That Actually Matter
+                </h3>
+                
+                <p className="font-body text-muted-foreground mb-6">
+                  You receive a structured breakdown of:
+                </p>
+                
+                <ul className="space-y-3">
+                  {["What's driving or blocking growth", "Where users fall off", "What levers work", "What patterns are hidden beneath the surface"].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm font-body text-muted-foreground">
+                      <span className="text-[hsl(var(--gold-olympic))] mt-1">•</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                
+                <div className="mt-6 pt-6 border-t border-border">
+                  <div className="bg-muted rounded-lg p-3 text-center">
+                    <span className="text-xs text-muted-foreground font-body">Notion insight card preview</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2 text-[hsl(var(--gold-olympic))] text-2xl">
+                →
+              </div>
+            </div>
+            
+            {/* Step 3 */}
+            <div>
+              <div className="bg-card rounded-xl p-8 shadow-card h-full border-2 border-[hsl(var(--aqua-bright))]/20">
+                <div className="inline-flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-full font-hero font-semibold text-sm mb-6">
+                  <span className="w-6 h-6 bg-[hsl(var(--aqua-bright))] text-white rounded-full flex items-center justify-center text-xs">3</span>
+                  Day 3
+                </div>
+                
+                <h3 className="font-hero font-bold text-xl text-primary mb-4">
+                  Your Action Roadmap
+                </h3>
+                
+                <p className="font-body text-muted-foreground mb-6">
+                  A clear, prioritized plan:
+                </p>
+                
+                <ul className="space-y-3">
+                  {["What to fix", "Why it matters", "How to fix it", "What to do first", "What NOT to waste time on"].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm font-body text-muted-foreground">
+                      <span className="text-primary mt-1">✓</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                
+                <div className="flex flex-wrap gap-2 mt-6 pt-6 border-t border-border">
+                  {["Immediate", "Week 1", "30 Days", "90 Days"].map((tag, i) => (
+                    <span key={i} className={`px-3 py-1 rounded-full text-xs font-hero font-medium ${
+                      i === 0 ? 'bg-red-100 text-red-700' :
+                      i === 1 ? 'bg-yellow-100 text-yellow-700' :
+                      i === 2 ? 'bg-blue-100 text-blue-700' :
+                      'bg-green-100 text-green-700'
+                    }`}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         
         {/* CTA */}
         <div className="text-center mt-12">
-          <Button 
-            className="bg-gold hover:bg-[#E6A600] text-navy font-heading font-bold text-lg px-10 py-4 rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
-            onClick={() => window.scrollTo({ top: document.getElementById('pricing')?.offsetTop || 0, behavior: 'smooth' })}
+          <button 
+            className="bg-gradient-cta hover:shadow-button-hover text-white font-hero font-bold text-lg px-10 py-4 rounded-lg transition-all duration-200"
+            onClick={() => window.open('https://calendly.com/gabriel-mangabeira/15min', '_blank')}
           >
             Get My Audit →
-          </Button>
+          </button>
         </div>
       </div>
     </section>

@@ -23,24 +23,24 @@ const FAQSection = () => {
   ];
 
   return (
-    <section className="py-20 lg:py-28 bg-white">
+    <section className="py-20 lg:py-28 bg-background">
       <div className="container mx-auto px-6 lg:px-8">
         <div className="max-w-3xl mx-auto">
-          <h2 className="font-heading font-bold text-3xl md:text-4xl text-navy mb-12 text-center">
+          <h2 className="font-hero font-bold text-3xl md:text-4xl text-primary mb-12 text-center">
             FAQ
           </h2>
           
           <div className="space-y-4">
             {faqs.map((item, i) => (
-              <details key={i} className="group bg-light-gray rounded-xl overflow-hidden">
-                <summary className="flex justify-between items-center p-6 cursor-pointer font-heading font-semibold text-navy hover:bg-light-gray/80 transition-colors">
+              <details key={i} className="group bg-muted rounded-xl overflow-hidden">
+                <summary className="flex justify-between items-center p-6 cursor-pointer font-hero font-semibold text-primary hover:bg-muted/80 transition-colors">
                   {item.q}
-                  <span className="text-aqua transform group-open:rotate-45 transition-transform text-xl">
+                  <span className="text-[hsl(var(--aqua-bright))] transform group-open:rotate-45 transition-transform text-xl">
                     +
                   </span>
                 </summary>
                 <div className="px-6 pb-6">
-                  <p className="font-body-audit text-charcoal/80">
+                  <p className="font-body text-muted-foreground">
                     {item.a}
                   </p>
                 </div>
