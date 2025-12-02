@@ -20,16 +20,7 @@ export default function AdminNew() {
   const createMutation = useCreatePage();
   const { user, isAdmin, loading } = useAuth();
   
-  useEffect(() => {
-    if (!loading && (!user || !isAdmin)) {
-      navigate('/auth');
-    }
-  }, [user, isAdmin, loading, navigate]);
-
-  if (loading || !user || !isAdmin) {
-    return null;
-  }
-  
+  // All state hooks MUST be declared before any conditional returns
   const [slug, setSlug] = useState('');
   const [category, setCategory] = useState<string>('');
   const [featuredImage, setFeaturedImage] = useState<string | null>(null);
@@ -51,6 +42,16 @@ export default function AdminNew() {
     br: { title: '', meta_description: '', content: '', schema: null },
     es: { title: '', meta_description: '', content: '', schema: null },
   });
+  
+  useEffect(() => {
+    if (!loading && (!user || !isAdmin)) {
+      navigate('/auth');
+    }
+  }, [user, isAdmin, loading, navigate]);
+
+  if (loading || !user || !isAdmin) {
+    return null;
+  }
 
   const handleSlugBlur = () => {
     setSlug(formatSlug(slug));
