@@ -235,13 +235,23 @@
   margin-bottom: 1.25rem;
 }
 
-.hubspot-form-wrapper .hs-form .hs-form-field label {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  font-size: 0.875rem;
-  color: white;
+.hubspot-form-wrapper .hs-form .hs-form-field label,
+.hubspot-form-wrapper .hs-form .hs-form-field > label,
+.hubspot-form-wrapper .hs-form label.hs-form-field__label,
+.hubspot-form-wrapper .hs-form .hs-field-desc,
+.hubspot-form-wrapper .hs-form .hs-form-field label span {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  color: #ffffff !important;
   margin-bottom: 0.5rem;
   display: block;
+}
+
+.hubspot-form-wrapper .hs-form .form-title,
+.hubspot-form-wrapper .hs-form p {
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-family: 'Inter', sans-serif !important;
 }
 
 .hubspot-form-wrapper .hs-form .hs-form-field label .hs-form-required {
