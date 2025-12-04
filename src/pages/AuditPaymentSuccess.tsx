@@ -1,18 +1,14 @@
-import { CheckCircle, Mail, Clock, FileText } from "lucide-react";
+import { CheckCircle, Clock, FileText, ClipboardList } from "lucide-react";
 import { Link } from "react-router-dom";
 import { HelmetProvider, Helmet } from "react-helmet-async";
+import HubSpotForm from "@/components/HubSpotForm";
 
 const AuditPaymentSuccess = () => {
   const nextSteps = [
     {
-      icon: Mail,
-      title: "Check Your Email",
-      description: "You'll receive an intake form within 15 minutes. Complete it so I can start your audit.",
-    },
-    {
       icon: Clock,
       title: "72-Hour Delivery",
-      description: "Once you submit the intake form, your audit will be delivered within 72 hours.",
+      description: "Once you submit the form above, your audit will be delivered within 72 hours.",
     },
     {
       icon: FileText,
@@ -28,30 +24,53 @@ const AuditPaymentSuccess = () => {
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       
-      <div className="min-h-screen bg-gradient-to-br from-[hsl(var(--navy-deep))] to-[#0D3251] flex items-center justify-center px-6 py-20">
-        <div className="max-w-2xl mx-auto text-center">
-          {/* Success Icon */}
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-[#10B981]/20 rounded-full mb-8 animate-pulse">
-            <CheckCircle className="w-12 h-12 text-[#10B981]" />
+      <div className="min-h-screen bg-gradient-to-br from-[hsl(var(--navy-deep))] to-[#0D3251] px-6 py-12 md:py-20">
+        <div className="max-w-2xl mx-auto">
+          {/* Success Header */}
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-[#10B981]/20 rounded-full mb-6">
+              <CheckCircle className="w-10 h-10 text-[#10B981]" />
+            </div>
+            
+            <h1 className="font-hero font-bold text-3xl md:text-4xl text-white mb-3">
+              Payment Successful!
+            </h1>
+            <p className="font-body text-lg text-white/80">
+              Thank you for trusting me with your growth audit. Let's find those leaks.
+            </p>
           </div>
           
-          {/* Main Message */}
-          <h1 className="font-hero font-bold text-3xl md:text-4xl text-white mb-4">
-            Payment Successful!
-          </h1>
-          <p className="font-body text-xl text-white/80 mb-12">
-            Thank you for trusting me with your growth audit. Let's find those leaks.
-          </p>
+          {/* Intake Form Section */}
+          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 md:p-8 mb-8 border border-white/10">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="flex-shrink-0 w-10 h-10 bg-[hsl(var(--aqua-bright))]/20 rounded-lg flex items-center justify-center">
+                <ClipboardList className="w-5 h-5 text-[hsl(var(--aqua-bright))]" />
+              </div>
+              <div>
+                <h2 className="font-hero font-bold text-xl text-white">
+                  Complete Your Intake Form
+                </h2>
+                <p className="font-body text-sm text-white/60">
+                  Fill this out so I can start your audit immediately
+                </p>
+              </div>
+            </div>
+            
+            <HubSpotForm 
+              portalId="44894585" 
+              formId="bb7ca9e0-d5bd-4b9f-96bf-dd66ccf6aec5" 
+            />
+          </div>
           
-          {/* Next Steps */}
-          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 mb-10 border border-white/10">
-            <h2 className="font-hero font-bold text-xl text-white mb-6">
-              What Happens Next
+          {/* What Happens Next */}
+          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 md:p-8 mb-8 border border-white/10">
+            <h2 className="font-hero font-bold text-lg text-white mb-5">
+              What Happens After You Submit
             </h2>
             
-            <div className="space-y-6">
+            <div className="space-y-5">
               {nextSteps.map((step, i) => (
-                <div key={i} className="flex items-start gap-4 text-left">
+                <div key={i} className="flex items-start gap-4">
                   <div className="flex-shrink-0 w-10 h-10 bg-[hsl(var(--aqua-bright))]/20 rounded-lg flex items-center justify-center">
                     <step.icon className="w-5 h-5 text-[hsl(var(--aqua-bright))]" />
                   </div>
@@ -69,19 +88,21 @@ const AuditPaymentSuccess = () => {
           </div>
           
           {/* Guarantee Reminder */}
-          <div className="bg-[#10B981]/10 rounded-xl p-6 mb-10 border border-[#10B981]/20">
-            <p className="font-body text-[#10B981]">
+          <div className="bg-[#10B981]/10 rounded-xl p-5 mb-8 border border-[#10B981]/20">
+            <p className="font-body text-[#10B981] text-sm">
               <span className="font-semibold">Remember:</span> If I don't find at least 3 meaningful, actionable insights, you get a full refund. No questions asked.
             </p>
           </div>
           
           {/* Back Link */}
-          <Link 
-            to="/"
-            className="inline-flex items-center gap-2 font-hero font-semibold text-white/60 hover:text-white transition-colors"
-          >
-            ← Back to Homepage
-          </Link>
+          <div className="text-center">
+            <Link 
+              to="/"
+              className="inline-flex items-center gap-2 font-hero font-semibold text-white/60 hover:text-white transition-colors"
+            >
+              ← Back to Homepage
+            </Link>
+          </div>
         </div>
       </div>
     </HelmetProvider>
