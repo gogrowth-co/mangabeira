@@ -217,6 +217,34 @@ export default function DynamicPage() {
     t => t.language === locale && (t.slug ?? '') !== ''
   );
 
+  // Redirect non-canonical URLs to canonical localized URLs
+  // e.g., /es/articulos/defi-tokenomics-for-founders → /es/articulos/defi-tokenomics-para-founders
+  useEffect(() => {
+    if (
+      data?.matchedViaFallback && 
+      data.canonicalSlug && 
+      locale !== 'en' &&
+      rawSlug !== data.canonicalSlug
+    ) {
+      console.log('[DynamicPage] Redirecting to canonical URL:', data.canonicalSlug);
+      
+      // Build canonical path based on page type and locale
+      let canonicalPath: string;
+      if (data.page.is_system_page) {
+        canonicalPath = locale === 'br' 
+          ? `/br/${data.canonicalSlug}`
+          : `/es/${data.canonicalSlug}`;
+      } else {
+        canonicalPath = locale === 'br'
+          ? `/br/artigos/${data.canonicalSlug}`
+          : `/es/articulos/${data.canonicalSlug}`;
+      }
+      
+      navigate(canonicalPath, { replace: true });
+      return;
+    }
+  }, [data, locale, navigate, rawSlug]);
+
   // Only redirect to English if locale is not English AND no localized translation exists
   useEffect(() => {
     if (
