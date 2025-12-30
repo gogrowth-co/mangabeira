@@ -91,12 +91,21 @@ const localizedToEnglish: Record<string, string> = {
   // Add more mappings as you create localized content
 };
 
+// Result type for usePublicPage with canonical info
+export interface PublicPageResult {
+  page: Page;
+  translation: PageTranslation;
+  matchedViaFallback: boolean;  // True if URL slug didn't match localized slug
+  canonicalSlug: string | null; // The correct localized slug for this locale
+}
+
 // Fetch published page by slug and language (public route)
 export function usePublicPage(slug: string, locale: Locale) {
   return useQuery({
     queryKey: ['public-page', slug, locale],
-    queryFn: async () => {
+    queryFn: async (): Promise<PublicPageResult | null> => {
       console.log('[usePublicPage] Fetching slug:', slug, 'locale:', locale);
+      
       // For non-English locales, first try to find by localized slug
       if (locale !== 'en') {
         const { data: translation } = await supabase
@@ -110,10 +119,13 @@ export function usePublicPage(slug: string, locale: Locale) {
           .maybeSingle();
         
         if (translation && translation.page) {
-          console.log('[usePublicPage] Found by localized slug');
+          console.log('[usePublicPage] Found by localized slug - canonical match');
+          const pageData = Array.isArray(translation.page) ? translation.page[0] : translation.page;
           return { 
-            page: Array.isArray(translation.page) ? translation.page[0] : translation.page, 
-            translation 
+            page: pageData as Page, 
+            translation: translation as unknown as PageTranslation,
+            matchedViaFallback: false,
+            canonicalSlug: translation.slug
           };
         }
         
@@ -138,7 +150,12 @@ export function usePublicPage(slug: string, locale: Locale) {
               .maybeSingle();
             
             if (localizedTranslation) {
-              return { page, translation: localizedTranslation };
+              return { 
+                page: page as Page, 
+                translation: localizedTranslation as PageTranslation,
+                matchedViaFallback: true,
+                canonicalSlug: localizedTranslation.slug
+              };
             }
 
             // Fallback to English translation if localized is missing
@@ -150,13 +167,18 @@ export function usePublicPage(slug: string, locale: Locale) {
               .maybeSingle();
 
             if (englishTranslation) {
-              return { page, translation: englishTranslation };
+              return { 
+                page: page as Page, 
+                translation: englishTranslation as PageTranslation,
+                matchedViaFallback: true,
+                canonicalSlug: null // No localized slug exists
+              };
             }
           }
         }
       }
       
-      // Fall back to base slug lookup
+      // Fall back to base slug lookup (this is the problematic path for non-English)
       const { data: page, error: pageError } = await supabase
         .from('pages')
         .select('*')
@@ -175,6 +197,9 @@ export function usePublicPage(slug: string, locale: Locale) {
         .eq('language', locale)
         .maybeSingle();
       
+      // Determine if this was a fallback match (base slug used for non-English locale)
+      const matchedViaFallback = locale !== 'en' && slug === page.slug;
+      
       // If no translation for requested language, try English fallback
       if (!translation && locale !== 'en') {
         console.log('[usePublicPage] No translation found for', locale, '- falling back to English');
@@ -185,11 +210,21 @@ export function usePublicPage(slug: string, locale: Locale) {
           .eq('language', 'en')
           .maybeSingle();
         
-        return { page, translation: fallback };
+        return { 
+          page: page as Page, 
+          translation: fallback as PageTranslation,
+          matchedViaFallback: true,
+          canonicalSlug: null // No localized translation exists
+        };
       }
       
-      console.log('[usePublicPage] Returning translation:', translation?.language, 'Content length:', translation?.content?.length || 0);
-      return { page, translation };
+      console.log('[usePublicPage] Returning translation:', translation?.language, 'matchedViaFallback:', matchedViaFallback);
+      return { 
+        page: page as Page, 
+        translation: translation as PageTranslation,
+        matchedViaFallback,
+        canonicalSlug: translation?.slug || null
+      };
     },
   });
 }

@@ -163,26 +163,101 @@ Deno.serve(async (req) => {
 
     console.log('Parsed path:', { locale, slug });
 
-    // Fetch page data from Supabase
-    const { data: pageData, error } = await supabase
-      .from('pages')
-      .select(`
-        id,
-        slug,
-        featured_image,
-        status,
-        page_translations!inner(
+    // First, try to find by localized slug for non-English locales
+    let pageData: any = null;
+    let matchedViaFallback = false;
+    
+    if (locale !== 'en') {
+      // Try localized slug first
+      const { data: translationMatch } = await supabase
+        .from('page_translations')
+        .select(`
           language,
           title,
           meta_description,
           content,
           schema,
-          slug
-        )
-      `)
-      .eq('status', 'published')
-      .or(`slug.eq.${slug},page_translations.slug.eq.${slug}`)
-      .single();
+          slug,
+          page:pages!inner(id, slug, featured_image, status, is_system_page)
+        `)
+        .eq('slug', slug)
+        .eq('language', locale)
+        .eq('pages.status', 'published')
+        .maybeSingle();
+      
+      if (translationMatch && translationMatch.page) {
+        const page = Array.isArray(translationMatch.page) ? translationMatch.page[0] : translationMatch.page;
+        pageData = {
+          id: page.id,
+          slug: page.slug,
+          featured_image: page.featured_image,
+          status: page.status,
+          is_system_page: page.is_system_page,
+          page_translations: [translationMatch]
+        };
+        console.log('Found by localized slug - canonical match');
+      }
+    }
+    
+    // Fall back to base slug lookup
+    if (!pageData) {
+      const { data, error } = await supabase
+        .from('pages')
+        .select(`
+          id,
+          slug,
+          featured_image,
+          status,
+          is_system_page,
+          page_translations!inner(
+            language,
+            title,
+            meta_description,
+            content,
+            schema,
+            slug
+          )
+        `)
+        .eq('status', 'published')
+        .or(`slug.eq.${slug},page_translations.slug.eq.${slug}`)
+        .maybeSingle();
+      
+      if (error) {
+        console.error('Database error:', error);
+      }
+      
+      pageData = data;
+      
+      // Check if this was a fallback match (base slug used for non-English)
+      if (pageData && locale !== 'en' && slug === pageData.slug) {
+        matchedViaFallback = true;
+        
+        // Find the canonical localized slug
+        const localizedTranslation = pageData.page_translations.find(
+          (t: any) => t.language === locale && t.slug
+        );
+        
+        if (localizedTranslation?.slug && localizedTranslation.slug !== slug) {
+          // Build canonical URL and issue 301 redirect
+          const localePrefix = locale === 'br' ? 'br' : 'es';
+          const pathPrefix = pageData.is_system_page 
+            ? `/${localePrefix}` 
+            : `/${localePrefix}/${locale === 'br' ? 'artigos' : 'articulos'}`;
+          const canonicalPath = `${pathPrefix}/${localizedTranslation.slug}`;
+          
+          console.log('301 Redirect: non-canonical URL to', canonicalPath);
+          
+          return new Response(null, {
+            status: 301,
+            headers: {
+              ...corsHeaders,
+              'Location': `https://mangabeira.net${canonicalPath}`,
+              'Cache-Control': 'public, max-age=86400', // Cache redirect for 1 day
+            },
+          });
+        }
+      }
+    }
 
     if (error || !pageData) {
       console.error('Page not found:', error);
