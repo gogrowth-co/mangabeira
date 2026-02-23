@@ -1,44 +1,35 @@
 
 
-## Fix: Meta Description Duplication Across the Site
+## Fix: Remove Hardcoded OG & Twitter Meta Tags from index.html
 
-### Root Cause
-The file `index.html` (line 15) contains a hardcoded meta description:
-```
-<meta name="description" content="Blending AI, Web3, and performance marketing...">
-```
-This tag is served in the raw HTML before any JavaScript runs. Search engine crawlers and social media bots read this initial HTML, so they always see the same description regardless of which page is visited. `react-helmet-async` updates it client-side, but bots typically don't wait for that.
+### Problem
+Lines 154-157 in `index.html` contain hardcoded `og:title`, `og:description`, `twitter:title`, and `twitter:description` tags. Just like the meta description we already fixed, these cause every page to show the same social sharing info regardless of which page is being shared. The `SEO` component already sets all of these dynamically per page, but the hardcoded versions in `index.html` compete with them.
 
 ### Solution
 
-**Step 1: Remove the hardcoded meta description from `index.html`**
-- Delete line 15 (`<meta name="description" content="...">`) from `index.html`
-- This ensures there is no "default" description competing with the dynamic one
+**Step 1: Remove hardcoded OG and Twitter title/description from `index.html`**
+Delete these 4 lines (154-157):
+- `og:title`
+- `twitter:title`  
+- `og:description`
+- `twitter:description`
 
-**Step 2: Audit all pages to ensure every route sets its own meta description**
-Pages already using `react-helmet-async` with descriptions (no changes needed):
-- Homepage (`Index.tsx`) -- uses `SEO` component
-- Homepage BR/ES -- uses `SEO` component
-- `DynamicPage.tsx` -- sets `translation.meta_description`
-- `Web3GrowthAudit.tsx` -- sets its own description
-- `Publications.tsx` / `PublicationsBR` / `PublicationsES` -- uses `PublicationsHubSEO`
+Keep the following tags that are NOT set dynamically elsewhere and serve as valid defaults:
+- `og:type` (line 27) -- generic "website" type, fine as default
+- `og:image` (line 28) -- default social image
+- `twitter:card` (line 30) -- card type
+- `twitter:site` (line 31) -- Twitter handle
+- `twitter:image` (line 32) -- default social image
 
-Pages that use custom `useSEO()` hooks (already set description via DOM manipulation):
-- `About.tsx`
-- `PrivacyPolicy.tsx`
+**Step 2: Add fallback OG/Twitter tags in `App.tsx` root Helmet**
+Expand the existing root `<Helmet>` to include default fallbacks for `og:title`, `og:description`, `twitter:title`, and `twitter:description`. These will be overridden by page-specific Helmets (SEO component, DynamicPage, etc.).
 
-All pages are covered -- no additional components need changes.
+### Files to Modify
+1. **`index.html`** -- Remove lines 154-157 (4 hardcoded meta tags)
+2. **`src/App.tsx`** -- Add `og:title`, `og:description`, `twitter:title`, `twitter:description` fallbacks to the root Helmet
 
-**Step 3: Add a fallback meta description in `main.tsx` (or a root-level Helmet)**
-To prevent a blank description if a page somehow fails to set one, add a default `<Helmet>` at the app root level inside `HelmetProvider` that acts as a fallback. Individual page Helmets will override it.
-
-### Technical Details
-- Remove 1 line from `index.html`
-- Add a root-level `<Helmet>` with a sensible default description inside `App.tsx` (within the existing `HelmetProvider`)
-- No other files need changes since all pages already set their own descriptions
-
-### Impact
-- Every page will serve its unique meta description to crawlers from initial render (via SSR/prerender) and client-side
-- The prerender edge function already outputs per-page descriptions correctly, so bot traffic is already handled for dynamic pages
-- This fix ensures the SPA client-side rendering also produces unique descriptions
+### Result
+- Social sharing previews will show the correct per-page title and description
+- A sensible fallback exists if any page fails to set its own tags
+- No duplicate/competing tags in the raw HTML
 
