@@ -36,12 +36,74 @@ function isBot(userAgent: string): boolean {
   return BOT_USER_AGENTS.some(bot => ua.includes(bot));
 }
 
+// Allowlist-based HTML sanitizer - only permits safe tags and attributes
+const ALLOWED_TAGS = new Set([
+  'p', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+  'ul', 'ol', 'li', 'a', 'img', 'strong', 'em', 'b', 'i', 'u',
+  'code', 'pre', 'blockquote', 'br', 'hr', 'table', 'thead',
+  'tbody', 'tr', 'th', 'td', 'figure', 'figcaption', 'picture',
+  'source', 'video', 'audio', 'section', 'article', 'header',
+  'footer', 'nav', 'main', 'aside', 'details', 'summary', 'mark',
+  'small', 'sub', 'sup', 'dl', 'dt', 'dd', 'abbr', 'time',
+  'address', 'cite', 'caption', 'col', 'colgroup',
+]);
+
+const ALLOWED_ATTRS = new Set([
+  'href', 'src', 'alt', 'class', 'id', 'title', 'lang', 'dir',
+  'width', 'height', 'loading', 'decoding', 'srcset', 'sizes',
+  'target', 'rel', 'type', 'datetime', 'colspan', 'rowspan',
+  'scope', 'headers', 'media',
+]);
+
 function sanitizeHTML(html: string): string {
-  // Basic sanitization - remove script tags and dangerous attributes
-  return html
-    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-    .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
-    .replace(/javascript:/gi, '');
+  // Remove all script, style, iframe, object, embed, form, and input tags entirely
+  let clean = html
+    .replace(/<(script|style|iframe|object|embed|form|input|textarea|select|button)\b[^]*?<\/\1>/gi, '')
+    .replace(/<(script|style|iframe|object|embed|form|input|textarea|select|button)\b[^>]*\/?>/gi, '');
+
+  // Remove all event handlers (on*=...) including encoded variants
+  clean = clean.replace(/\bon\w+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]*)/gi, '');
+
+  // Remove javascript:, vbscript:, data: protocol URLs (including encoded variants)
+  clean = clean.replace(/(href|src|action|formaction|poster|background)\s*=\s*(?:"[^"]*(?:javascript|vbscript|data)\s*:[^"]*"|'[^']*(?:javascript|vbscript|data)\s*:[^']*')/gi, '');
+
+  // Remove HTML-encoded script variants
+  clean = clean.replace(/&#\d+;?/g, (match) => {
+    const code = parseInt(match.replace(/&#|;/g, ''), 10);
+    const char = String.fromCharCode(code);
+    return /[<>"'&]/.test(char) ? '' : char;
+  });
+
+  // Strip disallowed tags but keep their text content
+  clean = clean.replace(/<\/?([a-zA-Z][a-zA-Z0-9]*)\b[^>]*>/g, (fullMatch, tagName) => {
+    const tag = tagName.toLowerCase();
+    if (!ALLOWED_TAGS.has(tag)) return '';
+
+    // For closing tags, just return them
+    if (fullMatch.startsWith('</')) return `</${tag}>`;
+
+    // For opening tags, filter attributes to allowed ones only
+    const attrString = fullMatch.slice(fullMatch.indexOf(tagName) + tagName.length, fullMatch.endsWith('/>') ? -2 : -1);
+    const attrs: string[] = [];
+    const attrRegex = /([a-zA-Z][a-zA-Z0-9-]*)\s*=\s*(?:"([^"]*)"|'([^']*)')/g;
+    let attrMatch;
+    while ((attrMatch = attrRegex.exec(attrString)) !== null) {
+      const attrName = attrMatch[1].toLowerCase();
+      const attrValue = attrMatch[2] ?? attrMatch[3] ?? '';
+      if (ALLOWED_ATTRS.has(attrName)) {
+        // Ensure href/src values don't contain dangerous protocols
+        if ((attrName === 'href' || attrName === 'src') &&
+            /^\s*(javascript|vbscript|data)\s*:/i.test(attrValue)) {
+          continue;
+        }
+        attrs.push(`${attrName}="${attrValue.replace(/"/g, '&quot;')}"`);
+      }
+    }
+    const selfClose = fullMatch.endsWith('/>') ? ' /' : '';
+    return `<${tag}${attrs.length ? ' ' + attrs.join(' ') : ''}${selfClose}>`;
+  });
+
+  return clean;
 }
 
 function generateHTML(data: {
@@ -323,6 +385,7 @@ Deno.serve(async (req) => {
         ...corsHeaders,
         'Content-Type': 'text/html; charset=utf-8',
         'Cache-Control': 'public, max-age=3600',
+        'Content-Security-Policy': "default-src 'self'; script-src 'none'; object-src 'none'; base-uri 'self'",
       },
     });
 

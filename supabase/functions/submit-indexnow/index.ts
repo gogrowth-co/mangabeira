@@ -5,8 +5,13 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-const INDEXNOW_API_KEY = '0981ec6152bc49268af156fbf94a7a07';
+const INDEXNOW_API_KEY = Deno.env.get('INDEXNOW_API_KEY');
 const BASE_URL = 'https://mangabeira.net';
+
+if (!INDEXNOW_API_KEY) {
+  throw new Error('INDEXNOW_API_KEY environment variable not set');
+}
+
 const KEY_LOCATION = `${BASE_URL}/${INDEXNOW_API_KEY}.txt`;
 
 interface IndexNowRequest {
