@@ -43,8 +43,7 @@ Deno.serve(async (req) => {
   }
 
   try {
-    // Validate webhook secret
-    const webhookSecret = req.headers.get("x-webhook-secret");
+    // Validate webhook secret with timing-safe comparison
     const expectedSecret = Deno.env.get("NOTION_WEBHOOK_SECRET");
 
     if (!expectedSecret) {
@@ -55,7 +54,27 @@ Deno.serve(async (req) => {
       });
     }
 
-    if (webhookSecret !== expectedSecret) {
+    // Read raw body for HMAC verification
+    const rawBody = await req.text();
+    const webhookSecret = req.headers.get("x-webhook-secret");
+    const webhookTimestamp = req.headers.get("x-webhook-timestamp");
+
+    // Validate timestamp to prevent replay attacks (5-minute window)
+    if (webhookTimestamp) {
+      const timestamp = parseInt(webhookTimestamp, 10);
+      const now = Date.now();
+      const fiveMinutes = 5 * 60 * 1000;
+      if (isNaN(timestamp) || Math.abs(now - timestamp) > fiveMinutes) {
+        console.error("Request timestamp out of range");
+        return new Response(JSON.stringify({ error: "Request expired" }), {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+    }
+
+    // Timing-safe secret comparison
+    if (!webhookSecret || webhookSecret.length !== expectedSecret.length) {
       console.error("Invalid webhook secret provided");
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
         status: 401,
@@ -63,8 +82,23 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Parse payload
-    const payload: NotionWebhookPayload = await req.json();
+    const encoder = new TextEncoder();
+    const a = encoder.encode(webhookSecret);
+    const b = encoder.encode(expectedSecret);
+    let mismatch = 0;
+    for (let i = 0; i < a.length; i++) {
+      mismatch |= a[i] ^ b[i];
+    }
+    if (mismatch !== 0) {
+      console.error("Invalid webhook secret provided");
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Parse payload from raw body
+    const payload: NotionWebhookPayload = JSON.parse(rawBody);
     console.log("Received webhook payload for slug:", payload.slug);
 
     // Validate required fields
