@@ -9,6 +9,9 @@ const corsHeaders = {
 const MAX_MESSAGE_LENGTH = 2000;
 const MAX_MESSAGES = 15;
 
+// In-memory rate limiting store (resets on cold start, which is acceptable)
+const rateLimitMap = new Map<string, number[]>();
+
 interface Message {
   role: 'user' | 'assistant';
   content: string;
@@ -108,25 +111,44 @@ Deno.serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
-  // Referer check to prevent external abuse
+  // Referer/Origin check to prevent external abuse (defense-in-depth, not primary security)
+  const origin = req.headers.get('origin') || '';
   const referer = req.headers.get('referer') || '';
-  const allowedDomains = [
-    'mangabeira.net',
-    'lovableproject.com',
-    'localhost'
+  const checkValue = origin || referer;
+  const allowedPatterns = [
+    /^https?:\/\/([a-z0-9-]+\.)?mangabeira\.net(\/|$)/i,
+    /^https?:\/\/([a-z0-9-]+\.)?lovableproject\.com(\/|$)/i,
+    /^https?:\/\/([a-z0-9-]+\.)?lovable\.app(\/|$)/i,
+    /^https?:\/\/localhost(:\d+)?(\/|$)/i,
   ];
 
-  const isAllowedReferer = allowedDomains.some(domain => 
-    referer.includes(domain)
-  );
-
-  if (!isAllowedReferer && referer !== '') {
-    console.log('Blocked request from referer:', referer);
+  if (checkValue && !allowedPatterns.some(pattern => pattern.test(checkValue))) {
+    console.log('Blocked request from origin/referer:', checkValue);
     return new Response(
       JSON.stringify({ error: 'Forbidden' }),
       { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }
+
+  // Simple IP-based rate limiting (in-memory, per-instance)
+  const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
+                   req.headers.get('cf-connecting-ip') || 'unknown';
+  const now = Date.now();
+  const windowMs = 60_000; // 1 minute window
+  const maxRequests = 10; // max 10 requests per minute per IP
+  
+  if (!rateLimitMap.has(clientIP)) {
+    rateLimitMap.set(clientIP, []);
+  }
+  const timestamps = rateLimitMap.get(clientIP)!.filter(t => now - t < windowMs);
+  if (timestamps.length >= maxRequests) {
+    return new Response(
+      JSON.stringify({ error: 'Too many requests. Please try again in a moment.' }),
+      { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+  }
+  timestamps.push(now);
+  rateLimitMap.set(clientIP, timestamps);
 
   try {
     const body = await req.json();

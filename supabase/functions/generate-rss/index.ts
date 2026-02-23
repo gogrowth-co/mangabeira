@@ -174,9 +174,9 @@ Deno.serve(async (req) => {
       }
     );
   } catch (error) {
-    console.error('Error generating RSS feeds:', error);
+    console.error('[generate-rss] Error:', error);
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }),
+      JSON.stringify({ error: 'Failed to generate RSS feeds' }),
       {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },

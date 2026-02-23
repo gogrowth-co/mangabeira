@@ -214,8 +214,8 @@ ${alternateLinks}
       },
     });
   } catch (error) {
-    console.error('Error generating sitemap:', error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    console.error('[generate-sitemap] Error:', error);
+    return new Response(JSON.stringify({ error: 'Failed to generate sitemap' }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
