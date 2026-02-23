@@ -58,6 +58,10 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <Helmet>
           <meta name="description" content="Gabriel Mangabeira — Olympian turned Growth Marketing Strategist. Blending AI, Web3, and performance marketing to deliver measurable growth." />
+          <meta property="og:title" content="Gabriel Mangabeira | Olympian & Growth Marketing Strategist" />
+          <meta property="og:description" content="Gabriel Mangabeira — Olympian turned Growth Marketing Strategist. Blending AI, Web3, and performance marketing to deliver measurable growth." />
+          <meta name="twitter:title" content="Gabriel Mangabeira | Olympian & Growth Marketing Strategist" />
+          <meta name="twitter:description" content="Gabriel Mangabeira — Olympian turned Growth Marketing Strategist. Blending AI, Web3, and performance marketing to deliver measurable growth." />
         </Helmet>
       <TooltipProvider>
         <Toaster />
