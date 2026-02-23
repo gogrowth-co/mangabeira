@@ -24,6 +24,7 @@ import RssFeed from "./pages/RssFeed";
 import Web3GrowthAudit from "./pages/Web3GrowthAudit";
 import AuditPaymentSuccess from "./pages/AuditPaymentSuccess";
 import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -55,6 +56,9 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <Helmet>
+          <meta name="description" content="Gabriel Mangabeira — Olympian turned Growth Marketing Strategist. Blending AI, Web3, and performance marketing to deliver measurable growth." />
+        </Helmet>
       <TooltipProvider>
         <Toaster />
         <Sonner />
