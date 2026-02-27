@@ -16,29 +16,29 @@ It provides insights, frameworks, and tools that merge AI, Web3, and data-driven
 
 # 🌍 Languages
 This site is available in three languages:
-- English (default): https://mangabeira.net/
-- Portuguese (BR): https://mangabeira.net/br/
-- Spanish: https://mangabeira.net/es/
+- English (default): https://mangabeira.net
+- Portuguese (BR): https://mangabeira.net/br
+- Spanish: https://mangabeira.net/es
 
 # 🧱 Core Pages
 
 ## English (Default)
-https://mangabeira.net/ (Home)
-https://mangabeira.net/about/ (About)
-https://mangabeira.net/publications/ (Publications Hub)
-https://mangabeira.net/privacy-policy/ (Privacy Policy)
+https://mangabeira.net (Home)
+https://mangabeira.net/about (About)
+https://mangabeira.net/publications (Publications Hub)
+https://mangabeira.net/privacy-policy (Privacy Policy)
 
 ## Portuguese (BR)
-https://mangabeira.net/br/ (Início)
-https://mangabeira.net/br/sobre/ (Sobre)
-https://mangabeira.net/br/artigos/ (Artigos)
-https://mangabeira.net/br/politica-de-privacidade/ (Política de Privacidade)
+https://mangabeira.net/br (Início)
+https://mangabeira.net/br/sobre (Sobre)
+https://mangabeira.net/br/artigos (Artigos)
+https://mangabeira.net/br/politica-de-privacidade (Política de Privacidade)
 
 ## Spanish
-https://mangabeira.net/es/ (Inicio)
-https://mangabeira.net/es/acerca-de/ (Acerca de)
-https://mangabeira.net/es/articulos/ (Artículos)
-https://mangabeira.net/es/politica-de-privacidad/ (Política de Privacidad)
+https://mangabeira.net/es (Inicio)
+https://mangabeira.net/es/acerca-de (Acerca de)
+https://mangabeira.net/es/articulos (Artículos)
+https://mangabeira.net/es/politica-de-privacidad (Política de Privacidad)
 
 # 📚 Published Articles
 
