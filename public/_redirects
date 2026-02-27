@@ -2,10 +2,10 @@
 /sitemap.xml https://hetemmltaoirimmoxzku.supabase.co/storage/v1/object/public/blog-images/sitemap.xml 301
 
 # Serve RSS feeds from storage
-/rss/en.xml https://hetemmltaoirimmoxzku.supabase.co/storage/v1/object/public/blog-images/rss-en.xml 200
-/rss/br.xml https://hetemmltaoirimmoxzku.supabase.co/storage/v1/object/public/blog-images/rss-br.xml 200
-/rss/es.xml https://hetemmltaoirimmoxzku.supabase.co/storage/v1/object/public/blog-images/rss-es.xml 200
-/rss.xml https://hetemmltaoirimmoxzku.supabase.co/storage/v1/object/public/blog-images/rss-en.xml 200
+/rss/en.xml https://hetemmltaoirimmoxzku.supabase.co/storage/v1/object/public/blog-images/rss-en.xml 301
+/rss/br.xml https://hetemmltaoirimmoxzku.supabase.co/storage/v1/object/public/blog-images/rss-br.xml 301
+/rss/es.xml https://hetemmltaoirimmoxzku.supabase.co/storage/v1/object/public/blog-images/rss-es.xml 301
+/rss.xml https://hetemmltaoirimmoxzku.supabase.co/storage/v1/object/public/blog-images/rss-en.xml 301
 
 # Prerender for bots - proxy through edge function
 /*    /.netlify/functions/prerender?path=:splat  200  User-Agent:*bot* User-Agent:*facebook* User-Agent:*twitter* User-Agent:*linkedin* User-Agent:*whatsapp* User-Agent:*telegram* User-Agent:*slack* User-Agent:*discord*
