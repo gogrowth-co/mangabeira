@@ -1,3 +1,16 @@
+# Strip trailing slashes (301 redirect)
+/about/    /about    301
+/publications/    /publications    301
+/privacy-policy/    /privacy-policy    301
+/br/    /br    301
+/br/sobre/    /br/sobre    301
+/br/artigos/    /br/artigos    301
+/br/politica-de-privacidade/    /br/politica-de-privacidade    301
+/es/    /es    301
+/es/acerca-de/    /es/acerca-de    301
+/es/articulos/    /es/articulos    301
+/es/politica-de-privacidad/    /es/politica-de-privacidad    301
+
 # Serve sitemap from storage
 /sitemap.xml /.netlify/functions/sitemap 200
 
