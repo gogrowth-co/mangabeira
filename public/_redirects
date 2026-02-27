@@ -1,5 +1,5 @@
 # Serve sitemap from storage
-/sitemap.xml https://hetemmltaoirimmoxzku.supabase.co/storage/v1/object/public/blog-images/sitemap.xml 200
+/sitemap.xml /.netlify/functions/sitemap 200
 
 # Serve RSS feeds from storage
 /rss/en.xml https://hetemmltaoirimmoxzku.supabase.co/storage/v1/object/public/blog-images/rss-en.xml 200
