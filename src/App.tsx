@@ -23,6 +23,7 @@ import Auth from "./pages/Auth";
 import RssFeed from "./pages/RssFeed";
 import Web3GrowthAudit from "./pages/Web3GrowthAudit";
 import AuditPaymentSuccess from "./pages/AuditPaymentSuccess";
+import TokenomicsSimulatorPage from "./tools/tokenomics-simulator/TokenomicsSimulatorPage";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 
@@ -73,6 +74,11 @@ const App = () => {
               <Route path="/" element={<RootRedirect />} />
               <Route path="/br" element={<IndexBR />} />
               <Route path="/es" element={<IndexES />} />
+              
+              {/* Tools - Tokenomics Simulator */}
+              <Route path="/tools/tokenomics-simulator" element={<TokenomicsSimulatorPage lang="en" />} />
+              <Route path="/br/ferramentas/simulador-tokenomics" element={<TokenomicsSimulatorPage lang="pt-BR" />} />
+              <Route path="/es/herramientas/simulador-tokenomics" element={<TokenomicsSimulatorPage lang="es" />} />
               
               {/* Web3 Growth Audit */}
               <Route path="/services/web3-growth-audit" element={<Web3GrowthAudit />} />

@@ -10,6 +10,9 @@
 /es/acerca-de/    /es/acerca-de    301
 /es/articulos/    /es/articulos    301
 /es/politica-de-privacidad/    /es/politica-de-privacidad    301
+/tools/tokenomics-simulator/    /tools/tokenomics-simulator    301
+/br/ferramentas/simulador-tokenomics/    /br/ferramentas/simulador-tokenomics    301
+/es/herramientas/simulador-tokenomics/    /es/herramientas/simulador-tokenomics    301
 
 # Serve sitemap from storage
 /sitemap.xml /.netlify/functions/sitemap 200

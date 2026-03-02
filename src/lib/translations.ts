@@ -227,7 +227,15 @@ export async function getPathForLocale(locale: Locale, currentPath: string = '/'
     .replace(/^\/(br|es)/, '') // Remove locale prefix
     .replace(/^\/(artigos|articulos)/, '/publications') // Normalize publications path
     .replace(/^\/(servicos|servicios)/, '/services') // Normalize services path
+    .replace(/^\/(ferramentas|herramientas)/, '/tools') // Normalize tools path
     || '/';
+  
+  // Handle tokenomics simulator
+  if (cleanPath === '/tools/tokenomics-simulator' || cleanPath.includes('simulador-tokenomics')) {
+    if (locale === 'br') return '/br/ferramentas/simulador-tokenomics';
+    if (locale === 'es') return '/es/herramientas/simulador-tokenomics';
+    return '/tools/tokenomics-simulator';
+  }
   
   // Handle Web3 Growth Audit page
   if (cleanPath === '/services/web3-growth-audit' || cleanPath.includes('web3-auditoria-de-growth')) {
@@ -279,7 +287,15 @@ export function getPathForLocaleSync(locale: Locale, currentPath: string = '/'):
     .replace(/^\/(br|es)/, '')
     .replace(/^\/(artigos|articulos)/, '/publications')
     .replace(/^\/(servicos|servicios)/, '/services')
+    .replace(/^\/(ferramentas|herramientas)/, '/tools')
     || '/';
+  
+  // Handle tokenomics simulator
+  if (cleanPath === '/tools/tokenomics-simulator' || cleanPath.includes('simulador-tokenomics')) {
+    if (locale === 'br') return '/br/ferramentas/simulador-tokenomics';
+    if (locale === 'es') return '/es/herramientas/simulador-tokenomics';
+    return '/tools/tokenomics-simulator';
+  }
   
   // Handle Web3 Growth Audit page
   if (cleanPath === '/services/web3-growth-audit' || cleanPath.includes('web3-auditoria-de-growth')) {
