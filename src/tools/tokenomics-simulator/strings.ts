@@ -187,7 +187,7 @@ export const ptBR: SimulatorStrings = {
   insightBalanced: "Seus parâmetros se alinham com benchmarks de protocolos sustentáveis observados nos principais protocolos DeFi.",
   footerBuiltFor: "Criado para founders Web3 · Simule antes de lançar",
   footerArticleCTA: "→ Leia o guia completo:",
-  footerArticleLink: "Como Desenhar Tokenomics que Impulsionam o Crescimento do Protocolo",
+  footerArticleLink: "Como Projetar Tokenomics que Impulsionam o Crescimento do Protocolo",
 }
 
 export const es: SimulatorStrings = {

@@ -23,9 +23,9 @@ const RED = "#EF4444"
 const NAVY = "#0A2540"
 
 const articleLinks: Record<string, string> = {
-  en: "/publications/defi-tokenomics-for-founders",
-  "pt-BR": "/br/artigos/defi-tokenomics-para-founders",
-  es: "/es/articulos/defi-tokenomics-para-founders",
+  en: "/publications/defi-tokenomics-simulator-guide",
+  "pt-BR": "/br/artigos/como-projetar-tokenomics-crescimento-protocolo",
+  es: "/es/articulos/como-disenar-tokenomics-crecimiento-protocolo",
 }
 
 export default function ResultsPanel({ strings, params, result, lang }: ResultsPanelProps) {
