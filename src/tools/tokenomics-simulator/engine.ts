@@ -57,7 +57,9 @@ export function simulateTokenomics(params: SimulationParams): SimulationResult {
   const yearlyData: YearData[] = []
 
   for (let year = 1; year <= 5; year++) {
-    const emission = prevSupply * emR
+    // Emission draws from remaining unminted supply, not circulating
+    const remainingSupply = maxSupply - prevSupply
+    const emission = remainingSupply * emR
     const staked = prevSupply * stP
     const rewards = staked * stA
     const burned = prevSupply * buR
