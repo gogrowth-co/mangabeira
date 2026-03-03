@@ -28,12 +28,13 @@ const Header = ({ locale }: HeaderProps) => {
   const { setLocale } = useLanguage();
 
   const publicationsPath = locale === 'en' ? '/publications' : locale === 'br' ? '/br/artigos' : '/es/articulos';
+  const toolsPath = locale === 'en' ? '/tools' : locale === 'br' ? '/br/ferramentas' : '/es/herramientas';
   
   const navItems = [
     { label: t('header', 'nav_about', locale), href: "#about" },
     { label: t('header', 'nav_methods', locale), href: "#methods" },
     { label: t('header', 'nav_case_studies', locale), href: "#case-studies" },
-    { label: t('header', 'nav_tools', locale), href: "#tools" },
+    { label: t('header', 'nav_tools', locale), href: toolsPath, isExternal: true },
     { label: t('header', 'nav_publications', locale), href: publicationsPath, isExternal: true },
     { label: t('header', 'nav_contact', locale), href: "#contact" },
   ];
