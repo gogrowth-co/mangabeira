@@ -2,95 +2,121 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { en, ptBR, es, type ToolsStrings } from "./tools/strings";
 
-const tools = [
-  {
-    title: "DeFi Tokenomics Simulator",
-    description: "Model your token economy with real-time 5-year projections before you launch.",
-    category: "DeFi Tool",
-    categoryColor: "text-blue-600 border-blue-300 bg-blue-50",
-    icon: "⚙️",
-    iconBg: "bg-blue-100",
-    tags: ["React", "Recharts", "TypeScript"],
-    year: "2026",
-    href: "/tools/tokenomics-simulator",
-    internal: true,
-    previewText: "DeFi Tokenomics Simulator",
-    previewSubtitle: "5-Year Token Projections",
-  },
-  {
-    title: "Token Health Scan",
-    description: "Scan crypto projects and uncover critical risks before scaling.",
-    category: "Crypto Risk Tool",
-    categoryColor: "text-purple-600 border-purple-300 bg-purple-50",
-    icon: "🔗",
-    iconBg: "bg-green-100",
-    tags: ["Web3 APIs", "NextJS", "OpenAI"],
-    year: "2024",
-    href: "https://tokenhealthscan.com",
-    internal: false,
-    previewText: "Token Health Scan",
-  },
-  {
-    title: "Web3 ROAST",
-    description: "Actionable CRO insights tailored for crypto projects.",
-    category: "Crypto CRO Tool",
-    categoryColor: "text-orange-600 border-orange-300 bg-orange-50",
-    icon: "🔥",
-    iconBg: "bg-orange-100",
-    tags: ["NextJS", "OpenAI", "Tailwind"],
-    year: "Beta",
-    href: "https://web3roast.com",
-    internal: false,
-    previewText: "Web3 ROAST",
-  },
-  {
-    title: "Growth Experiments Framework",
-    description: "Track, analyze, and learn from your growth experiments.",
-    category: "Growth Tool",
-    categoryColor: "text-teal-600 border-teal-300 bg-teal-50",
-    icon: "⚡",
-    iconBg: "bg-teal-100",
-    tags: ["Airtable", "Notion", "Zapier"],
-    year: "2024",
-    href: "https://mangabeira.notion.site",
-    internal: false,
-    previewText: "Growth Experiments Framework",
-  },
-  {
-    title: "Shopify Grader",
-    description: "Benchmark and optimize your e-commerce store for conversions.",
-    category: "E-commerce Tool",
-    categoryColor: "text-green-600 border-green-300 bg-green-50",
-    icon: "🛒",
-    iconBg: "bg-orange-100",
-    tags: ["Shopify API", "NextJS", "CRO"],
-    year: "2024",
-    href: "https://shopifygrader.com",
-    internal: false,
-    previewText: "Shopify Grader",
-  },
-];
+interface ToolsPageProps {
+  lang?: "en" | "pt-BR" | "es";
+}
 
-const ToolsPage = () => {
+const localeMap: Record<string, "en" | "br" | "es"> = {
+  en: "en",
+  "pt-BR": "br",
+  es: "es",
+};
+
+const simulatorHrefs: Record<string, string> = {
+  en: "/tools/tokenomics-simulator",
+  "pt-BR": "/br/ferramentas/simulador-tokenomics",
+  es: "/es/herramientas/simulador-tokenomics",
+};
+
+function getTools(strings: ToolsStrings, lang: string) {
+  return [
+    {
+      ...strings.tools.tokenomicsSimulator,
+      category: "DeFi Tool",
+      categoryColor: "text-blue-600 border-blue-300 bg-blue-50",
+      icon: "⚙️",
+      iconBg: "bg-blue-100",
+      tags: ["React", "Recharts", "TypeScript"],
+      year: "2026",
+      href: simulatorHrefs[lang] || simulatorHrefs.en,
+      internal: true,
+      previewText: strings.tools.tokenomicsSimulator.title,
+      previewSubtitle: "5-Year Token Projections" as string | undefined,
+    },
+    {
+      ...strings.tools.tokenHealthScan,
+      category: "Crypto Risk Tool",
+      categoryColor: "text-purple-600 border-purple-300 bg-purple-50",
+      icon: "🔗",
+      iconBg: "bg-green-100",
+      tags: ["Web3 APIs", "NextJS", "OpenAI"],
+      year: "2024",
+      href: "https://tokenhealthscan.com",
+      internal: false,
+      previewText: strings.tools.tokenHealthScan.title,
+      previewSubtitle: undefined as string | undefined,
+    },
+    {
+      ...strings.tools.web3Roast,
+      category: "Crypto CRO Tool",
+      categoryColor: "text-orange-600 border-orange-300 bg-orange-50",
+      icon: "🔥",
+      iconBg: "bg-orange-100",
+      tags: ["NextJS", "OpenAI", "Tailwind"],
+      year: "Beta",
+      href: "https://web3roast.com",
+      internal: false,
+      previewText: strings.tools.web3Roast.title,
+      previewSubtitle: undefined as string | undefined,
+    },
+    {
+      ...strings.tools.growthFramework,
+      category: "Growth Tool",
+      categoryColor: "text-teal-600 border-teal-300 bg-teal-50",
+      icon: "⚡",
+      iconBg: "bg-teal-100",
+      tags: ["Airtable", "Notion", "Zapier"],
+      year: "2024",
+      href: "https://mangabeira.notion.site",
+      internal: false,
+      previewText: strings.tools.growthFramework.title,
+      previewSubtitle: undefined as string | undefined,
+    },
+    {
+      ...strings.tools.shopifyGrader,
+      category: "E-commerce Tool",
+      categoryColor: "text-green-600 border-green-300 bg-green-50",
+      icon: "🛒",
+      iconBg: "bg-orange-100",
+      tags: ["Shopify API", "NextJS", "CRO"],
+      year: "2024",
+      href: "https://shopifygrader.com",
+      internal: false,
+      previewText: strings.tools.shopifyGrader.title,
+      previewSubtitle: undefined as string | undefined,
+    },
+  ];
+}
+
+const ToolsPage = ({ lang = "en" }: ToolsPageProps) => {
+  const strings = lang === "pt-BR" ? ptBR : lang === "es" ? es : en;
+  const locale = localeMap[lang];
+  const tools = getTools(strings, lang);
+
   return (
     <>
       <Helmet>
-        <title>Tools — Web3 Growth Tools & Simulators | Mangabeira.net</title>
-        <meta name="description" content="Free interactive tools for Web3 founders and growth operators. Token economy simulator, crypto risk scanner, CRO grader, and growth frameworks." />
-        <link rel="canonical" href="https://mangabeira.net/tools" />
+        <title>{strings.seo.title}</title>
+        <meta name="description" content={strings.seo.description} />
+        <link rel="canonical" href={strings.seo.canonical} />
+        <link rel="alternate" hrefLang="en" href="https://mangabeira.net/tools" />
+        <link rel="alternate" hrefLang="pt-BR" href="https://mangabeira.net/br/ferramentas" />
+        <link rel="alternate" hrefLang="es" href="https://mangabeira.net/es/herramientas" />
+        <link rel="alternate" hrefLang="x-default" href="https://mangabeira.net/tools" />
       </Helmet>
 
-      <Header locale="en" />
+      <Header locale={locale} />
 
       <main className="min-h-screen bg-background pt-24">
         {/* Page Header */}
         <div className="text-center pb-12 px-4">
           <h1 className="font-heading font-bold text-navy-deep" style={{ fontSize: "clamp(32px, 5vw, 48px)", lineHeight: 1.1 }}>
-            Tools
+            {strings.pageTitle}
           </h1>
           <p className="mt-3 font-body text-charcoal/60 max-w-2xl mx-auto" style={{ fontSize: "18px" }}>
-            Interactive calculators, graders, and frameworks built for Web3 growth operators.
+            {strings.pageSubtitle}
           </p>
         </div>
 
@@ -155,7 +181,7 @@ const ToolsPage = () => {
                         className="inline-flex items-center gap-1 px-4 py-2 rounded-md text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5"
                         style={{ background: "linear-gradient(135deg, #FFB800, #FF9500)", boxShadow: "0 4px 12px hsl(45 100% 50% / 0.3)" }}
                       >
-                        Try It Now →
+                        {strings.tryItNow}
                       </Link>
                     ) : (
                       <a
@@ -165,7 +191,7 @@ const ToolsPage = () => {
                         className="inline-flex items-center gap-1 px-4 py-2 rounded-md text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5"
                         style={{ background: "linear-gradient(135deg, #FFB800, #FF9500)", boxShadow: "0 4px 12px hsl(45 100% 50% / 0.3)" }}
                       >
-                        Try It Now →
+                        {strings.tryItNow}
                       </a>
                     )}
                   </div>

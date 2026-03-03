@@ -77,7 +77,9 @@ const App = () => {
               <Route path="/es" element={<IndexES />} />
               
               {/* Tools */}
-              <Route path="/tools" element={<ToolsPage />} />
+              <Route path="/tools" element={<ToolsPage lang="en" />} />
+              <Route path="/br/ferramentas" element={<ToolsPage lang="pt-BR" />} />
+              <Route path="/es/herramientas" element={<ToolsPage lang="es" />} />
 
               {/* Tools - Tokenomics Simulator */}
               <Route path="/tools/tokenomics-simulator" element={<TokenomicsSimulatorPage lang="en" />} />
