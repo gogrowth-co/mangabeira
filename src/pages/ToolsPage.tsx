@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { en, ptBR, es, type ToolsStrings } from "./tools/strings";
+import tokenHealthImage from "@/assets/token-health-scan-screenshot.png";
+import web3RoastImage from "@/assets/web3-roast-screenshot.png";
+import growthExperimentsImage from "@/assets/growth-experiments-screenshot.png";
+import shopifyGraderImage from "@/assets/shopify-grader-screenshot.png";
 
 interface ToolsPageProps {
   lang?: "en" | "pt-BR" | "es";
@@ -32,6 +36,7 @@ function getTools(strings: ToolsStrings, lang: string) {
       year: "2026",
       href: simulatorHrefs[lang] || simulatorHrefs.en,
       internal: true,
+      previewImage: undefined as string | undefined,
       previewText: strings.tools.tokenomicsSimulator.title,
       previewSubtitle: "5-Year Token Projections" as string | undefined,
     },
@@ -45,6 +50,7 @@ function getTools(strings: ToolsStrings, lang: string) {
       year: "2024",
       href: "https://tokenhealthscan.com",
       internal: false,
+      previewImage: tokenHealthImage as string | undefined,
       previewText: strings.tools.tokenHealthScan.title,
       previewSubtitle: undefined as string | undefined,
     },
@@ -58,6 +64,7 @@ function getTools(strings: ToolsStrings, lang: string) {
       year: "Beta",
       href: "https://web3roast.com",
       internal: false,
+      previewImage: web3RoastImage as string | undefined,
       previewText: strings.tools.web3Roast.title,
       previewSubtitle: undefined as string | undefined,
     },
@@ -71,6 +78,7 @@ function getTools(strings: ToolsStrings, lang: string) {
       year: "2024",
       href: "https://mangabeira.notion.site",
       internal: false,
+      previewImage: growthExperimentsImage as string | undefined,
       previewText: strings.tools.growthFramework.title,
       previewSubtitle: undefined as string | undefined,
     },
@@ -84,6 +92,7 @@ function getTools(strings: ToolsStrings, lang: string) {
       year: "2024",
       href: "https://shopifygrader.com",
       internal: false,
+      previewImage: shopifyGraderImage as string | undefined,
       previewText: strings.tools.shopifyGrader.title,
       previewSubtitle: undefined as string | undefined,
     },
@@ -149,19 +158,25 @@ const ToolsPage = ({ lang = "en" }: ToolsPageProps) => {
                   </p>
 
                   {/* Preview */}
-                  <div
-                    className="aspect-video rounded-lg flex flex-col items-center justify-center mb-4"
-                    style={{ backgroundColor: "#0A2540" }}
-                  >
-                    <span className="font-heading font-bold text-white" style={{ fontSize: "16px" }}>
-                      {tool.previewText}
-                    </span>
-                    {tool.previewSubtitle && (
-                      <span className="font-body text-aqua-bright mt-1" style={{ fontSize: "13px" }}>
-                        {tool.previewSubtitle}
+                  {tool.previewImage ? (
+                    <div className="aspect-video rounded-lg overflow-hidden mb-4">
+                      <img src={tool.previewImage} alt={tool.title} className="w-full h-full object-cover rounded-lg" />
+                    </div>
+                  ) : (
+                    <div
+                      className="aspect-video rounded-lg flex flex-col items-center justify-center mb-4"
+                      style={{ backgroundColor: "#0A2540" }}
+                    >
+                      <span className="font-heading font-bold text-white" style={{ fontSize: "16px" }}>
+                        {tool.previewText}
                       </span>
-                    )}
-                  </div>
+                      {tool.previewSubtitle && (
+                        <span className="font-body text-aqua-bright mt-1" style={{ fontSize: "13px" }}>
+                          {tool.previewSubtitle}
+                        </span>
+                      )}
+                    </div>
+                  )}
 
                   {/* Tags */}
                   <div className="flex flex-wrap gap-2 mb-4">
