@@ -328,6 +328,12 @@ export function getPathForLocaleSync(locale: Locale, currentPath: string = '/'):
     return `/publications/${currentSlug}`;
   }
   
+  if (cleanPath === '/tools') {
+    if (locale === 'br') return '/br/ferramentas';
+    if (locale === 'es') return '/es/herramientas';
+    return '/tools';
+  }
+  
   if (locale === 'en') return cleanPath;
   return `/${locale}${cleanPath}`;
 }
