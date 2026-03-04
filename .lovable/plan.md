@@ -1,28 +1,25 @@
 
 
-# Plan: Create `/tools` Page
+# Fix: Add `/tools` route mapping in `getPathForLocaleSync`
 
-## New File
+## Problem
+The `getPathForLocaleSync` function in `src/lib/translations.ts` has no explicit handler for the bare `/tools` path. When the language switcher switches from EN to BR, it falls through to line 331-332 which produces `/${locale}/tools` → `/br/tools` (404) instead of `/br/ferramentas`.
 
-### `src/pages/ToolsPage.tsx`
-- Standalone page with Header, Footer, and Helmet SEO metadata
-- Page header: centered H1 "Tools" (Montserrat Bold, navy) + subtitle (Inter 18px, charcoal/60)
-- 2-column grid (desktop) / 1-column (mobile) of 5 tool cards
-- Each card: white bg, 12px radius, shadow-sm → hover:shadow-md, border
-  - Top-right category badge (rounded-full pill)
-  - Top-left icon (40px colored square)
-  - Title (Montserrat SemiBold 18px navy) + description (Inter 14px)
-  - Dark placeholder div (aspect-video, rounded-lg) with tool name centered in white; DeFi Tokenomics Simulator gets aqua subtitle "5-Year Token Projections"
-  - Tech stack tag pills (gray bg, rounded-full)
-  - Bottom row: year left + gold CTA button right
-- CTA: React Router `<Link>` for internal tools, `<a target="_blank">` for external
-- Helmet: title, description, canonical as specified
+Compare with `/publications` which has an explicit handler at line 307-311.
 
-## Modified File
+## Fix
 
-### `src/App.tsx`
-- Add `import ToolsPage from "./pages/ToolsPage"` 
-- Add `<Route path="/tools" element={<ToolsPage />} />` above the tokenomics simulator route (around line 82)
+In `src/lib/translations.ts`, add a `/tools` handler block (similar to the `/publications` block) before the fallback at line 331:
 
-No other files touched.
+```typescript
+if (cleanPath === '/tools') {
+  if (locale === 'br') return '/br/ferramentas';
+  if (locale === 'es') return '/es/herramientas';
+  return '/tools';
+}
+```
+
+Insert this between the `/publications/` block (ending line 329) and the fallback (line 331).
+
+**Single file change, 4 lines added.** No other files modified.
 
