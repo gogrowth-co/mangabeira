@@ -80,6 +80,8 @@ const App = () => {
               <Route path="/tools" element={<ToolsPage lang="en" />} />
               <Route path="/br/ferramentas" element={<ToolsPage lang="pt-BR" />} />
               <Route path="/es/herramientas" element={<ToolsPage lang="es" />} />
+              <Route path="/br/tools" element={<Navigate to="/br/ferramentas" replace />} />
+              <Route path="/es/tools" element={<Navigate to="/es/herramientas" replace />} />
 
               {/* Tools - Tokenomics Simulator */}
               <Route path="/tools/tokenomics-simulator" element={<TokenomicsSimulatorPage lang="en" />} />
