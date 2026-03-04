@@ -69,6 +69,16 @@ Deno.serve(async (req) => {
       { path: 'privacy-policy', priority: '0.3', changefreq: 'yearly', title: 'Privacy Policy' },
       { path: 'br/politica-de-privacidade', priority: '0.3', changefreq: 'yearly', title: 'Política de Privacidade (BR)' },
       { path: 'es/politica-de-privacidad', priority: '0.3', changefreq: 'yearly', title: 'Política de Privacidad (ES)' },
+      
+      // Tools hub
+      { path: 'tools', priority: '0.8', changefreq: 'monthly', title: 'Tools' },
+      { path: 'br/ferramentas', priority: '0.8', changefreq: 'monthly', title: 'Ferramentas (BR)' },
+      { path: 'es/herramientas', priority: '0.8', changefreq: 'monthly', title: 'Herramientas (ES)' },
+      
+      // Tokenomics Simulator
+      { path: 'tools/tokenomics-simulator', priority: '0.8', changefreq: 'monthly', title: 'Tokenomics Simulator' },
+      { path: 'br/ferramentas/simulador-tokenomics', priority: '0.8', changefreq: 'monthly', title: 'Simulador Tokenomics (BR)' },
+      { path: 'es/herramientas/simulador-tokenomics', priority: '0.8', changefreq: 'monthly', title: 'Simulador Tokenomics (ES)' },
     ];
 
     let xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -82,11 +92,15 @@ Deno.serve(async (req) => {
         'home': { en: '', br: 'br', es: 'es' },
         'publications': { en: 'publications', br: 'br/artigos', es: 'es/articulos' },
         'about': { en: 'about', br: 'br/sobre', es: 'es/acerca-de' },
-        'privacy': { en: 'privacy-policy', br: 'br/politica-de-privacidade', es: 'es/politica-de-privacidad' }
+        'privacy': { en: 'privacy-policy', br: 'br/politica-de-privacidade', es: 'es/politica-de-privacidad' },
+        'tokenomics': { en: 'tools/tokenomics-simulator', br: 'br/ferramentas/simulador-tokenomics', es: 'es/herramientas/simulador-tokenomics' },
+        'tools': { en: 'tools', br: 'br/ferramentas', es: 'es/herramientas' },
       };
       
       let pageType = 'home';
-      if (basePath.includes('publication') || basePath.includes('artigos') || basePath.includes('articulos')) pageType = 'publications';
+      if (basePath.includes('tokenomics') || basePath.includes('simulador-tokenomics')) pageType = 'tokenomics';
+      else if (basePath.includes('tools') || basePath.includes('ferramentas') || basePath.includes('herramientas')) pageType = 'tools';
+      else if (basePath.includes('publication') || basePath.includes('artigos') || basePath.includes('articulos')) pageType = 'publications';
       else if (basePath.includes('about') || basePath.includes('sobre') || basePath.includes('acerca')) pageType = 'about';
       else if (basePath.includes('privacy') || basePath.includes('privacidade') || basePath.includes('privacidad')) pageType = 'privacy';
       
