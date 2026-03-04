@@ -76,7 +76,7 @@ function getTools(strings: ToolsStrings, lang: string) {
       iconBg: "bg-teal-100",
       tags: ["Airtable", "Notion", "Zapier"],
       year: "2024",
-      href: "https://mangabeira.notion.site",
+      href: "https://gmangabeira.notion.site/Growth-Experiments-Framework-Template-2a0e522c9822471eb22aad79a4117753",
       internal: false,
       previewImage: growthExperimentsImage as string | undefined,
       previewText: strings.tools.growthFramework.title,
