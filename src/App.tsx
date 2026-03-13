@@ -25,7 +25,7 @@ import Web3GrowthAudit from "./pages/Web3GrowthAudit";
 import AuditPaymentSuccess from "./pages/AuditPaymentSuccess";
 import TokenomicsSimulatorPage from "./tools/tokenomics-simulator/TokenomicsSimulatorPage";
 import ToolsPage from "./pages/ToolsPage";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useIsFetching } from "@tanstack/react-query";
 import { Helmet } from "react-helmet-async";
 
@@ -39,11 +39,18 @@ const queryClient = new QueryClient({
 
 const PrerenderSignal = () => {
   const isFetching = useIsFetching();
+  const isFetchingRef = useRef(isFetching);
+  isFetchingRef.current = isFetching;
+
   useEffect(() => {
-    if (isFetching === 0) {
-      window.prerenderReady = true;
-    }
+    if (isFetching > 0) return;
+    // Defer 100ms so React Query can register and start any pending fetches
+    const timer = setTimeout(() => {
+      if (isFetchingRef.current === 0) window.prerenderReady = true;
+    }, 100);
+    return () => clearTimeout(timer);
   }, [isFetching]);
+
   return null;
 };
 
