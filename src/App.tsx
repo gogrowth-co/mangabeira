@@ -37,6 +37,9 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
+  useEffect(() => {
+    window.prerenderReady = true;
+  }, []);
 
   // Redirect component defined inside App to ensure proper React context
   const RootRedirect = () => {
