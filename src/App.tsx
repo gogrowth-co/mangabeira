@@ -26,6 +26,7 @@ import AuditPaymentSuccess from "./pages/AuditPaymentSuccess";
 import TokenomicsSimulatorPage from "./tools/tokenomics-simulator/TokenomicsSimulatorPage";
 import ToolsPage from "./pages/ToolsPage";
 import { useEffect } from "react";
+import { useIsFetching } from "@tanstack/react-query";
 import { Helmet } from "react-helmet-async";
 
 const queryClient = new QueryClient({
@@ -36,10 +37,17 @@ const queryClient = new QueryClient({
   },
 });
 
-const App = () => {
+const PrerenderSignal = () => {
+  const isFetching = useIsFetching();
   useEffect(() => {
-    window.prerenderReady = true;
-  }, []);
+    if (isFetching === 0) {
+      window.prerenderReady = true;
+    }
+  }, [isFetching]);
+  return null;
+};
+
+const App = () => {
 
   // Redirect component defined inside App to ensure proper React context
   const RootRedirect = () => {
@@ -61,6 +69,7 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <PrerenderSignal />
       <Helmet>
           <meta name="description" content="Gabriel Mangabeira — Olympian turned Growth Marketing Strategist. Blending AI, Web3, and performance marketing to deliver measurable growth." />
           <meta property="og:title" content="Gabriel Mangabeira | Olympian & Growth Marketing Strategist" />
