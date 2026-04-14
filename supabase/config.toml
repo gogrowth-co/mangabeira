@@ -20,3 +20,6 @@ verify_jwt = false
 
 [functions.sync-notion-content]
 verify_jwt = false
+
+[functions.mcp-content]
+verify_jwt = false
