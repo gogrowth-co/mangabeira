@@ -25,7 +25,7 @@ import Web3GrowthAudit from "./pages/Web3GrowthAudit";
 import AuditPaymentSuccess from "./pages/AuditPaymentSuccess";
 import TokenomicsSimulatorPage from "./tools/tokenomics-simulator/TokenomicsSimulatorPage";
 import ToolsPage from "./pages/ToolsPage";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useIsFetching } from "@tanstack/react-query";
 
 const queryClient = new QueryClient({
