@@ -40,6 +40,10 @@ const Web3GrowthAudit = () => {
         <meta property="og:url" content="https://mangabeira.net/services/web3-growth-audit" />
         <meta property="og:type" content="website" />
         <link rel="canonical" href="https://mangabeira.net/services/web3-growth-audit" />
+        <link rel="alternate" hrefLang="en" href="https://mangabeira.net/services/web3-growth-audit" />
+        <link rel="alternate" hrefLang="pt-BR" href="https://mangabeira.net/br/servicos/web3-auditoria-de-growth" />
+        <link rel="alternate" hrefLang="es" href="https://mangabeira.net/es/servicios/web3-auditoria-de-growth" />
+        <link rel="alternate" hrefLang="x-default" href="https://mangabeira.net/services/web3-growth-audit" />
       </Helmet>
 
       <Header locale="en" />
