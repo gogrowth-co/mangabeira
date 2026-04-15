@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { usePages, usePublishPage, PageWithTranslations } from '@/hooks/usePages';
+import { usePages, usePublishPage, useUnpublishPage, PageWithTranslations } from '@/hooks/usePages';
 import { LanguageBadge } from './LanguageBadge';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Edit, Eye, CheckCircle, Lock } from 'lucide-react';
+import { Edit, Eye, CheckCircle, XCircle, Lock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { Locale } from '@/lib/translations';
@@ -16,6 +16,7 @@ export function PageTable() {
   const navigate = useNavigate();
   const { data: pages, isLoading } = usePages(filter);
   const publishMutation = usePublishPage();
+  const unpublishMutation = useUnpublishPage();
 
   const handlePublish = async (id: string) => {
     try {
@@ -23,6 +24,15 @@ export function PageTable() {
       toast.success('Page published successfully');
     } catch (error) {
       toast.error('Failed to publish page');
+    }
+  };
+
+  const handleUnpublish = async (id: string) => {
+    try {
+      await unpublishMutation.mutateAsync(id);
+      toast.success('Page reverted to draft');
+    } catch (error) {
+      toast.error('Failed to unpublish page');
     }
   };
 
@@ -146,15 +156,38 @@ export function PageTable() {
                     >
                       <Edit className="h-4 w-4" />
                     </Button>
-                    {page.status === 'draft' && (
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handlePublish(page.id)}
-                        disabled={publishMutation.isPending}
-                      >
-                        <CheckCircle className="h-4 w-4" />
-                      </Button>
+                    {page.status === 'draft' ? (
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handlePublish(page.id)}
+                              disabled={publishMutation.isPending}
+                            >
+                              <CheckCircle className="h-4 w-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent><p>Publish</p></TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    ) : (
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleUnpublish(page.id)}
+                              disabled={unpublishMutation.isPending}
+                            >
+                              <XCircle className="h-4 w-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent><p>Unpublish (revert to draft)</p></TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     )}
                     <Button
                       size="sm"
