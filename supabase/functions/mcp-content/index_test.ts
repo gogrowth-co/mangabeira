@@ -17,12 +17,21 @@ async function mcpCall(method: string, params: Record<string, unknown> = {}, id 
     body: JSON.stringify({ jsonrpc: "2.0", id, method, params }),
   });
   const body = await res.text();
-  return { status: res.status, body };
+  // Handle SSE format: extract JSON from "data: {...}" lines
+  let parsed: any;
+  if (body.startsWith("data:")) {
+    const lines = body.split("\n").filter(l => l.startsWith("data:"));
+    const jsonStr = lines.map(l => l.replace(/^data:\s*/, "")).join("");
+    parsed = JSON.parse(jsonStr);
+  } else {
+    parsed = JSON.parse(body);
+  }
+  return { status: res.status, body, parsed };
 }
 
 async function callTool(name: string, args: Record<string, unknown> = {}) {
-  const { status, body } = await mcpCall("tools/call", { name, arguments: args });
-  return { status, body, parsed: JSON.parse(body) };
+  const { status, body, parsed } = await mcpCall("tools/call", { name, arguments: args });
+  return { status, body, parsed };
 }
 
 const TEST_SLUG = `__mcp-test-${Date.now()}`;
