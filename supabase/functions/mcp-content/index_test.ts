@@ -17,7 +17,6 @@ async function mcpCall(method: string, params: Record<string, unknown> = {}, id 
     body: JSON.stringify({ jsonrpc: "2.0", id, method, params }),
   });
   const body = await res.text();
-  // Handle SSE format: extract JSON from "data: {...}" lines
   let parsed: any;
   if (body.startsWith("data:")) {
     const lines = body.split("\n").filter(l => l.startsWith("data:"));
@@ -30,34 +29,33 @@ async function mcpCall(method: string, params: Record<string, unknown> = {}, id 
 }
 
 async function callTool(name: string, args: Record<string, unknown> = {}) {
-  const { status, body, parsed } = await mcpCall("tools/call", { name, arguments: args });
-  // Extract text from either result.content[0].text or content[0].text
+  const { status, parsed } = await mcpCall("tools/call", { name, arguments: args });
   const text = parsed?.result?.content?.[0]?.text || parsed?.content?.[0]?.text || "";
-  return { status, body, parsed, text };
+  return { status, text };
 }
 
 const TEST_SLUG = `__mcp-test-${Date.now()}`;
 
 Deno.test("1. Initialize MCP session", async () => {
-  const { status, body } = await mcpCall("initialize", {
+  const { status, parsed } = await mcpCall("initialize", {
     protocolVersion: "2025-03-26",
     capabilities: {},
     clientInfo: { name: "test", version: "1.0.0" },
   });
-  console.log("Init response:", body);
+  console.log("Server info:", parsed?.result?.serverInfo || parsed?.serverInfo);
   assertEquals(status, 200);
 });
 
 Deno.test("2. upsert_page - create draft", async () => {
-  const { status, parsed } = await callTool("upsert_page", {
+  const { status, text } = await callTool("upsert_page", {
     slug: TEST_SLUG,
     category: "test",
     translations: [
       { language: "en", title: "MCP Test Page", content: "<p>Test content</p>", meta_description: "Test" },
     ],
   });
-  const result = JSON.parse(parsed.result?.content?.[0]?.text || parsed?.content?.[0]?.text || "{}");
-  console.log("Upsert response:", JSON.stringify(result, null, 2));
+  const result = JSON.parse(text);
+  console.log("Upsert:", result);
   assertEquals(status, 200);
   assertEquals(result.success, true);
   assertEquals(result.action, "created");
@@ -65,9 +63,9 @@ Deno.test("2. upsert_page - create draft", async () => {
 });
 
 Deno.test("3. list_pages - verify test page appears", async () => {
-  const { status, parsed } = await callTool("list_pages", { status: "all" });
+  const { status, text } = await callTool("list_pages", { status: "all" });
   assertEquals(status, 200);
-  const pages = JSON.parse(parsed.result?.content?.[0]?.text || "[]");
+  const pages = JSON.parse(text);
   const testPage = pages.find((p: any) => p.slug === TEST_SLUG);
   console.log("Found test page:", testPage);
   assertEquals(testPage?.status, "draft");
@@ -75,16 +73,16 @@ Deno.test("3. list_pages - verify test page appears", async () => {
 });
 
 Deno.test("4. get_page - verify full content", async () => {
-  const { status, parsed } = await callTool("get_page", { slug: TEST_SLUG });
+  const { status, text } = await callTool("get_page", { slug: TEST_SLUG });
   assertEquals(status, 200);
-  const page = JSON.parse(parsed.result?.content?.[0]?.text || "{}");
+  const page = JSON.parse(text);
   console.log("Page slug:", page.slug, "translations:", page.translations?.length);
   assertEquals(page.slug, TEST_SLUG);
   assertEquals(page.translations?.[0]?.title, "MCP Test Page");
 });
 
-Deno.test("5. upsert_page - publish (triggers sitemap/rss/indexnow)", async () => {
-  const { status, parsed } = await callTool("upsert_page", {
+Deno.test("5. upsert_page - publish", async () => {
+  const { status, text } = await callTool("upsert_page", {
     slug: TEST_SLUG,
     category: "test",
     status: "published",
@@ -92,8 +90,8 @@ Deno.test("5. upsert_page - publish (triggers sitemap/rss/indexnow)", async () =
       { language: "en", title: "MCP Test Page Published", content: "<p>Published</p>" },
     ],
   });
-  const result = JSON.parse(parsed.result?.content?.[0]?.text || "{}");
-  console.log("Publish result:", JSON.stringify(result, null, 2));
+  const result = JSON.parse(text);
+  console.log("Publish:", result);
   assertEquals(status, 200);
   assertEquals(result.success, true);
   assertEquals(result.action, "updated");
@@ -102,17 +100,16 @@ Deno.test("5. upsert_page - publish (triggers sitemap/rss/indexnow)", async () =
 });
 
 Deno.test("6. delete_page - cleanup", async () => {
-  const { status, parsed } = await callTool("delete_page", { slug: TEST_SLUG });
-  const result = JSON.parse(parsed.result?.content?.[0]?.text || "{}");
-  console.log("Delete result:", result);
+  const { status, text } = await callTool("delete_page", { slug: TEST_SLUG });
+  const result = JSON.parse(text);
+  console.log("Delete:", result);
   assertEquals(status, 200);
   assertEquals(result.success, true);
 });
 
 Deno.test("7. get_page - verify deleted", async () => {
-  const { status, parsed } = await callTool("get_page", { slug: TEST_SLUG });
+  const { status, text } = await callTool("get_page", { slug: TEST_SLUG });
   assertEquals(status, 200);
-  const text = parsed.result?.content?.[0]?.text || "";
   console.log("After delete:", text);
   assertEquals(text.includes("not found"), true);
 });
