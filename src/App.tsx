@@ -58,32 +58,18 @@ const App = () => {
 
   // Redirect component defined inside App to ensure proper React context
   const RootRedirect = () => {
-    const location = useLocation();
-    
-    useEffect(() => {
-      if (location.pathname === '/') {
-        const preferredLang = detectBrowserLanguage();
-        if (preferredLang === 'br') {
-          window.location.href = '/br';
-        } else if (preferredLang === 'es') {
-          window.location.href = '/es';
-        }
-      }
-    }, [location.pathname]);
-
+    const preferredLang = detectBrowserLanguage();
+    if (preferredLang === 'br') {
+      return <Navigate to="/br" replace />;
+    } else if (preferredLang === 'es') {
+      return <Navigate to="/es" replace />;
+    }
     return <Index />;
   };
 
   return (
     <QueryClientProvider client={queryClient}>
       <PrerenderSignal />
-      <Helmet>
-          <meta name="description" content="Gabriel Mangabeira — Olympian turned Growth Marketing Strategist. Blending AI, Web3, and performance marketing to deliver measurable growth." />
-          <meta property="og:title" content="Gabriel Mangabeira | Olympian & Growth Marketing Strategist" />
-          <meta property="og:description" content="Gabriel Mangabeira — Olympian turned Growth Marketing Strategist. Blending AI, Web3, and performance marketing to deliver measurable growth." />
-          <meta name="twitter:title" content="Gabriel Mangabeira | Olympian & Growth Marketing Strategist" />
-          <meta name="twitter:description" content="Gabriel Mangabeira — Olympian turned Growth Marketing Strategist. Blending AI, Web3, and performance marketing to deliver measurable growth." />
-        </Helmet>
       <TooltipProvider>
         <Toaster />
         <Sonner />
