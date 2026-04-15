@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider, detectBrowserLanguage } from "./contexts/LanguageContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import Index from "./pages/Index";
@@ -25,9 +25,8 @@ import Web3GrowthAudit from "./pages/Web3GrowthAudit";
 import AuditPaymentSuccess from "./pages/AuditPaymentSuccess";
 import TokenomicsSimulatorPage from "./tools/tokenomics-simulator/TokenomicsSimulatorPage";
 import ToolsPage from "./pages/ToolsPage";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useIsFetching } from "@tanstack/react-query";
-import { Helmet } from "react-helmet-async";
 
 const queryClient = new QueryClient({
   defaultOptions: {
