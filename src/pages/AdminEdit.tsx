@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { usePage, useUpdatePage, useDeletePage, usePublishPage } from '@/hooks/usePages';
+import { usePage, useUpdatePage, useDeletePage, usePublishPage, useUnpublishPage } from '@/hooks/usePages';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -38,6 +38,7 @@ export default function AdminEdit() {
   const updateMutation = useUpdatePage();
   const deleteMutation = useDeletePage();
   const publishMutation = usePublishPage();
+  const unpublishMutation = useUnpublishPage();
   
   const [slug, setSlug] = useState('');
   const [category, setCategory] = useState<string>('');
@@ -163,6 +164,16 @@ export default function AdminEdit() {
     }
   };
 
+  const handleUnpublish = async () => {
+    try {
+      await unpublishMutation.mutateAsync(id!);
+      toast.success('Page reverted to draft');
+      navigate('/admin');
+    } catch (error) {
+      toast.error('Failed to unpublish page');
+    }
+  };
+
   const handleDelete = async () => {
     if (page?.is_system_page) {
       toast.error('Cannot delete system pages');
@@ -281,13 +292,22 @@ export default function AdminEdit() {
             <Button type="submit" disabled={updateMutation.isPending}>
               {updateMutation.isPending ? 'Saving...' : 'Save Changes'}
             </Button>
-            {page?.status === 'draft' && (
+            {page?.status === 'draft' ? (
               <Button 
                 type="button" 
                 onClick={handlePublish}
                 disabled={publishMutation.isPending}
               >
                 Publish Now
+              </Button>
+            ) : (
+              <Button 
+                type="button" 
+                variant="secondary"
+                onClick={handleUnpublish}
+                disabled={unpublishMutation.isPending}
+              >
+                Unpublish
               </Button>
             )}
             <Button type="button" variant="outline" onClick={() => navigate('/admin')}>

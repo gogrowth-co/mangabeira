@@ -431,6 +431,41 @@ export function useDeletePage() {
   });
 }
 
+// Unpublish page (revert to draft)
+export function useUnpublishPage() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('pages')
+        .update({ status: 'draft' })
+        .eq('id', id);
+      
+      if (error) throw error;
+    },
+    onSuccess: async (_, id) => {
+      queryClient.invalidateQueries({ queryKey: ['pages'] });
+      queryClient.invalidateQueries({ queryKey: ['page', id] });
+      
+      // Regenerate sitemap and RSS feeds after unpublishing
+      try {
+        await supabase.functions.invoke('generate-sitemap');
+        console.log('[useUnpublishPage] Sitemap regenerated');
+      } catch (error) {
+        console.error('[useUnpublishPage] Failed to regenerate sitemap:', error);
+      }
+      
+      try {
+        await supabase.functions.invoke('generate-rss');
+        console.log('[useUnpublishPage] RSS feeds regenerated');
+      } catch (error) {
+        console.error('[useUnpublishPage] Failed to regenerate RSS feeds:', error);
+      }
+    },
+  });
+}
+
 // Publish page
 export function usePublishPage() {
   const queryClient = useQueryClient();
