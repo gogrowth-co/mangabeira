@@ -31,7 +31,9 @@ async function mcpCall(method: string, params: Record<string, unknown> = {}, id 
 
 async function callTool(name: string, args: Record<string, unknown> = {}) {
   const { status, body, parsed } = await mcpCall("tools/call", { name, arguments: args });
-  return { status, body, parsed };
+  // Extract text from either result.content[0].text or content[0].text
+  const text = parsed?.result?.content?.[0]?.text || parsed?.content?.[0]?.text || "";
+  return { status, body, parsed, text };
 }
 
 const TEST_SLUG = `__mcp-test-${Date.now()}`;
