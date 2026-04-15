@@ -1,7 +1,7 @@
-// Netlify Edge Function: Server-side SEO meta injection via HTMLRewriter
+// Netlify Edge Function: Server-side SEO meta injection
 // Runs on ALL traffic (bots + humans) to ensure <head> always has correct metadata
 
-import type { Context } from "https://edge.netlify.com";
+import type { Context } from "@netlify/edge-functions";
 
 const BASE_URL = "https://mangabeira.net";
 const SUPABASE_URL = "https://hetemmltaoirimmoxzku.supabase.co";
@@ -21,7 +21,7 @@ interface PageMeta {
   canonical: string;
   ogType: string;
   ogImage?: string;
-  locale: string; // en, br, es
+  locale: string;
   htmlLang: string;
   schema?: object[];
   alternates: { lang: string; href: string }[];
@@ -39,45 +39,36 @@ interface ParsedRoute {
 function parseRoute(pathname: string): ParsedRoute {
   const p = pathname.replace(/\/+$/, "") || "/";
 
-  // Home
   if (p === "/") return { locale: "en", type: "home" };
   if (p === "/br") return { locale: "br", type: "home" };
   if (p === "/es") return { locale: "es", type: "home" };
 
-  // About
   if (p === "/about") return { locale: "en", type: "about" };
   if (p === "/br/sobre") return { locale: "br", type: "about" };
   if (p === "/es/acerca-de") return { locale: "es", type: "about" };
 
-  // Privacy
   if (p === "/privacy-policy") return { locale: "en", type: "privacy" };
   if (p === "/br/politica-de-privacidade") return { locale: "br", type: "privacy" };
   if (p === "/es/politica-de-privacidade") return { locale: "es", type: "privacy" };
 
-  // Publications hub
   if (p === "/publications") return { locale: "en", type: "publications-hub" };
   if (p === "/br/artigos") return { locale: "br", type: "publications-hub" };
   if (p === "/es/articulos") return { locale: "es", type: "publications-hub" };
 
-  // Tools hub
   if (p === "/tools") return { locale: "en", type: "tools-hub" };
   if (p === "/br/ferramentas") return { locale: "br", type: "tools-hub" };
   if (p === "/es/herramientas") return { locale: "es", type: "tools-hub" };
 
-  // Tokenomics simulator
   if (p === "/tools/tokenomics-simulator") return { locale: "en", type: "tokenomics" };
   if (p === "/br/ferramentas/simulador-tokenomics") return { locale: "br", type: "tokenomics" };
   if (p === "/es/herramientas/simulador-tokenomics") return { locale: "es", type: "tokenomics" };
 
-  // Web3 Growth Audit
   if (p === "/services/web3-growth-audit") return { locale: "en", type: "audit" };
   if (p === "/br/servicos/web3-auditoria-de-growth") return { locale: "br", type: "audit" };
   if (p === "/es/servicios/web3-auditoria-de-growth") return { locale: "es", type: "audit" };
 
-  // Audit payment success
   if (p === "/services/web3-growth-audit/payment-success") return { locale: "en", type: "audit-success" };
 
-  // Dynamic publications
   const enPub = p.match(/^\/publications\/(.+)$/);
   if (enPub) return { locale: "en", type: "publication", slug: enPub[1] };
   const brPub = p.match(/^\/br\/artigos\/(.+)$/);
@@ -85,7 +76,6 @@ function parseRoute(pathname: string): ParsedRoute {
   const esPub = p.match(/^\/es\/articulos\/(.+)$/);
   if (esPub) return { locale: "es", type: "publication", slug: esPub[1] };
 
-  // Locale-prefixed dynamic pages (system pages like /br/sobre already handled above)
   if (p.startsWith("/br/")) return { locale: "br", type: "unknown" };
   if (p.startsWith("/es/")) return { locale: "es", type: "unknown" };
 
@@ -257,14 +247,10 @@ async function fetchPublicationMeta(slug: string, locale: Locale): Promise<PageM
   if (cached && Date.now() - cached.ts < CACHE_TTL) return cached.data;
 
   try {
-    // First find the page by slug (could be the base slug or a localized slug)
-    const langMap: Record<Locale, string> = { en: "en", br: "br", es: "es" };
-    const lang = langMap[locale];
+    const lang = locale === "en" ? "en" : locale === "br" ? "br" : "es";
 
-    // Try to find via localized slug in page_translations first
     let pageData: any = null;
 
-    // Query: find page_translations where slug matches AND language matches
     const transUrl = `${SUPABASE_URL}/rest/v1/page_translations?slug=eq.${encodeURIComponent(slug)}&language=eq.${lang}&select=page_id,title,meta_description,slug,page:pages!inner(slug,featured_image,status,author_name,created_at,updated_at,tags)`;
     const transRes = await fetch(transUrl, {
       headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
@@ -274,7 +260,6 @@ async function fetchPublicationMeta(slug: string, locale: Locale): Promise<PageM
     if (transData && transData.length > 0 && transData[0].page?.status === "published") {
       pageData = transData[0];
     } else {
-      // Fallback: try base slug on pages table
       const pageUrl = `${SUPABASE_URL}/rest/v1/pages?slug=eq.${encodeURIComponent(slug)}&status=eq.published&select=id,slug,featured_image,author_name,created_at,updated_at,tags`;
       const pageRes = await fetch(pageUrl, {
         headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
@@ -287,7 +272,6 @@ async function fetchPublicationMeta(slug: string, locale: Locale): Promise<PageM
       }
 
       const page = pages[0];
-      // Fetch translation for the locale
       const tUrl = `${SUPABASE_URL}/rest/v1/page_translations?page_id=eq.${page.id}&language=eq.${lang}&select=title,meta_description,slug`;
       const tRes = await fetch(tUrl, {
         headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
@@ -297,7 +281,6 @@ async function fetchPublicationMeta(slug: string, locale: Locale): Promise<PageM
       if (translations && translations.length > 0) {
         pageData = { ...translations[0], page };
       } else {
-        // Fallback to English translation
         const enUrl = `${SUPABASE_URL}/rest/v1/page_translations?page_id=eq.${page.id}&language=eq.en&select=title,meta_description,slug`;
         const enRes = await fetch(enUrl, {
           headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
@@ -321,7 +304,6 @@ async function fetchPublicationMeta(slug: string, locale: Locale): Promise<PageM
       ? (page.featured_image.startsWith("http") ? page.featured_image : `${BASE_URL}${page.featured_image}`)
       : OG_IMAGE;
 
-    // Build canonical URL and alternates for publications
     const pubPaths: Record<Locale, string> = {
       en: `/publications/${slug}`,
       br: `/br/artigos/${slug}`,
@@ -331,7 +313,6 @@ async function fetchPublicationMeta(slug: string, locale: Locale): Promise<PageM
     const canonical = `${BASE_URL}${pubPaths[locale]}`;
     const htmlLang = getHtmlLang(locale);
 
-    // Build BlogPosting schema
     const schema = [{
       "@context": "https://schema.org",
       "@type": "BlogPosting",
@@ -361,22 +342,21 @@ async function fetchPublicationMeta(slug: string, locale: Locale): Promise<PageM
   }
 }
 
-// ─── HTML injection ──────────────────────────────────────────────────────
+// ─── HTML injection via string replacement ───────────────────────────────
+function esc(s: string): string {
+  return s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
 function buildMetaTags(meta: PageMeta): string {
   const tags: string[] = [];
 
-  // Description
   tags.push(`<meta name="description" content="${esc(meta.description)}">`);
-
-  // Canonical
   tags.push(`<link rel="canonical" href="${esc(meta.canonical)}">`);
 
-  // Hreflang alternates
   for (const alt of meta.alternates) {
     tags.push(`<link rel="alternate" hreflang="${alt.lang}" href="${esc(alt.href)}">`);
   }
 
-  // Open Graph
   tags.push(`<meta property="og:type" content="${meta.ogType}">`);
   tags.push(`<meta property="og:url" content="${esc(meta.canonical)}">`);
   tags.push(`<meta property="og:title" content="${esc(meta.title)}">`);
@@ -385,7 +365,6 @@ function buildMetaTags(meta: PageMeta): string {
     tags.push(`<meta property="og:image" content="${esc(meta.ogImage)}">`);
   }
 
-  // Twitter
   tags.push(`<meta name="twitter:card" content="summary_large_image">`);
   tags.push(`<meta name="twitter:title" content="${esc(meta.title)}">`);
   tags.push(`<meta name="twitter:description" content="${esc(meta.description)}">`);
@@ -393,7 +372,6 @@ function buildMetaTags(meta: PageMeta): string {
     tags.push(`<meta name="twitter:image" content="${esc(meta.ogImage)}">`);
   }
 
-  // JSON-LD
   if (meta.schema) {
     tags.push(`<script type="application/ld+json">${JSON.stringify(meta.schema)}</script>`);
   }
@@ -401,8 +379,22 @@ function buildMetaTags(meta: PageMeta): string {
   return tags.join("\n");
 }
 
-function esc(s: string): string {
-  return s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+function injectMeta(html: string, meta: PageMeta): string {
+  // Replace <html lang="..."> with correct lang
+  html = html.replace(/<html([^>]*)lang="[^"]*"/, `<html$1lang="${meta.htmlLang}"`);
+  // If no lang attribute exists, add it
+  if (!html.includes(`lang="${meta.htmlLang}"`)) {
+    html = html.replace(/<html/, `<html lang="${meta.htmlLang}"`);
+  }
+
+  // Replace <title>...</title>
+  html = html.replace(/<title>[^<]*<\/title>/, `<title>${esc(meta.title)}</title>`);
+
+  // Inject meta tags before </head>
+  const metaTags = buildMetaTags(meta);
+  html = html.replace(/<\/head>/, `${metaTags}\n</head>`);
+
+  return html;
 }
 
 // ─── Main handler ────────────────────────────────────────────────────────
@@ -423,7 +415,12 @@ export default async function handler(request: Request, context: Context) {
   }
 
   // Get the response from the origin (index.html SPA)
-  const response = await context.next();
+  let response: Response;
+  try {
+    response = await context.next();
+  } catch {
+    return context.next();
+  }
 
   // Only process HTML responses
   const contentType = response.headers.get("content-type") || "";
@@ -431,10 +428,8 @@ export default async function handler(request: Request, context: Context) {
     return response;
   }
 
-  // Parse route
+  // Parse route and get metadata
   const route = parseRoute(pathname);
-
-  // Get metadata
   let meta: PageMeta | null = null;
 
   if (route.type === "publication" && route.slug) {
@@ -445,34 +440,25 @@ export default async function handler(request: Request, context: Context) {
     meta = getStaticMeta(route);
   }
 
-  // If no meta found (unknown page), pass through
   if (!meta) {
     return response;
   }
 
-  // Build the injection HTML
-  const metaTags = buildMetaTags(meta);
+  // Read HTML, inject meta, return modified response
+  try {
+    let html = await response.text();
+    html = injectMeta(html, meta);
 
-  // Use HTMLRewriter to inject meta tags
-  const rewriter = new HTMLRewriter()
-    .on("html", {
-      element(element) {
-        element.setAttribute("lang", meta!.htmlLang);
-      },
-    })
-    .on("title", {
-      element(element) {
-        element.setInnerContent(meta!.title);
-      },
-    })
-    .on("head", {
-      element(element) {
-        // Append all meta tags at end of <head>
-        element.append(metaTags, { html: true });
+    return new Response(html, {
+      status: response.status,
+      headers: {
+        ...Object.fromEntries(response.headers.entries()),
+        "content-type": "text/html; charset=utf-8",
       },
     });
-
-  return rewriter.transform(response);
+  } catch {
+    return response;
+  }
 }
 
 export const config = {
