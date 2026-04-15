@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { PageTable } from '@/components/admin/PageTable';
 import { Button } from '@/components/ui/button';
@@ -36,6 +37,10 @@ export default function Admin() {
 
   return (
     <div className="min-h-screen bg-background p-8">
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+        <title>CMS Admin</title>
+      </Helmet>
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div>
