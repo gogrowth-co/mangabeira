@@ -54,9 +54,9 @@ Deno.test("2. upsert_page - create draft", async () => {
       { language: "en", title: "MCP Test Page", content: "<p>Test content</p>", meta_description: "Test" },
     ],
   });
-  console.log("Upsert response:", JSON.stringify(parsed, null, 2));
+  const result = JSON.parse(parsed.result?.content?.[0]?.text || parsed?.content?.[0]?.text || "{}");
+  console.log("Upsert response:", JSON.stringify(result, null, 2));
   assertEquals(status, 200);
-  const result = JSON.parse(parsed.result?.content?.[0]?.text || "{}");
   assertEquals(result.success, true);
   assertEquals(result.action, "created");
   assertEquals(result.status, "draft");
