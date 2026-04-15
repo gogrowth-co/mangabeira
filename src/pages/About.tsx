@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet-async";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -8,177 +9,67 @@ import gabrielSwimming from "@/assets/gabriel-swimming-action.png";
 import gabrielProfessional from "@/assets/gabriel-professional-about.png";
 import ogImage from "@/assets/gabriel-professional-new.webp";
 
-const title = "About Gabriel Mangabeira | Olympian & Growth Marketing Strategist";
-const description = "From Olympic discipline to Web3 growth strategy — discover how Gabriel Mangabeira blends AI, data, and storytelling to help brands grow with precision and focus.";
+const pageTitle = "About Gabriel Mangabeira | Olympian & Growth Marketing Strategist";
+const pageDescription = "From Olympic discipline to Web3 growth strategy — discover how Gabriel Mangabeira blends AI, data, and storytelling to help brands grow with precision and focus.";
+const canonicalUrl = "https://mangabeira.net/about";
 
-function useSEO() {
-  React.useEffect(() => {
-    const origin = window.location.origin;
-    const url = `${origin}/about`;
-    const absoluteImage = ogImage.startsWith("http") ? ogImage : `${origin}${ogImage}`;
-
-    document.title = title;
-
-    const ensureMetaByName = (name: string, content: string) => {
-      let el = document.querySelector<HTMLMetaElement>(`meta[name="${name}"]`);
-      if (!el) {
-        el = document.createElement("meta");
-        el.setAttribute("name", name);
-        document.head.appendChild(el);
-      }
-      el.setAttribute("content", content);
-      return el;
-    };
-
-    const ensureMetaByProperty = (property: string, content: string) => {
-      let el = document.querySelector<HTMLMetaElement>(`meta[property="${property}"]`);
-      if (!el) {
-        el = document.createElement("meta");
-        el.setAttribute("property", property);
-        document.head.appendChild(el);
-      }
-      el.setAttribute("content", content);
-      return el;
-    };
-
-    const ensureLinkRel = (rel: string, href: string) => {
-      let el = document.querySelector<HTMLLinkElement>(`link[rel="${rel}"]`);
-      if (!el) {
-        el = document.createElement("link");
-        el.setAttribute("rel", rel);
-        document.head.appendChild(el);
-      }
-      el.setAttribute("href", href);
-      return el;
-    };
-
-    ensureMetaByName("description", description);
-    ensureLinkRel("canonical", url);
-
-    ensureMetaByProperty("og:type", "profile");
-    ensureMetaByProperty("og:title", title);
-    ensureMetaByProperty("og:description", description);
-    ensureMetaByProperty("og:url", url);
-    ensureMetaByProperty("og:image", absoluteImage);
-
-    ensureMetaByName("twitter:card", "summary_large_image");
-    ensureMetaByName("twitter:title", title);
-    ensureMetaByName("twitter:description", description);
-    ensureMetaByName("twitter:image", absoluteImage);
-
-    // JSON-LD Structured Data
-    const structuredData = {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "WebSite",
-          "@id": `${origin}/#website`,
-          "url": `${origin}/`,
-          "name": "Gabriel Mangabeira",
-          "inLanguage": "en",
-          "publisher": { "@id": `${origin}/#person` }
-        },
-        {
-          "@type": "AboutPage",
-          "@id": `${url}/#aboutpage`,
-          "url": url,
-          "name": title,
-          "headline": "About Gabriel Mangabeira",
-          "description": description,
-          "isPartOf": { "@id": `${origin}/#website` },
-          "about": { "@id": `${origin}/#person` },
-          "primaryImageOfPage": { "@id": `${origin}/#og-image` },
-          "inLanguage": "en",
-          "breadcrumb": { "@id": `${url}/#breadcrumb` }
-        },
-        {
-          "@type": "BreadcrumbList",
-          "@id": `${url}/#breadcrumb`,
-          "itemListElement": [
-            {
-              "@type": "ListItem",
-              "position": 1,
-              "name": "Home",
-              "item": `${origin}/`
-            },
-            {
-              "@type": "ListItem",
-              "position": 2,
-              "name": "About"
-            }
-          ]
-        },
-        {
-          "@type": "ImageObject",
-          "@id": `${origin}/#og-image`,
-          "url": absoluteImage,
-          "width": 1200,
-          "height": 630,
-          "caption": "Gabriel Mangabeira"
-        },
-        {
-          "@type": "Organization",
-          "@id": `${origin}/#org`,
-          "name": "Gabriel Mangabeira Growth Marketing",
-          "url": `${origin}/`,
-          "sameAs": [
-            "https://www.linkedin.com/company/gabriel-mangabeira-growth-marketing/"
-          ]
-        },
-        {
-          "@type": "Person",
-          "@id": `${origin}/#person`,
-          "name": "Gabriel Mangabeira",
-          "alternateName": ["Manga", "Gabriel Mangabeira OLY"],
-          "url": `${origin}/`,
-          "image": { "@id": `${origin}/#og-image` },
-          "jobTitle": "Growth Marketing Strategist",
-          "honorificSuffix": "OLY",
-          "nationality": "Brazil",
-          "description": "Olympian and Growth Marketing Strategist blending AI, Web3, and data-driven systems to deliver measurable results.",
-          "worksFor": { "@id": `${origin}/#org` },
-          "affiliation": {
-            "@type": "SportsOrganization",
-            "name": "Brazil Olympic Team"
-          },
-          "knowsAbout": [
-            "AI-powered growth",
-            "Web3 go-to-market",
-            "SEO",
-            "Paid media",
-            "Attribution",
-            "Automation",
-            "Performance analytics",
-            "Content systems"
-          ],
-          "knowsLanguage": ["en", "pt"],
-          "sameAs": [
-            "https://pt.wikipedia.org/wiki/Gabriel_Mangabeira",
-            "https://www.linkedin.com/in/mangabeira/",
-            "https://x.com/gabmangabeira",
-            "https://medium.com/@gmangabeira",
-            "https://github.com/gmangabeira"
-          ]
-        }
-      ]
-    };
-
-    const scriptNode = document.createElement("script");
-    scriptNode.type = "application/ld+json";
-    scriptNode.textContent = JSON.stringify(structuredData);
-    document.head.appendChild(scriptNode);
-
-    return () => {
-      scriptNode.remove();
-    };
-  }, []);
-}
 
 export default function About() {
-  useSEO();
+  const absoluteImage = ogImage.startsWith("http") ? ogImage : `https://mangabeira.net${ogImage}`;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <link rel="canonical" href={canonicalUrl} />
+        <link rel="alternate" hrefLang="en" href="https://mangabeira.net/about" />
+        <link rel="alternate" hrefLang="pt-BR" href="https://mangabeira.net/br/sobre" />
+        <link rel="alternate" hrefLang="es" href="https://mangabeira.net/es/acerca-de" />
+        <link rel="alternate" hrefLang="x-default" href="https://mangabeira.net/about" />
+        <meta property="og:type" content="profile" />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content={absoluteImage} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDescription} />
+        <meta name="twitter:image" content={absoluteImage} />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "AboutPage",
+              url: canonicalUrl,
+              name: pageTitle,
+              description: pageDescription,
+              inLanguage: "en",
+              breadcrumb: {
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  { "@type": "ListItem", position: 1, name: "Home", item: "https://mangabeira.net/" },
+                  { "@type": "ListItem", position: 2, name: "About" },
+                ],
+              },
+            },
+            {
+              "@type": "Person",
+              name: "Gabriel Mangabeira",
+              url: "https://mangabeira.net/",
+              image: absoluteImage,
+              jobTitle: "Growth Marketing Strategist",
+              description: "Olympian and Growth Marketing Strategist blending AI, Web3, and data-driven systems to deliver measurable results.",
+              sameAs: [
+                "https://pt.wikipedia.org/wiki/Gabriel_Mangabeira",
+                "https://www.linkedin.com/in/mangabeira/",
+                "https://x.com/gabmangabeira",
+                "https://medium.com/@gmangabeira",
+              ],
+            },
+          ],
+        })}</script>
+      </Helmet>
       <Header locale="en" />
 
       <main>
@@ -186,7 +77,7 @@ export default function About() {
           {/* Hero */}
           <header className="mb-12 text-center">
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">About Me</h1>
-            <p className="mt-4 text-lg text-muted-foreground">{description}</p>
+            <p className="mt-4 text-lg text-muted-foreground">{pageDescription}</p>
           </header>
 
           {/* From Olympic Lanes to Digital Growth */}

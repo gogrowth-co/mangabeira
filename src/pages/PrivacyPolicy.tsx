@@ -1,126 +1,45 @@
-import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-const useSEO = () => {
-  useEffect(() => {
-    // Set page title
-    document.title = "Privacy Policy | Gabriel Mangabeira";
-
-    // Set meta description
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute(
-        "content",
-        "Read the Privacy Policy for mangabeira.net — learn how we collect, use, and protect your information."
-      );
-    }
-
-    // Set canonical URL
-    const canonicalLink = document.querySelector('link[rel="canonical"]');
-    if (canonicalLink) {
-      canonicalLink.setAttribute("href", "https://mangabeira.net/privacy-policy");
-    }
-
-    // Add JSON-LD structured data
-    const script = document.createElement("script");
-    script.type = "application/ld+json";
-    script.text = JSON.stringify({
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "WebSite",
-          "@id": "https://mangabeira.net/#website",
-          "url": "https://mangabeira.net/",
-          "name": "Gabriel Mangabeira",
-          "inLanguage": "en",
-          "publisher": { "@id": "https://mangabeira.net/#person" }
-        },
-        {
-          "@type": "WebPage",
-          "@id": "https://mangabeira.net/privacy-policy/#webpage",
-          "url": "https://mangabeira.net/privacy-policy",
-          "name": "Privacy Policy | Gabriel Mangabeira",
-          "isPartOf": { "@id": "https://mangabeira.net/#website" },
-          "about": { "@id": "https://mangabeira.net/#org" },
-          "primaryImageOfPage": { "@id": "https://mangabeira.net/#logo" },
-          "breadcrumb": { "@id": "https://mangabeira.net/privacy-policy/#breadcrumb" },
-          "inLanguage": "en",
-          "datePublished": "2025-10-09",
-          "dateModified": "2025-10-09",
-          "description": "Read the Privacy Policy for mangabeira.net — learn how we collect, use, and protect your information."
-        },
-        {
-          "@type": "PrivacyPolicy",
-          "@id": "https://mangabeira.net/privacy-policy/#policy",
-          "url": "https://mangabeira.net/privacy-policy",
-          "name": "Privacy Policy",
-          "publisher": { "@id": "https://mangabeira.net/#org" },
-          "copyrightHolder": { "@id": "https://mangabeira.net/#person" },
-          "inLanguage": "en",
-          "datePublished": "2025-10-09",
-          "dateModified": "2025-10-09",
-          "isPartOf": { "@id": "https://mangabeira.net/privacy-policy/#webpage" }
-        },
-        {
-          "@type": "BreadcrumbList",
-          "@id": "https://mangabeira.net/privacy-policy/#breadcrumb",
-          "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://mangabeira.net/" },
-            { "@type": "ListItem", "position": 2, "name": "Privacy Policy" }
-          ]
-        },
-        {
-          "@type": "ImageObject",
-          "@id": "https://mangabeira.net/#logo",
-          "url": "https://mangabeira.net/logo.png",
-          "width": 512,
-          "height": 512,
-          "caption": "Gabriel Mangabeira Growth Marketing logo"
-        },
-        {
-          "@type": "Organization",
-          "@id": "https://mangabeira.net/#org",
-          "name": "Gabriel Mangabeira Growth Marketing",
-          "url": "https://mangabeira.net/",
-          "logo": { "@id": "https://mangabeira.net/#logo" },
-          "sameAs": [
-            "https://www.linkedin.com/company/gabriel-mangabeira-growth-marketing/"
-          ]
-        },
-        {
-          "@type": "Person",
-          "@id": "https://mangabeira.net/#person",
-          "name": "Gabriel Mangabeira",
-          "alternateName": ["Manga", "Gabriel Mangabeira OLY"],
-          "url": "https://mangabeira.net/",
-          "image": "https://mangabeira.net/og-mangabeira.jpg",
-          "jobTitle": "Growth Marketing Strategist",
-          "honorificSuffix": "OLY",
-          "nationality": "Brazil",
-          "sameAs": [
-            "https://pt.wikipedia.org/wiki/Gabriel_Mangabeira",
-            "https://www.linkedin.com/in/mangabeira/",
-            "https://x.com/gabmangabeira",
-            "https://medium.com/@gmangabeira",
-            "https://github.com/gmangabeira"
-          ]
-        }
-      ]
-    });
-    document.head.appendChild(script);
-
-    return () => {
-      document.head.removeChild(script);
-    };
-  }, []);
-};
-
 const PrivacyPolicy = () => {
-  useSEO();
-
   return (
     <>
+      <Helmet>
+        <title>Privacy Policy | Gabriel Mangabeira</title>
+        <meta name="description" content="Read the Privacy Policy for mangabeira.net — learn how we collect, use, and protect your information." />
+        <link rel="canonical" href="https://mangabeira.net/privacy-policy" />
+        <link rel="alternate" hrefLang="en" href="https://mangabeira.net/privacy-policy" />
+        <link rel="alternate" hrefLang="pt-BR" href="https://mangabeira.net/br/politica-de-privacidade" />
+        <link rel="alternate" hrefLang="es" href="https://mangabeira.net/es/politica-de-privacidade" />
+        <link rel="alternate" hrefLang="x-default" href="https://mangabeira.net/privacy-policy" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Privacy Policy | Gabriel Mangabeira" />
+        <meta property="og:description" content="Read the Privacy Policy for mangabeira.net — learn how we collect, use, and protect your information." />
+        <meta property="og:url" content="https://mangabeira.net/privacy-policy" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Privacy Policy | Gabriel Mangabeira" />
+        <meta name="twitter:description" content="Read the Privacy Policy for mangabeira.net — learn how we collect, use, and protect your information." />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              url: "https://mangabeira.net/privacy-policy",
+              name: "Privacy Policy | Gabriel Mangabeira",
+              description: "Read the Privacy Policy for mangabeira.net — learn how we collect, use, and protect your information.",
+              inLanguage: "en",
+              breadcrumb: {
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  { "@type": "ListItem", position: 1, name: "Home", item: "https://mangabeira.net/" },
+                  { "@type": "ListItem", position: 2, name: "Privacy Policy" },
+                ],
+              },
+            },
+          ],
+        })}</script>
+      </Helmet>
       <Header locale="en" />
       <main className="font-body bg-background">
         <article className="max-w-3xl mx-auto px-6 py-16 md:py-24">

@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider, detectBrowserLanguage } from "./contexts/LanguageContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import Index from "./pages/Index";
@@ -27,7 +27,6 @@ import TokenomicsSimulatorPage from "./tools/tokenomics-simulator/TokenomicsSimu
 import ToolsPage from "./pages/ToolsPage";
 import { useEffect, useRef } from "react";
 import { useIsFetching } from "@tanstack/react-query";
-import { Helmet } from "react-helmet-async";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -58,32 +57,18 @@ const App = () => {
 
   // Redirect component defined inside App to ensure proper React context
   const RootRedirect = () => {
-    const location = useLocation();
-    
-    useEffect(() => {
-      if (location.pathname === '/') {
-        const preferredLang = detectBrowserLanguage();
-        if (preferredLang === 'br') {
-          window.location.href = '/br';
-        } else if (preferredLang === 'es') {
-          window.location.href = '/es';
-        }
-      }
-    }, [location.pathname]);
-
+    const preferredLang = detectBrowserLanguage();
+    if (preferredLang === 'br') {
+      return <Navigate to="/br" replace />;
+    } else if (preferredLang === 'es') {
+      return <Navigate to="/es" replace />;
+    }
     return <Index />;
   };
 
   return (
     <QueryClientProvider client={queryClient}>
       <PrerenderSignal />
-      <Helmet>
-          <meta name="description" content="Gabriel Mangabeira — Olympian turned Growth Marketing Strategist. Blending AI, Web3, and performance marketing to deliver measurable growth." />
-          <meta property="og:title" content="Gabriel Mangabeira | Olympian & Growth Marketing Strategist" />
-          <meta property="og:description" content="Gabriel Mangabeira — Olympian turned Growth Marketing Strategist. Blending AI, Web3, and performance marketing to deliver measurable growth." />
-          <meta name="twitter:title" content="Gabriel Mangabeira | Olympian & Growth Marketing Strategist" />
-          <meta name="twitter:description" content="Gabriel Mangabeira — Olympian turned Growth Marketing Strategist. Blending AI, Web3, and performance marketing to deliver measurable growth." />
-        </Helmet>
       <TooltipProvider>
         <Toaster />
         <Sonner />
