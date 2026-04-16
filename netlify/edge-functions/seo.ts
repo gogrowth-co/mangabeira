@@ -391,7 +391,24 @@ function buildMetaTags(meta: PageMeta): string {
   return tags.join("\n");
 }
 
+function stripExistingMeta(html: string): string {
+  // Remove existing SEO-related meta tags to prevent duplicates with Helmet
+  html = html.replace(/<meta\s+name="description"[^>]*>/gi, "");
+  html = html.replace(/<link\s+rel="canonical"[^>]*>/gi, "");
+  html = html.replace(/<meta\s+property="og:[^"]*"[^>]*>/gi, "");
+  html = html.replace(/<meta\s+name="twitter:[^"]*"[^>]*>/gi, "");
+  html = html.replace(/<link\s+rel="alternate"\s+hreflang="[^"]*"[^>]*>/gi, "");
+  return html;
+}
+
+function buildNoscriptBlock(meta: PageMeta): string {
+  return `<noscript><div><h1>${esc(meta.title)}</h1><p>${esc(meta.description)}</p><a href="${esc(meta.canonical)}">${esc(meta.canonical)}</a></div></noscript>`;
+}
+
 function injectMeta(html: string, meta: PageMeta): string {
+  // Strip existing SEO tags first to prevent duplicates after prerender
+  html = stripExistingMeta(html);
+
   // Replace <html lang="..."> with correct lang
   html = html.replace(/<html([^>]*)lang="[^"]*"/, `<html$1lang="${meta.htmlLang}"`);
   // If no lang attribute exists, add it
@@ -405,6 +422,10 @@ function injectMeta(html: string, meta: PageMeta): string {
   // Inject meta tags before </head>
   const metaTags = buildMetaTags(meta);
   html = html.replace(/<\/head>/, `${metaTags}\n</head>`);
+
+  // Inject noscript content block after <div id="root"> for non-JS crawlers
+  const noscript = buildNoscriptBlock(meta);
+  html = html.replace(/<div id="root">/, `<div id="root">${noscript}`);
 
   return html;
 }
