@@ -328,12 +328,14 @@ export default function DynamicPage() {
             <link rel="alternate" hrefLang="en" href={`${baseUrl}/${getLocalizedSlug('en')}`} />
             <link rel="alternate" hrefLang="pt-BR" href={`${baseUrl}/br/${getLocalizedSlug('br')}`} />
             <link rel="alternate" hrefLang="es" href={`${baseUrl}/es/${getLocalizedSlug('es')}`} />
+            <link rel="alternate" hrefLang="x-default" href={`${baseUrl}/${getLocalizedSlug('en')}`} />
           </>
         ) : (
           <>
             <link rel="alternate" hrefLang="en" href={`${baseUrl}/publications/${getLocalizedSlug('en')}`} />
             <link rel="alternate" hrefLang="pt-BR" href={`${baseUrl}/br/artigos/${getLocalizedSlug('br')}`} />
             <link rel="alternate" hrefLang="es" href={`${baseUrl}/es/articulos/${getLocalizedSlug('es')}`} />
+            <link rel="alternate" hrefLang="x-default" href={`${baseUrl}/publications/${getLocalizedSlug('en')}`} />
           </>
         )}
         
