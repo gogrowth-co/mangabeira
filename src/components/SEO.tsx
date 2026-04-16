@@ -6,10 +6,11 @@ interface SEOProps {
   path?: string;
 }
 
+const OG_IMAGE = "https://storage.googleapis.com/gpt-engineer-file-uploads/vPREpio8p8h1iruSSNkQMQeWPo62/social-images/social-1759804725149-og-mangabeira.png";
+
 const SEO = ({ locale, path = '/' }: SEOProps) => {
   const baseUrl = 'https://mangabeira.net';
   
-  // Get localized meta content
   const title = t('meta', 'page_title', locale);
   const description = t('meta', 'page_description', locale);
   const ogTitle = t('meta', 'og_title', locale);
@@ -17,7 +18,6 @@ const SEO = ({ locale, path = '/' }: SEOProps) => {
   const twitterTitle = t('meta', 'twitter_title', locale);
   const twitterDescription = t('meta', 'twitter_description', locale);
 
-  // Build canonical and alternate URLs
   const cleanPath = path.replace(/^\/(br|es)/, '') || '/';
   const canonicalUrl = locale === 'en' 
     ? `${baseUrl}${cleanPath}`
@@ -29,15 +29,7 @@ const SEO = ({ locale, path = '/' }: SEOProps) => {
     es: `${baseUrl}/es${cleanPath}`,
   };
 
-  // Language attribute
   const htmlLang = locale === 'br' ? 'pt-BR' : locale === 'es' ? 'es' : 'en';
-
-  // Localized descriptions based on locale
-  const localizedDescriptions = {
-    en: "Official website of Gabriel Mangabeira — Growth Marketing Strategist specialized in Web3, AI, and digital transformation.",
-    br: "Site oficial de Gabriel Mangabeira — Estrategista de Growth Marketing especializado em Web3, IA e transformação digital.",
-    es: "Sitio web oficial de Gabriel Mangabeira — Estratega de Growth Marketing especializado en Web3, IA y transformación digital."
-  };
 
   const localizedOrgDescriptions = {
     en: "A digital growth lab led by Gabriel Mangabeira, helping Web3 and AI-driven companies grow through data, automation, and storytelling.",
@@ -57,13 +49,6 @@ const SEO = ({ locale, path = '/' }: SEOProps) => {
     es: "Página de inicio de Gabriel Mangabeira — Estratega de Growth Marketing y ex-atleta olímpico, construyendo sistemas de crecimiento Web3 impulsados por IA y comunidades digitales."
   };
 
-  const localizedSearchTarget = {
-    en: "https://mangabeira.net/search?q={search_term_string}",
-    br: "https://mangabeira.net/br/buscar?q={search_term_string}",
-    es: "https://mangabeira.net/es/buscar?q={search_term_string}"
-  };
-
-  // Comprehensive structured data schema
   const comprehensiveSchema = [
     {
       "@context": "https://schema.org",
@@ -71,20 +56,13 @@ const SEO = ({ locale, path = '/' }: SEOProps) => {
       "url": baseUrl,
       "name": "Mangabeira.net",
       "alternateName": "Gabriel Mangabeira",
-      "inLanguage": htmlLang,
-      "description": localizedDescriptions[locale],
       "publisher": {
         "@type": "Organization",
         "name": "Mangabeira.net",
         "logo": {
           "@type": "ImageObject",
-          "url": `${baseUrl}/images/swimming-icon.png`
+          "url": OG_IMAGE
         }
-      },
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": localizedSearchTarget[locale],
-        "query-input": "required name=search_term_string"
       }
     },
     {
@@ -92,7 +70,7 @@ const SEO = ({ locale, path = '/' }: SEOProps) => {
       "@type": "Organization",
       "name": "Mangabeira.net",
       "url": baseUrl,
-      "logo": `${baseUrl}/images/swimming-icon.png`,
+      "logo": OG_IMAGE,
       "description": localizedOrgDescriptions[locale],
       "founder": {
         "@type": "Person",
@@ -147,85 +125,57 @@ const SEO = ({ locale, path = '/' }: SEOProps) => {
     },
     {
       "@context": "https://schema.org",
-      "@type": "AboutPage",
+      "@type": "WebPage",
       "url": canonicalUrl,
       "name": title,
       "description": localizedPageDescriptions[locale],
-      "inLanguage": htmlLang,
-      "breadcrumb": {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": locale === 'en' ? 'Home' : locale === 'br' ? 'Início' : 'Inicio',
-            "item": canonicalUrl
-          }
-        ]
-      }
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": locale === 'en' ? 'Home' : locale === 'br' ? 'Início' : 'Inicio',
-          "item": canonicalUrl
-        }
-      ]
+      "inLanguage": htmlLang
     }
   ];
 
   return (
     <Helmet>
-      {/* HTML lang attribute */}
       <html lang={htmlLang} />
 
-      {/* Primary Meta Tags */}
       <title>{title}</title>
       <meta name="title" content={title} />
       <meta name="description" content={description} />
       <link rel="canonical" href={canonicalUrl} />
 
-      {/* hreflang Tags */}
       <link rel="alternate" hrefLang="en" href={alternateUrls.en} />
       <link rel="alternate" hrefLang="pt-BR" href={alternateUrls.br} />
       <link rel="alternate" hrefLang="es" href={alternateUrls.es} />
       <link rel="alternate" hrefLang="x-default" href={alternateUrls.en} />
 
-      {/* RSS Feeds */}
       <link rel="alternate" type="application/rss+xml" title="Mangabeira.net RSS Feed (English)" href={`${baseUrl}/rss/en.xml`} hrefLang="en" />
       <link rel="alternate" type="application/rss+xml" title="Mangabeira.net RSS Feed (Portuguese)" href={`${baseUrl}/rss/br.xml`} hrefLang="pt-BR" />
       <link rel="alternate" type="application/rss+xml" title="Mangabeira.net RSS Feed (Spanish)" href={`${baseUrl}/rss/es.xml`} hrefLang="es" />
 
-      {/* Open Graph / Facebook */}
       <meta property="og:type" content="website" />
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:title" content={ogTitle} />
       <meta property="og:description" content={ogDescription} />
-      <meta property="og:image" content={`${baseUrl}/images/swimming-icon.png`} />
+      <meta property="og:image" content={OG_IMAGE} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:type" content="image/png" />
       <meta property="og:locale" content={htmlLang.replace('-', '_')} />
       {locale !== 'en' && <meta property="og:locale:alternate" content="en_US" />}
       {locale !== 'br' && <meta property="og:locale:alternate" content="pt_BR" />}
       {locale !== 'es' && <meta property="og:locale:alternate" content="es_ES" />}
 
-      {/* Twitter */}
       <meta property="twitter:card" content="summary_large_image" />
       <meta property="twitter:url" content={canonicalUrl} />
       <meta property="twitter:title" content={twitterTitle} />
       <meta property="twitter:description" content={twitterDescription} />
-      <meta property="twitter:image" content={`${baseUrl}/images/swimming-icon.png`} />
+      <meta property="twitter:image" content={OG_IMAGE} />
 
-      {/* Mobile Optimization */}
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
       <meta name="theme-color" content="#0a1f34" />
       <meta name="mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-      {/* Structured Data */}
       <script type="application/ld+json">
         {JSON.stringify(comprehensiveSchema)}
       </script>

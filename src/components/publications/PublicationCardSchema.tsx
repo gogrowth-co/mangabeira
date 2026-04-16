@@ -12,7 +12,7 @@ interface PublicationCardSchemaProps {
 
 export default function PublicationCardSchema({ publication, translation, locale }: PublicationCardSchemaProps) {
   const baseUrl = 'https://mangabeira.net';
-  const pathPrefix = locale === 'en' ? '' : `/${locale}`;
+  const pathPrefix = locale === 'en' ? '/publications' : locale === 'br' ? '/br/artigos' : '/es/articulos';
   
   const schema = {
     '@context': 'https://schema.org',
