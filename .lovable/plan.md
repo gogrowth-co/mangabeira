@@ -1,112 +1,131 @@
 
 
-# SEO Recovery Plan: Netlify Edge Function for Server-Side Meta Injection
+# SEO/AEO Recovery Plan — Full Audit Fix
 
-## Problem Summary
-The Netlify Prerender Extension strips the `<head>` section from all pages served to bots. Every page is missing title, description, canonical, hreflang, OG tags, and structured data in the crawled HTML. This is the root cause of zero organic traffic despite impressions.
+## Overview
+This plan addresses all 23 findings from the audit, grouped into 6 implementation batches. Each batch can be verified independently.
 
-## Architecture
+---
 
-```text
-Request → Netlify CDN
-  ↓
-Edge Function (ALL traffic, bots + humans)
-  ↓
-Fetches index.html via context.next()
-  ↓
-HTMLRewriter injects: <title>, <meta description>,
-  <link canonical>, <link hreflang>, <meta og:*>,
-  <script type="application/ld+json">
-  ↓
-Returns modified HTML
-  ↓
-Browser hydrates React app (Helmet overwrites are harmless — same values)
+## Batch 1: Fix `index.html` — Remove Duplicate Tags + Fix Favicon
+
+**File: `index.html`**
+- Remove lines 23-28 (hardcoded `og:type`, `og:image`, `twitter:card`, `twitter:site`, `twitter:image`) — the edge function injects these per-route
+- Change favicon (line 14) from external GCS URL to local: `<link rel="icon" type="image/x-icon" href="/favicon.ico">`
+
+*Fixes: #1 (duplicate OG/Twitter), #11 (external favicon)*
+
+---
+
+## Batch 2: Fix Edge Function — Add Missing Tags + Fix ES Privacy Slug
+
+**File: `netlify/edge-functions/seo.ts`**
+
+1. **Fix ES privacy slug** (line 52): `politica-de-privacidade` → `politica-de-privacidad`
+2. **Fix privacy alternates** (line 150-155): ES alternate → `/es/politica-de-privacidad`
+3. **Add to `buildMetaTags()`**:
+   - `og:locale` (derived from `meta.htmlLang`: en→en_US, pt-BR→pt_BR, es→es_ES)
+   - `og:site_name` = "Gabriel Mangabeira"
+   - `og:image:width` = 1200, `og:image:height` = 630, `og:image:type` = image/png
+   - `twitter:site` = `@gabmangabeira`
+
+*Fixes: #3 (ES slug), #12 (image dimensions), #16 (og:locale), #17 (og:site_name), #25 (twitter:site)*
+
+---
+
+## Batch 3: Fix `SEO.tsx` — Homepage Schemas + OG Image
+
+**File: `src/components/SEO.tsx`**
+
+1. **Replace swimming-icon with proper OG banner** (lines 208, 219): Use the CDN OG image URL already in the edge function (`OG_IMAGE` constant)
+2. **Remove `SearchAction`** from WebSite schema (lines 84-88) — routes don't exist
+3. **Change `AboutPage` → `WebPage`** in schema index 3 (line 150)
+4. **Remove standalone `BreadcrumbList`** schema (lines 167-178) — single-item self-referencing
+5. **Remove `inLanguage` from WebSite schema** (line 74) — the WebSite entity is multilingual, not per-locale
+6. **Fix Organization `logo`** (line 95): change from swimming-icon to OG banner or a proper logo URL
+
+*Fixes: #2 (OG image = icon), #6 (SearchAction), #7 (AboutPage on home), #8 (BreadcrumbList), #22 (WebSite inLanguage)*
+
+---
+
+## Batch 4: Fix Component-Level Issues
+
+**File: `src/components/publications/PublicationCardSchema.tsx`**
+- Fix `mainEntityOfPage` URL (line 35): Change pathPrefix logic to include `/publications/` for EN, `/br/artigos/` for BR, `/es/articulos/` for ES
+
+**File: `src/components/publications/PublicationsHubSEO.tsx`**
+- Fix hreflang `es-ES` → `es` (line 70)
+
+**File: `src/pages/DynamicPage.tsx`**
+- Add `<link rel="alternate" hrefLang="x-default" href=...>` to the Helmet block (after line 337)
+
+**File: `src/App.tsx`**
+- Fix line 112: `/es/politica-de-privacidade` → `/es/politica-de-privacidad`
+
+*Fixes: #4 (publication URL), #9 (es-ES), #10 (x-default), #3 (App.tsx ES redirect)*
+
+---
+
+## Batch 5: Standardize Entity Graph — Social URLs
+
+Canonical set: `https://x.com/manga82`, `https://linkedin.com/in/mangabeira`, `https://medium.com/@mangabeira`
+
+**Files to update:**
+- `src/pages/About.tsx` (lines 63-68): Replace sameAs array with canonical set + keep Wikipedia
+- `src/components/admin/SchemaEditor.tsx` (lines 44-47): Update person template sameAs
+- `public/llms-full.txt` (lines 66-69): Update LinkedIn/Medium URLs
+- `index.html` line 27: Confirm `@gabmangabeira` is correct twitter:site — but this tag is being removed in Batch 1, so no action needed
+
+*Fixes: #5 (conflicting sameAs), #20 (SchemaEditor templates)*
+
+---
+
+## Batch 6: Fix Remaining Medium Issues
+
+**File: `public/_redirects`**
+- Change RSS redirect status from `301` to `302` (lines 5-8)
+
+**File: `public/llms-full.txt`**
+- Fix dead routes: `/services` → `/services/web3-growth-audit`, remove `/methods` and `/case-studies` or change to `/#methods`, `/#case-studies`
+
+**File: `public/_headers`**
+- Remove duplicate `X-Content-Type-Options` and `Referrer-Policy` from the `/*` block (lines 12-15) — already in `netlify.toml`
+
+*Fixes: #13 (dead links), #15 (RSS 301→302), #19 (duplicate headers)*
+
+---
+
+## Not Addressed (Intentional)
+
+| # | Why skipped |
+|---|---|
+| #14 | `RootRedirect` — audit notes this is fine; edge function handles bots correctly |
+| #18 | About page EN-only — existing DB-driven translations via DynamicPage work; adding localized React components is a separate feature |
+| #21 | Auto-generating `llms.txt` — a nice-to-have for a future edge function, not critical now |
+| #23 | Author avatar hashed path in BlogTemplate — cosmetic, no SEO impact |
+| #24 | Schema array vs `@graph` — Google handles arrays fine |
+
+---
+
+## Technical Summary
+
+```
+Files Modified (10):
+  index.html
+  netlify/edge-functions/seo.ts
+  src/components/SEO.tsx
+  src/components/publications/PublicationCardSchema.tsx
+  src/components/publications/PublicationsHubSEO.tsx
+  src/pages/DynamicPage.tsx
+  src/pages/About.tsx
+  src/App.tsx
+  src/components/admin/SchemaEditor.tsx
+  public/_redirects
+
+Files Modified (static content, 2):
+  public/llms-full.txt
+  public/_headers
 ```
 
-## Step-by-Step Plan
-
-### Step 1: Create Netlify Edge Function (`netlify/edge-functions/seo.ts`)
-- Intercepts ALL requests (bots + humans) for HTML pages
-- Parses URL path to determine: locale (en/br/es), page type (home, publication, tool, audit, about, privacy, publications hub)
-- For **static/system pages** (home, about, privacy, tools hub, tokenomics simulator, web3 growth audit): hardcoded SEO metadata map
-- For **dynamic pages** (publications): fetches title + meta_description + featured_image from Supabase `pages` + `page_translations` tables via REST API (using anon key, RLS allows public SELECT on published pages)
-- Uses `HTMLRewriter` to:
-  - Replace `<title>` content
-  - Upsert `<meta name="description">`, `<meta property="og:title">`, `<meta property="og:description">`, `<meta property="og:url">`, `<meta property="og:image">`, `<meta name="twitter:title">`, `<meta name="twitter:description">`
-  - Inject `<link rel="canonical">`, three `<link rel="alternate" hreflang="...">` tags
-  - Inject `<script type="application/ld+json">` with appropriate schema
-- Passes through non-HTML requests (JS, CSS, images, API calls) untouched
-- Caches DB lookups in-memory with 1-hour TTL
-
-### Step 2: Register edge function in `netlify.toml`
-```toml
-[[edge_functions]]
-  function = "seo"
-  path = "/*"
-```
-With exclusion patterns for static assets.
-
-### Step 3: Delete orphaned Supabase prerender function
-- Delete `supabase/functions/prerender/` (index.ts)
-- Remove `[functions.prerender]` from `supabase/config.toml`
-- Remove any references to the prerender function
-
-### Step 4: Fix RSS path mismatch in `SEO.tsx`
-- Change `/rss/rss-en.xml` → `/rss/en.xml` (and br/es) to match `_redirects` and `index.html`
-
-### Step 5: Remove duplicate global Helmet from `App.tsx`
-- Delete the `<Helmet>` block at lines 80-86 that sets description/og/twitter — per-page `<SEO>` components handle this
-
-### Step 6: Clean up `index.html`
-- Remove the hardcoded JSON-LD block (lines 35-149) — the edge function now handles structured data server-side, and Helmet handles it client-side
-- Keep: charset, viewport, title (as fallback), favicon, fonts, GTM, og:image, twitter:card/image, RSS links
-
-### Step 7: Standardize About.tsx and PrivacyPolicy.tsx
-- Replace manual `document.querySelector` DOM manipulation with `react-helmet-async` `<Helmet>` — consistent with every other page
-
-### Step 8: Add hreflang to Web3GrowthAudit.tsx
-- Add `<Helmet>` hreflang alternate links for EN/BR/ES routes
-
-### Step 9: Fix root redirect for bots (App.tsx)
-- Replace `window.location.href = '/br'` with React Router `<Navigate>` to avoid breaking bot crawling of `/`
-
-### Step 10: Regenerate sitemap and RSS
-- Trigger `generate-sitemap` and `generate-rss` edge functions to produce fresh feeds with correct alternate URLs
-
-## Technical Details
-
-### Edge Function URL Parsing Logic
-```text
-/                           → locale=en, type=home
-/br                         → locale=br, type=home
-/es                         → locale=es, type=home
-/publications               → locale=en, type=publications-hub
-/br/artigos                 → locale=br, type=publications-hub
-/es/articulos               → locale=es, type=publications-hub
-/publications/:slug         → locale=en, type=publication, fetch from DB
-/br/artigos/:slug           → locale=br, type=publication, fetch from DB
-/es/articulos/:slug         → locale=es, type=publication, fetch from DB
-/about                      → locale=en, type=about (hardcoded meta)
-/tools                      → locale=en, type=tools-hub
-/tools/tokenomics-simulator → locale=en, type=tokenomics
-/services/web3-growth-audit → locale=en, type=audit
-/privacy-policy             → locale=en, type=privacy
-... (+ BR/ES variants)
-```
-
-### Files Created
-- `netlify/edge-functions/seo.ts` — the core edge function
-
-### Files Modified
-- `netlify.toml` — register edge function
-- `supabase/config.toml` — remove prerender entry
-- `src/components/SEO.tsx` — fix RSS paths
-- `src/App.tsx` — remove global Helmet, fix RootRedirect
-- `index.html` — remove duplicate JSON-LD
-- `src/pages/About.tsx` — migrate to react-helmet-async
-- `src/pages/PrivacyPolicy.tsx` — migrate to react-helmet-async
-- `src/pages/Web3GrowthAudit.tsx` — add hreflang
-
-### Files Deleted
-- `supabase/functions/prerender/index.ts`
+After deploying, we'll re-run IndexNow submission to get all pages re-crawled with the corrected metadata.
 
