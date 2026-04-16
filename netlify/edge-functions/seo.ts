@@ -49,7 +49,7 @@ function parseRoute(pathname: string): ParsedRoute {
 
   if (p === "/privacy-policy") return { locale: "en", type: "privacy" };
   if (p === "/br/politica-de-privacidade") return { locale: "br", type: "privacy" };
-  if (p === "/es/politica-de-privacidade") return { locale: "es", type: "privacy" };
+  if (p === "/es/politica-de-privacidad") return { locale: "es", type: "privacy" };
 
   if (p === "/publications") return { locale: "en", type: "publications-hub" };
   if (p === "/br/artigos") return { locale: "br", type: "publications-hub" };
@@ -147,12 +147,12 @@ function getStaticMeta(route: ParsedRoute): PageMeta | null {
       };
     },
     privacy: () => {
-      const paths: Record<Locale, string> = { en: "/privacy-policy", br: "/br/politica-de-privacidade", es: "/es/politica-de-privacidade" };
+      const paths: Record<Locale, string> = { en: "/privacy-policy", br: "/br/politica-de-privacidade", es: "/es/politica-de-privacidad" };
       return {
         title: "Privacy Policy | Gabriel Mangabeira",
         description: "Read the Privacy Policy for mangabeira.net — learn how we collect, use, and protect your information.",
         canonical: `${BASE_URL}${paths[locale]}`, ogType: "website", ogImage: OG_IMAGE, locale, htmlLang,
-        alternates: buildAlternates("/privacy-policy", "/br/politica-de-privacidade", "/es/politica-de-privacidade"),
+        alternates: buildAlternates("/privacy-policy", "/br/politica-de-privacidade", "/es/politica-de-privacidad"),
       };
     },
     "publications-hub": () => {
@@ -347,6 +347,12 @@ function esc(s: string): string {
   return s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
+function getOgLocale(htmlLang: string): string {
+  if (htmlLang === "pt-BR") return "pt_BR";
+  if (htmlLang === "es") return "es_ES";
+  return "en_US";
+}
+
 function buildMetaTags(meta: PageMeta): string {
   const tags: string[] = [];
 
@@ -361,11 +367,17 @@ function buildMetaTags(meta: PageMeta): string {
   tags.push(`<meta property="og:url" content="${esc(meta.canonical)}">`);
   tags.push(`<meta property="og:title" content="${esc(meta.title)}">`);
   tags.push(`<meta property="og:description" content="${esc(meta.description)}">`);
+  tags.push(`<meta property="og:locale" content="${getOgLocale(meta.htmlLang)}">`);
+  tags.push(`<meta property="og:site_name" content="Gabriel Mangabeira">`);
   if (meta.ogImage) {
     tags.push(`<meta property="og:image" content="${esc(meta.ogImage)}">`);
+    tags.push(`<meta property="og:image:width" content="1200">`);
+    tags.push(`<meta property="og:image:height" content="630">`);
+    tags.push(`<meta property="og:image:type" content="image/png">`);
   }
 
   tags.push(`<meta name="twitter:card" content="summary_large_image">`);
+  tags.push(`<meta name="twitter:site" content="@gabmangabeira">`);
   tags.push(`<meta name="twitter:title" content="${esc(meta.title)}">`);
   tags.push(`<meta name="twitter:description" content="${esc(meta.description)}">`);
   if (meta.ogImage) {

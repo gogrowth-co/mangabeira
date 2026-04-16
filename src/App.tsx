@@ -109,7 +109,7 @@ const App = () => {
               <Route path="/br/about" element={<Navigate to="/br/sobre" replace />} />
               <Route path="/es/about" element={<Navigate to="/es/acerca-de" replace />} />
               <Route path="/br/privacy-policy" element={<Navigate to="/br/politica-de-privacidade" replace />} />
-              <Route path="/es/privacy-policy" element={<Navigate to="/es/politica-de-privacidade" replace />} />
+              <Route path="/es/privacy-policy" element={<Navigate to="/es/politica-de-privacidad" replace />} />
               
               {/* Publications hub */}
               <Route path="/publications" element={<Publications />} />

@@ -62,9 +62,9 @@ export default function About() {
               description: "Olympian and Growth Marketing Strategist blending AI, Web3, and data-driven systems to deliver measurable results.",
               sameAs: [
                 "https://pt.wikipedia.org/wiki/Gabriel_Mangabeira",
-                "https://www.linkedin.com/in/mangabeira/",
-                "https://x.com/gabmangabeira",
-                "https://medium.com/@gmangabeira",
+                "https://linkedin.com/in/mangabeira",
+                "https://x.com/manga82",
+                "https://medium.com/@mangabeira",
               ],
             },
           ],

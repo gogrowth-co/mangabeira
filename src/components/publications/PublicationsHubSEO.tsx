@@ -67,7 +67,7 @@ export default function PublicationsHubSEO({ locale, publicationCount }: Publica
       <link rel="canonical" href={`${baseUrl}${currentPath}`} />
       <link rel="alternate" hrefLang="en" href={`${baseUrl}/publications`} />
       <link rel="alternate" hrefLang="pt-BR" href={`${baseUrl}/br/artigos`} />
-      <link rel="alternate" hrefLang="es-ES" href={`${baseUrl}/es/articulos`} />
+      <link rel="alternate" hrefLang="es" href={`${baseUrl}/es/articulos`} />
       <link rel="alternate" hrefLang="x-default" href={`${baseUrl}/publications`} />
       
       {/* Open Graph */}

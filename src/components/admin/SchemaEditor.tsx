@@ -42,8 +42,9 @@ const SCHEMA_TEMPLATES = {
     jobTitle: 'Growth Marketing & Web3 Strategist',
     url: 'https://mangabeira.net',
     sameAs: [
-      'https://linkedin.com/in/gabriel-mangabeira',
-      'https://twitter.com/gabrielmangab'
+      'https://linkedin.com/in/mangabeira',
+      'https://x.com/manga82',
+      'https://medium.com/@mangabeira'
     ]
   },
   breadcrumb: {
