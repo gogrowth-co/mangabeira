@@ -42,6 +42,14 @@ const PrerenderSignal = () => {
   isFetchingRef.current = isFetching;
 
   useEffect(() => {
+    // Safety timeout: ensure prerenderReady fires even if fetches stall
+    const maxTimeout = setTimeout(() => {
+      if (!window.prerenderReady) window.prerenderReady = true;
+    }, 10000);
+    return () => clearTimeout(maxTimeout);
+  }, []);
+
+  useEffect(() => {
     if (isFetching > 0) return;
     // Defer 100ms so React Query can register and start any pending fetches
     const timer = setTimeout(() => {
