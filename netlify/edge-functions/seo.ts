@@ -285,7 +285,7 @@ async function fetchPublicationMeta(slug: string, locale: Locale, includeContent
       }
 
       const page = pages[0];
-      const tUrl = `${SUPABASE_URL}/rest/v1/page_translations?page_id=eq.${page.id}&language=eq.${lang}&select=title,meta_description,slug`;
+      const tUrl = `${SUPABASE_URL}/rest/v1/page_translations?page_id=eq.${page.id}&language=eq.${lang}&select=${tFields}`;
       const tRes = await fetch(tUrl, {
         headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
       });
@@ -294,7 +294,7 @@ async function fetchPublicationMeta(slug: string, locale: Locale, includeContent
       if (translations && translations.length > 0) {
         pageData = { ...translations[0], page };
       } else {
-        const enUrl = `${SUPABASE_URL}/rest/v1/page_translations?page_id=eq.${page.id}&language=eq.en&select=title,meta_description,slug`;
+        const enUrl = `${SUPABASE_URL}/rest/v1/page_translations?page_id=eq.${page.id}&language=eq.en&select=${tFields}`;
         const enRes = await fetch(enUrl, {
           headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
         });
