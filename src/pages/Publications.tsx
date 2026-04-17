@@ -29,12 +29,14 @@ export default function Publications() {
     initTranslations(locale);
   }, [locale]);
   
-  const { data: publications = [], isLoading, isError, error, refetch } = usePublications(locale, categoryFilter, searchQuery);
+  const { data, isLoading, isError, error, refetch } = usePublications(locale, categoryFilter, searchQuery);
+  const publications = data?.publications ?? [];
+  const isFallback = data?.source === 'snapshot';
   const { data: featured = [] } = useFeaturedPublications(locale);
   const hasActiveFilters = categoryFilter !== 'all' || searchQuery.trim().length > 0;
   
   // Get unique categories from publications
-  const categories = ['all', ...Array.from(new Set(publications.map(p => p.category)))];
+  const categories: string[] = ['all', ...Array.from(new Set(publications.map(p => p.category).filter(Boolean) as string[]))];
   
   // Sort publications
   const sortedPublications = [...publications].sort((a, b) => {
