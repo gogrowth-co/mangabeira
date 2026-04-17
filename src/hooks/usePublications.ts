@@ -52,12 +52,41 @@ function friendlyError(err: unknown): Error {
   return new Error(details || 'Supabase query failed');
 }
 
-// Same-origin fallback. Bypasses ad-blockers / VPN filters that target *.supabase.co.
+// Snapshot endpoints to try, in order. Same-origin first (works on mangabeira.net),
+// then absolute Netlify URL (works on preview/lovable.app where the function isn't deployed).
+const SNAPSHOT_URLS = [
+  '/api/publications-snapshot',
+  'https://mangabeira.net/api/publications-snapshot',
+];
+
 async function fetchFromSnapshot(): Promise<Publication[]> {
-  const res = await fetch('/api/publications-snapshot', { cache: 'no-store' });
-  if (!res.ok) throw new Error(`Snapshot returned ${res.status}`);
-  const data = await res.json();
-  return data as Publication[];
+  let lastErr: unknown = null;
+  for (const url of SNAPSHOT_URLS) {
+    try {
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) {
+        lastErr = new Error(`Snapshot ${url} returned ${res.status}`);
+        continue;
+      }
+      // Guard against SPA fallback returning index.html instead of JSON
+      const ct = res.headers.get('content-type') || '';
+      if (!ct.includes('application/json')) {
+        lastErr = new Error(`Snapshot ${url} returned non-JSON (${ct})`);
+        continue;
+      }
+      const data = await res.json();
+      if (!Array.isArray(data)) {
+        lastErr = new Error(`Snapshot ${url} returned non-array payload`);
+        continue;
+      }
+      console.info(`[usePublications] snapshot served from ${url} (${data.length} items)`);
+      return data as Publication[];
+    } catch (err) {
+      console.warn(`[usePublications] snapshot ${url} failed:`, err);
+      lastErr = err;
+    }
+  }
+  throw lastErr instanceof Error ? lastErr : new Error('All snapshot URLs failed');
 }
 
 export interface PublicationsResult {
