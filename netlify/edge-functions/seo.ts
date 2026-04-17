@@ -344,6 +344,8 @@ async function fetchPublicationMeta(slug: string, locale: Locale, includeContent
       title, description, canonical, ogType: "article", ogImage: featuredImage,
       locale, htmlLang, schema,
       alternates: buildAlternates(pubPaths.en, pubPaths.br, pubPaths.es),
+      content: includeContent ? (pageData.content || undefined) : undefined,
+      featuredImageAlt: pageData.featured_image_alt || undefined,
     };
 
     cache.set(cacheKey, { data: meta, ts: Date.now() });
