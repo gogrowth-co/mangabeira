@@ -1,74 +1,64 @@
 
+## Investigation: "No publications found" on `/publications`
 
-## What I checked
+### What the user reported
+The `/publications` hub is showing the empty state ("No publications found / Try adjusting your filters or search query") instead of the publications grid.
 
-1. **Live published HTML (no special UA)** for `https://mangabeira.net/publications/definitive-guide-web3-seo`:
-   - Response headers: `server: Netlify`, `cache-status: "Netlify Edge"; fwd=miss`, **NO `x-prerendered: true`**, **NO `data-rh` Helmet marker**.
-   - Body: `<div id="root"><div>Loading...</div></div>` and a toaster region — that's it. No `<noscript>` block, no injected meta, no bot content block.
-   - Translation: this is a **stale Prerender snapshot captured during the loading state**, served from the prerender cache. The seo.ts edge function content-injection isn't visible because Prerender served its own cached HTML before edge transforms.
+### What I need to check before planning
 
-2. **Live homepage** (`mangabeira.net`):
-   - Returns fully prerendered HTML with `<html lang="en" data-rh="lang">` (Helmet ran), full body content. Works correctly.
+The recent thread has touched many moving parts: `usePublications.ts`, `Publications.tsx` loading-state hardening, the `PrerenderSignal`, canonical redirects in `DynamicPage`, and now the SEO edge function. The empty-state symptom on `/publications` could be caused by:
 
-3. **Live `/publications` hub**:
-   - Fully prerendered (full grid of cards), but interestingly shows "Showing 0 publications" + a spinner because the React Query fetch hadn't completed when the snapshot was taken.
+1. **Locale mismatch** — `usePublications` filters non-EN locales to only show pubs that have a translation in that locale. If `locale` is being computed wrong (e.g. defaulting to `br`/`es` for an EN visitor, or vice versa), the filter strips everything.
+2. **Category filter stuck** — `categoryFilter` state defaults to `'all'`, but if something writes a stale value the query filters everything out.
+3. **Search query stuck** — same logic.
+4. **Query error swallowed** — `usePublications` throws on error but the UI only checks `isLoading` + `length === 0`, so a failed query renders as "no results".
+5. **Skeleton-vs-empty race** — recent fix gates the empty state on `!isLoading`, but if the query resolves to `[]` (e.g. RLS regression, locale filter strips all), empty state shows correctly but for the wrong reason.
+6. **Recent edge-function refactor side effect** — unlikely to affect client rendering, but worth a quick scan.
 
-4. **Preview / dev sandbox**:
-   - The page actually loads correctly for humans — observed full article rendering with title "Web3 SEO in 2026 – How Blockchain Changes Search".
-   - Console shows missing translation keys for `case_studies.binance_impact`, `russell_impact`, `np_impact` — cosmetic warnings only.
-   - All scripts return 200.
+I need to read the current state of: `Publications.tsx`, `usePublications.ts`, `LanguageContext.tsx`, and check the live Supabase data + browser console / network to know which of the above it actually is. Since I'm in read-only plan mode and the user's preview is on `/`, I'll lay out the diagnostic + fix plan.
 
-5. **Database**: 17 published pages, 19/19/17 translations EN/BR/ES. Healthy.
+### Plan
 
-## What's actually broken
+**Step 1 — Diagnose (in default mode)**
+- Read `src/contexts/LanguageContext.tsx` to confirm what `locale` resolves to on `/publications` (no locale prefix → should be `'en'`).
+- Run a Supabase read to confirm `pages` where `status='published' AND is_system_page=false` exist and have `language='en'` translations. (We know from earlier audit there are 17 published pages with 19 EN translations — should be fine, but reconfirm.)
+- Open the preview, navigate to `/publications`, and read browser console + network requests for the Supabase query. Look for: empty `data` array, RLS error, locale value in the React Query devtools/cache key.
+- Check whether `categoryFilter` is being reset to a stale category on mount (e.g. via URL, localStorage).
 
-This isn't a "nothing loads" outage — the app works. **Three separate snapshot/SEO issues are compounding** and creating the symptom the user is seeing:
+**Step 2 — Fix the most likely cause**
+Based on past patterns in this codebase, the most likely cause is one of:
 
-**Issue A — Prerender captures the loading state on `/publications/:slug`**
-The dependent fetch chain in `DynamicPage` (`translations.csv` → `fetchSlugMappings` → `usePublicPage` → `useQuery(page-translations, enabled: !!data?.page.id)`) plus a possible `navigate(replace)` redirect means `useIsFetching === 0` flips later than Prerender's wait window. The 10-second safety timeout fires after Prerender has already snapshotted. Result: cached snapshot is the spinner, not the article.
+- **(A) `categoryFilter` on the query is too strict.** `usePublications` passes `categoryFilter` directly to `.eq('category', categoryFilter)`. If a publication's `category` is null or differs in case/whitespace from what the badge sends, `'all'` works but other filters return nothing. Symptom matches if the user clicked a category badge.
+- **(B) Locale filter strips everything.** If `locale` is `'br'` or `'es'` due to `detectBrowserLanguage()` and the user is on the bare `/publications` route (which is the EN route), `usePublications` filters out all 17 pubs that don't have a BR/ES translation matching. Wait — 19 BR and 17 ES translations exist, so this shouldn't strip everything either. But if the route mismatches the locale (visiting `/publications` while context says `br`), and the join returns translations but the locale filter `pub.translations.some(t => t.language === 'br')` happens to fail for a transient reason, we'd see empty.
+- **(C) Query error.** `useQuery` throws but UI doesn't surface it. Add `error` handling to show a real error vs "no results."
 
-**Issue B — Prerender captures the loading state on `/publications` hub**
-Same pattern. `usePublications` finishes after the snapshot is taken, so the snapshot says "Showing 0 publications" + spinner. Featured cards are present (faster query), grid is empty.
+**Step 3 — Hardening regardless of root cause**
+- In `Publications.tsx`, distinguish three states clearly: `isLoading` (skeleton), `isError` (error message + retry), `data.length === 0` with no filters active (true empty), `data.length === 0` with filters active ("try adjusting filters"). Currently it only shows the third regardless.
+- In `usePublications.ts`, log/expose the raw count vs filtered count so we can tell if the locale filter is what's stripping results.
+- Verify `categoryFilter` defaults and that clicking "All" resets cleanly.
 
-**Issue C — UA whitelist gap (the user's original concern)**
-The user's external bot crawl found GPTBot and PerplexityBot are NOT on Netlify Prerender's default whitelist, so they get the raw SPA shell with no prerender at all. ClaudeBot and Googlebot are on the list and get the (possibly stale) snapshot.
+**Step 4 — Verify**
+- Reload `/publications`, confirm grid renders with all 17 EN articles.
+- Click each category, confirm filter works.
+- Switch to `/br/publications` and `/es/publications`, confirm those work.
+- Confirm "no results" only appears when search/filter genuinely yields zero.
 
-The bot-aware content injection we added in `seo.ts` would solve C — but only **if** the edge function's response actually reaches the client. Right now the prerender cache is intercepting first and the edge transform isn't visible in the served HTML for `/publications/<slug>`.
+### Files I'll touch
+- `src/pages/Publications.tsx` — split error vs empty state, surface query error.
+- `src/hooks/usePublications.ts` — minor: only `.eq('category', ...)` when not `'all'` (already handled), confirm no other strict filter regressions; possibly add a console.warn when locale-filter strips everything so we can see it in logs.
 
-## Plan
+### What I will NOT touch
+- `netlify/edge-functions/seo.ts` — the recent bot UA refactor is unrelated to client rendering of `/publications` for a human visitor. No changes needed there for this issue.
+- `LanguageContext.tsx` — only read it; don't refactor unless diagnostic proves it's the cause.
+- The Prerender / snapshot pipeline — that's an SEO concern, not why a human sees "No publications found" right now.
 
-### 1. Fix the `prerenderReady` race in `DynamicPage` (Issue A)
-- Remove the early-return `<div>Loading...</div>` on `/publications/<slug>` — replace with a skeleton that contains the title (from `translation`) and a stable layout, so even a snapshot taken mid-load has indexable content.
-- Set `window.prerenderReady = true` explicitly inside `DynamicPage` only after `data?.translation?.content` is present (or after a hard 8s ceiling). Don't rely solely on the global `useIsFetching` signal — chained dependent queries make it unreliable.
-- Avoid the `navigate(replace)` canonical redirect during prerender by checking `window.prerenderReady === false` and skipping it for the snapshot pass.
+### Open question I need to ask before implementing
 
-### 2. Same fix for `Publications` hub (Issue B)
-- Render the cards from `useFeaturedPublications` immediately (already works) and also render the publications grid behind a skeleton with stable layout, never "Showing 0 publications" during loading.
-- Defer `prerenderReady` until both `usePublications` and `useFeaturedPublications` have settled.
+Before I touch code, one quick clarification will save a wrong fix:
 
-### 3. Force-bust the Prerender cache after the fix
-- Once the fixes above are deployed, bump a `<meta name="prerender-cache-bust" content="<timestamp>">` in `index.html` so the Prerender service re-snapshots all pages.
-- Alternatively, request Netlify Prerender to recrawl via their dashboard "Recache" action.
+When you see "No publications found", are you:
+- (a) On `/publications` (English, no prefix), fresh load, no filters clicked, and the grid is empty? → likely locale or query regression.
+- (b) On `/publications` after clicking a category badge or typing in search? → likely filter logic.
+- (c) On `/br/publications` or `/es/publications`? → likely the locale-filter in `usePublications` stripping pubs.
 
-### 4. Add GPTBot + PerplexityBot to Netlify Prerender whitelist (Issue C)
-- This is a Netlify dashboard action, not a code change. Document it in the implementation plan: Netlify → Extensions → Prerender → "Custom user agents" → add `GPTBot`, `PerplexityBot`, `OAI-SearchBot`, `ChatGPT-User`, `Perplexity-User`, `ClaudeBot`, `anthropic-ai`, `Google-Extended`, `Amazonbot`, `Bytespider`, `Applebot-Extended`, `meta-externalagent`, `CCBot`, `cohere-ai`.
-- Our `seo.ts` already detects these UAs and injects bot-friendly content — but Prerender intercepts **before** edge functions run. With these UAs whitelisted, Prerender will serve a fresh prerendered snapshot to them.
-
-### 5. Verification
-After deploy + cache bust:
-- `curl -A "Mozilla/5.0" https://mangabeira.net/publications/definitive-guide-web3-seo | grep -o '<h1[^>]*>[^<]*' ` → expect article title, not "Loading..."
-- `curl -A "GPTBot" ...` → expect article title + body (via Prerender after whitelist update).
-- `curl -A "Mozilla/5.0" https://mangabeira.net/publications | grep "Showing"` → expect a real number, not "Showing 0 publications".
-
-## Files I'll touch in implementation
-- `src/pages/DynamicPage.tsx` — replace loading state, gate prerenderReady, skip redirect during snapshot.
-- `src/pages/Publications.tsx` — same loading-state hardening.
-- `src/App.tsx` — refine `PrerenderSignal` to wait for a minimum settle window after fetches drop to 0 (currently 100ms, increase to ~500ms) so dependent queries have time to register.
-- `index.html` — add cache-bust meta.
-- The Netlify Prerender UA whitelist is a dashboard step, not a code change. I'll surface it as a one-step instruction after the deploy.
-
-## What I will NOT do
-- I will not turn off Netlify Prerender — the homepage proves it works when the React side cooperates.
-- I will not retire `seo.ts` — it's still doing meta injection on routes Prerender doesn't cache, and the bot content block is the right long-term layer once Prerender starts honoring `prerenderReady` correctly on dynamic routes.
-- I will not introduce SSR / build-time prerendering — overkill for this issue and incompatible with Lovable's hosting pipeline.
-
+I'll ask this as a single multiple-choice before implementing so the fix targets the right code path.
