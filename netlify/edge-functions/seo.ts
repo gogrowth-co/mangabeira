@@ -626,8 +626,12 @@ export default async function handler(request: Request, context: Context) {
   const route = parseRoute(pathname);
   let meta: PageMeta | null = null;
 
-  if (isBotRequest && route.type === "publication" && route.slug) {
-    meta = await fetchPublicationMeta(route.slug, route.locale, true);
+  // Always fetch publication meta so EVERY visitor (humans + bots + scrapers
+  // without classic bot UAs like WhatsApp, Slack, AI agents) gets correct
+  // title/description/OG tags. Only include full content when it's a bot
+  // (content is heavy and only used to build the rich noscript article block).
+  if (route.type === "publication" && route.slug) {
+    meta = await fetchPublicationMeta(route.slug, route.locale, isBotRequest);
   }
 
   if (!meta) {
