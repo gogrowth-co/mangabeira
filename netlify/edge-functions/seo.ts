@@ -252,17 +252,19 @@ function getStaticMeta(route: ParsedRoute): PageMeta | null {
 }
 
 // ─── Dynamic page fetch from Supabase ────────────────────────────────────
-async function fetchPublicationMeta(slug: string, locale: Locale): Promise<PageMeta | null> {
-  const cacheKey = `pub:${locale}:${slug}`;
+async function fetchPublicationMeta(slug: string, locale: Locale, includeContent: boolean): Promise<PageMeta | null> {
+  const cacheKey = `pub:${locale}:${slug}:${includeContent ? "full" : "meta"}`;
   const cached = cache.get(cacheKey);
   if (cached && Date.now() - cached.ts < CACHE_TTL) return cached.data;
 
   try {
     const lang = locale === "en" ? "en" : locale === "br" ? "br" : "es";
+    const transFields = includeContent ? "page_id,title,meta_description,slug,content,featured_image_alt" : "page_id,title,meta_description,slug";
+    const tFields = includeContent ? "title,meta_description,slug,content,featured_image_alt" : "title,meta_description,slug";
 
     let pageData: any = null;
 
-    const transUrl = `${SUPABASE_URL}/rest/v1/page_translations?slug=eq.${encodeURIComponent(slug)}&language=eq.${lang}&select=page_id,title,meta_description,slug,page:pages!inner(slug,featured_image,status,author_name,created_at,updated_at,tags)`;
+    const transUrl = `${SUPABASE_URL}/rest/v1/page_translations?slug=eq.${encodeURIComponent(slug)}&language=eq.${lang}&select=${transFields},page:pages!inner(slug,featured_image,status,author_name,created_at,updated_at,tags)`;
     const transRes = await fetch(transUrl, {
       headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
     });
