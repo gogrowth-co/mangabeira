@@ -494,22 +494,6 @@ export default async function handler(request: Request, context: Context) {
     return response;
   }
 
-  // Parse route and get metadata
-  const route = parseRoute(pathname);
-  let meta: PageMeta | null = null;
-
-  if (route.type === "publication" && route.slug) {
-    meta = await fetchPublicationMeta(route.slug, route.locale);
-  }
-
-  if (!meta) {
-    meta = getStaticMeta(route);
-  }
-
-  if (!meta) {
-    return response;
-  }
-
   // Detect bot/crawler from User-Agent
   const userAgent = request.headers.get("user-agent");
   const isBotRequest = isBot(userAgent);
