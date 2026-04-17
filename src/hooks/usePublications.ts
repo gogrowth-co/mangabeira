@@ -107,18 +107,15 @@ async function fetchAllPublications(): Promise<PublicationsResult> {
     return { publications: (data || []) as Publication[], source: 'live' };
   } catch (liveErr) {
     console.warn('[usePublications] live fetch failed, trying snapshot fallback', liveErr);
-    // If it's a network error, try snapshot fallback
-    if (isNetworkError(liveErr)) {
-      try {
-        const publications = await fetchFromSnapshot();
-        return { publications, source: 'snapshot' };
-      } catch (snapErr) {
-        console.error('[usePublications] snapshot fallback also failed', snapErr);
-        // Both failed — surface friendly error
-        throw friendlyError(liveErr);
-      }
+    // Always try the snapshot — it works around ad-blockers, CSP, network errors,
+    // and any other reason the direct Supabase call may have failed.
+    try {
+      const publications = await fetchFromSnapshot();
+      return { publications, source: 'snapshot' };
+    } catch (snapErr) {
+      console.error('[usePublications] snapshot fallback also failed', snapErr);
+      throw friendlyError(liveErr);
     }
-    throw friendlyError(liveErr);
   }
 }
 
