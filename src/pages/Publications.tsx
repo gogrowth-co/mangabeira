@@ -29,8 +29,9 @@ export default function Publications() {
     initTranslations(locale);
   }, [locale]);
   
-  const { data: publications = [], isLoading } = usePublications(locale, categoryFilter, searchQuery);
+  const { data: publications = [], isLoading, isError, error, refetch } = usePublications(locale, categoryFilter, searchQuery);
   const { data: featured = [] } = useFeaturedPublications(locale);
+  const hasActiveFilters = categoryFilter !== 'all' || searchQuery.trim().length > 0;
   
   // Get unique categories from publications
   const categories = ['all', ...Array.from(new Set(publications.map(p => p.category)))];
@@ -190,16 +191,34 @@ export default function Publications() {
             </div>
           )}
 
-          {/* Empty State */}
-          {!isLoading && sortedPublications.length === 0 && (
+          {/* Error State — surface real errors instead of showing "no results" */}
+          {!isLoading && isError && (
             <div className="text-center py-12">
-              <p className="text-xl font-semibold mb-2">{t('publications_hub', 'no_results', locale)}</p>
-              <p className="text-muted-foreground">{t('publications_hub', 'try_different', locale)}</p>
+              <p className="text-xl font-semibold mb-2 text-destructive">Failed to load publications</p>
+              <p className="text-muted-foreground mb-4">{error instanceof Error ? error.message : 'Unknown error'}</p>
+              <Button onClick={() => refetch()} variant="outline">Retry</Button>
+            </div>
+          )}
+
+          {/* Empty State — distinguish "filtered to nothing" vs "truly empty" */}
+          {!isLoading && !isError && sortedPublications.length === 0 && (
+            <div className="text-center py-12">
+              {hasActiveFilters ? (
+                <>
+                  <p className="text-xl font-semibold mb-2">{t('publications_hub', 'no_results', locale)}</p>
+                  <p className="text-muted-foreground">{t('publications_hub', 'try_different', locale)}</p>
+                </>
+              ) : (
+                <>
+                  <p className="text-xl font-semibold mb-2">No publications available yet</p>
+                  <p className="text-muted-foreground">Check back soon for new content.</p>
+                </>
+              )}
             </div>
           )}
 
           {/* Publications Grid */}
-          {!isLoading && sortedPublications.length > 0 && (
+          {!isLoading && !isError && sortedPublications.length > 0 && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
               {sortedPublications.map(pub => (
                 <PublicationCard key={pub.id} publication={pub} locale={locale} />

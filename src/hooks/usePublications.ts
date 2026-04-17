@@ -54,9 +54,13 @@ export function usePublications(locale: Locale, categoryFilter?: string, searchQ
       // Filter to only show publications that have translation in the requested locale
       // For non-English locales, only show publications with translations available
       if (locale !== 'en') {
+        const beforeCount = publications.length;
         publications = publications.filter(pub =>
           pub.translations.some(t => t.language === locale)
         );
+        if (beforeCount > 0 && publications.length === 0) {
+          console.warn(`[usePublications] Locale filter '${locale}' stripped all ${beforeCount} publications. Translations may be missing.`);
+        }
       }
 
       if (searchQuery && searchQuery.trim()) {
