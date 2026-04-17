@@ -220,6 +220,10 @@ export default function DynamicPage() {
   // Redirect non-canonical URLs to canonical localized URLs
   // e.g., /es/articulos/defi-tokenomics-for-founders → /es/articulos/defi-tokenomics-para-founders
   useEffect(() => {
+    // Skip canonical redirect during prerender pass to avoid snapshot route flicker
+    if (typeof window !== 'undefined' && window.prerenderReady === false) {
+      return;
+    }
     if (
       data?.matchedViaFallback && 
       data.canonicalSlug && 
