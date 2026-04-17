@@ -51,10 +51,11 @@ const PrerenderSignal = () => {
 
   useEffect(() => {
     if (isFetching > 0) return;
-    // Defer 100ms so React Query can register and start any pending fetches
+    // Defer 500ms so dependent React Query chains have time to register
+    // before we declare the page ready for Prerender to snapshot.
     const timer = setTimeout(() => {
       if (isFetchingRef.current === 0) window.prerenderReady = true;
-    }, 100);
+    }, 500);
     return () => clearTimeout(timer);
   }, [isFetching]);
 
