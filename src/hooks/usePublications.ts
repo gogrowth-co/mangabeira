@@ -198,22 +198,19 @@ export function useFeaturedPublications(locale: Locale) {
         }
         return publications;
       } catch (err) {
-        // Featured is best-effort — try snapshot, otherwise return empty
-        if (isNetworkError(err)) {
-          try {
-            const all = await fetchFromSnapshot();
-            let publications = all.filter(p => p.is_featured).slice(0, 3);
-            if (locale !== 'en') {
-              publications = publications.filter(pub =>
-                (pub.translations || []).some(t => t.language === locale)
-              );
-            }
-            return publications;
-          } catch {
-            return [];
+        // Featured is best-effort — always try snapshot, return empty on failure
+        try {
+          const all = await fetchFromSnapshot();
+          let publications = all.filter(p => p.is_featured).slice(0, 3);
+          if (locale !== 'en') {
+            publications = publications.filter(pub =>
+              (pub.translations || []).some(t => t.language === locale)
+            );
           }
+          return publications;
+        } catch {
+          return [];
         }
-        throw friendlyError(err);
       }
     },
   });
