@@ -174,7 +174,7 @@ export default function Publications() {
         <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
           {/* Fallback banner — shown when serving from same-origin snapshot */}
           {isFallback && (
-            <div className="mb-6 rounded-md border border-yellow-500/30 bg-yellow-500/10 px-4 py-3 text-sm text-foreground">
+            <div className="mb-6 rounded-md border border-accent bg-accent/10 px-4 py-3 text-sm text-foreground">
               Showing a cached version of publications. Live content is temporarily unavailable — likely due to a browser extension or network filter blocking our content server.
             </div>
           )}
