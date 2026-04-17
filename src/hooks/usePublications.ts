@@ -25,8 +25,35 @@ export interface Publication {
   }[];
 }
 
+// Detects "TypeError: Failed to fetch" and similar network-layer aborts
+// (adblockers, privacy extensions, VPN filters, offline, DNS failure).
+function isNetworkError(err: unknown): boolean {
+  if (!err) return false;
+  const msg = err instanceof Error ? err.message : String(err);
+  return /failed to fetch|networkerror|load failed|network request failed/i.test(msg);
+}
+
+function friendlyError(err: unknown): Error {
+  if (isNetworkError(err)) {
+    return new Error(
+      "Couldn't reach the content server. This is usually caused by a browser extension (ad blocker, privacy extension), a VPN, or a corporate firewall blocking the request. Try disabling extensions for this site or switching networks."
+    );
+  }
+  if (err instanceof Error) return err;
+  const details = [(err as any)?.message, (err as any)?.code, (err as any)?.details]
+    .filter(Boolean)
+    .join(' | ');
+  return new Error(details || 'Supabase query failed');
+}
+
 export function usePublications(locale: Locale, categoryFilter?: string, searchQuery?: string) {
   return useQuery({
+    retry: (failureCount, error) => {
+      // Retry network failures up to 3 times; don't retry real Supabase errors.
+      if (isNetworkError(error)) return failureCount < 3;
+      return false;
+    },
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 4000),
     queryKey: ['publications', locale, categoryFilter, searchQuery],
     queryFn: async () => {
       let query = supabase
@@ -44,13 +71,16 @@ export function usePublications(locale: Locale, categoryFilter?: string, searchQ
         query = query.eq('category', categoryFilter);
       }
       
-      const { data, error } = await query;
+      let data, error;
+      try {
+        ({ data, error } = await query);
+      } catch (fetchErr) {
+        // supabase-js rethrows network failures as exceptions, not into `error`.
+        throw friendlyError(fetchErr);
+      }
 
       if (error) {
-        const details = [error.message, (error as any).code, (error as any).details]
-          .filter(Boolean)
-          .join(' | ');
-        throw new Error(details || 'Supabase query failed');
+        throw friendlyError(error);
       }
 
       // Client-side filtering for locale and search
@@ -92,25 +122,32 @@ export function usePublications(locale: Locale, categoryFilter?: string, searchQ
 
 export function useFeaturedPublications(locale: Locale) {
   return useQuery({
+    retry: (failureCount, error) => {
+      if (isNetworkError(error)) return failureCount < 3;
+      return false;
+    },
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 4000),
     queryKey: ['featured-publications', locale],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('pages')
-        .select(`
-          *,
-          translations:page_translations(*)
-        `)
-        .eq('status', 'published')
-        .eq('is_system_page', false)
-        .eq('is_featured', true)
-        .order('updated_at', { ascending: false })
-        .limit(3);
+      let data, error;
+      try {
+        ({ data, error } = await supabase
+          .from('pages')
+          .select(`
+            *,
+            translations:page_translations(*)
+          `)
+          .eq('status', 'published')
+          .eq('is_system_page', false)
+          .eq('is_featured', true)
+          .order('updated_at', { ascending: false })
+          .limit(3));
+      } catch (fetchErr) {
+        throw friendlyError(fetchErr);
+      }
 
       if (error) {
-        const details = [error.message, (error as any).code, (error as any).details]
-          .filter(Boolean)
-          .join(' | ');
-        throw new Error(details || 'Supabase query failed');
+        throw friendlyError(error);
       }
 
       let publications = data as Publication[];
