@@ -25,6 +25,17 @@ interface PageMeta {
   htmlLang: string;
   schema?: object[];
   alternates: { lang: string; href: string }[];
+  content?: string;
+  featuredImageAlt?: string;
+}
+
+// ─── Bot detection ───────────────────────────────────────────────────────
+// Match AI crawlers, search engines, and social previewers. Case-insensitive.
+const BOT_UA_REGEX = /(GPTBot|ChatGPT-User|OAI-SearchBot|PerplexityBot|Perplexity-User|ClaudeBot|Claude-Web|anthropic-ai|Google-Extended|cohere-ai|Bytespider|Amazonbot|Applebot(?:-Extended)?|Googlebot|Bingbot|DuckDuckBot|YandexBot|Baiduspider|facebookexternalhit|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|Pinterestbot|MJ12bot|AhrefsBot|SemrushBot|DotBot|CCBot|Diffbot|YouBot|meta-externalagent)/i;
+
+function isBot(userAgent: string | null): boolean {
+  if (!userAgent) return false;
+  return BOT_UA_REGEX.test(userAgent);
 }
 
 type Locale = "en" | "br" | "es";
