@@ -120,11 +120,6 @@ export default function DynamicPage() {
   // Try to resolve system page slug if it's a localized version
   const resolvedSlug = getBaseSlugFromLocalized(rawSlug) || rawSlug;
 
-  // Early exit if no slug
-  if (!resolvedSlug) {
-    return <NotFound />;
-  }
-
   const { data, isLoading, error } = usePublicPage(resolvedSlug, locale);
 
   console.log('[DynamicPage] Slug:', resolvedSlug, 'Locale:', locale, 'Data:', data ? 'found' : 'not found');
@@ -326,7 +321,7 @@ export default function DynamicPage() {
     );
   }
 
-  if (error || !data?.page) {
+  if (error || !data?.page || !resolvedSlug) {
     return <NotFound />;
   }
 
