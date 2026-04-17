@@ -1,64 +1,45 @@
 
-## Investigation: "No publications found" on `/publications`
+## Audit findings
 
-### What the user reported
-The `/publications` hub is showing the empty state ("No publications found / Try adjusting your filters or search query") instead of the publications grid.
+Live probes against `mangabeira.net` reveal three delivery paths:
 
-### What I need to check before planning
+| Route | Mozilla | GPTBot / Googlebot / OAI-SearchBot / meta-externalagent | PerplexityBot / ClaudeBot |
+|---|---|---|---|
+| `/publications/<slug>` | 5KB shell | 40KB Netlify Prerender (`x-prerendered: true`) ✅ | 15KB seo.ts bot block ✅ |
+| `/publications` (hub) | 4KB shell | 100KB Netlify Prerender, 15 cards ✅ | **4KB shell — no content** ❌ |
+| `/` (home) | 4KB shell | 128KB Netlify Prerender ✅ | **4KB shell — no content** ❌ |
 
-The recent thread has touched many moving parts: `usePublications.ts`, `Publications.tsx` loading-state hardening, the `PrerenderSignal`, canonical redirects in `DynamicPage`, and now the SEO edge function. The empty-state symptom on `/publications` could be caused by:
+**Two real problems:**
 
-1. **Locale mismatch** — `usePublications` filters non-EN locales to only show pubs that have a translation in that locale. If `locale` is being computed wrong (e.g. defaulting to `br`/`es` for an EN visitor, or vice versa), the filter strips everything.
-2. **Category filter stuck** — `categoryFilter` state defaults to `'all'`, but if something writes a stale value the query filters everything out.
-3. **Search query stuck** — same logic.
-4. **Query error swallowed** — `usePublications` throws on error but the UI only checks `isLoading` + `length === 0`, so a failed query renders as "no results".
-5. **Skeleton-vs-empty race** — recent fix gates the empty state on `!isLoading`, but if the query resolves to `[]` (e.g. RLS regression, locale filter strips all), empty state shows correctly but for the wrong reason.
-6. **Recent edge-function refactor side effect** — unlikely to affect client rendering, but worth a quick scan.
+1. **Perplexity & Claude get nothing on hub/home/about/tools.** Netlify Prerender's whitelist serves them the SPA shell, and `seo.ts` only injects `botContent` when `route.type === "publication"` (line 505–507, 518). For every other route, even though `meta` is built, no article block is produced — so these two crawlers index empty pages for the homepage and category hubs.
+2. **Bot UA list is a single opaque regex.** The refactor the user described (four labeled groups + `PRERENDER_EXTRA_BOT_UAS` env var + regex-escaping) was proposed but never committed. Adding a new crawler today requires editing the regex, redeploying, and hoping the alternation order doesn't break.
 
-I need to read the current state of: `Publications.tsx`, `usePublications.ts`, `LanguageContext.tsx`, and check the live Supabase data + browser console / network to know which of the above it actually is. Since I'm in read-only plan mode and the user's preview is on `/`, I'll lay out the diagnostic + fix plan.
+A previously feared issue is **not** a problem: GPTBot, OAI-SearchBot, ClaudeBot, and meta-externalagent now reliably hit Netlify Prerender on publication URLs and receive full HTML. That part of the pipeline is healthy.
 
-### Plan
+## Plan — single file: `netlify/edge-functions/seo.ts`
 
-**Step 1 — Diagnose (in default mode)**
-- Read `src/contexts/LanguageContext.tsx` to confirm what `locale` resolves to on `/publications` (no locale prefix → should be `'en'`).
-- Run a Supabase read to confirm `pages` where `status='published' AND is_system_page=false` exist and have `language='en'` translations. (We know from earlier audit there are 17 published pages with 19 EN translations — should be fine, but reconfirm.)
-- Open the preview, navigate to `/publications`, and read browser console + network requests for the Supabase query. Look for: empty `data` array, RLS error, locale value in the React Query devtools/cache key.
-- Check whether `categoryFilter` is being reset to a stale category on mount (e.g. via URL, localStorage).
+### 1. Refactor bot UA list into four labeled groups (~30 lines)
+Replace the single `BOT_UA_REGEX` constant with four arrays plus a builder:
+- `AI_CRAWLER_UAS` — OpenAI (GPTBot, ChatGPT-User, OAI-SearchBot), Anthropic (ClaudeBot, Claude-Web, Claude-SearchBot, anthropic-ai), Google (Google-Extended, GoogleOther), Apple (Applebot-Extended), Meta (meta-externalagent, Meta-ExternalFetcher), Perplexity (PerplexityBot, Perplexity-User), Cohere (cohere-ai), Mistral (MistralAI-User), DuckAssistBot, Kagibot, YouBot, Timpibot, Omgilibot, ImagesiftBot, Diffbot, CCBot, Bytespider, Amazonbot, PetalBot.
+- `SEARCH_CRAWLER_UAS` — Googlebot, Bingbot, DuckDuckBot, YandexBot, Baiduspider, Applebot.
+- `SOCIAL_PREVIEWER_UAS` — facebookexternalhit, Twitterbot, LinkedInBot, Slackbot, Discordbot, WhatsApp, TelegramBot, Pinterestbot.
+- `SEO_TOOL_UAS` — AhrefsBot, SemrushBot, MJ12bot, DotBot.
+- Plus `Deno.env.get("PRERENDER_EXTRA_BOT_UAS")` (comma-separated) appended at module load.
+- All tokens regex-escaped with a small `escapeRegex()` helper before being joined with `|`. Final `BOT_UA_REGEX` rebuilt from the merged list.
+- One inline comment per group explaining who it covers; no behavioral change for any UA already matched.
 
-**Step 2 — Fix the most likely cause**
-Based on past patterns in this codebase, the most likely cause is one of:
+### 2. Inject bot article block on **all** routes, not just publications
+Currently `botContent` is only built when `meta.content` exists, which only happens for publications. Extend the bot path so every route serves indexable HTML to bots that bypass Netlify Prerender (Perplexity, Claude):
+- For non-publication routes, build a lightweight bot block from the static meta: `<article data-bot-content="true"><h1>{title}</h1><p>{description}</p><a href="{canonical}">…</a></article>`.
+- For the publications hub specifically, fetch the same list of published pages from Supabase (already cached pattern) and emit a `<ul>` of `<li><a href="{canonical}">{title}</a> — {description}</li>` entries so the hub is indexable too.
+- Keep the existing rich `buildBotContentBlock` for publications unchanged.
 
-- **(A) `categoryFilter` on the query is too strict.** `usePublications` passes `categoryFilter` directly to `.eq('category', categoryFilter)`. If a publication's `category` is null or differs in case/whitespace from what the badge sends, `'all'` works but other filters return nothing. Symptom matches if the user clicked a category badge.
-- **(B) Locale filter strips everything.** If `locale` is `'br'` or `'es'` due to `detectBrowserLanguage()` and the user is on the bare `/publications` route (which is the EN route), `usePublications` filters out all 17 pubs that don't have a BR/ES translation matching. Wait — 19 BR and 17 ES translations exist, so this shouldn't strip everything either. But if the route mismatches the locale (visiting `/publications` while context says `br`), and the join returns translations but the locale filter `pub.translations.some(t => t.language === 'br')` happens to fail for a transient reason, we'd see empty.
-- **(C) Query error.** `useQuery` throws but UI doesn't surface it. Add `error` handling to show a real error vs "no results."
+### 3. Verification (after deploy)
+Re-run the same probe matrix. Expect PerplexityBot and ClaudeBot to receive >10KB on `/`, `/publications`, `/about` containing real titles + links. Expect GPTBot etc. to be unchanged (still served by Netlify Prerender first). Expect humans to be unchanged (no bot block injected).
 
-**Step 3 — Hardening regardless of root cause**
-- In `Publications.tsx`, distinguish three states clearly: `isLoading` (skeleton), `isError` (error message + retry), `data.length === 0` with no filters active (true empty), `data.length === 0` with filters active ("try adjusting filters"). Currently it only shows the third regardless.
-- In `usePublications.ts`, log/expose the raw count vs filtered count so we can tell if the locale filter is what's stripping results.
-- Verify `categoryFilter` defaults and that clicking "All" resets cleanly.
+### Files touched
+- `netlify/edge-functions/seo.ts` only.
 
-**Step 4 — Verify**
-- Reload `/publications`, confirm grid renders with all 17 EN articles.
-- Click each category, confirm filter works.
-- Switch to `/br/publications` and `/es/publications`, confirm those work.
-- Confirm "no results" only appears when search/filter genuinely yields zero.
-
-### Files I'll touch
-- `src/pages/Publications.tsx` — split error vs empty state, surface query error.
-- `src/hooks/usePublications.ts` — minor: only `.eq('category', ...)` when not `'all'` (already handled), confirm no other strict filter regressions; possibly add a console.warn when locale-filter strips everything so we can see it in logs.
-
-### What I will NOT touch
-- `netlify/edge-functions/seo.ts` — the recent bot UA refactor is unrelated to client rendering of `/publications` for a human visitor. No changes needed there for this issue.
-- `LanguageContext.tsx` — only read it; don't refactor unless diagnostic proves it's the cause.
-- The Prerender / snapshot pipeline — that's an SEO concern, not why a human sees "No publications found" right now.
-
-### Open question I need to ask before implementing
-
-Before I touch code, one quick clarification will save a wrong fix:
-
-When you see "No publications found", are you:
-- (a) On `/publications` (English, no prefix), fresh load, no filters clicked, and the grid is empty? → likely locale or query regression.
-- (b) On `/publications` after clicking a category badge or typing in search? → likely filter logic.
-- (c) On `/br/publications` or `/es/publications`? → likely the locale-filter in `usePublications` stripping pubs.
-
-I'll ask this as a single multiple-choice before implementing so the fix targets the right code path.
+### Files NOT touched
+- `index.html`, `App.tsx`, `Publications.tsx`, `DynamicPage.tsx` — the client-side hardening from earlier in this thread is working. The remaining gap is bot-side, isolated to the edge function.
+- Netlify Prerender dashboard whitelist — not needed for Perplexity/Claude anymore once the edge function fills the gap directly.
