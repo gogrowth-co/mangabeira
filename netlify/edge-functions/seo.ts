@@ -626,8 +626,8 @@ export default async function handler(request: Request, context: Context) {
   const route = parseRoute(pathname);
   let meta: PageMeta | null = null;
 
-  if (route.type === "publication" && route.slug) {
-    meta = await fetchPublicationMeta(route.slug, route.locale, isBotRequest);
+  if (isBotRequest && route.type === "publication" && route.slug) {
+    meta = await fetchPublicationMeta(route.slug, route.locale, true);
   }
 
   if (!meta) {
