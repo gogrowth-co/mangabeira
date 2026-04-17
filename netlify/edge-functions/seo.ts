@@ -493,6 +493,73 @@ function buildBotContentBlock(meta: PageMeta): string {
   return `<article data-bot-content="true"><header><h1>${esc(meta.title)}</h1>${imgTag}<p>${esc(meta.description)}</p></header>${safeContent}<footer><p><a href="${esc(meta.canonical)}">${esc(meta.canonical)}</a></p></footer></article>`;
 }
 
+// Lightweight bot block for non-publication routes (home, about, hubs, tools).
+// Gives bypass-prerender crawlers (Perplexity, Claude) something indexable.
+function buildGenericBotBlock(meta: PageMeta, extraInnerHtml = ""): string {
+  return `<article data-bot-content="true"><header><h1>${esc(meta.title)}</h1><p>${esc(meta.description)}</p></header>${extraInnerHtml}<footer><p><a href="${esc(meta.canonical)}">${esc(meta.canonical)}</a></p></footer></article>`;
+}
+
+// Fetch published publication titles + slugs for the hub bot block. Cached 1h.
+async function fetchPublicationsHubList(locale: Locale): Promise<Array<{ title: string; description: string; slug: string }>> {
+  const cacheKey = `hub-list:${locale}`;
+  const cached = cache.get(cacheKey) as unknown as { data: Array<{ title: string; description: string; slug: string }> | null; ts: number } | undefined;
+  if (cached && Date.now() - cached.ts < CACHE_TTL && cached.data) return cached.data;
+
+  try {
+    const lang = locale === "en" ? "en" : locale === "br" ? "br" : "es";
+    const pagesUrl = `${SUPABASE_URL}/rest/v1/pages?status=eq.published&is_system_page=eq.false&select=id,slug,updated_at&order=updated_at.desc&limit=100`;
+    const pagesRes = await fetch(pagesUrl, {
+      headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
+    });
+    const pages = await pagesRes.json();
+    if (!Array.isArray(pages) || pages.length === 0) {
+      cache.set(cacheKey, { data: null as any, ts: Date.now() });
+      return [];
+    }
+
+    const ids = pages.map((p: any) => p.id).filter(Boolean);
+    if (ids.length === 0) return [];
+
+    const idFilter = `in.(${ids.map((i: string) => `"${i}"`).join(",")})`;
+    const transUrl = `${SUPABASE_URL}/rest/v1/page_translations?page_id=${encodeURIComponent(idFilter)}&language=eq.${lang}&select=page_id,title,meta_description,slug`;
+    const transRes = await fetch(transUrl, {
+      headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
+    });
+    const trans = await transRes.json();
+    const byPageId = new Map<string, any>();
+    if (Array.isArray(trans)) {
+      for (const t of trans) byPageId.set(t.page_id, t);
+    }
+
+    const result: Array<{ title: string; description: string; slug: string }> = [];
+    for (const p of pages) {
+      const t = byPageId.get(p.id);
+      if (!t) continue;
+      result.push({
+        title: t.title || "",
+        description: t.meta_description || "",
+        slug: t.slug || p.slug,
+      });
+    }
+
+    cache.set(cacheKey, { data: result as any, ts: Date.now() });
+    return result;
+  } catch (err) {
+    console.error("SEO edge function: hub list fetch error", err);
+    return [];
+  }
+}
+
+function buildHubListHtml(items: Array<{ title: string; description: string; slug: string }>, locale: Locale): string {
+  if (items.length === 0) return "";
+  const basePath = locale === "en" ? "/publications" : locale === "br" ? "/br/artigos" : "/es/articulos";
+  const lis = items.map((it) => {
+    const href = `${BASE_URL}${basePath}/${it.slug}`;
+    return `<li><a href="${esc(href)}">${esc(it.title)}</a> — ${esc(it.description)}</li>`;
+  }).join("");
+  return `<nav data-bot-hub="publications"><ul>${lis}</ul></nav>`;
+}
+
 function injectMeta(html: string, meta: PageMeta, botContent?: string): string {
   // Strip existing SEO tags first to prevent duplicates after prerender
   html = stripExistingMeta(html);
