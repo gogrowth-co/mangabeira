@@ -249,6 +249,24 @@ export default function DynamicPage() {
     }
   }, [data, locale, navigate, rawSlug]);
 
+  // Redirect bare publication slugs (e.g. /alternatives-airdrop-defi-founders)
+  // to canonical /publications/<slug> to consolidate authority and avoid duplicate indexing.
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.prerenderReady === false) return;
+    if (!data?.page || data.page.is_system_page) return;
+
+    const pathname = location.pathname;
+    // Only act on EN bare paths — locale-prefixed routes are handled separately.
+    const isLocalePrefixed = pathname.startsWith('/br/') || pathname.startsWith('/es/');
+    const isAlreadyCanonical = pathname.startsWith('/publications/');
+    if (isLocalePrefixed || isAlreadyCanonical) return;
+
+    const canonicalPath = `/publications/${data.translation?.slug || data.page.slug}`;
+    if (pathname !== canonicalPath) {
+      navigate(canonicalPath, { replace: true });
+    }
+  }, [data, location.pathname, navigate]);
+
   // Only redirect to English if locale is not English AND no localized translation exists
   useEffect(() => {
     if (
