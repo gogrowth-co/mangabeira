@@ -25,6 +25,17 @@ interface PageMeta {
   htmlLang: string;
   schema?: object[];
   alternates: { lang: string; href: string }[];
+  content?: string;
+  featuredImageAlt?: string;
+}
+
+// ─── Bot detection ───────────────────────────────────────────────────────
+// Match AI crawlers, search engines, and social previewers. Case-insensitive.
+const BOT_UA_REGEX = /(GPTBot|ChatGPT-User|OAI-SearchBot|PerplexityBot|Perplexity-User|ClaudeBot|Claude-Web|anthropic-ai|Google-Extended|cohere-ai|Bytespider|Amazonbot|Applebot(?:-Extended)?|Googlebot|Bingbot|DuckDuckBot|YandexBot|Baiduspider|facebookexternalhit|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|Pinterestbot|MJ12bot|AhrefsBot|SemrushBot|DotBot|CCBot|Diffbot|YouBot|meta-externalagent)/i;
+
+function isBot(userAgent: string | null): boolean {
+  if (!userAgent) return false;
+  return BOT_UA_REGEX.test(userAgent);
 }
 
 type Locale = "en" | "br" | "es";
@@ -241,17 +252,19 @@ function getStaticMeta(route: ParsedRoute): PageMeta | null {
 }
 
 // ─── Dynamic page fetch from Supabase ────────────────────────────────────
-async function fetchPublicationMeta(slug: string, locale: Locale): Promise<PageMeta | null> {
-  const cacheKey = `pub:${locale}:${slug}`;
+async function fetchPublicationMeta(slug: string, locale: Locale, includeContent: boolean): Promise<PageMeta | null> {
+  const cacheKey = `pub:${locale}:${slug}:${includeContent ? "full" : "meta"}`;
   const cached = cache.get(cacheKey);
   if (cached && Date.now() - cached.ts < CACHE_TTL) return cached.data;
 
   try {
     const lang = locale === "en" ? "en" : locale === "br" ? "br" : "es";
+    const transFields = includeContent ? "page_id,title,meta_description,slug,content,featured_image_alt" : "page_id,title,meta_description,slug";
+    const tFields = includeContent ? "title,meta_description,slug,content,featured_image_alt" : "title,meta_description,slug";
 
     let pageData: any = null;
 
-    const transUrl = `${SUPABASE_URL}/rest/v1/page_translations?slug=eq.${encodeURIComponent(slug)}&language=eq.${lang}&select=page_id,title,meta_description,slug,page:pages!inner(slug,featured_image,status,author_name,created_at,updated_at,tags)`;
+    const transUrl = `${SUPABASE_URL}/rest/v1/page_translations?slug=eq.${encodeURIComponent(slug)}&language=eq.${lang}&select=${transFields},page:pages!inner(slug,featured_image,status,author_name,created_at,updated_at,tags)`;
     const transRes = await fetch(transUrl, {
       headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
     });
@@ -272,7 +285,7 @@ async function fetchPublicationMeta(slug: string, locale: Locale): Promise<PageM
       }
 
       const page = pages[0];
-      const tUrl = `${SUPABASE_URL}/rest/v1/page_translations?page_id=eq.${page.id}&language=eq.${lang}&select=title,meta_description,slug`;
+      const tUrl = `${SUPABASE_URL}/rest/v1/page_translations?page_id=eq.${page.id}&language=eq.${lang}&select=${tFields}`;
       const tRes = await fetch(tUrl, {
         headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
       });
@@ -281,7 +294,7 @@ async function fetchPublicationMeta(slug: string, locale: Locale): Promise<PageM
       if (translations && translations.length > 0) {
         pageData = { ...translations[0], page };
       } else {
-        const enUrl = `${SUPABASE_URL}/rest/v1/page_translations?page_id=eq.${page.id}&language=eq.en&select=title,meta_description,slug`;
+        const enUrl = `${SUPABASE_URL}/rest/v1/page_translations?page_id=eq.${page.id}&language=eq.en&select=${tFields}`;
         const enRes = await fetch(enUrl, {
           headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
         });
@@ -331,6 +344,8 @@ async function fetchPublicationMeta(slug: string, locale: Locale): Promise<PageM
       title, description, canonical, ogType: "article", ogImage: featuredImage,
       locale, htmlLang, schema,
       alternates: buildAlternates(pubPaths.en, pubPaths.br, pubPaths.es),
+      content: includeContent ? (pageData.content || undefined) : undefined,
+      featuredImageAlt: pageData.featured_image_alt || undefined,
     };
 
     cache.set(cacheKey, { data: meta, ts: Date.now() });
@@ -405,7 +420,24 @@ function buildNoscriptBlock(meta: PageMeta): string {
   return `<noscript><div><h1>${esc(meta.title)}</h1><p>${esc(meta.description)}</p><a href="${esc(meta.canonical)}">${esc(meta.canonical)}</a></div></noscript>`;
 }
 
-function injectMeta(html: string, meta: PageMeta): string {
+// Sanitize content HTML for bot consumption: strip <script> and inline event handlers.
+function sanitizeContentForBots(html: string): string {
+  let out = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
+  out = out.replace(/\son[a-z]+\s*=\s*"[^"]*"/gi, "");
+  out = out.replace(/\son[a-z]+\s*=\s*'[^']*'/gi, "");
+  return out;
+}
+
+function buildBotContentBlock(meta: PageMeta): string {
+  if (!meta.content) return "";
+  const safeContent = sanitizeContentForBots(meta.content);
+  const imgTag = meta.ogImage
+    ? `<img src="${esc(meta.ogImage)}" alt="${esc(meta.featuredImageAlt || meta.title)}" />`
+    : "";
+  return `<article data-bot-content="true"><header><h1>${esc(meta.title)}</h1>${imgTag}<p>${esc(meta.description)}</p></header>${safeContent}<footer><p><a href="${esc(meta.canonical)}">${esc(meta.canonical)}</a></p></footer></article>`;
+}
+
+function injectMeta(html: string, meta: PageMeta, botContent?: string): string {
   // Strip existing SEO tags first to prevent duplicates after prerender
   html = stripExistingMeta(html);
 
@@ -423,9 +455,10 @@ function injectMeta(html: string, meta: PageMeta): string {
   const metaTags = buildMetaTags(meta);
   html = html.replace(/<\/head>/, `${metaTags}\n</head>`);
 
-  // Inject noscript content block after <div id="root"> for non-JS crawlers
+  // Inject noscript content block + optional bot article block after <div id="root">
   const noscript = buildNoscriptBlock(meta);
-  html = html.replace(/<div id="root">/, `<div id="root">${noscript}`);
+  const injected = `<div id="root">${noscript}${botContent || ""}`;
+  html = html.replace(/<div id="root">/, injected);
 
   return html;
 }
@@ -461,12 +494,16 @@ export default async function handler(request: Request, context: Context) {
     return response;
   }
 
+  // Detect bot/crawler from User-Agent
+  const userAgent = request.headers.get("user-agent");
+  const isBotRequest = isBot(userAgent);
+
   // Parse route and get metadata
   const route = parseRoute(pathname);
   let meta: PageMeta | null = null;
 
   if (route.type === "publication" && route.slug) {
-    meta = await fetchPublicationMeta(route.slug, route.locale);
+    meta = await fetchPublicationMeta(route.slug, route.locale, isBotRequest);
   }
 
   if (!meta) {
@@ -477,10 +514,13 @@ export default async function handler(request: Request, context: Context) {
     return response;
   }
 
+  // For bots on publication pages, build the article block
+  const botContent = isBotRequest && meta.content ? buildBotContentBlock(meta) : undefined;
+
   // Read HTML, inject meta, return modified response
   try {
     let html = await response.text();
-    html = injectMeta(html, meta);
+    html = injectMeta(html, meta, botContent);
 
     return new Response(html, {
       status: response.status,
