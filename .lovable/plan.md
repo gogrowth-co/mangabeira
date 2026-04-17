@@ -1,47 +1,75 @@
 
 
-# Updated SEO/AEO Fix Plan — Informed by Netlify Prerender Docs
+## Plan: Bot-aware content injection in the SEO edge function
 
-## How Netlify Prerender Actually Works
+### What changes
+Single file: `netlify/edge-functions/seo.ts`
 
-From the docs: The Prerender extension adds two components:
-1. **Edge function** — detects crawler user-agents, rewrites requests to a serverless function
-2. **Serverless function** — uses a **headless browser** to fully render the page, returns the HTML snapshot
+### Changes
 
-This means crawlers get: Edge Function output (injected meta) → Headless browser renders React → Helmet runs → `window.prerenderReady` signals completion → snapshot returned.
+**1. Add bot detection helper**
+```ts
+function isBot(userAgent: string): boolean {
+  // AI crawlers (no JS): GPTBot, PerplexityBot, ClaudeBot, ChatGPT-User, 
+  //                      Claude-Web, Google-Extended, anthropic-ai, cohere-ai,
+  //                      Bytespider, Amazonbot, Applebot-Extended
+  // Search crawlers: Googlebot, Bingbot, DuckDuckBot, YandexBot, Baiduspider
+  // Social: facebookexternalhit, Twitterbot, LinkedInBot, Slackbot, Discordbot
+}
+```
+Match case-insensitive against a single regex for performance.
 
-**The problem**: Your `seo.ts` edge function injects meta tags into raw HTML. Then the headless browser runs React + Helmet, which adds a SECOND set of the same tags. The snapshot has **duplicate everything**. And if data fetches stall, `prerenderReady` never fires and the snapshot is "Loading...".
+**2. Extend `fetchPublicationMeta` to optionally include content**
+- Add `includeContent: boolean` parameter
+- When true, append `,content,featured_image_alt` to both select clauses (lines 254 and 275/284)
+- Cache key becomes `pub:${locale}:${slug}:${includeContent ? "full" : "meta"}` so bot/human caches don't collide
+- Add `content?: string` and `featuredImageAlt?: string` to `PageMeta` type
 
----
+**3. Build a semantic content block for bots**
+```ts
+function buildBotContentBlock(meta: PageMeta): string {
+  // <article> with <h1>{title}</h1>, optional <img> with alt, 
+  // <p>{description}</p>, then sanitized content HTML, 
+  // then canonical link footer.
+}
+```
+- Wrap in `<article style="display:none" aria-hidden="true">` so any human who somehow bypasses bot detection doesn't see a duplicate article flash before hydration. Bots ignore CSS and read the DOM directly.
+- Actually — better: omit the `display:none` and rely on bot detection alone. Hidden content via `display:none` is a known SEO penalty signal. Since we only inject this block for confirmed bots, visibility is fine.
 
-## Changes (3 files)
+**4. Wire it into the main handler**
+- Read `request.headers.get("user-agent")`
+- Determine `isBotRequest = isBot(ua)`
+- For publication routes only, pass `isBotRequest` to `fetchPublicationMeta`
+- After existing `injectMeta()` call, if `isBotRequest && meta.content`, replace the `<div id="root">` injection to also include the article block (alongside the existing `<noscript>` fallback)
 
-### 1. `netlify/edge-functions/seo.ts` — Strip existing tags before injecting + add noscript content
+**5. Keep the existing `<noscript>` block**
+It still helps non-bot, non-JS scenarios (rare but real: text browsers, accessibility tools, paranoid privacy users).
 
-Update `injectMeta()` to **remove** existing `<meta name="description">`, `<link rel="canonical">`, `<meta property="og:*">`, `<meta name="twitter:*">`, and `<link rel="alternate" hreflang="*">` tags from the HTML BEFORE appending the edge function's clean set. This prevents the double-tag problem regardless of whether Helmet runs later or not.
+### What does NOT change
+- Static page metadata logic
+- Helmet/SEO.tsx on the client
+- Cache TTL (1h is fine)
+- The existing strip+inject meta pipeline
+- React hydration behavior (humans get the SPA exactly as today)
 
-Also inject a `<noscript>` block after `<div id="root">` with the page title, description, and canonical URL as visible text. This gives non-JS crawlers (AI bots that bypass prerender) actual indexable content.
+### Why this works
+- AI crawlers (GPTBot, PerplexityBot, ClaudeBot) **do not execute JS** — today they see only `<noscript>` fallback + meta. After fix: they see the full article.
+- Googlebot *does* render JS but uses the first-pass HTML for initial ranking signals. After fix: it gets the article on first byte.
+- Humans: zero change. Same SPA, same hydration, same bundle size.
+- Cost: one extra column in an existing query, no new round-trips.
 
-### 2. `src/App.tsx` — Add 10-second timeout to PrerenderSignal
+### Risks & mitigations
+| Risk | Mitigation |
+|---|---|
+| Cloaking penalty (showing bots different content than humans) | Content is **identical** to what humans see post-hydration — that's not cloaking, it's progressive enhancement. Google explicitly endorses this pattern (dynamic rendering). |
+| Stale content in cache | 1h TTL is short enough; CMS edits take max 1h to propagate to bot view. Acceptable. |
+| Bot UA spoofing | Worst case: a human gets an extra ~30KB of HTML once per hour per page. Negligible. |
 
-The current `PrerenderSignal` only sets `window.prerenderReady = true` when all React Query fetches complete. If a Supabase fetch stalls or times out, the headless browser never gets the "ready" signal and returns a "Loading..." page.
-
-Add a 10-second maximum timeout: if fetches haven't resolved after 10s, set `prerenderReady = true` anyway. This ensures the Netlify Prerender serverless function always captures rendered content rather than a loading spinner.
-
-### 3. `src/pages/About.tsx` — Fix og:image to stable CDN URL
-
-Replace the Vite-hashed asset import for `og:image` with the stable CDN OG banner URL. Hashed paths change every build, breaking cached social card images.
-
----
-
-## Why This Fixes Visibility
-
-| Problem | Root cause | Fix |
-|---|---|---|
-| Duplicate meta tags in snapshots | `injectMeta()` appends without stripping | Strip before inject |
-| "Loading..." snapshots | No timeout on `prerenderReady` | 10s safety timeout |
-| Empty body for non-JS AI bots | No fallback content | `<noscript>` block |
-| Broken social cards on About | Hashed asset path for og:image | Stable CDN URL |
-
-After deploying, re-trigger IndexNow to get all URLs re-crawled with clean snapshots.
+### Verification after deploy
+Curl the same publication URL with two user-agents and diff:
+```bash
+curl -A "Mozilla/5.0" https://mangabeira.net/publications/<slug> | wc -c
+curl -A "GPTBot" https://mangabeira.net/publications/<slug> | wc -c
+```
+Bot response should be substantially larger and contain article body text on `grep`.
 
