@@ -30,8 +30,64 @@ interface PageMeta {
 }
 
 // ─── Bot detection ───────────────────────────────────────────────────────
-// Match AI crawlers, search engines, and social previewers. Case-insensitive.
-const BOT_UA_REGEX = /(GPTBot|ChatGPT-User|OAI-SearchBot|PerplexityBot|Perplexity-User|ClaudeBot|Claude-Web|anthropic-ai|Google-Extended|cohere-ai|Bytespider|Amazonbot|Applebot(?:-Extended)?|Googlebot|Bingbot|DuckDuckBot|YandexBot|Baiduspider|facebookexternalhit|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|Pinterestbot|MJ12bot|AhrefsBot|SemrushBot|DotBot|CCBot|Diffbot|YouBot|meta-externalagent)/i;
+// UA tokens grouped by operator type. Inline comments document who each token
+// belongs to. The final BOT_UA_REGEX is built at module load by escaping each
+// token and joining with `|`. Add new crawlers here OR via the
+// PRERENDER_EXTRA_BOT_UAS env var (comma-separated) — no redeploy needed for the latter.
+
+// AI crawlers and AI assistant fetchers (LLM training + retrieval)
+const AI_CRAWLER_UAS = [
+  // OpenAI
+  "GPTBot", "ChatGPT-User", "OAI-SearchBot",
+  // Anthropic (current + legacy tokens)
+  "ClaudeBot", "Claude-Web", "Claude-SearchBot", "anthropic-ai",
+  // Google AI (separate from Googlebot search)
+  "Google-Extended", "GoogleOther",
+  // Apple AI (separate from Applebot search)
+  "Applebot-Extended",
+  // Meta AI
+  "meta-externalagent", "Meta-ExternalFetcher",
+  // Perplexity
+  "PerplexityBot", "Perplexity-User",
+  // Other AI labs / assistants
+  "cohere-ai", "MistralAI-User", "DuckAssistBot", "Kagibot", "YouBot",
+  "Timpibot", "Omgilibot", "ImagesiftBot", "Diffbot", "CCBot",
+  "Bytespider", "Amazonbot", "PetalBot",
+];
+
+// Traditional search engine crawlers
+const SEARCH_CRAWLER_UAS = [
+  "Googlebot", "Bingbot", "DuckDuckBot", "YandexBot", "Baiduspider", "Applebot",
+];
+
+// Social media link previewers (need OG tags)
+const SOCIAL_PREVIEWER_UAS = [
+  "facebookexternalhit", "Twitterbot", "LinkedInBot", "Slackbot",
+  "Discordbot", "WhatsApp", "TelegramBot", "Pinterestbot",
+];
+
+// SEO audit / link analysis tools
+const SEO_TOOL_UAS = [
+  "AhrefsBot", "SemrushBot", "MJ12bot", "DotBot",
+];
+
+function escapeRegex(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+const EXTRA_BOT_UAS = (Deno.env.get("PRERENDER_EXTRA_BOT_UAS") ?? "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+const BOT_UA_REGEX = new RegExp(
+  "(" +
+    [...AI_CRAWLER_UAS, ...SEARCH_CRAWLER_UAS, ...SOCIAL_PREVIEWER_UAS, ...SEO_TOOL_UAS, ...EXTRA_BOT_UAS]
+      .map(escapeRegex)
+      .join("|") +
+  ")",
+  "i",
+);
 
 function isBot(userAgent: string | null): boolean {
   if (!userAgent) return false;
@@ -437,6 +493,73 @@ function buildBotContentBlock(meta: PageMeta): string {
   return `<article data-bot-content="true"><header><h1>${esc(meta.title)}</h1>${imgTag}<p>${esc(meta.description)}</p></header>${safeContent}<footer><p><a href="${esc(meta.canonical)}">${esc(meta.canonical)}</a></p></footer></article>`;
 }
 
+// Lightweight bot block for non-publication routes (home, about, hubs, tools).
+// Gives bypass-prerender crawlers (Perplexity, Claude) something indexable.
+function buildGenericBotBlock(meta: PageMeta, extraInnerHtml = ""): string {
+  return `<article data-bot-content="true"><header><h1>${esc(meta.title)}</h1><p>${esc(meta.description)}</p></header>${extraInnerHtml}<footer><p><a href="${esc(meta.canonical)}">${esc(meta.canonical)}</a></p></footer></article>`;
+}
+
+// Fetch published publication titles + slugs for the hub bot block. Cached 1h.
+async function fetchPublicationsHubList(locale: Locale): Promise<Array<{ title: string; description: string; slug: string }>> {
+  const cacheKey = `hub-list:${locale}`;
+  const cached = cache.get(cacheKey) as unknown as { data: Array<{ title: string; description: string; slug: string }> | null; ts: number } | undefined;
+  if (cached && Date.now() - cached.ts < CACHE_TTL && cached.data) return cached.data;
+
+  try {
+    const lang = locale === "en" ? "en" : locale === "br" ? "br" : "es";
+    const pagesUrl = `${SUPABASE_URL}/rest/v1/pages?status=eq.published&is_system_page=eq.false&select=id,slug,updated_at&order=updated_at.desc&limit=100`;
+    const pagesRes = await fetch(pagesUrl, {
+      headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
+    });
+    const pages = await pagesRes.json();
+    if (!Array.isArray(pages) || pages.length === 0) {
+      cache.set(cacheKey, { data: null as any, ts: Date.now() });
+      return [];
+    }
+
+    const ids = pages.map((p: any) => p.id).filter(Boolean);
+    if (ids.length === 0) return [];
+
+    const idFilter = `in.(${ids.map((i: string) => `"${i}"`).join(",")})`;
+    const transUrl = `${SUPABASE_URL}/rest/v1/page_translations?page_id=${encodeURIComponent(idFilter)}&language=eq.${lang}&select=page_id,title,meta_description,slug`;
+    const transRes = await fetch(transUrl, {
+      headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
+    });
+    const trans = await transRes.json();
+    const byPageId = new Map<string, any>();
+    if (Array.isArray(trans)) {
+      for (const t of trans) byPageId.set(t.page_id, t);
+    }
+
+    const result: Array<{ title: string; description: string; slug: string }> = [];
+    for (const p of pages) {
+      const t = byPageId.get(p.id);
+      if (!t) continue;
+      result.push({
+        title: t.title || "",
+        description: t.meta_description || "",
+        slug: t.slug || p.slug,
+      });
+    }
+
+    cache.set(cacheKey, { data: result as any, ts: Date.now() });
+    return result;
+  } catch (err) {
+    console.error("SEO edge function: hub list fetch error", err);
+    return [];
+  }
+}
+
+function buildHubListHtml(items: Array<{ title: string; description: string; slug: string }>, locale: Locale): string {
+  if (items.length === 0) return "";
+  const basePath = locale === "en" ? "/publications" : locale === "br" ? "/br/artigos" : "/es/articulos";
+  const lis = items.map((it) => {
+    const href = `${BASE_URL}${basePath}/${it.slug}`;
+    return `<li><a href="${esc(href)}">${esc(it.title)}</a> — ${esc(it.description)}</li>`;
+  }).join("");
+  return `<nav data-bot-hub="publications"><ul>${lis}</ul></nav>`;
+}
+
 function injectMeta(html: string, meta: PageMeta, botContent?: string): string {
   // Strip existing SEO tags first to prevent duplicates after prerender
   html = stripExistingMeta(html);
@@ -514,8 +637,22 @@ export default async function handler(request: Request, context: Context) {
     return response;
   }
 
-  // For bots on publication pages, build the article block
-  const botContent = isBotRequest && meta.content ? buildBotContentBlock(meta) : undefined;
+  // Build bot-only article block. For publication pages with content, emit the
+  // rich article. For all other routes, emit a lightweight title+description
+  // block so bypass-prerender crawlers (Perplexity, Claude) get something to
+  // index. For the publications hub, additionally inject a list of all
+  // published articles for that locale.
+  let botContent: string | undefined;
+  if (isBotRequest) {
+    if (route.type === "publication" && meta.content) {
+      botContent = buildBotContentBlock(meta);
+    } else if (route.type === "publications-hub") {
+      const items = await fetchPublicationsHubList(route.locale);
+      botContent = buildGenericBotBlock(meta, buildHubListHtml(items, route.locale));
+    } else {
+      botContent = buildGenericBotBlock(meta);
+    }
+  }
 
   // Read HTML, inject meta, return modified response
   try {
