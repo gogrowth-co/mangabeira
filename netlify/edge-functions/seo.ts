@@ -637,8 +637,22 @@ export default async function handler(request: Request, context: Context) {
     return response;
   }
 
-  // For bots on publication pages, build the article block
-  const botContent = isBotRequest && meta.content ? buildBotContentBlock(meta) : undefined;
+  // Build bot-only article block. For publication pages with content, emit the
+  // rich article. For all other routes, emit a lightweight title+description
+  // block so bypass-prerender crawlers (Perplexity, Claude) get something to
+  // index. For the publications hub, additionally inject a list of all
+  // published articles for that locale.
+  let botContent: string | undefined;
+  if (isBotRequest) {
+    if (route.type === "publication" && meta.content) {
+      botContent = buildBotContentBlock(meta);
+    } else if (route.type === "publications-hub") {
+      const items = await fetchPublicationsHubList(route.locale);
+      botContent = buildGenericBotBlock(meta, buildHubListHtml(items, route.locale));
+    } else {
+      botContent = buildGenericBotBlock(meta);
+    }
+  }
 
   // Read HTML, inject meta, return modified response
   try {
