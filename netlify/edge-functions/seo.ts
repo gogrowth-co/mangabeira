@@ -30,8 +30,76 @@ interface PageMeta {
 }
 
 // ─── Bot detection ───────────────────────────────────────────────────────
-// Match AI crawlers, search engines, and social previewers. Case-insensitive.
-const BOT_UA_REGEX = /(GPTBot|ChatGPT-User|OAI-SearchBot|PerplexityBot|Perplexity-User|ClaudeBot|Claude-Web|anthropic-ai|Google-Extended|cohere-ai|Bytespider|Amazonbot|Applebot(?:-Extended)?|Googlebot|Bingbot|DuckDuckBot|YandexBot|Baiduspider|facebookexternalhit|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|Pinterestbot|MJ12bot|AhrefsBot|SemrushBot|DotBot|CCBot|Diffbot|YouBot|meta-externalagent)/i;
+// UA tokens are grouped so the list is auditable and easy to extend as new
+// crawlers emerge. Matching is case-insensitive and uses substring tests.
+//
+// AI crawlers: LLM training + on-demand retrieval + AI search. Kept current
+// with the dominant operators as of 2026. Add newcomers here rather than
+// redeploying — operators also accept the PRERENDER_EXTRA_BOT_UAS env var.
+const AI_CRAWLER_UAS = [
+  // OpenAI
+  "GPTBot", "ChatGPT-User", "OAI-SearchBot",
+  // Anthropic (ClaudeBot is the current primary; anthropic-ai and Claude-Web
+  // are the legacy/secondary tokens kept for backward compatibility)
+  "ClaudeBot", "Claude-Web", "Claude-SearchBot", "anthropic-ai",
+  // Google AI (Google-Extended gates Gemini/Vertex training separately from Googlebot)
+  "Google-Extended", "GoogleOther",
+  // Apple AI (Applebot-Extended gates Apple Intelligence training separately from Applebot)
+  "Applebot-Extended",
+  // Meta AI
+  "meta-externalagent", "Meta-ExternalFetcher",
+  // Perplexity
+  "PerplexityBot", "Perplexity-User",
+  // Other AI vendors
+  "cohere-ai", "cohere-training-data-crawler",
+  "MistralAI-User",
+  "DuckAssistBot",
+  "Kagibot",
+  "YouBot",
+  "Timpibot",
+  "Omgilibot",
+  "ImagesiftBot",
+  "Diffbot",
+  "CCBot",
+  "Bytespider",
+  "Amazonbot",
+  "PetalBot",
+];
+
+// Traditional search engines: still relevant for indexing.
+const SEARCH_CRAWLER_UAS = [
+  "Googlebot", "Bingbot", "DuckDuckBot", "YandexBot", "Baiduspider", "Applebot",
+];
+
+// Social/link previewers: need OG tags, not full prerender, but same gate.
+const SOCIAL_CRAWLER_UAS = [
+  "facebookexternalhit", "Twitterbot", "LinkedInBot", "Slackbot",
+  "Discordbot", "WhatsApp", "TelegramBot", "Pinterestbot",
+];
+
+// SEO tooling crawlers.
+const SEO_TOOL_UAS = ["MJ12bot", "AhrefsBot", "SemrushBot", "DotBot"];
+
+function escapeRegex(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function buildBotRegex(): RegExp {
+  const extra = (Deno.env.get("PRERENDER_EXTRA_BOT_UAS") || "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const all = [
+    ...AI_CRAWLER_UAS,
+    ...SEARCH_CRAWLER_UAS,
+    ...SOCIAL_CRAWLER_UAS,
+    ...SEO_TOOL_UAS,
+    ...extra,
+  ].map(escapeRegex);
+  return new RegExp(`(${all.join("|")})`, "i");
+}
+
+const BOT_UA_REGEX = buildBotRegex();
 
 function isBot(userAgent: string | null): boolean {
   if (!userAgent) return false;
