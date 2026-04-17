@@ -1,51 +1,60 @@
 
-## Root cause
 
-The user's "Failed to load publications / Unknown error" screenshot maps to the `isError` branch in `Publications.tsx`. The current live site works (15 publications render), so the immediate Supabase query is healthy. But there's a **real, latent bug** that produced that error and will keep causing intermittent failures:
+## Audit findings
 
-**`public/translations/en.csv` row 281 is malformed.** It has a stray double comma:
-```
-chat,empty_state_line1,Ask me anything about Gabriel's journey,,Empty state message
-```
-This produces 5 fields when the header defines 4. Papa Parse logs `TooManyFields` at row 281 (confirmed in console), and downstream rows in the file get misaligned. That's also why the page shows warnings like `Section not found: publications_hub for locale en` and `Section not found: header for locale en` — sections that come *after* the broken row in the CSV silently get dropped or shifted.
+The `/publications` page is still showing "Failed to load publications: TypeError: Failed to fetch". Based on the prior investigation and current code state, here's what I found auditing again:
 
-Two compounding issues in the code make this worse:
+### What's already in place (working)
+- `usePublications.ts` has `isNetworkError` detection, `friendlyError` wrapper, retry logic (3x exponential backoff), and `try/catch` around Supabase calls.
+- `Publications.tsx` surfaces the error message correctly.
+- Supabase API itself is healthy (confirmed earlier via curl, 15 published rows).
+- CSV parsing is fixed, CORS on the Supabase REST endpoint is fine (browser default, no custom config needed for PostgREST).
 
-1. **Error message is hidden.** `usePublications` does `if (error) throw error` — but Supabase's `error` is a plain object, not an `Error` instance. In `Publications.tsx`, `error instanceof Error ? error.message : 'Unknown error'` then prints "Unknown error", erasing all diagnostic info. Same applies if the error originates anywhere else in the queryFn (e.g. a `pub.tags.some(...)` on a null tags column).
-2. **`pub.tags` may be null.** Schema default is `'[]'::jsonb` but column is nullable. When `searchQuery` is set, `pub.tags.some(...)` throws `TypeError: Cannot read properties of null`, which would surface as "Unknown error".
+### What's still wrong — the real gap
 
-## Fix plan (3 small edits, 1 file each)
+**The error is `TypeError: Failed to fetch` — a browser-level network abort, not a Supabase response error.** This happens *before* Supabase can return anything. On mangabeira.net there are three plausible triggers, and the code doesn't defend against any of them:
 
-### 1. Fix the broken CSV row — `public/translations/en.csv` line 281
-Change:
-```
-chat,empty_state_line1,Ask me anything about Gabriel's journey,,Empty state message
-```
-to:
-```
-chat,empty_state_line1,Ask me anything about Gabriel's journey,Empty state message
-```
-(remove the stray empty field). This restores correct parsing of every row after 281, eliminates the `Section not found` warnings, and removes the most likely trigger of intermittent failures.
+1. **CSP / connect-src restriction via the SEO edge function or `_headers`.** `netlify/edge-functions/seo.ts` rewrites HTML for every request. If it (or any upstream) injects a `Content-Security-Policy` header missing `https://hetemmltaoirimmoxzku.supabase.co` in `connect-src`, the browser blocks the fetch with exactly this error. Need to verify `public/_headers` and the edge function output.
+2. **Browser extension / privacy filter** blocking `*.supabase.co` — the current friendly-error message covers this, but only *after* all 3 retries fail (~7s of blank error state). And the screenshot shows the raw error, meaning the wrapping isn't triggering — likely because the error is thrown at a layer React Query isn't catching as "network".
+3. **No offline/static fallback.** When the live fetch fails for any reason, the hub is dead. There's no snapshot of publications served from the same origin (mangabeira.net) that would bypass blockers entirely.
 
-### 2. Harden `usePublications.ts` so errors are real `Error` objects and `tags` is null-safe
-- Wrap Supabase errors: `throw new Error(error.message || 'Supabase query failed')` (preserve `error.code`/`error.details` in the message).
-- In the search filter, guard tags: `(pub.tags || []).some(...)`.
+### Why the current "friendly error" isn't showing
 
-### 3. Improve error surfacing in `Publications.tsx`
-Change the error block to:
-```ts
-{error instanceof Error ? error.message : (error ? String(error) : 'Unknown error')}
-```
-so any future failure shows a real message instead of "Unknown error".
+Looking at the screenshot: the error text is literally `TypeError: Failed to fetch | TypeError: Failed to fetch at https://...` — this is the *raw* message, not the friendly one. That means `friendlyError()` isn't wrapping this particular throw path. The most likely reason: the failure happens inside React Query's own fetch retry, or the `featured-publications` query (which has the same retry config but its own error path) is the one failing, and that error surfaces through a different code path we haven't hardened.
 
-## What I will NOT touch
-- The Supabase tables / RLS — query is succeeding, data is correct (15 published rows confirmed via DB read).
-- `Publications.tsx` layout, locale logic, or featured query — all working.
-- The SEO edge function — unrelated to the human-side error.
-- Other CSV files (`br.csv`, `es.csv`) — not flagged by the parser; only `en.csv` row 281 is broken.
+Also worth noting: `useFeaturedPublications` has `try/catch` + `friendlyError`, but `Publications.tsx` only reads `error` from `usePublications`, not from `useFeaturedPublications`. If featured fails silently, fine — but if the shared Supabase client throws at module load or during the select with the joined `page_translations`, we'd see exactly this.
 
-## Verification after deploy
-1. Reload `/publications` — confirm grid + featured render, no "Failed to load" banner.
-2. Browser console — confirm `TooManyFields` and `Section not found` warnings are gone.
-3. Type something in the search box — confirm no crash even on rows with null `tags`.
-4. Hit `/br/publications` and `/es/publications` — confirm still healthy.
+## Fix plan
+
+### 1. Verify and fix CSP / connect-src (highest leverage)
+- Read `public/_headers` and inspect the live response headers on mangabeira.net via the SEO edge function path.
+- If CSP is present and missing the Supabase origin, add `https://hetemmltaoirimmoxzku.supabase.co` to `connect-src` (and `https://*.supabase.co` as a safety net).
+- If the edge function is stripping/overwriting, patch it to preserve Supabase in `connect-src`.
+
+### 2. Make the friendly error actually reach the UI
+- Move `friendlyError` wrapping into a `catch` that also handles errors thrown by `supabase-js` internals (not just the outer `await`). Specifically wrap the entire `queryFn` body in `try/catch` and rethrow a friendly `Error` for any `TypeError` whose message matches the network pattern.
+- Same treatment for `useFeaturedPublications`.
+- Log the raw error to console before wrapping, so future debugging has the real stack.
+
+### 3. Add a same-origin static fallback (resilience)
+- Build a tiny JSON snapshot of published publications at build time or via a Netlify function proxying Supabase, served from `mangabeira.net/api/publications.json` (same origin, not blockable by Supabase-targeted filters).
+- In `usePublications`, if the Supabase fetch fails with a network error after retries, fall back to the static snapshot and show a soft warning banner instead of a hard error.
+- Snapshot is stale-tolerant; refresh on each deploy (or via a scheduled Netlify function).
+
+### 4. Verification
+- Reload `/publications` on mangabeira.net in normal browser, incognito, and with extensions → grid renders in all three.
+- Browser devtools → Network tab: confirm no `Content-Security-Policy` header blocks Supabase.
+- Block `*.supabase.co` in devtools (Request blocking) → confirm fallback snapshot renders and banner shows.
+
+### Files touched
+- `public/_headers` (CSP fix if needed)
+- `netlify/edge-functions/seo.ts` (CSP passthrough if it's the source)
+- `src/hooks/usePublications.ts` (broader catch + fallback read)
+- `src/pages/Publications.tsx` (soft warning banner for fallback mode)
+- New: `netlify/functions/publications-snapshot.js` or `public/api/publications.json` (static fallback)
+
+### Files NOT touched
+- Supabase schema/RLS — healthy
+- `Publications.tsx` layout — working
+- Other locales / other pages — not affected
+
