@@ -30,8 +30,64 @@ interface PageMeta {
 }
 
 // ─── Bot detection ───────────────────────────────────────────────────────
-// Match AI crawlers, search engines, and social previewers. Case-insensitive.
-const BOT_UA_REGEX = /(GPTBot|ChatGPT-User|OAI-SearchBot|PerplexityBot|Perplexity-User|ClaudeBot|Claude-Web|anthropic-ai|Google-Extended|cohere-ai|Bytespider|Amazonbot|Applebot(?:-Extended)?|Googlebot|Bingbot|DuckDuckBot|YandexBot|Baiduspider|facebookexternalhit|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|Pinterestbot|MJ12bot|AhrefsBot|SemrushBot|DotBot|CCBot|Diffbot|YouBot|meta-externalagent)/i;
+// UA tokens grouped by operator type. Inline comments document who each token
+// belongs to. The final BOT_UA_REGEX is built at module load by escaping each
+// token and joining with `|`. Add new crawlers here OR via the
+// PRERENDER_EXTRA_BOT_UAS env var (comma-separated) — no redeploy needed for the latter.
+
+// AI crawlers and AI assistant fetchers (LLM training + retrieval)
+const AI_CRAWLER_UAS = [
+  // OpenAI
+  "GPTBot", "ChatGPT-User", "OAI-SearchBot",
+  // Anthropic (current + legacy tokens)
+  "ClaudeBot", "Claude-Web", "Claude-SearchBot", "anthropic-ai",
+  // Google AI (separate from Googlebot search)
+  "Google-Extended", "GoogleOther",
+  // Apple AI (separate from Applebot search)
+  "Applebot-Extended",
+  // Meta AI
+  "meta-externalagent", "Meta-ExternalFetcher",
+  // Perplexity
+  "PerplexityBot", "Perplexity-User",
+  // Other AI labs / assistants
+  "cohere-ai", "MistralAI-User", "DuckAssistBot", "Kagibot", "YouBot",
+  "Timpibot", "Omgilibot", "ImagesiftBot", "Diffbot", "CCBot",
+  "Bytespider", "Amazonbot", "PetalBot",
+];
+
+// Traditional search engine crawlers
+const SEARCH_CRAWLER_UAS = [
+  "Googlebot", "Bingbot", "DuckDuckBot", "YandexBot", "Baiduspider", "Applebot",
+];
+
+// Social media link previewers (need OG tags)
+const SOCIAL_PREVIEWER_UAS = [
+  "facebookexternalhit", "Twitterbot", "LinkedInBot", "Slackbot",
+  "Discordbot", "WhatsApp", "TelegramBot", "Pinterestbot",
+];
+
+// SEO audit / link analysis tools
+const SEO_TOOL_UAS = [
+  "AhrefsBot", "SemrushBot", "MJ12bot", "DotBot",
+];
+
+function escapeRegex(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+const EXTRA_BOT_UAS = (Deno.env.get("PRERENDER_EXTRA_BOT_UAS") ?? "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+const BOT_UA_REGEX = new RegExp(
+  "(" +
+    [...AI_CRAWLER_UAS, ...SEARCH_CRAWLER_UAS, ...SOCIAL_PREVIEWER_UAS, ...SEO_TOOL_UAS, ...EXTRA_BOT_UAS]
+      .map(escapeRegex)
+      .join("|") +
+  ")",
+  "i",
+);
 
 function isBot(userAgent: string | null): boolean {
   if (!userAgent) return false;
