@@ -7,5 +7,8 @@
 /rss/es.xml https://hetemmltaoirimmoxzku.supabase.co/storage/v1/object/public/blog-images/rss-es.xml 302
 /rss.xml https://hetemmltaoirimmoxzku.supabase.co/storage/v1/object/public/blog-images/rss-en.xml 302
 
+# Same-origin fallback for publications (bypasses ad-blockers blocking *.supabase.co)
+/api/publications-snapshot /.netlify/functions/publications-snapshot 200
+
 # SPA fallback — Netlify Prerender Extension handles bot detection automatically
 /*    /index.html   200

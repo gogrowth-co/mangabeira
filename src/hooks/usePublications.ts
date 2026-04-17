@@ -30,10 +30,16 @@ export interface Publication {
 function isNetworkError(err: unknown): boolean {
   if (!err) return false;
   const msg = err instanceof Error ? err.message : String(err);
-  return /failed to fetch|networkerror|load failed|network request failed/i.test(msg);
+  const name = err instanceof Error ? err.name : '';
+  return (
+    name === 'TypeError' ||
+    /failed to fetch|networkerror|load failed|network request failed|fetch failed/i.test(msg)
+  );
 }
 
 function friendlyError(err: unknown): Error {
+  // Always log raw error for debugging
+  console.error('[usePublications] raw error:', err);
   if (isNetworkError(err)) {
     return new Error(
       "Couldn't reach the content server. This is usually caused by a browser extension (ad blocker, privacy extension), a VPN, or a corporate firewall blocking the request. Try disabling extensions for this site or switching networks."
@@ -46,76 +52,95 @@ function friendlyError(err: unknown): Error {
   return new Error(details || 'Supabase query failed');
 }
 
+// Same-origin fallback. Bypasses ad-blockers / VPN filters that target *.supabase.co.
+async function fetchFromSnapshot(): Promise<Publication[]> {
+  const res = await fetch('/api/publications-snapshot', { cache: 'no-store' });
+  if (!res.ok) throw new Error(`Snapshot returned ${res.status}`);
+  const data = await res.json();
+  return data as Publication[];
+}
+
+export interface PublicationsResult {
+  publications: Publication[];
+  source: 'live' | 'snapshot';
+}
+
+async function fetchAllPublications(): Promise<PublicationsResult> {
+  // Try live Supabase first
+  try {
+    const { data, error } = await supabase
+      .from('pages')
+      .select(`*, translations:page_translations(*)`)
+      .eq('status', 'published')
+      .eq('is_system_page', false)
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+    return { publications: (data || []) as Publication[], source: 'live' };
+  } catch (liveErr) {
+    console.warn('[usePublications] live fetch failed, trying snapshot fallback', liveErr);
+    // If it's a network error, try snapshot fallback
+    if (isNetworkError(liveErr)) {
+      try {
+        const publications = await fetchFromSnapshot();
+        return { publications, source: 'snapshot' };
+      } catch (snapErr) {
+        console.error('[usePublications] snapshot fallback also failed', snapErr);
+        // Both failed — surface friendly error
+        throw friendlyError(liveErr);
+      }
+    }
+    throw friendlyError(liveErr);
+  }
+}
+
+function applyFilters(
+  publications: Publication[],
+  locale: Locale,
+  categoryFilter?: string,
+  searchQuery?: string
+): Publication[] {
+  let result = publications;
+
+  if (categoryFilter && categoryFilter !== 'all') {
+    result = result.filter(p => p.category === categoryFilter);
+  }
+
+  if (locale !== 'en') {
+    result = result.filter(pub =>
+      (pub.translations || []).some(t => t.language === locale)
+    );
+  }
+
+  if (searchQuery && searchQuery.trim()) {
+    const searchLower = searchQuery.toLowerCase();
+    result = result.filter(pub => {
+      const translation = (pub.translations || []).find(t => t.language === locale);
+      const fallbackTranslation = (pub.translations || []).find(t => t.language === 'en');
+      const currentTranslation = translation || fallbackTranslation;
+      if (!currentTranslation) return false;
+      return (
+        currentTranslation.title.toLowerCase().includes(searchLower) ||
+        currentTranslation.meta_description?.toLowerCase().includes(searchLower) ||
+        (pub.tags || []).some(tag => tag.toLowerCase().includes(searchLower))
+      );
+    });
+  }
+
+  return result;
+}
+
 export function usePublications(locale: Locale, categoryFilter?: string, searchQuery?: string) {
   return useQuery({
     retry: (failureCount, error) => {
-      // Retry network failures up to 3 times; don't retry real Supabase errors.
-      if (isNetworkError(error)) return failureCount < 3;
+      if (isNetworkError(error)) return failureCount < 2;
       return false;
     },
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 4000),
     queryKey: ['publications', locale, categoryFilter, searchQuery],
     queryFn: async () => {
-      let query = supabase
-        .from('pages')
-        .select(`
-          *,
-          translations:page_translations(*)
-        `)
-        .eq('status', 'published')
-        .eq('is_system_page', false)
-        .order('created_at', { ascending: false });
-      
-      // Filter by category if provided
-      if (categoryFilter && categoryFilter !== 'all') {
-        query = query.eq('category', categoryFilter);
-      }
-      
-      let data, error;
-      try {
-        ({ data, error } = await query);
-      } catch (fetchErr) {
-        // supabase-js rethrows network failures as exceptions, not into `error`.
-        throw friendlyError(fetchErr);
-      }
-
-      if (error) {
-        throw friendlyError(error);
-      }
-
-      // Client-side filtering for locale and search
-      let publications = data as Publication[];
-
-      // Filter to only show publications that have translation in the requested locale
-      // For non-English locales, only show publications with translations available
-      if (locale !== 'en') {
-        const beforeCount = publications.length;
-        publications = publications.filter(pub =>
-          pub.translations.some(t => t.language === locale)
-        );
-        if (beforeCount > 0 && publications.length === 0) {
-          console.warn(`[usePublications] Locale filter '${locale}' stripped all ${beforeCount} publications. Translations may be missing.`);
-        }
-      }
-
-      if (searchQuery && searchQuery.trim()) {
-        publications = publications.filter(pub => {
-          const translation = pub.translations.find(t => t.language === locale);
-          const fallbackTranslation = pub.translations.find(t => t.language === 'en');
-          const currentTranslation = translation || fallbackTranslation;
-
-          if (!currentTranslation) return false;
-
-          const searchLower = searchQuery.toLowerCase();
-          return (
-            currentTranslation.title.toLowerCase().includes(searchLower) ||
-            currentTranslation.meta_description?.toLowerCase().includes(searchLower) ||
-            (pub.tags || []).some(tag => tag.toLowerCase().includes(searchLower))
-          );
-        });
-      }
-
-      return publications;
+      const { publications, source } = await fetchAllPublications();
+      const filtered = applyFilters(publications, locale, categoryFilter, searchQuery);
+      return { publications: filtered, source };
     },
   });
 }
@@ -123,44 +148,47 @@ export function usePublications(locale: Locale, categoryFilter?: string, searchQ
 export function useFeaturedPublications(locale: Locale) {
   return useQuery({
     retry: (failureCount, error) => {
-      if (isNetworkError(error)) return failureCount < 3;
+      if (isNetworkError(error)) return failureCount < 2;
       return false;
     },
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 4000),
     queryKey: ['featured-publications', locale],
     queryFn: async () => {
-      let data, error;
       try {
-        ({ data, error } = await supabase
+        const { data, error } = await supabase
           .from('pages')
-          .select(`
-            *,
-            translations:page_translations(*)
-          `)
+          .select(`*, translations:page_translations(*)`)
           .eq('status', 'published')
           .eq('is_system_page', false)
           .eq('is_featured', true)
           .order('updated_at', { ascending: false })
-          .limit(3));
-      } catch (fetchErr) {
-        throw friendlyError(fetchErr);
+          .limit(3);
+        if (error) throw error;
+        let publications = (data || []) as Publication[];
+        if (locale !== 'en') {
+          publications = publications.filter(pub =>
+            (pub.translations || []).some(t => t.language === locale)
+          );
+        }
+        return publications;
+      } catch (err) {
+        // Featured is best-effort — try snapshot, otherwise return empty
+        if (isNetworkError(err)) {
+          try {
+            const all = await fetchFromSnapshot();
+            let publications = all.filter(p => p.is_featured).slice(0, 3);
+            if (locale !== 'en') {
+              publications = publications.filter(pub =>
+                (pub.translations || []).some(t => t.language === locale)
+              );
+            }
+            return publications;
+          } catch {
+            return [];
+          }
+        }
+        throw friendlyError(err);
       }
-
-      if (error) {
-        throw friendlyError(error);
-      }
-
-      let publications = data as Publication[];
-
-      // Filter to only show publications that have translation in the requested locale
-      // For non-English locales, only show publications with translations available
-      if (locale !== 'en') {
-        publications = publications.filter(pub =>
-          pub.translations.some(t => t.language === locale)
-        );
-      }
-
-      return publications;
     },
   });
 }
