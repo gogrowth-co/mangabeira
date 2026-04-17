@@ -591,11 +591,12 @@ export default async function handler(request: Request, context: Context) {
   const url = new URL(request.url);
   const pathname = url.pathname;
 
-  // Skip static assets, API calls, admin, auth routes
+  // Skip static assets, API routes, admin, auth routes
   if (
     pathname.startsWith("/assets/") ||
     pathname.startsWith("/_netlify/") ||
     pathname.startsWith("/.netlify/") ||
+    pathname.startsWith("/api/") ||
     pathname.startsWith("/admin") ||
     pathname.startsWith("/auth") ||
     pathname.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|webp|woff|woff2|ttf|otf|map|xml|txt|json|csv|pdf)$/)
@@ -625,8 +626,11 @@ export default async function handler(request: Request, context: Context) {
   const route = parseRoute(pathname);
   let meta: PageMeta | null = null;
 
-  if (route.type === "publication" && route.slug) {
-    meta = await fetchPublicationMeta(route.slug, route.locale, isBotRequest);
+  // Only fetch dynamic publication meta for bots — regular users get meta
+  // from React Helmet client-side. Calling Supabase here for every user
+  // adds 300–800 ms latency and can time out the edge function.
+  if (isBotRequest && route.type === "publication" && route.slug) {
+    meta = await fetchPublicationMeta(route.slug, route.locale, true);
   }
 
   if (!meta) {
