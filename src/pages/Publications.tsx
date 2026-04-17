@@ -52,14 +52,21 @@ export default function Publications() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   
-  // Show loading state while translations are loading
-  if (translationsLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      </div>
-    );
-  }
+  // Gate prerenderReady on publications data being settled (or 8s ceiling).
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (!isLoading && !translationsLoading) {
+      window.prerenderReady = true;
+      return;
+    }
+    const ceiling = setTimeout(() => {
+      window.prerenderReady = true;
+    }, 8000);
+    return () => clearTimeout(ceiling);
+  }, [isLoading, translationsLoading]);
+
+  // Don't early-return on translationsLoading — render the page shell so
+  // Prerender snapshots have stable, indexable layout instead of a spinner.
   
   return (
     <>
@@ -162,18 +169,27 @@ export default function Publications() {
         
         {/* Publications Grid */}
         <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          {/* Results Counter */}
-          <p className="text-muted-foreground mb-6">
-            {t('publications_hub', 'results_showing', locale)} {sortedPublications.length} {t('publications_hub', 'results_publications', locale)}
-          </p>
-          
-          {/* Loading State */}
+          {/* Results Counter — only show real number after load to avoid "0" snapshots */}
+          {!isLoading && (
+            <p className="text-muted-foreground mb-6">
+              {t('publications_hub', 'results_showing', locale)} {sortedPublications.length} {t('publications_hub', 'results_publications', locale)}
+            </p>
+          )}
+
+          {/* Loading State — skeleton grid (stable layout for snapshots) */}
           {isLoading && (
-            <div className="flex justify-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className="space-y-3">
+                  <div className="h-48 w-full bg-muted rounded animate-pulse" />
+                  <div className="h-5 w-3/4 bg-muted rounded animate-pulse" />
+                  <div className="h-4 w-full bg-muted rounded animate-pulse" />
+                  <div className="h-4 w-5/6 bg-muted rounded animate-pulse" />
+                </div>
+              ))}
             </div>
           )}
-          
+
           {/* Empty State */}
           {!isLoading && sortedPublications.length === 0 && (
             <div className="text-center py-12">
@@ -181,7 +197,7 @@ export default function Publications() {
               <p className="text-muted-foreground">{t('publications_hub', 'try_different', locale)}</p>
             </div>
           )}
-          
+
           {/* Publications Grid */}
           {!isLoading && sortedPublications.length > 0 && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">

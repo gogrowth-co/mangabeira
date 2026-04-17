@@ -220,6 +220,10 @@ export default function DynamicPage() {
   // Redirect non-canonical URLs to canonical localized URLs
   // e.g., /es/articulos/defi-tokenomics-for-founders → /es/articulos/defi-tokenomics-para-founders
   useEffect(() => {
+    // Skip canonical redirect during prerender pass to avoid snapshot route flicker
+    if (typeof window !== 'undefined' && window.prerenderReady === false) {
+      return;
+    }
     if (
       data?.matchedViaFallback && 
       data.canonicalSlug && 
@@ -270,10 +274,36 @@ export default function DynamicPage() {
     }
   }, [data, locale, navigate, allTranslations, hasLocalizedTranslation]);
 
-  if (isLoading || isLoadingTranslations) {
+  // Gate prerenderReady on actual content presence (or 8s ceiling) so Prerender
+  // doesn't snapshot the loading state on dependent-fetch routes.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (data?.translation?.content) {
+      window.prerenderReady = true;
+      return;
+    }
+    const ceiling = setTimeout(() => {
+      window.prerenderReady = true;
+    }, 8000);
+    return () => clearTimeout(ceiling);
+  }, [data?.translation?.content]);
+
+  if ((isLoading || isLoadingTranslations) && !data?.translation) {
+    // Stable skeleton (not a bare "Loading..." div) so any snapshot taken
+    // mid-load still contains layout + indexable scaffolding.
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-lg">Loading...</div>
+      <div className="min-h-screen flex flex-col bg-background">
+        <Header locale={locale} />
+        <main className="pt-20 md:pt-24 pb-16 flex-1">
+          <article className="container mx-auto px-4 max-w-4xl">
+            <div className="h-10 w-3/4 bg-muted rounded animate-pulse mb-6" />
+            <div className="h-4 w-full bg-muted rounded animate-pulse mb-3" />
+            <div className="h-4 w-11/12 bg-muted rounded animate-pulse mb-3" />
+            <div className="h-4 w-10/12 bg-muted rounded animate-pulse mb-8" />
+            <div className="h-64 w-full bg-muted rounded animate-pulse" />
+          </article>
+        </main>
+        <Footer />
       </div>
     );
   }
