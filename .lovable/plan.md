@@ -1,60 +1,60 @@
 
 
-## Audit findings
+## Audit of the proposed plan
 
-The `/publications` page is still showing "Failed to load publications: TypeError: Failed to fetch". Based on the prior investigation and current code state, here's what I found auditing again:
+I reviewed the three files in question against the proposed plan. Findings:
 
-### What's already in place (working)
-- `usePublications.ts` has `isNetworkError` detection, `friendlyError` wrapper, retry logic (3x exponential backoff), and `try/catch` around Supabase calls.
-- `Publications.tsx` surfaces the error message correctly.
-- Supabase API itself is healthy (confirmed earlier via curl, 15 published rows).
-- CSV parsing is fixed, CORS on the Supabase REST endpoint is fine (browser default, no custom config needed for PostgREST).
+### Bug 1 — Confirmed and accurate
+`netlify/edge-functions/seo.ts` line ~628 calls `fetchPublicationMeta` for every request, not just bots. This is a real performance/timeout risk on every `/publications/:slug` view. The proposed gate `if (isBotRequest && route.type === "publication" ...)` is correct and minimally invasive.
 
-### What's still wrong — the real gap
+One nuance: the third arg `includeContent` was previously `isBotRequest`. Now that the whole call is bot-gated, passing `true` is fine (matches the prior bot-only behavior of injecting full content).
 
-**The error is `TypeError: Failed to fetch` — a browser-level network abort, not a Supabase response error.** This happens *before* Supabase can return anything. On mangabeira.net there are three plausible triggers, and the code doesn't defend against any of them:
+### Bug 2 — Confirmed and accurate
+The skip list in `seo.ts` (~line 594) excludes `/assets/`, `/_netlify/`, etc. but not `/api/`. Adding `pathname.startsWith("/api/")` is the right fix and matches the `netlify.toml` redirect that maps `/api/publications-snapshot` to the Netlify function. Without this, the edge function rewrites the JSON response or returns SPA HTML — exactly the failure mode `fetchFromSnapshot()` reports via its content-type check.
 
-1. **CSP / connect-src restriction via the SEO edge function or `_headers`.** `netlify/edge-functions/seo.ts` rewrites HTML for every request. If it (or any upstream) injects a `Content-Security-Policy` header missing `https://hetemmltaoirimmoxzku.supabase.co` in `connect-src`, the browser blocks the fetch with exactly this error. Need to verify `public/_headers` and the edge function output.
-2. **Browser extension / privacy filter** blocking `*.supabase.co` — the current friendly-error message covers this, but only *after* all 3 retries fail (~7s of blank error state). And the screenshot shows the raw error, meaning the wrapping isn't triggering — likely because the error is thrown at a layer React Query isn't catching as "network".
-3. **No offline/static fallback.** When the live fetch fails for any reason, the hub is dead. There's no snapshot of publications served from the same origin (mangabeira.net) that would bypass blockers entirely.
+### Bug 3 & 4 — Confirmed; low-risk hardening
+`PublicationCard.tsx` lines 27 and 34 deref `publication.translations` directly. The snapshot proxy and PostgREST joins can both return rows with `translations: null` under edge cases. `usePublications.ts` already uses `(pub.translations || [])` in its filter helpers — applying the same guard in the card is consistent.
 
-### Why the current "friendly error" isn't showing
+### Bug 5 — Confirmed; useful
+`fetchFromSnapshot()` only `console.warn`s per-URL failures and then throws a generic error. Adding a final `console.error` with the last error message will make production debugging much easier. Low-risk.
 
-Looking at the screenshot: the error text is literally `TypeError: Failed to fetch | TypeError: Failed to fetch at https://...` — this is the *raw* message, not the friendly one. That means `friendlyError()` isn't wrapping this particular throw path. The most likely reason: the failure happens inside React Query's own fetch retry, or the `featured-publications` query (which has the same retry config but its own error path) is the one failing, and that error surfaces through a different code path we haven't hardened.
+### Plan completeness check
+- Doesn't touch `usePages.ts`, `DynamicPage.tsx`, `Publications.tsx`, `_redirects`, or the snapshot function itself — correct, those are already right.
+- Doesn't regress bot SEO (Bug 1 fix preserves the bot path exactly).
+- Doesn't break the existing snapshot fallback chain.
+- Doesn't introduce new dependencies.
 
-Also worth noting: `useFeaturedPublications` has `try/catch` + `friendlyError`, but `Publications.tsx` only reads `error` from `usePublications`, not from `useFeaturedPublications`. If featured fails silently, fine — but if the shared Supabase client throws at module load or during the select with the joined `page_translations`, we'd see exactly this.
+### One small addition I recommend
+In `seo.ts`, after gating Bug 1, the variable `meta` may stay `null` for non-bot publication requests. Confirmed by reading the handler: when `meta` is null, the function falls back to `context.next()` (SPA passthrough) — which is exactly what we want. No extra change needed, just calling it out so we don't accidentally inject empty meta tags.
 
-## Fix plan
+### Verdict
+**The plan is correct, complete, and minimal.** Approve and apply as-is.
 
-### 1. Verify and fix CSP / connect-src (highest leverage)
-- Read `public/_headers` and inspect the live response headers on mangabeira.net via the SEO edge function path.
-- If CSP is present and missing the Supabase origin, add `https://hetemmltaoirimmoxzku.supabase.co` to `connect-src` (and `https://*.supabase.co` as a safety net).
-- If the edge function is stripping/overwriting, patch it to preserve Supabase in `connect-src`.
+## Implementation steps
 
-### 2. Make the friendly error actually reach the UI
-- Move `friendlyError` wrapping into a `catch` that also handles errors thrown by `supabase-js` internals (not just the outer `await`). Specifically wrap the entire `queryFn` body in `try/catch` and rethrow a friendly `Error` for any `TypeError` whose message matches the network pattern.
-- Same treatment for `useFeaturedPublications`.
-- Log the raw error to console before wrapping, so future debugging has the real stack.
+1. **`netlify/edge-functions/seo.ts`** — two surgical edits:
+   - Add `pathname.startsWith("/api/") ||` to the early-return skip list (~line 594).
+   - Wrap the publication meta fetch in `if (isBotRequest && ...)` (~line 628), passing `true` as the third argument.
 
-### 3. Add a same-origin static fallback (resilience)
-- Build a tiny JSON snapshot of published publications at build time or via a Netlify function proxying Supabase, served from `mangabeira.net/api/publications.json` (same origin, not blockable by Supabase-targeted filters).
-- In `usePublications`, if the Supabase fetch fails with a network error after retries, fall back to the static snapshot and show a soft warning banner instead of a hard error.
-- Snapshot is stale-tolerant; refresh on each deploy (or via a scheduled Netlify function).
+2. **`src/components/publications/PublicationCard.tsx`** — null-guard:
+   - Replace direct `.translations.find(...)` and `.translations.map(...)` with a `translationsArr = publication.translations || []` local.
 
-### 4. Verification
-- Reload `/publications` on mangabeira.net in normal browser, incognito, and with extensions → grid renders in all three.
-- Browser devtools → Network tab: confirm no `Content-Security-Policy` header blocks Supabase.
-- Block `*.supabase.co` in devtools (Request blocking) → confirm fallback snapshot renders and banner shows.
+3. **`src/hooks/usePublications.ts`** — better diagnostics:
+   - In `fetchFromSnapshot()`, add a `console.error` summarizing the last error before the final throw.
 
-### Files touched
-- `public/_headers` (CSP fix if needed)
-- `netlify/edge-functions/seo.ts` (CSP passthrough if it's the source)
-- `src/hooks/usePublications.ts` (broader catch + fallback read)
-- `src/pages/Publications.tsx` (soft warning banner for fallback mode)
-- New: `netlify/functions/publications-snapshot.js` or `public/api/publications.json` (static fallback)
+## Verification after deploy
 
-### Files NOT touched
-- Supabase schema/RLS — healthy
-- `Publications.tsx` layout — working
-- Other locales / other pages — not affected
+- `/publications` loads in incognito → grid renders.
+- `/publications/definitive-guide-web3-seo` loads → article renders, no edge timeout.
+- DevTools Network → `/api/publications-snapshot` returns `Content-Type: application/json`.
+- With ad-blocker on → snapshot fallback kicks in, banner appears, grid still renders.
+- Bot user-agent (curl with Googlebot UA) on a publication URL → still gets prerendered meta + content block.
+
+## Files touched
+- `netlify/edge-functions/seo.ts`
+- `src/components/publications/PublicationCard.tsx`
+- `src/hooks/usePublications.ts`
+
+## Files NOT touched
+- `netlify/functions/publications-snapshot.js`, `public/_redirects`, `src/pages/Publications.tsx`, `src/pages/DynamicPage.tsx`, `src/hooks/usePages.ts`
 
