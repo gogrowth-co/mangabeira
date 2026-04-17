@@ -510,10 +510,33 @@ export default async function handler(request: Request, context: Context) {
     return response;
   }
 
+  // Detect bot/crawler from User-Agent
+  const userAgent = request.headers.get("user-agent");
+  const isBotRequest = isBot(userAgent);
+
+  // Parse route and get metadata
+  const route = parseRoute(pathname);
+  let meta: PageMeta | null = null;
+
+  if (route.type === "publication" && route.slug) {
+    meta = await fetchPublicationMeta(route.slug, route.locale, isBotRequest);
+  }
+
+  if (!meta) {
+    meta = getStaticMeta(route);
+  }
+
+  if (!meta) {
+    return response;
+  }
+
+  // For bots on publication pages, build the article block
+  const botContent = isBotRequest && meta.content ? buildBotContentBlock(meta) : undefined;
+
   // Read HTML, inject meta, return modified response
   try {
     let html = await response.text();
-    html = injectMeta(html, meta);
+    html = injectMeta(html, meta, botContent);
 
     return new Response(html, {
       status: response.status,
