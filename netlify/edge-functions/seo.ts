@@ -420,7 +420,24 @@ function buildNoscriptBlock(meta: PageMeta): string {
   return `<noscript><div><h1>${esc(meta.title)}</h1><p>${esc(meta.description)}</p><a href="${esc(meta.canonical)}">${esc(meta.canonical)}</a></div></noscript>`;
 }
 
-function injectMeta(html: string, meta: PageMeta): string {
+// Sanitize content HTML for bot consumption: strip <script> and inline event handlers.
+function sanitizeContentForBots(html: string): string {
+  let out = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
+  out = out.replace(/\son[a-z]+\s*=\s*"[^"]*"/gi, "");
+  out = out.replace(/\son[a-z]+\s*=\s*'[^']*'/gi, "");
+  return out;
+}
+
+function buildBotContentBlock(meta: PageMeta): string {
+  if (!meta.content) return "";
+  const safeContent = sanitizeContentForBots(meta.content);
+  const imgTag = meta.ogImage
+    ? `<img src="${esc(meta.ogImage)}" alt="${esc(meta.featuredImageAlt || meta.title)}" />`
+    : "";
+  return `<article data-bot-content="true"><header><h1>${esc(meta.title)}</h1>${imgTag}<p>${esc(meta.description)}</p></header>${safeContent}<footer><p><a href="${esc(meta.canonical)}">${esc(meta.canonical)}</a></p></footer></article>`;
+}
+
+function injectMeta(html: string, meta: PageMeta, botContent?: string): string {
   // Strip existing SEO tags first to prevent duplicates after prerender
   html = stripExistingMeta(html);
 
@@ -438,9 +455,10 @@ function injectMeta(html: string, meta: PageMeta): string {
   const metaTags = buildMetaTags(meta);
   html = html.replace(/<\/head>/, `${metaTags}\n</head>`);
 
-  // Inject noscript content block after <div id="root"> for non-JS crawlers
+  // Inject noscript content block + optional bot article block after <div id="root">
   const noscript = buildNoscriptBlock(meta);
-  html = html.replace(/<div id="root">/, `<div id="root">${noscript}`);
+  const injected = `<div id="root">${noscript}${botContent || ""}`;
+  html = html.replace(/<div id="root">/, injected);
 
   return html;
 }
