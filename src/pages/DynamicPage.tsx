@@ -321,7 +321,7 @@ export default function DynamicPage() {
     );
   }
 
-  if (error || !data?.page) {
+  if (error || !data?.page || !resolvedSlug) {
     return <NotFound />;
   }
 
