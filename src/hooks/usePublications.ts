@@ -86,7 +86,9 @@ async function fetchFromSnapshot(): Promise<Publication[]> {
       lastErr = err;
     }
   }
-  throw lastErr instanceof Error ? lastErr : new Error('All snapshot URLs failed');
+  const errMsg = lastErr instanceof Error ? lastErr.message : 'All snapshot URLs failed';
+  console.error('[usePublications] All snapshot URLs exhausted:', errMsg, lastErr);
+  throw lastErr instanceof Error ? lastErr : new Error(errMsg);
 }
 
 export interface PublicationsResult {

@@ -24,14 +24,15 @@ const coverImageMap: Record<string, string> = {
 };
 
 export default function PublicationCard({ publication, locale }: PublicationCardProps) {
-  const translation = publication.translations.find(t => t.language === locale);
-  const fallbackTranslation = publication.translations.find(t => t.language === 'en');
+  const translationsArr = publication.translations || [];
+  const translation = translationsArr.find(t => t.language === locale);
+  const fallbackTranslation = translationsArr.find(t => t.language === 'en');
   const currentTranslation = translation || fallbackTranslation;
   
   if (!currentTranslation) return null;
   
   // Determine which languages are available
-  const availableLanguages = publication.translations.map(t => t.language);
+  const availableLanguages = translationsArr.map(t => t.language);
   const languageLabels: Record<string, string> = { 
     en: '🇺🇸 EN', 
     br: '🇧🇷 BR', 

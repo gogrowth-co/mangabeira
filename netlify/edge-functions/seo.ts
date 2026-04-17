@@ -594,6 +594,7 @@ export default async function handler(request: Request, context: Context) {
   // Skip static assets, API calls, admin, auth routes
   if (
     pathname.startsWith("/assets/") ||
+    pathname.startsWith("/api/") ||
     pathname.startsWith("/_netlify/") ||
     pathname.startsWith("/.netlify/") ||
     pathname.startsWith("/admin") ||
@@ -625,8 +626,8 @@ export default async function handler(request: Request, context: Context) {
   const route = parseRoute(pathname);
   let meta: PageMeta | null = null;
 
-  if (route.type === "publication" && route.slug) {
-    meta = await fetchPublicationMeta(route.slug, route.locale, isBotRequest);
+  if (isBotRequest && route.type === "publication" && route.slug) {
+    meta = await fetchPublicationMeta(route.slug, route.locale, true);
   }
 
   if (!meta) {
