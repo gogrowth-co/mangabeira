@@ -195,7 +195,7 @@ export default function Publications() {
           {!isLoading && isError && (
             <div className="text-center py-12">
               <p className="text-xl font-semibold mb-2 text-destructive">Failed to load publications</p>
-              <p className="text-muted-foreground mb-4">{error instanceof Error ? error.message : 'Unknown error'}</p>
+              <p className="text-muted-foreground mb-4">{error instanceof Error ? error.message : (error ? String(error) : 'Unknown error')}</p>
               <Button onClick={() => refetch()} variant="outline">Retry</Button>
             </div>
           )}

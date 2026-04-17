@@ -280,7 +280,7 @@ footer,social_github,Medium,Social media label (note: icon says Github but links
 chat,bubble_tooltip,Chat with my AI,Tooltip on bubble
 chat,header_title,Chat with my AI,Chat panel header
 chat,header_subtitle,"Ask about my journey, services, case studies, or Web3 growth.",Chat panel subtitle
-chat,empty_state_line1,Ask me anything about Gabriel's journey,,Empty state message
+chat,empty_state_line1,Ask me anything about Gabriel's journey,Empty state message
 chat,empty_state_line2,"services, or Web3 expertise!",Empty state message
 chat,input_placeholder,Type your message...,Input field placeholder
 chat,button_send,Send,Send button aria label

@@ -46,7 +46,12 @@ export function usePublications(locale: Locale, categoryFilter?: string, searchQ
       
       const { data, error } = await query;
 
-      if (error) throw error;
+      if (error) {
+        const details = [error.message, (error as any).code, (error as any).details]
+          .filter(Boolean)
+          .join(' | ');
+        throw new Error(details || 'Supabase query failed');
+      }
 
       // Client-side filtering for locale and search
       let publications = data as Publication[];
@@ -75,7 +80,7 @@ export function usePublications(locale: Locale, categoryFilter?: string, searchQ
           return (
             currentTranslation.title.toLowerCase().includes(searchLower) ||
             currentTranslation.meta_description?.toLowerCase().includes(searchLower) ||
-            pub.tags.some(tag => tag.toLowerCase().includes(searchLower))
+            (pub.tags || []).some(tag => tag.toLowerCase().includes(searchLower))
           );
         });
       }
@@ -101,7 +106,12 @@ export function useFeaturedPublications(locale: Locale) {
         .order('updated_at', { ascending: false })
         .limit(3);
 
-      if (error) throw error;
+      if (error) {
+        const details = [error.message, (error as any).code, (error as any).details]
+          .filter(Boolean)
+          .join(' | ');
+        throw new Error(details || 'Supabase query failed');
+      }
 
       let publications = data as Publication[];
 
