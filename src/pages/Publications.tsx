@@ -29,12 +29,14 @@ export default function Publications() {
     initTranslations(locale);
   }, [locale]);
   
-  const { data: publications = [], isLoading, isError, error, refetch } = usePublications(locale, categoryFilter, searchQuery);
+  const { data, isLoading, isError, error, refetch } = usePublications(locale, categoryFilter, searchQuery);
+  const publications = data?.publications ?? [];
+  const isFallback = data?.source === 'snapshot';
   const { data: featured = [] } = useFeaturedPublications(locale);
   const hasActiveFilters = categoryFilter !== 'all' || searchQuery.trim().length > 0;
   
   // Get unique categories from publications
-  const categories = ['all', ...Array.from(new Set(publications.map(p => p.category)))];
+  const categories: string[] = ['all', ...Array.from(new Set(publications.map(p => p.category).filter(Boolean) as string[]))];
   
   // Sort publications
   const sortedPublications = [...publications].sort((a, b) => {
@@ -170,6 +172,13 @@ export default function Publications() {
         
         {/* Publications Grid */}
         <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          {/* Fallback banner — shown when serving from same-origin snapshot */}
+          {isFallback && (
+            <div className="mb-6 rounded-md border border-accent bg-accent/10 px-4 py-3 text-sm text-foreground">
+              Showing a cached version of publications. Live content is temporarily unavailable — likely due to a browser extension or network filter blocking our content server.
+            </div>
+          )}
+
           {/* Results Counter — only show real number after load to avoid "0" snapshots */}
           {!isLoading && (
             <p className="text-muted-foreground mb-6">
