@@ -594,6 +594,7 @@ export default async function handler(request: Request, context: Context) {
   // Skip static assets, API calls, admin, auth routes
   if (
     pathname.startsWith("/assets/") ||
+    pathname.startsWith("/api/") ||
     pathname.startsWith("/_netlify/") ||
     pathname.startsWith("/.netlify/") ||
     pathname.startsWith("/admin") ||
