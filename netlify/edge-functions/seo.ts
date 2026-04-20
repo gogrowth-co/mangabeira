@@ -448,7 +448,8 @@ function buildMetaTags(meta: PageMeta): string {
   }
 
   tags.push(`<meta name="twitter:card" content="summary_large_image">`);
-  tags.push(`<meta name="twitter:site" content="@gabmangabeira">`);
+  tags.push(`<meta name="twitter:site" content="@manga82">`);
+  tags.push(`<meta name="twitter:creator" content="@manga82">`);
   tags.push(`<meta name="twitter:title" content="${esc(meta.title)}">`);
   tags.push(`<meta name="twitter:description" content="${esc(meta.description)}">`);
   if (meta.ogImage) {

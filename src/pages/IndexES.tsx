@@ -14,6 +14,7 @@ import Footer from "@/components/Footer";
 import ChatWithMyAI from "@/components/ChatWithMyAI";
 import Header from "@/components/Header";
 import SEO from "@/components/SEO";
+import SEOHead from "@/components/SEOHead";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const IndexES = () => {
@@ -30,6 +31,11 @@ const IndexES = () => {
   
   return (
     <>
+      <SEOHead
+        title="Gabriel Mangabeira | Olímpico y Estratega de Growth Marketing"
+        description="Experto en growth marketing especializado en Web3, DeFi y tokenomics. Ex-líder de growth en Binance."
+        canonical="https://mangabeira.net/es"
+      />
       <SEO locale={locale} path="/es" />
       <Header locale={locale} />
       <main className="font-body">

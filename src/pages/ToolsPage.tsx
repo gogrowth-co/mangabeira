@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
+import SEOHead from "@/components/SEOHead";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { en, ptBR, es, type ToolsStrings } from "./tools/strings";
@@ -106,10 +107,12 @@ const ToolsPage = ({ lang = "en" }: ToolsPageProps) => {
 
   return (
     <>
+      <SEOHead
+        title={strings.seo.title}
+        description={strings.seo.description}
+        canonical={strings.seo.canonical}
+      />
       <Helmet>
-        <title>{strings.seo.title}</title>
-        <meta name="description" content={strings.seo.description} />
-        <link rel="canonical" href={strings.seo.canonical} />
         <link rel="alternate" hrefLang="en" href="https://mangabeira.net/tools" />
         <link rel="alternate" hrefLang="pt-BR" href="https://mangabeira.net/br/ferramentas" />
         <link rel="alternate" hrefLang="es" href="https://mangabeira.net/es/herramientas" />
