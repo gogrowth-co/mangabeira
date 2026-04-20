@@ -582,8 +582,12 @@ function injectMeta(html: string, meta: PageMeta, botContent?: string): string {
     html = html.replace(/<html/, `<html lang="${meta.htmlLang}"`);
   }
 
-  // Replace <title>...</title>
-  html = html.replace(/<title>[^<]*<\/title>/, `<title>${esc(meta.title)}</title>`);
+  // Replace <title>...</title>, or inject one if missing
+  if (/<title>[^<]*<\/title>/i.test(html)) {
+    html = html.replace(/<title>[^<]*<\/title>/i, `<title>${esc(meta.title)}</title>`);
+  } else {
+    html = html.replace(/<\/head>/i, `<title>${esc(meta.title)}</title>\n</head>`);
+  }
 
   // Inject meta tags before </head>
   const metaTags = buildMetaTags(meta);
