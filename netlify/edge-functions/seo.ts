@@ -473,6 +473,16 @@ function stripExistingMeta(html: string): string {
 }
 
 function buildNoscriptBlock(meta: PageMeta): string {
+  // If we have full article content, embed it (sanitized) so non-JS crawlers
+  // and users with JS disabled see the complete article. Otherwise fall back
+  // to a minimal title/description block.
+  if (meta.content) {
+    const safeContent = sanitizeContentForBots(meta.content);
+    const imgTag = meta.ogImage
+      ? `<img src="${esc(meta.ogImage)}" alt="${esc(meta.featuredImageAlt || meta.title)}" />`
+      : "";
+    return `<noscript><article><header><h1>${esc(meta.title)}</h1>${imgTag}<p>${esc(meta.description)}</p></header>${safeContent}<footer><p><a href="${esc(meta.canonical)}">${esc(meta.canonical)}</a></p></footer></article></noscript>`;
+  }
   return `<noscript><div><h1>${esc(meta.title)}</h1><p>${esc(meta.description)}</p><a href="${esc(meta.canonical)}">${esc(meta.canonical)}</a></div></noscript>`;
 }
 
@@ -631,7 +641,7 @@ export default async function handler(request: Request, context: Context) {
   // title/description/OG tags. Only include full content when it's a bot
   // (content is heavy and only used to build the rich noscript article block).
   if (route.type === "publication" && route.slug) {
-    meta = await fetchPublicationMeta(route.slug, route.locale, isBotRequest);
+    meta = await fetchPublicationMeta(route.slug, route.locale, true);
   }
 
   if (!meta) {
