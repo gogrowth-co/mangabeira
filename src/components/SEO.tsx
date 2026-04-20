@@ -137,11 +137,6 @@ const SEO = ({ locale, path = '/' }: SEOProps) => {
     <Helmet>
       <html lang={htmlLang} />
 
-      <title>{title}</title>
-      <meta name="title" content={title} />
-      <meta name="description" content={description} />
-      <link rel="canonical" href={canonicalUrl} />
-
       <link rel="alternate" hrefLang="en" href={alternateUrls.en} />
       <link rel="alternate" hrefLang="pt-BR" href={alternateUrls.br} />
       <link rel="alternate" hrefLang="es" href={alternateUrls.es} />
@@ -151,11 +146,6 @@ const SEO = ({ locale, path = '/' }: SEOProps) => {
       <link rel="alternate" type="application/rss+xml" title="Mangabeira.net RSS Feed (Portuguese)" href={`${baseUrl}/rss/br.xml`} hrefLang="pt-BR" />
       <link rel="alternate" type="application/rss+xml" title="Mangabeira.net RSS Feed (Spanish)" href={`${baseUrl}/rss/es.xml`} hrefLang="es" />
 
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content={canonicalUrl} />
-      <meta property="og:title" content={ogTitle} />
-      <meta property="og:description" content={ogDescription} />
-      <meta property="og:image" content={OG_IMAGE} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image:type" content="image/png" />
@@ -163,12 +153,6 @@ const SEO = ({ locale, path = '/' }: SEOProps) => {
       {locale !== 'en' && <meta property="og:locale:alternate" content="en_US" />}
       {locale !== 'br' && <meta property="og:locale:alternate" content="pt_BR" />}
       {locale !== 'es' && <meta property="og:locale:alternate" content="es_ES" />}
-
-      <meta property="twitter:card" content="summary_large_image" />
-      <meta property="twitter:url" content={canonicalUrl} />
-      <meta property="twitter:title" content={twitterTitle} />
-      <meta property="twitter:description" content={twitterDescription} />
-      <meta property="twitter:image" content={OG_IMAGE} />
 
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
       <meta name="theme-color" content="#0a1f34" />

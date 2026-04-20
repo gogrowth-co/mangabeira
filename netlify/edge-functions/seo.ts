@@ -633,14 +633,17 @@ export default async function handler(request: Request, context: Context) {
   const userAgent = request.headers.get("user-agent");
   const isBotRequest = isBot(userAgent);
 
-  // Parse route and get metadata
+  // For human visitors, react-helmet-async (SEOHead component) is the source
+  // of truth for per-page meta tags. Skip edge injection entirely to avoid
+  // duplicate title/description/canonical/og/twitter tags.
+  if (!isBotRequest) {
+    return response;
+  }
+
+  // Parse route and get metadata (bots only beyond this point)
   const route = parseRoute(pathname);
   let meta: PageMeta | null = null;
 
-  // Always fetch publication meta so EVERY visitor (humans + bots + scrapers
-  // without classic bot UAs like WhatsApp, Slack, AI agents) gets correct
-  // title/description/OG tags. Only include full content when it's a bot
-  // (content is heavy and only used to build the rich noscript article block).
   if (route.type === "publication" && route.slug) {
     meta = await fetchPublicationMeta(route.slug, route.locale, true);
   }
@@ -659,15 +662,13 @@ export default async function handler(request: Request, context: Context) {
   // index. For the publications hub, additionally inject a list of all
   // published articles for that locale.
   let botContent: string | undefined;
-  if (isBotRequest) {
-    if (route.type === "publication" && meta.content) {
-      botContent = buildBotContentBlock(meta);
-    } else if (route.type === "publications-hub") {
-      const items = await fetchPublicationsHubList(route.locale);
-      botContent = buildGenericBotBlock(meta, buildHubListHtml(items, route.locale));
-    } else {
-      botContent = buildGenericBotBlock(meta);
-    }
+  if (route.type === "publication" && meta.content) {
+    botContent = buildBotContentBlock(meta);
+  } else if (route.type === "publications-hub") {
+    const items = await fetchPublicationsHubList(route.locale);
+    botContent = buildGenericBotBlock(meta, buildHubListHtml(items, route.locale));
+  } else {
+    botContent = buildGenericBotBlock(meta);
   }
 
   // Read HTML, inject meta, return modified response
