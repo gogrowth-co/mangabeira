@@ -1,6 +1,7 @@
 import { CheckCircle, Clock, FileText, ClipboardList } from "lucide-react";
 import { Link } from "react-router-dom";
 import { HelmetProvider, Helmet } from "react-helmet-async";
+import SEOHead from "@/components/SEOHead";
 import HubSpotForm from "@/components/HubSpotForm";
 
 const AuditPaymentSuccess = () => {
@@ -19,8 +20,12 @@ const AuditPaymentSuccess = () => {
 
   return (
     <HelmetProvider>
+      <SEOHead
+        title="Payment Successful | Web3 Growth Audit"
+        description="Your Web3 Growth Audit payment was successful. Submit your intake form to start the 72-hour delivery."
+        canonical="https://mangabeira.net/audit-payment-success"
+      />
       <Helmet>
-        <title>Payment Successful | Web3 Growth Audit</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       

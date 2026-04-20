@@ -1,33 +1,33 @@
 import { Helmet } from "react-helmet-async";
+import SEOHead from "@/components/SEOHead";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+
+const PRIVACY_TITLE = "Privacy Policy | Gabriel Mangabeira";
+const PRIVACY_DESCRIPTION = "Read the Privacy Policy for mangabeira.net — learn how we collect, use, and protect your information.";
+const PRIVACY_CANONICAL = "https://mangabeira.net/privacy-policy";
 
 const PrivacyPolicy = () => {
   return (
     <>
+      <SEOHead
+        title={PRIVACY_TITLE}
+        description={PRIVACY_DESCRIPTION}
+        canonical={PRIVACY_CANONICAL}
+      />
       <Helmet>
-        <title>Privacy Policy | Gabriel Mangabeira</title>
-        <meta name="description" content="Read the Privacy Policy for mangabeira.net — learn how we collect, use, and protect your information." />
-        <link rel="canonical" href="https://mangabeira.net/privacy-policy" />
         <link rel="alternate" hrefLang="en" href="https://mangabeira.net/privacy-policy" />
         <link rel="alternate" hrefLang="pt-BR" href="https://mangabeira.net/br/politica-de-privacidade" />
         <link rel="alternate" hrefLang="es" href="https://mangabeira.net/es/politica-de-privacidade" />
         <link rel="alternate" hrefLang="x-default" href="https://mangabeira.net/privacy-policy" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Privacy Policy | Gabriel Mangabeira" />
-        <meta property="og:description" content="Read the Privacy Policy for mangabeira.net — learn how we collect, use, and protect your information." />
-        <meta property="og:url" content="https://mangabeira.net/privacy-policy" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Privacy Policy | Gabriel Mangabeira" />
-        <meta name="twitter:description" content="Read the Privacy Policy for mangabeira.net — learn how we collect, use, and protect your information." />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@graph": [
             {
               "@type": "WebPage",
-              url: "https://mangabeira.net/privacy-policy",
-              name: "Privacy Policy | Gabriel Mangabeira",
-              description: "Read the Privacy Policy for mangabeira.net — learn how we collect, use, and protect your information.",
+              url: PRIVACY_CANONICAL,
+              name: PRIVACY_TITLE,
+              description: PRIVACY_DESCRIPTION,
               inLanguage: "en",
               breadcrumb: {
                 "@type": "BreadcrumbList",

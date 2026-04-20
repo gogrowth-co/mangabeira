@@ -1,5 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
+import SEOHead from "@/components/SEOHead";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -19,23 +20,18 @@ export default function About() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEOHead
+        title={pageTitle}
+        description={pageDescription}
+        canonical={canonicalUrl}
+        image={absoluteImage}
+      />
       <Helmet>
-        <title>{pageTitle}</title>
-        <meta name="description" content={pageDescription} />
-        <link rel="canonical" href={canonicalUrl} />
         <link rel="alternate" hrefLang="en" href="https://mangabeira.net/about" />
         <link rel="alternate" hrefLang="pt-BR" href="https://mangabeira.net/br/sobre" />
         <link rel="alternate" hrefLang="es" href="https://mangabeira.net/es/acerca-de" />
         <link rel="alternate" hrefLang="x-default" href="https://mangabeira.net/about" />
         <meta property="og:type" content="profile" />
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={pageDescription} />
-        <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:image" content={absoluteImage} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={pageTitle} />
-        <meta name="twitter:description" content={pageDescription} />
-        <meta name="twitter:image" content={absoluteImage} />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@graph": [

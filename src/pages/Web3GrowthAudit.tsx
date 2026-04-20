@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import SEOHead from "@/components/SEOHead";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AuditHero from "@/components/audit/AuditHero";
@@ -29,17 +30,12 @@ const Web3GrowthAudit = () => {
 
   return (
     <>
+      <SEOHead
+        title="Web3 Growth Audit | Find Your Growth Leaks in 72 Hours | Mangabeira.net"
+        description="AI + Human Web3 Growth Audit — Find your top growth leaks in 72 hours. On-chain, Reddit, Discord, and funnel insights delivered via Notion + Loom. Data-backed. Actionable."
+        canonical="https://mangabeira.net/services/web3-growth-audit"
+      />
       <Helmet>
-        <title>Web3 Growth Audit | Find Your Growth Leaks in 72 Hours | Mangabeira.net</title>
-        <meta 
-          name="description" 
-          content="AI + Human Web3 Growth Audit — Find your top growth leaks in 72 hours. On-chain, Reddit, Discord, and funnel insights delivered via Notion + Loom. Data-backed. Actionable." 
-        />
-        <meta property="og:title" content="Web3 Growth Audit | Mangabeira.net" />
-        <meta property="og:description" content="Find hidden growth leaks in 72 hours. Cross-channel analysis across Reddit, Discord, on-chain, and more." />
-        <meta property="og:url" content="https://mangabeira.net/services/web3-growth-audit" />
-        <meta property="og:type" content="website" />
-        <link rel="canonical" href="https://mangabeira.net/services/web3-growth-audit" />
         <link rel="alternate" hrefLang="en" href="https://mangabeira.net/services/web3-growth-audit" />
         <link rel="alternate" hrefLang="pt-BR" href="https://mangabeira.net/br/servicos/web3-auditoria-de-growth" />
         <link rel="alternate" hrefLang="es" href="https://mangabeira.net/es/servicios/web3-auditoria-de-growth" />
