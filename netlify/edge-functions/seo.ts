@@ -641,7 +641,7 @@ export default async function handler(request: Request, context: Context) {
   // title/description/OG tags. Only include full content when it's a bot
   // (content is heavy and only used to build the rich noscript article block).
   if (route.type === "publication" && route.slug) {
-    meta = await fetchPublicationMeta(route.slug, route.locale, isBotRequest);
+    meta = await fetchPublicationMeta(route.slug, route.locale, true);
   }
 
   if (!meta) {
