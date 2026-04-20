@@ -464,12 +464,14 @@ function buildMetaTags(meta: PageMeta): string {
 }
 
 function stripExistingMeta(html: string): string {
-  // Remove existing SEO-related meta tags to prevent duplicates with Helmet
-  html = html.replace(/<meta\s+name="description"[^>]*>/gi, "");
-  html = html.replace(/<link\s+rel="canonical"[^>]*>/gi, "");
-  html = html.replace(/<meta\s+property="og:[^"]*"[^>]*>/gi, "");
-  html = html.replace(/<meta\s+name="twitter:[^"]*"[^>]*>/gi, "");
-  html = html.replace(/<link\s+rel="alternate"\s+hreflang="[^"]*"[^>]*>/gi, "");
+  // Remove ALL existing SEO-related tags (including any injected by prerender/Helmet)
+  // to prevent duplicates. The edge function is the sole source of truth for bots.
+  html = html.replace(/<title>[^<]*<\/title>/gi, "");
+  html = html.replace(/<meta\s+name="description"[^>]*\/?>/gi, "");
+  html = html.replace(/<link\s+rel="canonical"[^>]*\/?>/gi, "");
+  html = html.replace(/<meta\s+property="og:[^"]*"[^>]*\/?>/gi, "");
+  html = html.replace(/<meta\s+name="twitter:[^"]*"[^>]*\/?>/gi, "");
+  html = html.replace(/<link\s+rel="alternate"\s+hreflang="[^"]*"[^>]*\/?>/gi, "");
   return html;
 }
 
@@ -582,8 +584,12 @@ function injectMeta(html: string, meta: PageMeta, botContent?: string): string {
     html = html.replace(/<html/, `<html lang="${meta.htmlLang}"`);
   }
 
-  // Replace <title>...</title>
-  html = html.replace(/<title>[^<]*<\/title>/, `<title>${esc(meta.title)}</title>`);
+  // Replace <title>...</title>, or inject one if missing
+  if (/<title>[^<]*<\/title>/i.test(html)) {
+    html = html.replace(/<title>[^<]*<\/title>/i, `<title>${esc(meta.title)}</title>`);
+  } else {
+    html = html.replace(/<\/head>/i, `<title>${esc(meta.title)}</title>\n</head>`);
+  }
 
   // Inject meta tags before </head>
   const metaTags = buildMetaTags(meta);
