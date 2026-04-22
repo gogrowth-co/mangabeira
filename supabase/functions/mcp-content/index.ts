@@ -217,6 +217,7 @@ mcpServer.tool("upsert_page", {
     if (status === "published") {
       try { await supabase.functions.invoke("generate-sitemap", {}); triggers.push("sitemap"); } catch (_) {}
       try { await supabase.functions.invoke("generate-rss", {}); triggers.push("rss"); } catch (_) {}
+      try { await supabase.functions.invoke("generate-llms-txt", {}); triggers.push("llms-txt"); } catch (_) {}
       try { await supabase.functions.invoke("submit-indexnow", { body: { slug } }); triggers.push("indexnow"); } catch (_) {}
     }
 
@@ -260,6 +261,7 @@ mcpServer.tool("delete_page", {
 
     try { await supabase.functions.invoke("generate-sitemap", {}); } catch (_) {}
     try { await supabase.functions.invoke("generate-rss", {}); } catch (_) {}
+    try { await supabase.functions.invoke("generate-llms-txt", {}); } catch (_) {}
 
     return { content: [{ type: "text" as const, text: JSON.stringify({ success: true, deleted: args.slug }) }] };
   },
