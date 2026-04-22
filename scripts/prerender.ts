@@ -708,6 +708,7 @@ export function prerenderPlugin(): Plugin {
 
       const routes = [...staticRoutes(), ...(await publicationRoutes())];
       let written = 0;
+      const snapshots: { key: string; html: string }[] = [];
 
       for (const spec of routes) {
         const html = rewriteHtml(baseline, spec);
@@ -717,20 +718,59 @@ export function prerenderPlugin(): Plugin {
             : path.join(distDir, spec.outPath);
         await fs.mkdir(outDir, { recursive: true });
         const outFile = path.join(outDir, "index.html");
-        // Don't overwrite the root index.html with the home spec — the SPA
-        // fallback also lives there. But we DO want home meta there.
-        // The home route's outPath === "" so this writes dist/index.html,
-        // which is exactly what we want (replaces baseline meta with home meta).
         await fs.writeFile(outFile, html, "utf8");
         if (spec.outPath !== "") {
           const aliasFile = path.join(distDir, `${spec.outPath}.html`);
           await fs.mkdir(path.dirname(aliasFile), { recursive: true });
           await fs.writeFile(aliasFile, html, "utf8");
         }
+        // Storage key mirrors the URL path: '' -> index.html, 'about' ->
+        // 'about/index.html', etc. The seo-snapshot edge function uses the
+        // exact same scheme.
+        const key =
+          spec.outPath === "" ? "index.html" : `${spec.outPath}/index.html`;
+        snapshots.push({ key, html });
         written++;
       }
 
       console.log(`[prerender] Wrote ${written} prerendered HTML files.`);
+
+      // ------ Upload snapshots to Supabase Storage --------------------------
+      // The seo-snapshot edge function reads from this bucket so crawlers /
+      // audit tools can fetch route-specific HTML even when Lovable hosting
+      // serves the SPA shell for extensionless URLs.
+      const supaUrl =
+        process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
+      const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+      if (!supaUrl || !serviceKey) {
+        console.warn(
+          "[prerender] Skipping snapshot upload: SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY missing."
+        );
+        return;
+      }
+      try {
+        const supa = createClient(supaUrl, serviceKey, {
+          auth: { persistSession: false },
+        });
+        let uploaded = 0;
+        for (const snap of snapshots) {
+          const { error } = await supa.storage
+            .from("seo-snapshots")
+            .upload(snap.key, new Blob([snap.html], { type: "text/html" }), {
+              contentType: "text/html; charset=utf-8",
+              upsert: true,
+              cacheControl: "300",
+            });
+          if (error) {
+            console.warn(`[prerender] upload failed for ${snap.key}:`, error.message);
+          } else {
+            uploaded++;
+          }
+        }
+        console.log(`[prerender] Uploaded ${uploaded}/${snapshots.length} snapshots to Storage.`);
+      } catch (e) {
+        console.warn("[prerender] snapshot upload error:", e);
+      }
     },
   };
 }

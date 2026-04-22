@@ -73,6 +73,16 @@ const App = () => {
               {/* RSS feeds */}
               <Route path="/rss/:lang.xml" element={<RssFeed />} />
               
+              {/* System pages (About + Privacy) — explicit routes so direct
+                  navigation / hard refresh works without falling through to
+                  the dynamic /:slug catch-all. */}
+              <Route path="/about" element={<About />} />
+              <Route path="/br/sobre" element={<About />} />
+              <Route path="/es/acerca-de" element={<About />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/br/politica-de-privacidade" element={<PrivacyPolicy />} />
+              <Route path="/es/politica-de-privacidad" element={<PrivacyPolicy />} />
+
               {/* Redirects for incorrect system page URLs */}
               <Route path="/br/about" element={<Navigate to="/br/sobre" replace />} />
               <Route path="/es/about" element={<Navigate to="/es/acerca-de" replace />} />
