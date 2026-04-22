@@ -67,6 +67,10 @@ interface RouteSpec {
   ogType?: string;
   /** Optional JSON-LD blocks; each must be an object or array. */
   schemas?: unknown[];
+  /** Page kind — drives the body content template. */
+  kind?: "home" | "about" | "privacy" | "publications-hub" | "tools-hub" | "tokenomics" | "audit" | "publication";
+  /** Extra context for body templates (publication body, etc.). */
+  bodyExtra?: Record<string, string>;
 }
 
 function staticRoutes(): RouteSpec[] {
