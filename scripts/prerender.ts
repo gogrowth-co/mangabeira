@@ -136,6 +136,7 @@ function staticRoutes(): RouteSpec[] {
         alternates: altMap,
         title: `${p.titles[locale]} | Gabriel Mangabeira`,
         description: t(locale, "meta", "page_description"),
+        kind: p.base === "about" ? "about" : "privacy",
       });
     }
   }
