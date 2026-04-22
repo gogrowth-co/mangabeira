@@ -168,6 +168,7 @@ function staticRoutes(): RouteSpec[] {
       description:
         t(locale, "publications_hub", "page_description") ||
         t(locale, "meta", "page_description"),
+      kind: "publications-hub",
     });
   }
 
