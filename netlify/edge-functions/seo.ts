@@ -172,6 +172,80 @@ function buildAlternates(enPath: string, brPath: string, esPath: string): { lang
   ];
 }
 
+// Build timestamp — used as dateModified for system (non-DB) pages so AI
+// crawlers see freshness signals on every deploy.
+const BUILD_DATE = new Date().toISOString();
+
+function speakableSchema(canonical: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    url: canonical,
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["h1", "h2", "p"],
+    },
+    dateModified: BUILD_DATE,
+  };
+}
+
+function serviceSchema(canonical: string, locale: Locale) {
+  const names: Record<Locale, string> = {
+    en: "Web3 Growth Audit",
+    br: "Auditoria de Growth Web3",
+    es: "Auditoría de Growth Web3",
+  };
+  const descriptions: Record<Locale, string> = {
+    en: "AI + Human Web3 Growth Audit delivered in 72 hours via Notion + Loom. Identifies on-chain, community, and funnel growth leaks with prioritized fixes.",
+    br: "Auditoria de Growth Web3 com IA + Humano entregue em 72 horas via Notion + Loom. Identifica vazamentos de crescimento on-chain, comunidade e funil com correções priorizadas.",
+    es: "Auditoría de Growth Web3 con IA + Humano entregada en 72 horas vía Notion + Loom. Identifica fugas de crecimiento on-chain, comunidad y funnel con correcciones priorizadas.",
+  };
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: names[locale],
+    serviceType: "Growth Marketing Audit",
+    description: descriptions[locale],
+    provider: {
+      "@type": "Person",
+      name: "Gabriel Mangabeira",
+      url: BASE_URL,
+    },
+    areaServed: "Worldwide",
+    audience: { "@type": "Audience", audienceType: "Web3 founders and DeFi protocol teams" },
+    url: canonical,
+    offers: [
+      {
+        "@type": "Offer",
+        name: "Starter",
+        price: "1500",
+        priceCurrency: "USD",
+        description: "Solo audit — top 5 growth leaks, 72h delivery, Notion + Loom",
+        availability: "https://schema.org/InStock",
+        url: canonical,
+      },
+      {
+        "@type": "Offer",
+        name: "Pro",
+        price: "3500",
+        priceCurrency: "USD",
+        description: "Full audit + 90-day roadmap + 2 strategy calls",
+        availability: "https://schema.org/InStock",
+        url: canonical,
+      },
+      {
+        "@type": "Offer",
+        name: "Elite",
+        price: "7500",
+        priceCurrency: "USD",
+        description: "Audit + 30-day implementation sprint with founder",
+        availability: "https://schema.org/InStock",
+        url: canonical,
+      },
+    ],
+  };
+}
+
 function getStaticMeta(route: ParsedRoute): PageMeta | null {
   const locale = route.locale;
   const htmlLang = getHtmlLang(locale);
