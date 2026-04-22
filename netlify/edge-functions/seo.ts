@@ -521,6 +521,7 @@ function buildMetaTags(meta: PageMeta): string {
   const tags: string[] = [];
 
   tags.push(`<meta name="description" content="${esc(meta.description)}">`);
+  tags.push(`<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">`);
   tags.push(`<link rel="canonical" href="${esc(meta.canonical)}">`);
 
   for (const alt of meta.alternates) {
@@ -568,18 +569,21 @@ function stripExistingMeta(html: string): string {
   return html;
 }
 
-function buildNoscriptBlock(meta: PageMeta): string {
-  // If we have full article content, embed it (sanitized) so non-JS crawlers
-  // and users with JS disabled see the complete article. Otherwise fall back
-  // to a minimal title/description block.
+function buildPrerenderBlock(meta: PageMeta, extraInnerHtml = ""): string {
+  // Visible (NOT inside <noscript>) prerender block injected inside #root.
+  // React's createRoot().render() replaces #root contents on first commit,
+  // so this only flashes briefly on real browsers but stays fully visible to:
+  //  - JS-disabled browsers
+  //  - simple-fetch crawlers (AI Eyes, lovablehtml, ChatGPT Fetch)
+  //  - any agent that does not execute JavaScript
   if (meta.content) {
     const safeContent = sanitizeContentForBots(meta.content);
     const imgTag = meta.ogImage
-      ? `<img src="${esc(meta.ogImage)}" alt="${esc(meta.featuredImageAlt || meta.title)}" />`
+      ? `<img src="${esc(meta.ogImage)}" alt="${esc(meta.featuredImageAlt || meta.title)}" loading="lazy" />`
       : "";
-    return `<noscript><article><header><h1>${esc(meta.title)}</h1>${imgTag}<p>${esc(meta.description)}</p></header>${safeContent}<footer><p><a href="${esc(meta.canonical)}">${esc(meta.canonical)}</a></p></footer></article></noscript>`;
+    return `<div data-prerender="true"><article><header><h1>${esc(meta.title)}</h1>${imgTag}<p>${esc(meta.description)}</p></header>${safeContent}${extraInnerHtml}<footer><p><a href="${esc(meta.canonical)}">${esc(meta.canonical)}</a></p></footer></article></div>`;
   }
-  return `<noscript><div><h1>${esc(meta.title)}</h1><p>${esc(meta.description)}</p><a href="${esc(meta.canonical)}">${esc(meta.canonical)}</a></div></noscript>`;
+  return `<div data-prerender="true"><article><header><h1>${esc(meta.title)}</h1><p>${esc(meta.description)}</p></header>${extraInnerHtml}<footer><p><a href="${esc(meta.canonical)}">${esc(meta.canonical)}</a></p></footer></article></div>`;
 }
 
 // Sanitize content HTML for bot consumption: strip <script> and inline event handlers.
@@ -666,13 +670,12 @@ function buildHubListHtml(items: Array<{ title: string; description: string; slu
   return `<nav data-bot-hub="publications"><ul>${lis}</ul></nav>`;
 }
 
-function injectMeta(html: string, meta: PageMeta, botContent?: string): string {
+function injectMeta(html: string, meta: PageMeta, prerenderBody: string): string {
   // Strip existing SEO tags first to prevent duplicates after prerender
   html = stripExistingMeta(html);
 
   // Replace <html lang="..."> with correct lang
   html = html.replace(/<html([^>]*)lang="[^"]*"/, `<html$1lang="${meta.htmlLang}"`);
-  // If no lang attribute exists, add it
   if (!html.includes(`lang="${meta.htmlLang}"`)) {
     html = html.replace(/<html/, `<html lang="${meta.htmlLang}"`);
   }
@@ -688,26 +691,17 @@ function injectMeta(html: string, meta: PageMeta, botContent?: string): string {
   const metaTags = buildMetaTags(meta);
   html = html.replace(/<\/head>/, `${metaTags}\n</head>`);
 
-  // Inject noscript content block + optional bot article block after <div id="root">
-  const noscript = buildNoscriptBlock(meta);
-  const injected = `<div id="root">${noscript}${botContent || ""}`;
-  html = html.replace(/<div id="root">/, injected);
+  // Inject visible prerender content inside #root (NOT inside <noscript>).
+  // React's createRoot().render() replaces #root contents on first commit,
+  // so this is invisible to real browsers after hydration but fully visible
+  // to JS-off agents and simple-fetch crawlers (AI Eyes, lovablehtml, etc.).
+  if (html.includes('data-prerender="true"')) return html;
+  html = html.replace(/<div id="root">\s*<\/div>/, `<div id="root">${prerenderBody}</div>`);
+  if (!html.includes('data-prerender="true"')) {
+    html = html.replace(/<div id="root">/, `<div id="root">${prerenderBody}`);
+  }
 
   return html;
-}
-
-// Lightweight injection for human (JS-enabled) visitors: only adds <noscript>
-// fallback inside #root. Does NOT touch <head>, <title>, or helmet-managed
-// meta tags — react-helmet-async owns those after hydration. The <noscript>
-// tag is invisible to JS-enabled browsers but visible to no-JS users and
-// audit tools (AI Eyes, etc.) that disable JavaScript.
-function injectNoscriptOnly(html: string, meta: PageMeta): string {
-  if (html.includes('data-edge-noscript="true"')) return html;
-  const noscript = buildNoscriptBlock(meta).replace(
-    "<noscript>",
-    '<noscript data-edge-noscript="true">',
-  );
-  return html.replace(/<div id="root">/, `<div id="root">${noscript}`);
 }
 
 // ─── Main handler ────────────────────────────────────────────────────────
@@ -744,17 +738,15 @@ export default async function handler(request: Request, context: Context) {
 
   // Detect bot/crawler from User-Agent
   const userAgent = request.headers.get("user-agent");
-  const isBotRequest = isBot(userAgent);
 
-  // Parse route and fetch metadata for ALL requests. We always inject a
-  // <noscript> fallback (invisible to JS-enabled browsers, visible to no-JS
-  // visitors and crawlers like AI Eyes / privacy users). For bots we ALSO
-  // inject a visible <article data-bot-content> block so bypass-prerender
-  // crawlers (Perplexity, Claude) get rich content even if Prerender misses.
+  // Parse route and fetch metadata for ALL requests. We always inject full
+  // <head> meta + visible #root prerender body, regardless of UA, so JS-off
+  // agents and simple-fetch crawlers (AI Eyes, lovablehtml ChatGPT Fetch)
+  // see the same rich HTML as bots. React hydration replaces #root content
+  // on mount for real browsers — no flash for typical hydration timing.
   const route = parseRoute(pathname);
   let meta: PageMeta | null = null;
 
-  // Always pull full content for publication pages — needed for noscript body.
   if (route.type === "publication" && route.slug) {
     meta = await fetchPublicationMeta(route.slug, route.locale, true);
   }
@@ -767,29 +759,20 @@ export default async function handler(request: Request, context: Context) {
     return response;
   }
 
-  // Visible bot-only block (kept out of human DOM to avoid flash before hydration).
-  let botContent: string | undefined;
-  if (isBotRequest) {
-    if (route.type === "publication" && meta.content) {
-      botContent = buildBotContentBlock(meta);
-    } else if (route.type === "publications-hub") {
-      const items = await fetchPublicationsHubList(route.locale);
-      botContent = buildGenericBotBlock(meta, buildHubListHtml(items, route.locale));
-    } else {
-      botContent = buildGenericBotBlock(meta);
-    }
+  // Build the visible prerender block placed inside #root.
+  let prerenderBody: string;
+  if (route.type === "publication" && meta.content) {
+    prerenderBody = buildPrerenderBlock(meta);
+  } else if (route.type === "publications-hub") {
+    const items = await fetchPublicationsHubList(route.locale);
+    prerenderBody = buildPrerenderBlock(meta, buildHubListHtml(items, route.locale));
+  } else {
+    prerenderBody = buildPrerenderBlock(meta);
   }
 
-  // For human (JS-enabled) visitors we still inject <noscript> + canonical meta,
-  // but we must NOT strip helmet-managed tags or override <title>, because
-  // react-helmet-async will manage those after hydration. Use a lighter merge.
   try {
     let html = await response.text();
-    if (isBotRequest) {
-      html = injectMeta(html, meta, botContent);
-    } else {
-      html = injectNoscriptOnly(html, meta);
-    }
+    html = injectMeta(html, meta, prerenderBody);
 
     return new Response(html, {
       status: response.status,

@@ -3,7 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { LanguageProvider, detectBrowserLanguage } from "./contexts/LanguageContext";
+import { LanguageProvider } from "./contexts/LanguageContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import Index from "./pages/Index";
 import IndexBR from "./pages/IndexBR";
@@ -63,18 +63,6 @@ const PrerenderSignal = () => {
 };
 
 const App = () => {
-
-  // Redirect component defined inside App to ensure proper React context
-  const RootRedirect = () => {
-    const preferredLang = detectBrowserLanguage();
-    if (preferredLang === 'br') {
-      return <Navigate to="/br" replace />;
-    } else if (preferredLang === 'es') {
-      return <Navigate to="/es" replace />;
-    }
-    return <Index />;
-  };
-
   return (
     <QueryClientProvider client={queryClient}>
       <PrerenderSignal />
@@ -85,7 +73,7 @@ const App = () => {
           <AuthProvider>
             <LanguageProvider>
               <Routes>
-              <Route path="/" element={<RootRedirect />} />
+              <Route path="/" element={<Index />} />
               <Route path="/br" element={<IndexBR />} />
               <Route path="/es" element={<IndexES />} />
               
