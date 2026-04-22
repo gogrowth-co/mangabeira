@@ -568,18 +568,23 @@ function stripExistingMeta(html: string): string {
   return html;
 }
 
-function buildNoscriptBlock(meta: PageMeta): string {
-  // If we have full article content, embed it (sanitized) so non-JS crawlers
-  // and users with JS disabled see the complete article. Otherwise fall back
-  // to a minimal title/description block.
+function buildPrerenderBlock(meta: PageMeta, extraInnerHtml = ""): string {
+  // Visible (NOT inside <noscript>) prerender block. React hydration will
+  // replace the contents of #root on mount, so this only flashes for a
+  // fraction of a second on real browsers but stays fully visible to:
+  //  - JS-disabled browsers
+  //  - simple-fetch crawlers (AI Eyes, lovablehtml, ChatGPT Fetch, etc.)
+  //  - any agent that does not execute JavaScript
+  // The data-prerender="true" marker lets us identify and (optionally)
+  // suppress this block from in-app code if needed.
   if (meta.content) {
     const safeContent = sanitizeContentForBots(meta.content);
     const imgTag = meta.ogImage
       ? `<img src="${esc(meta.ogImage)}" alt="${esc(meta.featuredImageAlt || meta.title)}" />`
       : "";
-    return `<noscript><article><header><h1>${esc(meta.title)}</h1>${imgTag}<p>${esc(meta.description)}</p></header>${safeContent}<footer><p><a href="${esc(meta.canonical)}">${esc(meta.canonical)}</a></p></footer></article></noscript>`;
+    return `<div data-prerender="true" style="position:absolute;left:-9999px;top:0;width:1px;height:1px;overflow:hidden;" aria-hidden="true"><article><header><h1>${esc(meta.title)}</h1>${imgTag}<p>${esc(meta.description)}</p></header>${safeContent}${extraInnerHtml}<footer><p><a href="${esc(meta.canonical)}">${esc(meta.canonical)}</a></p></footer></article></div>`;
   }
-  return `<noscript><div><h1>${esc(meta.title)}</h1><p>${esc(meta.description)}</p><a href="${esc(meta.canonical)}">${esc(meta.canonical)}</a></div></noscript>`;
+  return `<div data-prerender="true" style="position:absolute;left:-9999px;top:0;width:1px;height:1px;overflow:hidden;" aria-hidden="true"><article><header><h1>${esc(meta.title)}</h1><p>${esc(meta.description)}</p></header>${extraInnerHtml}<footer><p><a href="${esc(meta.canonical)}">${esc(meta.canonical)}</a></p></footer></div>`;
 }
 
 // Sanitize content HTML for bot consumption: strip <script> and inline event handlers.
