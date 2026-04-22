@@ -263,10 +263,12 @@ function getStaticMeta(route: ParsedRoute): PageMeta | null {
         es: "Gabriel Mangabeira — Olímpico convertido en Estratega de Growth Marketing. Combinando IA, Web3 y marketing de rendimiento para entregar crecimiento medible.",
       };
       const canonicals: Record<Locale, string> = { en: `${BASE_URL}/`, br: `${BASE_URL}/br`, es: `${BASE_URL}/es` };
+      const canonical = canonicals[locale];
       return {
-        title: titles[locale], description: descs[locale], canonical: canonicals[locale],
+        title: titles[locale], description: descs[locale], canonical,
         ogType: "website", ogImage: OG_IMAGE, locale, htmlLang,
         alternates: homeAlternates(),
+        schema: [speakableSchema(canonical)],
       };
     },
     about: () => {
