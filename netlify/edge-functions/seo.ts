@@ -691,6 +691,20 @@ function injectMeta(html: string, meta: PageMeta, botContent?: string): string {
   return html;
 }
 
+// Lightweight injection for human (JS-enabled) visitors: only adds <noscript>
+// fallback inside #root. Does NOT touch <head>, <title>, or helmet-managed
+// meta tags — react-helmet-async owns those after hydration. The <noscript>
+// tag is invisible to JS-enabled browsers but visible to no-JS users and
+// audit tools (AI Eyes, etc.) that disable JavaScript.
+function injectNoscriptOnly(html: string, meta: PageMeta): string {
+  if (html.includes('data-edge-noscript="true"')) return html;
+  const noscript = buildNoscriptBlock(meta).replace(
+    "<noscript>",
+    '<noscript data-edge-noscript="true">',
+  );
+  return html.replace(/<div id="root">/, `<div id="root">${noscript}`);
+}
+
 // ─── Main handler ────────────────────────────────────────────────────────
 export default async function handler(request: Request, context: Context) {
   const url = new URL(request.url);
