@@ -90,6 +90,7 @@ function staticRoutes(): RouteSpec[] {
       },
       title: t(locale, "meta", "page_title"),
       description: t(locale, "meta", "page_description"),
+      kind: "home",
     });
   }
 
