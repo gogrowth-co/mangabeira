@@ -79,7 +79,10 @@
         and any client that does not execute JS. React removes this on mount
         (see src/main.tsx) before hydration so users never see duplicate copy.
       -->
-      <div data-prerender="true" style="font-family: Inter, system-ui, sans-serif; max-width: 920px; margin: 0 auto; padding: 32px 20px; color: #0A2540; line-height: 1.6;">
+      <div data-prerender="true" hidden aria-hidden="true" style="display:none !important;">
+        <!-- Hidden from real browsers via display:none + hidden attr.
+             AI fetchers and HTML audit tools that don't execute CSS still parse this. -->
+        <div>
         <header>
           <p style="margin:0 0 8px;font-size:14px;color:#1FB6FF;font-weight:600;letter-spacing:.04em;text-transform:uppercase;">Gabriel Mangabeira — Mangabeira.net</p>
           <h1 style="font-family: Poppins, sans-serif; font-size: 40px; line-height:1.15; margin: 0 0 16px; color:#0A2540;">
