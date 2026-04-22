@@ -63,18 +63,6 @@ const PrerenderSignal = () => {
 };
 
 const App = () => {
-
-  // Redirect component defined inside App to ensure proper React context
-  const RootRedirect = () => {
-    const preferredLang = detectBrowserLanguage();
-    if (preferredLang === 'br') {
-      return <Navigate to="/br" replace />;
-    } else if (preferredLang === 'es') {
-      return <Navigate to="/es" replace />;
-    }
-    return <Index />;
-  };
-
   return (
     <QueryClientProvider client={queryClient}>
       <PrerenderSignal />
@@ -85,7 +73,7 @@ const App = () => {
           <AuthProvider>
             <LanguageProvider>
               <Routes>
-              <Route path="/" element={<RootRedirect />} />
+              <Route path="/" element={<Index />} />
               <Route path="/br" element={<IndexBR />} />
               <Route path="/es" element={<IndexES />} />
               
