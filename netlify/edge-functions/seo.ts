@@ -66,9 +66,14 @@ const SOCIAL_PREVIEWER_UAS = [
   "Discordbot", "WhatsApp", "TelegramBot", "Pinterestbot",
 ];
 
-// SEO audit / link analysis tools
+// SEO audit / link analysis tools + crawler simulators
 const SEO_TOOL_UAS = [
   "AhrefsBot", "SemrushBot", "MJ12bot", "DotBot",
+  // Generic identifiers used by simulators / minimal-UA fetchers.
+  // Matches "openai", "ChatGPT", "Claude", "Anthropic", "Perplexity",
+  // "Gemini", "Crawler", "Spider", and any UA containing the literal "bot".
+  "openai", "chatgpt", "claude", "anthropic", "perplexity", "gemini",
+  "crawler", "spider", "bot",
 ];
 
 function escapeRegex(s: string): string {
