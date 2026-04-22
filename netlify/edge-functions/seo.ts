@@ -283,19 +283,23 @@ function getStaticMeta(route: ParsedRoute): PageMeta | null {
         es: "De la disciplina olímpica a la estrategia de crecimiento Web3 — descubre cómo Gabriel Mangabeira combina IA, datos y storytelling para ayudar a marcas a crecer con precisión y enfoque.",
       };
       const paths: Record<Locale, string> = { en: "/about", br: "/br/sobre", es: "/es/acerca-de" };
+      const canonical = `${BASE_URL}${paths[locale]}`;
       return {
-        title: titles[locale], description: descs[locale], canonical: `${BASE_URL}${paths[locale]}`,
+        title: titles[locale], description: descs[locale], canonical,
         ogType: "profile", ogImage: OG_IMAGE, locale, htmlLang,
         alternates: buildAlternates("/about", "/br/sobre", "/es/acerca-de"),
+        schema: [speakableSchema(canonical)],
       };
     },
     privacy: () => {
       const paths: Record<Locale, string> = { en: "/privacy-policy", br: "/br/politica-de-privacidade", es: "/es/politica-de-privacidad" };
+      const canonical = `${BASE_URL}${paths[locale]}`;
       return {
         title: "Privacy Policy | Gabriel Mangabeira",
         description: "Read the Privacy Policy for mangabeira.net — learn how we collect, use, and protect your information.",
-        canonical: `${BASE_URL}${paths[locale]}`, ogType: "website", ogImage: OG_IMAGE, locale, htmlLang,
+        canonical, ogType: "website", ogImage: OG_IMAGE, locale, htmlLang,
         alternates: buildAlternates("/privacy-policy", "/br/politica-de-privacidade", "/es/politica-de-privacidad"),
+        schema: [speakableSchema(canonical)],
       };
     },
     "publications-hub": () => {
@@ -310,10 +314,12 @@ function getStaticMeta(route: ParsedRoute): PageMeta | null {
         es: "Explora artículos sobre crecimiento Web3, marketing con IA, tokenomics y estrategia digital por Gabriel Mangabeira.",
       };
       const paths: Record<Locale, string> = { en: "/publications", br: "/br/artigos", es: "/es/articulos" };
+      const canonical = `${BASE_URL}${paths[locale]}`;
       return {
-        title: titles[locale], description: descs[locale], canonical: `${BASE_URL}${paths[locale]}`,
+        title: titles[locale], description: descs[locale], canonical,
         ogType: "website", ogImage: OG_IMAGE, locale, htmlLang,
         alternates: buildAlternates("/publications", "/br/artigos", "/es/articulos"),
+        schema: [speakableSchema(canonical)],
       };
     },
     "tools-hub": () => {
@@ -325,13 +331,15 @@ function getStaticMeta(route: ParsedRoute): PageMeta | null {
       const descs: Record<Locale, string> = {
         en: "Free interactive tools for Web3 founders — tokenomics simulator, growth calculators, and more.",
         br: "Ferramentas interativas gratuitas para fundadores Web3 — simulador de tokenomics, calculadoras de crescimento e mais.",
-        es: "Herramientas interactivas gratuitas para fundadores Web3 — simulador de tokenomics, calculadoras de crecimiento y más.",
+        es: "Herramientas interativas gratuitas para fundadores Web3 — simulador de tokenomics, calculadoras de crecimiento y más.",
       };
       const paths: Record<Locale, string> = { en: "/tools", br: "/br/ferramentas", es: "/es/herramientas" };
+      const canonical = `${BASE_URL}${paths[locale]}`;
       return {
-        title: titles[locale], description: descs[locale], canonical: `${BASE_URL}${paths[locale]}`,
+        title: titles[locale], description: descs[locale], canonical,
         ogType: "website", ogImage: OG_IMAGE, locale, htmlLang,
         alternates: buildAlternates("/tools", "/br/ferramentas", "/es/herramientas"),
+        schema: [speakableSchema(canonical)],
       };
     },
     tokenomics: () => {
@@ -346,10 +354,12 @@ function getStaticMeta(route: ParsedRoute): PageMeta | null {
         es: "Modela la oferta de tokens, emisiones, staking y escenarios de precio con este simulador gratuito de tokenomics DeFi.",
       };
       const paths: Record<Locale, string> = { en: "/tools/tokenomics-simulator", br: "/br/ferramentas/simulador-tokenomics", es: "/es/herramientas/simulador-tokenomics" };
+      const canonical = `${BASE_URL}${paths[locale]}`;
       return {
-        title: titles[locale], description: descs[locale], canonical: `${BASE_URL}${paths[locale]}`,
+        title: titles[locale], description: descs[locale], canonical,
         ogType: "website", ogImage: OG_IMAGE, locale, htmlLang,
         alternates: buildAlternates("/tools/tokenomics-simulator", "/br/ferramentas/simulador-tokenomics", "/es/herramientas/simulador-tokenomics"),
+        schema: [speakableSchema(canonical)],
       };
     },
     audit: () => {
@@ -364,10 +374,12 @@ function getStaticMeta(route: ParsedRoute): PageMeta | null {
         es: "Auditoría de Growth Web3 con IA + Humano — Encuentra tus principales fugas de crecimiento en 72 horas.",
       };
       const paths: Record<Locale, string> = { en: "/services/web3-growth-audit", br: "/br/servicos/web3-auditoria-de-growth", es: "/es/servicios/web3-auditoria-de-growth" };
+      const canonical = `${BASE_URL}${paths[locale]}`;
       return {
-        title: titles[locale], description: descs[locale], canonical: `${BASE_URL}${paths[locale]}`,
+        title: titles[locale], description: descs[locale], canonical,
         ogType: "website", ogImage: OG_IMAGE, locale, htmlLang,
         alternates: buildAlternates("/services/web3-growth-audit", "/br/servicos/web3-auditoria-de-growth", "/es/servicios/web3-auditoria-de-growth"),
+        schema: [serviceSchema(canonical, locale), speakableSchema(canonical)],
       };
     },
     "audit-success": () => ({
