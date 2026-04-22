@@ -201,6 +201,7 @@ function staticRoutes(): RouteSpec[] {
           : locale === "es"
           ? "Herramientas gratuitas y calculadoras para growth Web3, DeFi y tokenomics."
           : "Free tools and calculators for Web3, DeFi, and tokenomics growth.",
+      kind: "tools-hub",
     });
   }
 
