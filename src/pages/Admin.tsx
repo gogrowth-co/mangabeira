@@ -55,20 +55,23 @@ export default function Admin() {
             <Button 
               onClick={async () => { 
                 try {
-                  const [sitemapResult, rssResult] = await Promise.all([
+                  const [sitemapResult, rssResult, llmsResult] = await Promise.all([
                     supabase.functions.invoke('generate-sitemap'),
-                    supabase.functions.invoke('generate-rss')
+                    supabase.functions.invoke('generate-rss'),
+                    supabase.functions.invoke('generate-llms-txt'),
                   ]);
                   
                   if (sitemapResult.error) throw sitemapResult.error;
                   if (rssResult.error) throw rssResult.error;
+                  if (llmsResult.error) throw llmsResult.error;
                   
                   const totalUrls = sitemapResult.data?.totalUrls || 0;
                   const totalPages = rssResult.data?.totalPages || 0;
+                  const llmsCount = llmsResult.data?.articleCount || 0;
                   
                   toast({ 
                     title: "Success", 
-                    description: `Sitemap refreshed (${totalUrls} URLs) & RSS feeds regenerated (${totalPages} publications)!` 
+                    description: `Sitemap (${totalUrls} URLs), RSS (${totalPages} publications) & llms.txt (${llmsCount} articles) regenerated!` 
                   }); 
                 } catch (error) {
                   console.error('Feed refresh error:', error);
