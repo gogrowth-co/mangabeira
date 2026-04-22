@@ -172,6 +172,80 @@ function buildAlternates(enPath: string, brPath: string, esPath: string): { lang
   ];
 }
 
+// Build timestamp — used as dateModified for system (non-DB) pages so AI
+// crawlers see freshness signals on every deploy.
+const BUILD_DATE = new Date().toISOString();
+
+function speakableSchema(canonical: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    url: canonical,
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["h1", "h2", "p"],
+    },
+    dateModified: BUILD_DATE,
+  };
+}
+
+function serviceSchema(canonical: string, locale: Locale) {
+  const names: Record<Locale, string> = {
+    en: "Web3 Growth Audit",
+    br: "Auditoria de Growth Web3",
+    es: "Auditoría de Growth Web3",
+  };
+  const descriptions: Record<Locale, string> = {
+    en: "AI + Human Web3 Growth Audit delivered in 72 hours via Notion + Loom. Identifies on-chain, community, and funnel growth leaks with prioritized fixes.",
+    br: "Auditoria de Growth Web3 com IA + Humano entregue em 72 horas via Notion + Loom. Identifica vazamentos de crescimento on-chain, comunidade e funil com correções priorizadas.",
+    es: "Auditoría de Growth Web3 con IA + Humano entregada en 72 horas vía Notion + Loom. Identifica fugas de crecimiento on-chain, comunidad y funnel con correcciones priorizadas.",
+  };
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: names[locale],
+    serviceType: "Growth Marketing Audit",
+    description: descriptions[locale],
+    provider: {
+      "@type": "Person",
+      name: "Gabriel Mangabeira",
+      url: BASE_URL,
+    },
+    areaServed: "Worldwide",
+    audience: { "@type": "Audience", audienceType: "Web3 founders and DeFi protocol teams" },
+    url: canonical,
+    offers: [
+      {
+        "@type": "Offer",
+        name: "Starter",
+        price: "1500",
+        priceCurrency: "USD",
+        description: "Solo audit — top 5 growth leaks, 72h delivery, Notion + Loom",
+        availability: "https://schema.org/InStock",
+        url: canonical,
+      },
+      {
+        "@type": "Offer",
+        name: "Pro",
+        price: "3500",
+        priceCurrency: "USD",
+        description: "Full audit + 90-day roadmap + 2 strategy calls",
+        availability: "https://schema.org/InStock",
+        url: canonical,
+      },
+      {
+        "@type": "Offer",
+        name: "Elite",
+        price: "7500",
+        priceCurrency: "USD",
+        description: "Audit + 30-day implementation sprint with founder",
+        availability: "https://schema.org/InStock",
+        url: canonical,
+      },
+    ],
+  };
+}
+
 function getStaticMeta(route: ParsedRoute): PageMeta | null {
   const locale = route.locale;
   const htmlLang = getHtmlLang(locale);
@@ -189,10 +263,12 @@ function getStaticMeta(route: ParsedRoute): PageMeta | null {
         es: "Gabriel Mangabeira — Olímpico convertido en Estratega de Growth Marketing. Combinando IA, Web3 y marketing de rendimiento para entregar crecimiento medible.",
       };
       const canonicals: Record<Locale, string> = { en: `${BASE_URL}/`, br: `${BASE_URL}/br`, es: `${BASE_URL}/es` };
+      const canonical = canonicals[locale];
       return {
-        title: titles[locale], description: descs[locale], canonical: canonicals[locale],
+        title: titles[locale], description: descs[locale], canonical,
         ogType: "website", ogImage: OG_IMAGE, locale, htmlLang,
         alternates: homeAlternates(),
+        schema: [speakableSchema(canonical)],
       };
     },
     about: () => {
@@ -207,19 +283,23 @@ function getStaticMeta(route: ParsedRoute): PageMeta | null {
         es: "De la disciplina olímpica a la estrategia de crecimiento Web3 — descubre cómo Gabriel Mangabeira combina IA, datos y storytelling para ayudar a marcas a crecer con precisión y enfoque.",
       };
       const paths: Record<Locale, string> = { en: "/about", br: "/br/sobre", es: "/es/acerca-de" };
+      const canonical = `${BASE_URL}${paths[locale]}`;
       return {
-        title: titles[locale], description: descs[locale], canonical: `${BASE_URL}${paths[locale]}`,
+        title: titles[locale], description: descs[locale], canonical,
         ogType: "profile", ogImage: OG_IMAGE, locale, htmlLang,
         alternates: buildAlternates("/about", "/br/sobre", "/es/acerca-de"),
+        schema: [speakableSchema(canonical)],
       };
     },
     privacy: () => {
       const paths: Record<Locale, string> = { en: "/privacy-policy", br: "/br/politica-de-privacidade", es: "/es/politica-de-privacidad" };
+      const canonical = `${BASE_URL}${paths[locale]}`;
       return {
         title: "Privacy Policy | Gabriel Mangabeira",
         description: "Read the Privacy Policy for mangabeira.net — learn how we collect, use, and protect your information.",
-        canonical: `${BASE_URL}${paths[locale]}`, ogType: "website", ogImage: OG_IMAGE, locale, htmlLang,
+        canonical, ogType: "website", ogImage: OG_IMAGE, locale, htmlLang,
         alternates: buildAlternates("/privacy-policy", "/br/politica-de-privacidade", "/es/politica-de-privacidad"),
+        schema: [speakableSchema(canonical)],
       };
     },
     "publications-hub": () => {
@@ -234,10 +314,12 @@ function getStaticMeta(route: ParsedRoute): PageMeta | null {
         es: "Explora artículos sobre crecimiento Web3, marketing con IA, tokenomics y estrategia digital por Gabriel Mangabeira.",
       };
       const paths: Record<Locale, string> = { en: "/publications", br: "/br/artigos", es: "/es/articulos" };
+      const canonical = `${BASE_URL}${paths[locale]}`;
       return {
-        title: titles[locale], description: descs[locale], canonical: `${BASE_URL}${paths[locale]}`,
+        title: titles[locale], description: descs[locale], canonical,
         ogType: "website", ogImage: OG_IMAGE, locale, htmlLang,
         alternates: buildAlternates("/publications", "/br/artigos", "/es/articulos"),
+        schema: [speakableSchema(canonical)],
       };
     },
     "tools-hub": () => {
@@ -249,13 +331,15 @@ function getStaticMeta(route: ParsedRoute): PageMeta | null {
       const descs: Record<Locale, string> = {
         en: "Free interactive tools for Web3 founders — tokenomics simulator, growth calculators, and more.",
         br: "Ferramentas interativas gratuitas para fundadores Web3 — simulador de tokenomics, calculadoras de crescimento e mais.",
-        es: "Herramientas interactivas gratuitas para fundadores Web3 — simulador de tokenomics, calculadoras de crecimiento y más.",
+        es: "Herramientas interativas gratuitas para fundadores Web3 — simulador de tokenomics, calculadoras de crecimiento y más.",
       };
       const paths: Record<Locale, string> = { en: "/tools", br: "/br/ferramentas", es: "/es/herramientas" };
+      const canonical = `${BASE_URL}${paths[locale]}`;
       return {
-        title: titles[locale], description: descs[locale], canonical: `${BASE_URL}${paths[locale]}`,
+        title: titles[locale], description: descs[locale], canonical,
         ogType: "website", ogImage: OG_IMAGE, locale, htmlLang,
         alternates: buildAlternates("/tools", "/br/ferramentas", "/es/herramientas"),
+        schema: [speakableSchema(canonical)],
       };
     },
     tokenomics: () => {
@@ -270,10 +354,12 @@ function getStaticMeta(route: ParsedRoute): PageMeta | null {
         es: "Modela la oferta de tokens, emisiones, staking y escenarios de precio con este simulador gratuito de tokenomics DeFi.",
       };
       const paths: Record<Locale, string> = { en: "/tools/tokenomics-simulator", br: "/br/ferramentas/simulador-tokenomics", es: "/es/herramientas/simulador-tokenomics" };
+      const canonical = `${BASE_URL}${paths[locale]}`;
       return {
-        title: titles[locale], description: descs[locale], canonical: `${BASE_URL}${paths[locale]}`,
+        title: titles[locale], description: descs[locale], canonical,
         ogType: "website", ogImage: OG_IMAGE, locale, htmlLang,
         alternates: buildAlternates("/tools/tokenomics-simulator", "/br/ferramentas/simulador-tokenomics", "/es/herramientas/simulador-tokenomics"),
+        schema: [speakableSchema(canonical)],
       };
     },
     audit: () => {
@@ -288,10 +374,12 @@ function getStaticMeta(route: ParsedRoute): PageMeta | null {
         es: "Auditoría de Growth Web3 con IA + Humano — Encuentra tus principales fugas de crecimiento en 72 horas.",
       };
       const paths: Record<Locale, string> = { en: "/services/web3-growth-audit", br: "/br/servicos/web3-auditoria-de-growth", es: "/es/servicios/web3-auditoria-de-growth" };
+      const canonical = `${BASE_URL}${paths[locale]}`;
       return {
-        title: titles[locale], description: descs[locale], canonical: `${BASE_URL}${paths[locale]}`,
+        title: titles[locale], description: descs[locale], canonical,
         ogType: "website", ogImage: OG_IMAGE, locale, htmlLang,
         alternates: buildAlternates("/services/web3-growth-audit", "/br/servicos/web3-auditoria-de-growth", "/es/servicios/web3-auditoria-de-growth"),
+        schema: [serviceSchema(canonical, locale), speakableSchema(canonical)],
       };
     },
     "audit-success": () => ({

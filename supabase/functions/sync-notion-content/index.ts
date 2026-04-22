@@ -232,6 +232,14 @@ Deno.serve(async (req) => {
       console.warn("Failed to trigger RSS regeneration:", rssErr);
     }
 
+    // Trigger llms.txt regeneration (fire and forget)
+    try {
+      await supabase.functions.invoke("generate-llms-txt", {});
+      console.log("llms.txt regeneration triggered");
+    } catch (llmsErr) {
+      console.warn("Failed to trigger llms.txt regeneration:", llmsErr);
+    }
+
     return new Response(
       JSON.stringify({
         success: true,

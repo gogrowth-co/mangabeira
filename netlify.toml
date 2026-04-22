@@ -6,6 +6,19 @@
   function = "seo"
   path = "/*"
 
+# ─── Function routing ────────────────────────────────────────────────────
+[[redirects]]
+  from = "/llms.txt"
+  to = "/.netlify/functions/llms-txt"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/citations.json"
+  to = "/.netlify/functions/citations"
+  status = 200
+  force = true
+
 # ─── Canonical Domain ─────────────────────────────────────────────────────
 [[redirects]]
   from = "https://mangabeira.netlify.app/*"
