@@ -1,73 +1,196 @@
 
+## Move off Netlify and make crawler HTML hosting-agnostic
 
-# Stay on Netlify — Fix First-Response HTML for All Crawlers
+Goal: when the site is served from Lovable hosting / Cloudflare, every important route returns crawler-readable HTML on first response, and every page also includes a `<noscript>` fallback for JS-disabled browsers. The solution must not depend on Netlify edge functions, `_redirects`, or Netlify prerendering.
 
-Goal: every crawler (AI Eyes, lovablehtml, ChatGPT, Claude, generic fetch, browsers with JS off) sees real metadata and visible body text on the first HTTP response, with no SPA shell fallback.
+## Important constraint
 
-## Root cause
+A `<noscript>` block alone will not fix “all crawlers”:
+- JS-disabled browsers will see it
+- some bots/tools parse it
+- many AI fetchers and audit tools ignore `<noscript>` and only inspect the initial body HTML
 
-The Netlify edge function currently splits behavior by User-Agent:
-- Bots get full `<article data-bot-content>` + JSON-LD
-- Everyone else only gets a `<noscript>` block (which JS-off audit tools and many AI fetchers ignore because it's inside `<noscript>`)
+So the implementation should use both:
+1. build-time/static first-response HTML for every route
+2. a `<noscript>` fallback inside the route HTML for JS-off clients
 
-Tools like AI Eyes and lovablehtml's "ChatGPT Fetch" simulator parse the rendered DOM. `<noscript>` content is invisible to them, so they report 0 words.
+## What to build
 
-Also, baseline meta tags (`robots`, `og:site_name`) are missing, and the React shell ships untranslated i18n keys (`header.brand_name`) in first paint.
+### 1) Remove Netlify-only SEO delivery from the production path
+Update the app so published Lovable/Cloudflare hosting is the source of truth.
 
-## Fix strategy
+Files/areas to change:
+- `netlify/edge-functions/seo.ts`
+- `public/_redirects`
+- `public/_headers`
+- `netlify/functions/publications-snapshot.js`
+- any code relying on `/api/publications-snapshot` or Netlify bot injection behavior
 
-Serve the same crawler-visible HTML to everyone — not gated by UA, not hidden inside `<noscript>`. React hydration will replace it cleanly because it lives inside `<div id="root">` and React reconciles on mount.
+Result:
+- no production SEO dependence on Netlify edge rewriting
+- no crawler path that only works on Netlify
 
-## Changes
+### 2) Add build-time prerender generation for key routes
+Create a build step that generates static HTML snapshots for all crawler-critical pages before publish.
 
-### 1. `netlify/edge-functions/seo.ts` — unify the injection path
-- Remove UA-based branching for content injection. Always:
-  - Replace `<title>` and meta description with route-specific values
-  - Inject canonical, alternates, `robots`, `og:site_name`, `og:type`, `og:url`, `og:image`, twitter tags
-  - Inject route-specific JSON-LD
-  - Inject visible body content into `<div id="root">` as a normal `<div data-prerender="true">` (NOT inside `<noscript>`)
-- Keep `data-prerender="true"` so React can detect and cleanly hydrate over it
-- Add route handlers for: `/`, `/br`, `/es`, `/about`, `/tools`, `/tools/tokenomics-simulator` (+ localized), `/services/web3-growth-audit`, `/publications`, `/br/artigos`, `/es/articulos`, `/publications/:slug` (+ localized)
-- Each handler returns: `{ h1, intro, sections: [{h2, body}], ctaText }` from translations or DB
-- Keep existing publication DB fetch; extend to also pull article body excerpt (first ~500 words) for prerender block
+Routes to prerender:
+- `/`
+- `/br`
+- `/es`
+- `/about`
+- `/br/sobre`
+- `/es/acerca-de`
+- `/privacy-policy`
+- localized privacy routes
+- `/tools`
+- `/br/ferramentas`
+- `/es/herramientas`
+- `/tools/tokenomics-simulator`
+- localized tokenomics routes
+- `/services/web3-growth-audit`
+- localized audit routes
+- `/publications`
+- `/br/artigos`
+- `/es/articulos`
+- every publication detail route in all available locales
 
-### 2. `index.html` — strip duplicate shell tags
-- Remove hardcoded `<title>`, `<meta description>`, `<meta og:*>`, canonical from the shell
-- Keep only: charset, viewport, favicon, fonts, root div
-- Reason: lovablehtml flags every shell tag as "duplicate shell tag" and downgrades the score; edge function will inject the real ones
+Implementation shape:
+- add a Vite/build script that reads route data and writes route-specific HTML files
+- for static pages, use existing page copy/components as the source
+- for publication pages, read published content from the database/content source during generation
+- embed real headings, paragraphs, metadata, canonicals, alternates, and JSON-LD into the generated HTML
 
-### 3. `src/App.tsx` — no client-side root redirect
-- Remove `RootRedirect` for `/`. Render `<Index />` directly at `/`
-- Locale switching stays available via header dropdown and `/br`, `/es` routes
-- Reason: client redirect leaves `/` as an empty shell for crawlers
+### 3) Add `<noscript>` fallback to every generated page
+For every prerendered route, inject a `<noscript>` block with:
+- page title/H1
+- summary/intro copy
+- key section headings
+- article body or excerpt for publication pages
+- important internal links
 
-### 4. `src/components/SEO.tsx` + `SEOHead.tsx` — consolidate
-- Merge into a single `<PageSEO />` component with required props: `title`, `description`, `canonical`, `locale`, `path`, `ogImage?`, `schema?`
-- Always emits: title, description, canonical, hreflang alternates, robots, og:* (incl. `og:site_name`), twitter:*, JSON-LD
-- Update all pages to use `<PageSEO />` (remove split usage)
+Placement:
+- inside `<body>`, near `#root`, not in `<head>`
 
-### 5. React shell first-paint i18n
-- In `src/main.tsx` (or `LanguageProvider`), preload the active locale's translations synchronously from the CSV before first React render so shell text is never raw keys like `header.brand_name`
-- Alternative: have edge function inject translated header/nav text into the prerender block (already covered by step 1)
+Purpose:
+- users and tools with JavaScript disabled still see meaningful HTML
+- keeps a dedicated no-JS fallback exactly as requested
 
-### 6. Netlify config sanity
-- Confirm Netlify Prerender Extension stays enabled (you already verified)
-- `netlify.toml` already routes edge function to `/*` — no change
-- Ensure no caching header strips the edge-injected HTML for bots
+### 4) Also include visible initial HTML outside `<noscript>`
+To satisfy AI fetchers that ignore `<noscript>`, each prerendered page should ship with visible initial HTML in or around `#root`.
 
-## Acceptance tests (after deploy)
+Recommended pattern:
+```text
+<body>
+  <div id="root">
+    <div data-prerender="true">...real route HTML...</div>
+    <noscript>...same or simplified static HTML...</noscript>
+  </div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+```
 
-| Test | Expected |
-|---|---|
-| `curl https://mangabeira.net/` (no UA) | Contains `<h1>`, body copy, JSON-LD, full meta |
-| Browser with JS disabled, load `/` | Sees H1, hero copy, sections |
-| AI Eyes extension on `/publications/<slug>` | Word count > 1000, no "content loss" |
-| lovablehtml ChatGPT Fetch on `/` | SEO score ≥ 90, word count > 200, no "SPA shell detected" |
-| `curl -A "ClaudeBot/1.0" /` | Same content as above (no regression) |
-| Real browser load | Page hydrates without flash, no duplicate content |
+Why:
+- fetch-style crawlers see body text immediately
+- JS-off browsers see the `<noscript>` content
+- hydrated React app replaces the prerender block on load
 
-## Out of scope (you said handle manually)
-- Per-page schema customization
-- llms.txt content tuning
-- Manual datemodified updates
+### 5) Consolidate SEO metadata so first-response HTML is correct without JS
+Unify current scattered metadata across:
+- `src/components/SEO.tsx`
+- `src/components/SEOHead.tsx`
+- page-level `Helmet` usage
 
+Create one metadata contract used by both:
+- prerender generator
+- React runtime navigation
+
+Every route should output:
+- `<title>`
+- meta description
+- canonical
+- robots
+- hreflang alternates
+- Open Graph tags including `og:site_name`
+- Twitter tags
+- route-specific JSON-LD
+
+### 6) Make publication pages statically crawlable
+Current dynamic publication pages depend on client fetches (`usePublicPage`, `usePublications`, snapshot fallback logic). Replace this for crawler-critical delivery.
+
+Implementation:
+- at build time, fetch all published pages + translations
+- generate a static HTML file per publication slug and localized slug
+- include full article body or a large safe excerpt in the initial HTML
+- keep client hydration for interactive behavior/navigation
+
+### 7) Remove Netlify-specific client fallbacks
+Refactor client code that assumes Netlify endpoints exist.
+
+Likely updates:
+- `src/hooks/usePublications.ts` should no longer depend on `/api/publications-snapshot` or `https://mangabeira.net/api/publications-snapshot`
+- `src/main.tsx` / `src/App.tsx` should keep hydration simple and not depend on Netlify prerender behavior
+- any `window.prerenderReady` logic should be reduced or removed if no longer needed for production SEO
+
+### 8) Preserve Lovable/Cloudflare publish behavior
+After code changes:
+- publish frontend changes through the normal publish flow
+- point the custom domain to the Lovable-hosted deployment / Cloudflare path you want to keep
+- do not rely on Netlify config files after cutover
+
+## Technical details
+
+### Suggested implementation structure
+- Add a prerender script, e.g. `scripts/prerender-routes.ts`
+- Add a shared route manifest describing:
+  - path
+  - locale
+  - metadata
+  - content source
+- Add a shared HTML template used by the prerender script and React runtime
+- Generate static route files into the build output before publish
+
+### Content sources
+- Static marketing pages: existing React page copy or a dedicated content map
+- Publications: published database content + translations
+- Dynamic pages: safe sanitized HTML only, reusing the same content cleaning approach already used in `DynamicPage.tsx`
+
+### Hydration safety
+- prerender block gets a marker like `data-prerender="true"`
+- React mounts into the same root and replaces/reconciles it cleanly
+- no duplicate visible content after hydration
+
+## Acceptance criteria
+
+After implementation and publish:
+- with JavaScript disabled, `/` shows real homepage copy
+- with JavaScript disabled, a publication URL shows real article content
+- AI Eyes no longer reports 0 words
+- crawler simulators no longer report “SPA shell detected”
+- homepage and publication pages expose body text in first-response HTML
+- every route includes a `<noscript>` fallback in the body
+- metadata is route-specific and present before hydration
+- no dependency on Netlify edge functions remains for SEO/AEO
+
+## Files most likely to change
+
+- `vite.config.ts`
+- `package.json`
+- `index.html`
+- `src/main.tsx`
+- `src/App.tsx`
+- `src/components/SEO.tsx`
+- `src/components/SEOHead.tsx`
+- `src/hooks/usePublications.ts`
+- `src/pages/DynamicPage.tsx`
+- new shared prerender utilities/scripts
+- remove or deprecate Netlify-specific SEO files/config from active use
+
+## Rollout order
+
+1. Build shared SEO + route manifest
+2. Implement prerender generator for static routes
+3. Extend generator to publications + localized slugs
+4. Inject visible initial HTML + `<noscript>` fallback for every route
+5. remove Netlify-only runtime assumptions
+6. publish on Lovable hosting / Cloudflare
+7. re-test with JS disabled and crawler tools
