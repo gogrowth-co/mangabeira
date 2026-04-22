@@ -31,7 +31,7 @@ export default function Publications() {
   
   const { data, isLoading, isError, error, refetch } = usePublications(locale, categoryFilter, searchQuery);
   const publications = data?.publications ?? [];
-  const isFallback = data?.source === 'snapshot';
+  const isFallback = false;
   const { data: featured = [] } = useFeaturedPublications(locale);
   const hasActiveFilters = categoryFilter !== 'all' || searchQuery.trim().length > 0;
   
@@ -55,18 +55,7 @@ export default function Publications() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   
-  // Gate prerenderReady on publications data being settled (or 8s ceiling).
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    if (!isLoading && !translationsLoading) {
-      window.prerenderReady = true;
-      return;
-    }
-    const ceiling = setTimeout(() => {
-      window.prerenderReady = true;
-    }, 8000);
-    return () => clearTimeout(ceiling);
-  }, [isLoading, translationsLoading]);
+  // No prerender signal needed — static HTML in index.html serves crawlers.
 
   // Don't early-return on translationsLoading — render the page shell so
   // Prerender snapshots have stable, indexable layout instead of a spinner.
