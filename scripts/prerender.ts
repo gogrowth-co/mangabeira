@@ -498,25 +498,7 @@ function sanitizePublicationHtml(html: string, max = 6000): string {
   return cleaned;
 }
 
-function buildBodyContent(spec: RouteSpec): string {
-  const nav = NAV_BY_LOCALE[spec.locale];
-  const altLangs = ALT_LANG_LINKS[spec.locale];
-  const navHtml = `
-    <nav aria-label="Primary" style="margin:0 0 32px;">
-      <strong style="display:block;margin-bottom:8px;">${nav.label}:</strong>
-      <ul style="list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:12px 20px;">
-        ${nav.items.map((i) => `<li><a href="${i.href}">${escapeHtml(i.text)}</a></li>`).join("\n        ")}
-      </ul>
-      <p style="margin:12px 0 0;font-size:14px;">${altLangs}</p>
-    </nav>`;
-
-  const headerHtml = `
-    <header>
-      <p style="margin:0 0 8px;font-size:14px;color:#1FB6FF;font-weight:600;letter-spacing:.04em;text-transform:uppercase;">Gabriel Mangabeira — Mangabeira.net</p>
-      <h1 style="font-family:Poppins,sans-serif;font-size:40px;line-height:1.15;margin:0 0 16px;color:#0A2540;">${escapeHtml(spec.title)}</h1>
-      <p style="font-size:18px;margin:0 0 24px;">${escapeHtml(spec.description)}</p>
-    </header>`;
-
+function buildSectionContent(spec: RouteSpec): string {
   let sectionHtml = "";
 
   switch (spec.kind) {
@@ -598,6 +580,30 @@ function buildBodyContent(spec: RouteSpec): string {
     </section>`;
   }
 
+  return sectionHtml;
+}
+
+function buildBodyContent(spec: RouteSpec): string {
+  const nav = NAV_BY_LOCALE[spec.locale];
+  const altLangs = ALT_LANG_LINKS[spec.locale];
+  const navHtml = `
+    <nav aria-label="Primary" style="margin:0 0 32px;">
+      <strong style="display:block;margin-bottom:8px;">${nav.label}:</strong>
+      <ul style="list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:12px 20px;">
+        ${nav.items.map((i) => `<li><a href="${i.href}">${escapeHtml(i.text)}</a></li>`).join("\n        ")}
+      </ul>
+      <p style="margin:12px 0 0;font-size:14px;">${altLangs}</p>
+    </nav>`;
+
+  const headerHtml = `
+    <header>
+      <p style="margin:0 0 8px;font-size:14px;color:#1FB6FF;font-weight:600;letter-spacing:.04em;text-transform:uppercase;">Gabriel Mangabeira — Mangabeira.net</p>
+      <h1 style="font-family:Poppins,sans-serif;font-size:40px;line-height:1.15;margin:0 0 16px;color:#0A2540;">${escapeHtml(spec.title)}</h1>
+      <p style="font-size:18px;margin:0 0 24px;">${escapeHtml(spec.description)}</p>
+    </header>`;
+
+  const sectionHtml = buildSectionContent(spec);
+
   const footerHtml = `
     <footer style="margin-top:32px;border-top:1px solid #EAF6FA;padding-top:16px;font-size:14px;color:#333;">
       <p>© Gabriel Mangabeira — <a href="${BASE_URL}/">mangabeira.net</a></p>
@@ -619,6 +625,7 @@ function buildNoscript(spec: RouteSpec): string {
           <ul>
             ${nav.items.map((i) => `<li><a href="${i.href}">${escapeHtml(i.text)}</a></li>`).join("\n            ")}
           </ul>
+          ${buildSectionContent(spec)}
           <p>${altLangs}</p>
           <p>Contact: hello@mangabeira.net</p>
         </div>
@@ -715,6 +722,11 @@ export function prerenderPlugin(): Plugin {
         // The home route's outPath === "" so this writes dist/index.html,
         // which is exactly what we want (replaces baseline meta with home meta).
         await fs.writeFile(outFile, html, "utf8");
+        if (spec.outPath !== "") {
+          const aliasFile = path.join(distDir, `${spec.outPath}.html`);
+          await fs.mkdir(path.dirname(aliasFile), { recursive: true });
+          await fs.writeFile(aliasFile, html, "utf8");
+        }
         written++;
       }
 
