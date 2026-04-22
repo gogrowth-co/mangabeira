@@ -25,8 +25,11 @@ export interface Publication {
   }[];
 }
 
-// Detects "TypeError: Failed to fetch" and similar network-layer aborts
-// (adblockers, privacy extensions, VPN filters, offline, DNS failure).
+export interface PublicationsResult {
+  publications: Publication[];
+  source: 'live';
+}
+
 function isNetworkError(err: unknown): boolean {
   if (!err) return false;
   const msg = err instanceof Error ? err.message : String(err);
@@ -38,7 +41,6 @@ function isNetworkError(err: unknown): boolean {
 }
 
 function friendlyError(err: unknown): Error {
-  // Always log raw error for debugging
   console.error('[usePublications] raw error:', err);
   if (isNetworkError(err)) {
     return new Error(
@@ -52,52 +54,7 @@ function friendlyError(err: unknown): Error {
   return new Error(details || 'Supabase query failed');
 }
 
-// Snapshot endpoints to try, in order. Same-origin first (works on mangabeira.net),
-// then absolute Netlify URL (works on preview/lovable.app where the function isn't deployed).
-const SNAPSHOT_URLS = [
-  '/api/publications-snapshot',
-  'https://mangabeira.net/api/publications-snapshot',
-];
-
-async function fetchFromSnapshot(): Promise<Publication[]> {
-  let lastErr: unknown = null;
-  for (const url of SNAPSHOT_URLS) {
-    try {
-      const res = await fetch(url, { cache: 'no-store' });
-      if (!res.ok) {
-        lastErr = new Error(`Snapshot ${url} returned ${res.status}`);
-        continue;
-      }
-      // Guard against SPA fallback returning index.html instead of JSON
-      const ct = res.headers.get('content-type') || '';
-      if (!ct.includes('application/json')) {
-        lastErr = new Error(`Snapshot ${url} returned non-JSON (${ct})`);
-        continue;
-      }
-      const data = await res.json();
-      if (!Array.isArray(data)) {
-        lastErr = new Error(`Snapshot ${url} returned non-array payload`);
-        continue;
-      }
-      console.info(`[usePublications] snapshot served from ${url} (${data.length} items)`);
-      return data as Publication[];
-    } catch (err) {
-      console.warn(`[usePublications] snapshot ${url} failed:`, err);
-      lastErr = err;
-    }
-  }
-  const errMsg = lastErr instanceof Error ? lastErr.message : 'All snapshot URLs failed';
-  console.error('[usePublications] All snapshot URLs exhausted:', errMsg, lastErr);
-  throw lastErr instanceof Error ? lastErr : new Error(errMsg);
-}
-
-export interface PublicationsResult {
-  publications: Publication[];
-  source: 'live' | 'snapshot';
-}
-
 async function fetchAllPublications(): Promise<PublicationsResult> {
-  // Try live Supabase first
   try {
     const { data, error } = await supabase
       .from('pages')
@@ -107,17 +64,8 @@ async function fetchAllPublications(): Promise<PublicationsResult> {
       .order('created_at', { ascending: false });
     if (error) throw error;
     return { publications: (data || []) as Publication[], source: 'live' };
-  } catch (liveErr) {
-    console.warn('[usePublications] live fetch failed, trying snapshot fallback', liveErr);
-    // Always try the snapshot — it works around ad-blockers, CSP, network errors,
-    // and any other reason the direct Supabase call may have failed.
-    try {
-      const publications = await fetchFromSnapshot();
-      return { publications, source: 'snapshot' };
-    } catch (snapErr) {
-      console.error('[usePublications] snapshot fallback also failed', snapErr);
-      throw friendlyError(liveErr);
-    }
+  } catch (err) {
+    throw friendlyError(err);
   }
 }
 
@@ -199,20 +147,8 @@ export function useFeaturedPublications(locale: Locale) {
           );
         }
         return publications;
-      } catch (err) {
-        // Featured is best-effort — always try snapshot, return empty on failure
-        try {
-          const all = await fetchFromSnapshot();
-          let publications = all.filter(p => p.is_featured).slice(0, 3);
-          if (locale !== 'en') {
-            publications = publications.filter(pub =>
-              (pub.translations || []).some(t => t.language === locale)
-            );
-          }
-          return publications;
-        } catch {
-          return [];
-        }
+      } catch {
+        return [];
       }
     },
   });
