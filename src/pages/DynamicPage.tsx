@@ -215,10 +215,6 @@ export default function DynamicPage() {
   // Redirect non-canonical URLs to canonical localized URLs
   // e.g., /es/articulos/defi-tokenomics-for-founders → /es/articulos/defi-tokenomics-para-founders
   useEffect(() => {
-    // Skip canonical redirect during prerender pass to avoid snapshot route flicker
-    if (typeof window !== 'undefined' && window.prerenderReady === false) {
-      return;
-    }
     if (
       data?.matchedViaFallback && 
       data.canonicalSlug && 
@@ -247,7 +243,6 @@ export default function DynamicPage() {
   // Redirect bare publication slugs (e.g. /alternatives-airdrop-defi-founders)
   // to canonical /publications/<slug> to consolidate authority and avoid duplicate indexing.
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.prerenderReady === false) return;
     if (!data?.page || data.page.is_system_page) return;
 
     const pathname = location.pathname;
@@ -287,19 +282,7 @@ export default function DynamicPage() {
     }
   }, [data, locale, navigate, allTranslations, hasLocalizedTranslation]);
 
-  // Gate prerenderReady on actual content presence (or 8s ceiling) so Prerender
-  // doesn't snapshot the loading state on dependent-fetch routes.
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    if (data?.translation?.content) {
-      window.prerenderReady = true;
-      return;
-    }
-    const ceiling = setTimeout(() => {
-      window.prerenderReady = true;
-    }, 8000);
-    return () => clearTimeout(ceiling);
-  }, [data?.translation?.content]);
+  // No prerenderReady gating — static HTML in index.html serves crawlers.
 
   if ((isLoading || isLoadingTranslations) && !data?.translation) {
     // Stable skeleton (not a bare "Loading..." div) so any snapshot taken
