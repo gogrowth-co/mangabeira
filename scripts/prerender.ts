@@ -234,6 +234,7 @@ function staticRoutes(): RouteSpec[] {
           : locale === "es"
           ? "Simula oferta, demanda y precio de tu token a 5 años. Gratis, sin registro."
           : "Simulate token supply, demand, and price over 5 years. Free, no signup.",
+      kind: "tokenomics",
     });
   }
 
