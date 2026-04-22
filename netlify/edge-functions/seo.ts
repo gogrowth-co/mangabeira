@@ -521,6 +521,7 @@ function buildMetaTags(meta: PageMeta): string {
   const tags: string[] = [];
 
   tags.push(`<meta name="description" content="${esc(meta.description)}">`);
+  tags.push(`<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">`);
   tags.push(`<link rel="canonical" href="${esc(meta.canonical)}">`);
 
   for (const alt of meta.alternates) {
