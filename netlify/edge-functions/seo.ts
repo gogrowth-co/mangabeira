@@ -670,13 +670,12 @@ function buildHubListHtml(items: Array<{ title: string; description: string; slu
   return `<nav data-bot-hub="publications"><ul>${lis}</ul></nav>`;
 }
 
-function injectMeta(html: string, meta: PageMeta, botContent?: string): string {
+function injectMeta(html: string, meta: PageMeta, prerenderBody: string): string {
   // Strip existing SEO tags first to prevent duplicates after prerender
   html = stripExistingMeta(html);
 
   // Replace <html lang="..."> with correct lang
   html = html.replace(/<html([^>]*)lang="[^"]*"/, `<html$1lang="${meta.htmlLang}"`);
-  // If no lang attribute exists, add it
   if (!html.includes(`lang="${meta.htmlLang}"`)) {
     html = html.replace(/<html/, `<html lang="${meta.htmlLang}"`);
   }
@@ -692,26 +691,17 @@ function injectMeta(html: string, meta: PageMeta, botContent?: string): string {
   const metaTags = buildMetaTags(meta);
   html = html.replace(/<\/head>/, `${metaTags}\n</head>`);
 
-  // Inject noscript content block + optional bot article block after <div id="root">
-  const noscript = buildNoscriptBlock(meta);
-  const injected = `<div id="root">${noscript}${botContent || ""}`;
-  html = html.replace(/<div id="root">/, injected);
+  // Inject visible prerender content inside #root (NOT inside <noscript>).
+  // React's createRoot().render() replaces #root contents on first commit,
+  // so this is invisible to real browsers after hydration but fully visible
+  // to JS-off agents and simple-fetch crawlers (AI Eyes, lovablehtml, etc.).
+  if (html.includes('data-prerender="true"')) return html;
+  html = html.replace(/<div id="root">\s*<\/div>/, `<div id="root">${prerenderBody}</div>`);
+  if (!html.includes('data-prerender="true"')) {
+    html = html.replace(/<div id="root">/, `<div id="root">${prerenderBody}`);
+  }
 
   return html;
-}
-
-// Lightweight injection for human (JS-enabled) visitors: only adds <noscript>
-// fallback inside #root. Does NOT touch <head>, <title>, or helmet-managed
-// meta tags — react-helmet-async owns those after hydration. The <noscript>
-// tag is invisible to JS-enabled browsers but visible to no-JS users and
-// audit tools (AI Eyes, etc.) that disable JavaScript.
-function injectNoscriptOnly(html: string, meta: PageMeta): string {
-  if (html.includes('data-edge-noscript="true"')) return html;
-  const noscript = buildNoscriptBlock(meta).replace(
-    "<noscript>",
-    '<noscript data-edge-noscript="true">',
-  );
-  return html.replace(/<div id="root">/, `<div id="root">${noscript}`);
 }
 
 // ─── Main handler ────────────────────────────────────────────────────────
