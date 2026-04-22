@@ -267,6 +267,7 @@ function staticRoutes(): RouteSpec[] {
           : locale === "es"
           ? "Auditoría de funnel, contenido, tokenomics y adquisición en 72h. 5 clientes/mes."
           : "72-hour deep audit of your funnel, content, tokenomics, and acquisition. 5 clients/month.",
+      kind: "audit",
     });
   }
 
