@@ -29,3 +29,4 @@ Edge function (netlify/edge-functions/seo.ts) is sole source of truth for bot me
 - [Tokenomics Simulator](mem://features/tokenomics-simulator) — Client-side 5-year projections, URL state sync, localized
 - [Tools Hub](mem://features/tools-hub) — Localized index page for interactive calculators and frameworks
 - [Claude MCP Content Server](mem://integrations/claude-mcp-server) — Supabase Edge Function MCP server for native CMS management
+- [SEO Snapshot Edge Function](mem://infrastructure/seo-snapshot-edge) — Per-route prerendered HTML in Storage + edge function + index.html bootstrap (works around Lovable SPA fallback)
