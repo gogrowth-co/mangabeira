@@ -79,9 +79,10 @@
         and any client that does not execute JS. React removes this on mount
         (see src/main.tsx) before hydration so users never see duplicate copy.
       -->
-      <div data-prerender="true" hidden aria-hidden="true" style="display:none !important;">
-        <!-- Hidden from real browsers via display:none + hidden attr.
-             AI fetchers and HTML audit tools that don't execute CSS still parse this. -->
+      <div data-prerender="true" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;">
+        <!-- Visually hidden via off-screen positioning (NOT display:none).
+             Crawlers, AI fetchers, audit tools, and screen readers all parse this.
+             React removes the entire block on mount before hydration. -->
         <div>
         <header>
           <p style="margin:0 0 8px;font-size:14px;color:#1FB6FF;font-weight:600;letter-spacing:.04em;text-transform:uppercase;">Gabriel Mangabeira — Mangabeira.net</p>
