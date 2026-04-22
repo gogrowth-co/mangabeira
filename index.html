@@ -12,21 +12,183 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="Gabriel Mangabeira" />
 
+    <!-- Baseline SEO (react-helmet-async overrides per-route after hydration) -->
+    <title>Gabriel Mangabeira | Olympian & Growth Marketing Strategist for Web3 & AI</title>
+    <meta name="description" content="Two-time Olympian turned Growth Marketing Strategist. I help Web3, DeFi, and AI companies scale with data, automation, content systems, and storytelling." />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <link rel="canonical" href="https://mangabeira.net/" />
+
+    <link rel="alternate" hreflang="en" href="https://mangabeira.net/" />
+    <link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br" />
+    <link rel="alternate" hreflang="es" href="https://mangabeira.net/es" />
+    <link rel="alternate" hreflang="x-default" href="https://mangabeira.net/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Gabriel Mangabeira" />
+    <meta property="og:title" content="Gabriel Mangabeira | Olympian & Growth Marketing Strategist" />
+    <meta property="og:description" content="Two-time Olympian turned Growth Marketing Strategist for Web3, DeFi, and AI companies." />
+    <meta property="og:url" content="https://mangabeira.net/" />
+    <meta property="og:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/vPREpio8p8h1iruSSNkQMQeWPo62/social-images/social-1759804725149-og-mangabeira.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@manga82" />
+    <meta name="twitter:creator" content="@manga82" />
+    <meta name="twitter:title" content="Gabriel Mangabeira | Olympian & Growth Marketing Strategist" />
+    <meta name="twitter:description" content="Two-time Olympian turned Growth Marketing Strategist for Web3, DeFi, and AI companies." />
+    <meta name="twitter:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/vPREpio8p8h1iruSSNkQMQeWPo62/social-images/social-1759804725149-og-mangabeira.png" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Gabriel Mangabeira",
+      "url": "https://mangabeira.net/",
+      "jobTitle": "Growth Marketing Strategist",
+      "description": "Two-time Olympian turned Growth Marketing Strategist helping Web3, DeFi, and AI companies scale with data, automation, and storytelling.",
+      "sameAs": [
+        "https://x.com/manga82",
+        "https://linkedin.com/in/mangabeira",
+        "https://medium.com/@mangabeira"
+      ],
+      "alumniOf": [
+        { "@type": "Organization", "name": "University of Florida" },
+        { "@type": "Organization", "name": "Coca-Cola Company" },
+        { "@type": "Organization", "name": "Binance" },
+        { "@type": "Organization", "name": "International Olympic Committee" }
+      ],
+      "knowsAbout": ["Growth Marketing","Web3 Strategy","Tokenomics","DeFi Marketing","AI-powered Growth","Community Building","Content Systems","SEO","AEO"]
+    }
+    </script>
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
-
-    <!-- All <title>, meta description, canonical, og:*, twitter:*, alternate, and JSON-LD
-         are injected by the Netlify Edge Function (netlify/edge-functions/seo.ts).
-         react-helmet-async manages them after hydration for client navigation. -->
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PRV8Q8DW"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-    <div id="root"></div>
+
+    <div id="root">
+      <!--
+        Crawler-visible prerender block. Visible to AI fetchers, audit tools,
+        and any client that does not execute JS. React removes this on mount
+        (see src/main.tsx) before hydration so users never see duplicate copy.
+      -->
+      <div data-prerender="true" style="font-family: Inter, system-ui, sans-serif; max-width: 920px; margin: 0 auto; padding: 32px 20px; color: #0A2540; line-height: 1.6;">
+        <header>
+          <p style="margin:0 0 8px;font-size:14px;color:#1FB6FF;font-weight:600;letter-spacing:.04em;text-transform:uppercase;">Gabriel Mangabeira — Mangabeira.net</p>
+          <h1 style="font-family: Poppins, sans-serif; font-size: 40px; line-height:1.15; margin: 0 0 16px; color:#0A2540;">
+            Olympian-Grade Growth Systems for Web3, DeFi, and AI Companies
+          </h1>
+          <p style="font-size:18px;margin:0 0 24px;">
+            I'm Gabriel Mangabeira — a two-time Olympian turned Growth Marketing Strategist.
+            I help Web3, DeFi, and AI-driven companies build measurable growth engines through
+            data, automation, content systems, and storytelling. Former growth lead at Binance,
+            Coca-Cola, and the International Olympic Committee.
+          </p>
+        </header>
+
+        <nav aria-label="Primary" style="margin: 0 0 32px;">
+          <strong style="display:block;margin-bottom:8px;">Explore:</strong>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:12px 20px;">
+            <li><a href="/about">About Gabriel</a></li>
+            <li><a href="/publications">Publications</a></li>
+            <li><a href="/tools">Tools</a></li>
+            <li><a href="/tools/tokenomics-simulator">Tokenomics Simulator</a></li>
+            <li><a href="/services/web3-growth-audit">Web3 Growth Audit</a></li>
+            <li><a href="/privacy-policy">Privacy</a></li>
+          </ul>
+          <p style="margin:12px 0 0;font-size:14px;">
+            Other languages:
+            <a href="/br">Português</a> · <a href="/es">Español</a>
+          </p>
+        </nav>
+
+        <section>
+          <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">What I do</h2>
+          <p>
+            I design and operate growth systems for token-based businesses and AI-native startups —
+            combining quantitative analysis, performance creative, lifecycle automation, and AEO/SEO
+            content strategy. My work bridges the precision of Olympic preparation with the velocity
+            of modern Web3 marketing.
+          </p>
+
+          <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">Capabilities</h2>
+          <ul>
+            <li>Growth strategy for Web3, DeFi, and AI products</li>
+            <li>Tokenomics design and 5-year economic simulation</li>
+            <li>Community, content, and lifecycle automation systems</li>
+            <li>SEO and AEO (Answer Engine Optimization) for ChatGPT, Claude, Perplexity, and Google AI Overviews</li>
+            <li>Performance analytics, attribution, and revenue dashboards</li>
+          </ul>
+
+          <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">Selected publications</h2>
+          <p>
+            Long-form research and frameworks on Web3 growth, tokenomics, AEO, and AI-driven marketing.
+            Browse the full library at <a href="/publications">/publications</a>
+            (also available in <a href="/br/artigos">Português</a> and
+            <a href="/es/articulos">Español</a>).
+          </p>
+
+          <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">Free tools</h2>
+          <p>
+            Open, no-signup tools including the
+            <a href="/tools/tokenomics-simulator">Tokenomics Simulator</a>
+            (5-year supply, demand, and price projections for token-based projects).
+            See all tools at <a href="/tools">/tools</a>.
+          </p>
+
+          <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">Work with me</h2>
+          <p>
+            The flagship engagement is the <a href="/services/web3-growth-audit">Web3 Growth Audit</a>
+            — a 72-hour deep audit of your funnel, content, tokenomics, and acquisition stack,
+            delivered as a Notion report and Loom walkthrough. Limited to 5 clients per month.
+          </p>
+        </section>
+
+        <footer style="margin-top:32px;border-top:1px solid #EAF6FA;padding-top:16px;font-size:14px;color:#333;">
+          <p>© Gabriel Mangabeira — <a href="https://mangabeira.net/">mangabeira.net</a></p>
+          <p>
+            Connect:
+            <a href="https://x.com/manga82" rel="me noopener">X</a> ·
+            <a href="https://linkedin.com/in/mangabeira" rel="me noopener">LinkedIn</a> ·
+            <a href="https://medium.com/@mangabeira" rel="me noopener">Medium</a>
+          </p>
+        </footer>
+      </div>
+
+      <noscript>
+        <div style="font-family: Inter, system-ui, sans-serif; max-width: 920px; margin: 0 auto; padding: 32px 20px; color:#0A2540; line-height:1.6;">
+          <h1 style="font-family:Poppins,sans-serif;">Gabriel Mangabeira — Growth Marketing for Web3, DeFi, and AI</h1>
+          <p>
+            JavaScript is disabled. You're viewing a static fallback of mangabeira.net.
+            I'm Gabriel Mangabeira — a two-time Olympian turned Growth Marketing Strategist
+            helping Web3, DeFi, and AI companies build measurable growth systems.
+          </p>
+          <h2>Sections</h2>
+          <ul>
+            <li><a href="/about">About</a></li>
+            <li><a href="/publications">Publications</a> · <a href="/br/artigos">PT</a> · <a href="/es/articulos">ES</a></li>
+            <li><a href="/tools">Tools</a> — including the <a href="/tools/tokenomics-simulator">Tokenomics Simulator</a></li>
+            <li><a href="/services/web3-growth-audit">Web3 Growth Audit</a> (72h delivery, 5 clients/month)</li>
+            <li><a href="/privacy-policy">Privacy Policy</a></li>
+          </ul>
+          <h2>Languages</h2>
+          <ul>
+            <li><a href="/">English</a></li>
+            <li><a href="/br">Português</a></li>
+            <li><a href="/es">Español</a></li>
+          </ul>
+          <p>Contact: hello@mangabeira.net</p>
+        </div>
+      </noscript>
+    </div>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

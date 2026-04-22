@@ -25,8 +25,6 @@ import Web3GrowthAudit from "./pages/Web3GrowthAudit";
 import AuditPaymentSuccess from "./pages/AuditPaymentSuccess";
 import TokenomicsSimulatorPage from "./tools/tokenomics-simulator/TokenomicsSimulatorPage";
 import ToolsPage from "./pages/ToolsPage";
-import { useEffect, useRef } from "react";
-import { useIsFetching } from "@tanstack/react-query";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -36,36 +34,9 @@ const queryClient = new QueryClient({
   },
 });
 
-const PrerenderSignal = () => {
-  const isFetching = useIsFetching();
-  const isFetchingRef = useRef(isFetching);
-  isFetchingRef.current = isFetching;
-
-  useEffect(() => {
-    // Safety timeout: ensure prerenderReady fires even if fetches stall
-    const maxTimeout = setTimeout(() => {
-      if (!window.prerenderReady) window.prerenderReady = true;
-    }, 10000);
-    return () => clearTimeout(maxTimeout);
-  }, []);
-
-  useEffect(() => {
-    if (isFetching > 0) return;
-    // Defer 500ms so dependent React Query chains have time to register
-    // before we declare the page ready for Prerender to snapshot.
-    const timer = setTimeout(() => {
-      if (isFetchingRef.current === 0) window.prerenderReady = true;
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [isFetching]);
-
-  return null;
-};
-
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <PrerenderSignal />
       <TooltipProvider>
         <Toaster />
         <Sonner />
