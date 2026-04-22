@@ -106,17 +106,19 @@ export function t(section: string, key: string, locale: Locale): string {
   const sectionCache = translationCache[locale]?.[section];
 
   if (!sectionCache) {
-    console.warn(`[TRANSLATIONS] Section not found: ${section} for locale ${locale}`);
-    console.warn(`[TRANSLATIONS] Available sections for ${locale}:`, Object.keys(translationCache[locale] || {}));
-    return `${section}.${key}`;
+    // Return empty string to prevent raw "section.key" from leaking into
+    // pre-hydration HTML / crawler snapshots while translations are loading.
+    if (typeof console !== 'undefined' && translationCache[locale] && Object.keys(translationCache[locale]).length > 0) {
+      console.warn(`[TRANSLATIONS] Section not found: ${section} for locale ${locale}`);
+    }
+    return '';
   }
 
   const translation = sectionCache[key];
 
   if (!translation) {
     console.warn(`[TRANSLATIONS] Key not found: ${section}.${key} for locale ${locale}`);
-    console.warn(`[TRANSLATIONS] Available keys in ${section}:`, Object.keys(sectionCache).slice(0, 5));
-    return `${section}.${key}`;
+    return '';
   }
 
   return translation;
