@@ -727,17 +727,15 @@ export default async function handler(request: Request, context: Context) {
   const userAgent = request.headers.get("user-agent");
   const isBotRequest = isBot(userAgent);
 
-  // For human visitors, react-helmet-async (SEOHead component) is the source
-  // of truth for per-page meta tags. Skip edge injection entirely to avoid
-  // duplicate title/description/canonical/og/twitter tags.
-  if (!isBotRequest) {
-    return response;
-  }
-
-  // Parse route and get metadata (bots only beyond this point)
+  // Parse route and fetch metadata for ALL requests. We always inject a
+  // <noscript> fallback (invisible to JS-enabled browsers, visible to no-JS
+  // visitors and crawlers like AI Eyes / privacy users). For bots we ALSO
+  // inject a visible <article data-bot-content> block so bypass-prerender
+  // crawlers (Perplexity, Claude) get rich content even if Prerender misses.
   const route = parseRoute(pathname);
   let meta: PageMeta | null = null;
 
+  // Always pull full content for publication pages — needed for noscript body.
   if (route.type === "publication" && route.slug) {
     meta = await fetchPublicationMeta(route.slug, route.locale, true);
   }
@@ -750,25 +748,29 @@ export default async function handler(request: Request, context: Context) {
     return response;
   }
 
-  // Build bot-only article block. For publication pages with content, emit the
-  // rich article. For all other routes, emit a lightweight title+description
-  // block so bypass-prerender crawlers (Perplexity, Claude) get something to
-  // index. For the publications hub, additionally inject a list of all
-  // published articles for that locale.
+  // Visible bot-only block (kept out of human DOM to avoid flash before hydration).
   let botContent: string | undefined;
-  if (route.type === "publication" && meta.content) {
-    botContent = buildBotContentBlock(meta);
-  } else if (route.type === "publications-hub") {
-    const items = await fetchPublicationsHubList(route.locale);
-    botContent = buildGenericBotBlock(meta, buildHubListHtml(items, route.locale));
-  } else {
-    botContent = buildGenericBotBlock(meta);
+  if (isBotRequest) {
+    if (route.type === "publication" && meta.content) {
+      botContent = buildBotContentBlock(meta);
+    } else if (route.type === "publications-hub") {
+      const items = await fetchPublicationsHubList(route.locale);
+      botContent = buildGenericBotBlock(meta, buildHubListHtml(items, route.locale));
+    } else {
+      botContent = buildGenericBotBlock(meta);
+    }
   }
 
-  // Read HTML, inject meta, return modified response
+  // For human (JS-enabled) visitors we still inject <noscript> + canonical meta,
+  // but we must NOT strip helmet-managed tags or override <title>, because
+  // react-helmet-async will manage those after hydration. Use a lighter merge.
   try {
     let html = await response.text();
-    html = injectMeta(html, meta, botContent);
+    if (isBotRequest) {
+      html = injectMeta(html, meta, botContent);
+    } else {
+      html = injectNoscriptOnly(html, meta);
+    }
 
     return new Response(html, {
       status: response.status,
