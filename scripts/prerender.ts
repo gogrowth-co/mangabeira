@@ -294,7 +294,7 @@ async function publicationRoutes(): Promise<RouteSpec[]> {
   const { data, error } = await supabase
     .from("pages")
     .select(
-      "slug, status, is_system_page, featured_image, page_translations(language, title, meta_description, slug)"
+      "slug, status, is_system_page, featured_image, page_translations(language, title, meta_description, slug, content)"
     )
     .eq("status", "published")
     .eq("is_system_page", false);
@@ -317,7 +317,6 @@ async function publicationRoutes(): Promise<RouteSpec[]> {
     for (const tr of (page as any).page_translations || []) {
       trMap.set(tr.language, tr);
     }
-    // Build alt map (use english slug as fallback)
     const enTr = trMap.get("en");
     const brTr = trMap.get("pt-BR") || trMap.get("br");
     const esTr = trMap.get("es-ES") || trMap.get("es");
@@ -341,6 +340,11 @@ async function publicationRoutes(): Promise<RouteSpec[]> {
           tr.meta_description || t(locale, "meta", "page_description"),
         ogImage: (page as any).featured_image || undefined,
         ogType: "article",
+        kind: "publication",
+        bodyExtra: {
+          content: tr.content || "",
+          featuredImage: (page as any).featured_image || "",
+        },
       });
     }
   }
