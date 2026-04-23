@@ -504,15 +504,21 @@ export function usePublishPage() {
         console.error('[usePublishPage] Failed to regenerate RSS feeds:', error);
       }
       
-      // Submit to IndexNow for instant search engine indexing
+      // Regenerate per-route SEO snapshot + submit to IndexNow
       try {
         const { data: page } = await supabase
           .from('pages')
           .select('slug')
           .eq('id', id)
           .single();
-        
+
         if (page?.slug) {
+          try {
+            await supabase.functions.invoke('regenerate-snapshot', { body: { slug: page.slug } });
+            console.log('[usePublishPage] SEO snapshot regenerated');
+          } catch (error) {
+            console.error('[usePublishPage] Failed to regenerate snapshot:', error);
+          }
           await supabase.functions.invoke('submit-indexnow', {
             body: { slug: page.slug }
           });
