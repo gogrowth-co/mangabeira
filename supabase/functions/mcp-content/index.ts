@@ -214,6 +214,8 @@ mcpServer.tool("upsert_page", {
     }
 
     const triggers: string[] = [];
+    // Always regenerate snapshot (handles publish + unpublish cleanup)
+    try { await supabase.functions.invoke("regenerate-snapshot", { body: { slug } }); triggers.push("snapshot"); } catch (_) {}
     if (status === "published") {
       try { await supabase.functions.invoke("generate-sitemap", {}); triggers.push("sitemap"); } catch (_) {}
       try { await supabase.functions.invoke("generate-rss", {}); triggers.push("rss"); } catch (_) {}
