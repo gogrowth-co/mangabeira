@@ -25,7 +25,7 @@ Auth: Secure admin resources using `public.has_role(auth.uid(), 'admin')`.
 - [LLM Discovery Endpoints](mem://infrastructure/llm-discovery) — Auto-generated /llms.txt and /api/citations.json
 - [Global Security Standards](mem://infrastructure/security-standards) — DOMPurify, script-src none, timing-safe edge function secrets, rate limiting
 - [RBAC Role Management](mem://auth/rbac-role-management) — Admin role validation using public.has_role database function
-- [Sitemap and RSS Delivery](mem://infrastructure/sitemap-rss-delivery) — Netlify proxy to Supabase storage, RSS 301 redirects
+- [Sitemap and RSS Delivery](mem://infrastructure/sitemap-rss-delivery) — Cloudflare Worker proxies /sitemap.xml, /rss/*.xml, /llms*.txt to Supabase Storage
 - [Tokenomics Simulator](mem://features/tokenomics-simulator) — Client-side 5-year projections, URL state sync, localized
 - [Tools Hub](mem://features/tools-hub) — Localized index page for interactive calculators and frameworks
 - [Claude MCP Content Server](mem://integrations/claude-mcp-server) — Supabase Edge Function MCP server for native CMS management
