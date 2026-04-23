@@ -19,13 +19,13 @@ Click the **"Refresh Feeds"** button in the Admin dashboard (`/admin`) to manual
 ### Sitemap
 1. **Edge Function**: `supabase/functions/generate-sitemap/index.ts` generates XML and saves to storage
 2. **Storage**: Sitemap stored at `blog-images/sitemap.xml` in Supabase Storage
-3. **Serving**: `_redirects` routes `/sitemap.xml` → storage URL for direct access
+3. **Serving**: Cloudflare Worker (`mangabeira-snapshot-router`) proxies `/sitemap.xml` directly to Supabase Storage with 5-min edge cache
 4. **Hooks**: `src/hooks/usePages.ts` triggers regeneration after publish/update/delete mutations
 
 ### RSS Feeds
 1. **Edge Function**: `supabase/functions/generate-rss/index.ts` generates all 3 language feeds (en, br, es) and saves to storage
 2. **Storage**: Feeds stored at `blog-images/rss-en.xml`, `rss-br.xml`, `rss-es.xml` in Supabase Storage
-3. **Serving**: `_redirects` routes `/rss/*.xml` → storage URLs for direct access
+3. **Serving**: Cloudflare Worker (`mangabeira-snapshot-router`) proxies `/rss/*.xml` directly to Supabase Storage with 5-min edge cache
 4. **Hooks**: `src/hooks/usePages.ts` triggers regeneration after publish/update/delete mutations
 
 ## URL Structure

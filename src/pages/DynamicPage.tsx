@@ -106,7 +106,7 @@ export default function DynamicPage() {
   const rawSlug = slug ?? location.pathname.split('/').filter(Boolean).pop() ?? '';
 
   // Check if this looks like a static file request (has a file extension)
-  // If so, force a reload to let Netlify serve it properly
+  // If so, force a reload to let the Cloudflare Worker / hosting serve it properly
   useEffect(() => {
     const staticFileExtensions = ['.xml', '.txt', '.pdf', '.json', '.ico', '.svg', '.png', '.jpg', '.jpeg', '.gif', '.webp'];
     const hasFileExtension = staticFileExtensions.some(ext => rawSlug.toLowerCase().endsWith(ext));

@@ -10,7 +10,7 @@ URLs: Remove trailing slashes via 301 redirects. Route localized pages canonical
 SEO: react-helmet-async only; no hardcoded meta tags in index.html.
 Security: DOMPurify HTML, strict CSP, IP rate limit (10/min), XOR secret validation.
 Auth: Secure admin resources using `public.has_role(auth.uid(), 'admin')`.
-Edge function (netlify/edge-functions/seo.ts) is sole source of truth for bot meta+JSON-LD.
+`seo-snapshot` edge function (via Cloudflare Worker `mangabeira-snapshot-router`) is sole source of truth for bot meta+JSON-LD.
 
 ## Memories
 - [Brand Color Palette](mem://style/color-palette) — Navy backgrounds, Aqua highlights, Gold primary CTAs
@@ -25,7 +25,7 @@ Edge function (netlify/edge-functions/seo.ts) is sole source of truth for bot me
 - [LLM Discovery Endpoints](mem://infrastructure/llm-discovery) — Auto-generated /llms.txt and /api/citations.json
 - [Global Security Standards](mem://infrastructure/security-standards) — DOMPurify, script-src none, timing-safe edge function secrets, rate limiting
 - [RBAC Role Management](mem://auth/rbac-role-management) — Admin role validation using public.has_role database function
-- [Sitemap and RSS Delivery](mem://infrastructure/sitemap-rss-delivery) — Netlify proxy to Supabase storage, RSS 301 redirects
+- [Sitemap and RSS Delivery](mem://infrastructure/sitemap-rss-delivery) — Cloudflare Worker proxies /sitemap.xml, /rss/*.xml, /llms*.txt to Supabase Storage
 - [Tokenomics Simulator](mem://features/tokenomics-simulator) — Client-side 5-year projections, URL state sync, localized
 - [Tools Hub](mem://features/tools-hub) — Localized index page for interactive calculators and frameworks
 - [Claude MCP Content Server](mem://integrations/claude-mcp-server) — Supabase Edge Function MCP server for native CMS management
