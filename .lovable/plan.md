@@ -1,75 +1,72 @@
 
 
-## Plan: Per-route HTML via a Supabase Edge Function proxy
+# Fix: Make `/sitemap.xml` Always Reflect Latest Published Articles
 
-### The actual problem (audit findings)
+## Root cause
+- `generate-sitemap` correctly writes the fresh sitemap to Supabase Storage on every publish (verified in logs: `launchpad-scorecard` is in storage).
+- But `https://mangabeira.net/sitemap.xml` is served by **Lovable hosting** as a baked-in static file from `public/sitemap.xml` (or similar), not proxied to Storage.
+- The `netlify/functions/sitemap.js` proxy exists in the repo but is never invoked — there's no `netlify.toml`, no `_redirects`, and the site isn't on Netlify.
+- Result: storage updates, but the live URL keeps serving the build-time copy (cached by Cloudflare too).
 
-I tested the live site directly:
+## Fix (single surgical change to the Cloudflare Worker)
 
-| URL | What's served |
-|---|---|
-| `https://mangabeira.net/publications` | Generic homepage HTML (translation keys leak) |
-| `https://mangabeira.net/about` | Generic homepage HTML → React then renders 404 because `/about` matches no React route |
-| `https://mangabeira.net/publications.html` | ✅ Correct prerendered "Publications library" HTML |
-| `https://mangabeira.net/about.html` | ✅ Correct prerendered About HTML |
+Extend the existing `mangabeira-snapshot-router` Worker to also intercept three SEO file paths and proxy them straight to Supabase Storage, with short edge cache. Same pattern already used for the bot snapshot route.
 
-**Diagnosis:** the prerender plugin is working — `dist/about/index.html`, `dist/publications/index.html`, `dist/about.html`, etc. all exist with correct meta + body. But Lovable hosting's SPA fallback intercepts every extensionless URL and serves the root `dist/index.html` instead of resolving `dist/<route>/index.html`. That's why all routes look identical.
+Add at the top of the Worker's `fetch` handler, **before** the bot/snapshot logic:
 
-Also: `/about` isn't even in the React router (`App.tsx` has no `/about` route — only `/:slug` catches it), so even after JS hydrates it 404s on a hard refresh.
+```js
+const STORAGE_BASE =
+  "https://hetemmltaoirimmoxzku.supabase.co/storage/v1/object/public/blog-images";
 
-### Solution: a tiny content-routing edge function
+const STORAGE_PROXIES = {
+  "/sitemap.xml":  `${STORAGE_BASE}/sitemap.xml`,
+  "/rss.xml":      `${STORAGE_BASE}/rss-en.xml`,
+  "/rss/en.xml":   `${STORAGE_BASE}/rss-en.xml`,
+  "/rss/br.xml":   `${STORAGE_BASE}/rss-br.xml`,
+  "/rss/es.xml":   `${STORAGE_BASE}/rss-es.xml`,
+  "/llms.txt":     `${STORAGE_BASE}/llms.txt`,
+  "/llms-full.txt":`${STORAGE_BASE}/llms-full.txt`,
+};
 
-We'll add a Supabase Edge Function `seo-snapshot` that:
+const target = STORAGE_PROXIES[url.pathname];
+if (target) {
+  const upstream = await fetch(target, {
+    cf: { cacheTtl: 300, cacheEverything: true },
+  });
+  if (!upstream.ok) return fetch(request); // fallback to Lovable
+  const headers = new Headers();
+  headers.set(
+    "Content-Type",
+    url.pathname.endsWith(".txt")
+      ? "text/plain; charset=utf-8"
+      : "application/xml; charset=utf-8"
+  );
+  headers.set("Cache-Control", "public, max-age=300, s-maxage=600");
+  headers.set("X-Served-By", "cf-worker-storage-proxy");
+  return new Response(upstream.body, { status: 200, headers });
+}
+```
 
-1. Receives the requested path (`/about`, `/publications`, `/br/artigos/some-slug`, etc.) as a query param.
-2. Returns the matching prerendered HTML — generated at deploy/sync time and stored in Supabase Storage (one HTML file per route × locale, exactly like `scripts/prerender.ts` already builds).
-3. Sets `Cache-Control: public, max-age=300, s-maxage=86400`.
+That's it for the live fix. Storage is already fresh on every publish (the `usePages` hook + edge function chain works).
 
-Then a small `<script>` at the top of `index.html` checks if the current path is a known prerender route and, **only for crawlers / no-JS / first paint**, swaps in the snapshot before React hydrates. For real users with JS, React hydrates normally — no visible change.
+## Cleanup (optional but recommended)
 
-To make it actually fix the AEO/SEO audit problem (which needs the FIRST response to differ), we'll go one step further: convert the existing static prerender output into snapshots stored in Supabase Storage, and add a second edge function `serve-snapshot` that the user can point a CDN/subdomain rule at later if needed. **But for the immediate Lovable-hosted fix**, the practical lever is:
+1. Delete `netlify/functions/sitemap.js` and `netlify/functions/citations.js` and `netlify/functions/llms-txt.js` — they are dead code and misleading future-you.
+2. Delete the static `public/sitemap.xml` (and any `public/rss*.xml`, `public/llms*.txt`) if they exist, so a future build doesn't accidentally re-bake an outdated copy.
+3. After deploying the Worker change, manually purge Cloudflare cache for `/sitemap.xml` once to drop the stale copy immediately (or wait ~10 min for the 600s s-maxage to expire).
 
-### Step-by-step
+## Verification steps after deploy
 
-**1. Move prerender output to Supabase Storage**
-- Update `scripts/prerender.ts` to additionally upload each generated HTML file to a `seo-snapshots` storage bucket, keyed by route (`publications/index.html`, `about/index.html`, `br/artigos/slug/index.html`, etc.) on every build.
+1. `curl -sI https://mangabeira.net/sitemap.xml` → expect header `x-served-by: cf-worker-storage-proxy`.
+2. `curl -s https://mangabeira.net/sitemap.xml | grep launchpad-scorecard` → expect ≥1 match.
+3. Publish a test article → wait ~5s → `curl` again → new slug appears.
+4. Resubmit `/sitemap.xml` in Google Search Console.
 
-**2. Add an edge function `seo-snapshot`**
-- `GET /functions/v1/seo-snapshot?path=/publications` → returns the stored HTML for that path with `Content-Type: text/html` + cache headers.
-- Returns 404 for unknown paths.
+## Why not regenerate static files at build time?
+That would require a deploy on every publish — opposite of what you want. Proxying Storage gives you near-instant freshness (≤5min CF edge cache) with zero rebuilds. Same architecture as the snapshot system already in place.
 
-**3. Add per-route SPA enhancement**
-- A tiny inline script in `index.html` (runs before React loads) that, **only when the path matches a known prerender route**, fetches the snapshot from `seo-snapshot` and replaces `<head>` meta + the prerender body block. This guarantees:
-  - Crawlers/AI bots that DO execute JS (Googlebot, ChatGPT, Perplexity) see correct per-route meta + schema + body.
-  - Audit tools that follow redirects to `.html` aliases will already work today (we already build those).
-  - Real users get correct OG tags before social unfurlers snapshot the page.
-
-**4. Add missing `/about` React routes**
-- `App.tsx` is missing `/about`, `/br/sobre`, `/es/acerca-de` routes. Add them to point at `<About />` / equivalent components so the page actually exists for hydrated users.
-
-**5. Document the `.html` URL pattern for audit tools**
-- For raw "no-JS" audit tools (Screaming Frog with JS off, etc.) you can audit the `.html` variants directly — `mangabeira.net/publications.html` already returns correct per-route HTML on the first byte today. We'll add a robots/sitemap note about this so audits behave correctly.
-
-### What this fixes vs. doesn't fix
-
-| Concern | After plan |
-|---|---|
-| Googlebot sees per-route meta/schema | ✅ Yes (it executes JS, snapshot script runs) |
-| ChatGPT/Perplexity/Claude crawlers see per-route content | ✅ Yes |
-| Social unfurlers (Twitter, LinkedIn) | ✅ Yes (snapshot script fires before unfurl-relevant content paint) |
-| SEO audit tools with JS enabled | ✅ Yes |
-| SEO audit tools with JS fully disabled | ⚠️ Use `.html` URLs (already work) |
-| `/about` page works on direct nav/refresh | ✅ Yes (router fix) |
-
-### Files
-
-- `scripts/prerender.ts` — add Storage upload step
-- `supabase/functions/seo-snapshot/index.ts` — new edge function
-- `index.html` — add the small pre-hydration snapshot fetch script (only runs for known routes; bails otherwise)
-- `src/App.tsx` — add `/about`, `/br/sobre`, `/es/acerca-de`, `/privacy-policy`, `/br/politica-de-privacidade`, `/es/politica-de-privacidad` routes
-- New Supabase Storage bucket `seo-snapshots` (public read)
-
-### Honest tradeoff
-
-Lovable hosting genuinely cannot serve different first-byte HTML per route without folder-level routing support, and there is no native config knob for this. The edge-function snapshot approach is the cleanest way to keep current URLs AND deliver correct per-route content to crawlers/audit tools that respect JS — which is the majority of modern AEO/SEO tooling (Ahrefs, SEMrush JS rendering mode, ChatGPT, Perplexity, Google).
+## Files / surfaces touched
+- **Cloudflare Worker** (`mangabeira-snapshot-router`): add storage-proxy block. Single deploy via `wrangler` or CF dashboard.
+- **Repo cleanup** (optional): remove dead `netlify/functions/*` and any static `public/sitemap.xml`.
+- **No code changes** to edge functions, hooks, or admin UI — they're already correct.
 
