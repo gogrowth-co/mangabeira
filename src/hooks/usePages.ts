@@ -484,6 +484,17 @@ export function useUnpublishPage() {
       } catch (error) {
         console.error('[useUnpublishPage] Failed to regenerate RSS feeds:', error);
       }
+
+      // Regenerate snapshot — purges stale published snapshot since status is now 'draft'
+      try {
+        const { data: page } = await supabase.from('pages').select('slug').eq('id', id).single();
+        if (page?.slug) {
+          await supabase.functions.invoke('regenerate-snapshot', { body: { slug: page.slug } });
+          console.log('[useUnpublishPage] SEO snapshot purged');
+        }
+      } catch (error) {
+        console.error('[useUnpublishPage] Failed to purge snapshot:', error);
+      }
     },
   });
 }
