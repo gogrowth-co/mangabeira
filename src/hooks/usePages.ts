@@ -364,7 +364,7 @@ export function useUpdatePage() {
           console.error('[useUpdatePage] Failed to regenerate RSS feeds:', error);
         }
         
-        // Submit to IndexNow for instant search engine indexing
+        // Regenerate per-route SEO snapshot + submit to IndexNow
         try {
           const slug = variables.slug || (await supabase
             .from('pages')
@@ -372,8 +372,14 @@ export function useUpdatePage() {
             .eq('id', variables.id)
             .single()
           ).data?.slug;
-          
+
           if (slug) {
+            try {
+              await supabase.functions.invoke('regenerate-snapshot', { body: { slug } });
+              console.log('[useUpdatePage] SEO snapshot regenerated');
+            } catch (error) {
+              console.error('[useUpdatePage] Failed to regenerate snapshot:', error);
+            }
             await supabase.functions.invoke('submit-indexnow', {
               body: { slug }
             });
