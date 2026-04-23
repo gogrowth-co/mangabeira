@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { McpServer, StreamableHttpTransport } from "mcp-lite";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const MAX_REQUEST_SIZE = 200 * 1024; // 200KB
+const MAX_REQUEST_SIZE = 5 * 1024 * 1024; // 5MB
 
 function timingSafeEqual(a: string, b: string): boolean {
   if (a.length !== b.length) return false;
