@@ -10,7 +10,7 @@ URLs: Remove trailing slashes via 301 redirects. Route localized pages canonical
 SEO: react-helmet-async only; no hardcoded meta tags in index.html.
 Security: DOMPurify HTML, strict CSP, IP rate limit (10/min), XOR secret validation.
 Auth: Secure admin resources using `public.has_role(auth.uid(), 'admin')`.
-Edge function (netlify/edge-functions/seo.ts) is sole source of truth for bot meta+JSON-LD.
+`seo-snapshot` edge function (via Cloudflare Worker `mangabeira-snapshot-router`) is sole source of truth for bot meta+JSON-LD.
 
 ## Memories
 - [Brand Color Palette](mem://style/color-palette) — Navy backgrounds, Aqua highlights, Gold primary CTAs

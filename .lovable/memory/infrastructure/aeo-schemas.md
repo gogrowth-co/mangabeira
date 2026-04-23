@@ -3,7 +3,7 @@ name: AEO Schema Coverage
 description: Edge function injects Service+Offer schema for audit, Speakable for system pages, BlogPosting for publications. dateModified uses BUILD_DATE for system pages, page.updated_at for publications.
 type: feature
 ---
-The Netlify edge function `netlify/edge-functions/seo.ts` is the source of truth for bot-served JSON-LD:
+The `seo-snapshot` Supabase Edge Function (served via Cloudflare Worker `mangabeira-snapshot-router` for bots) is the source of truth for bot-served JSON-LD:
 - Home/About/Privacy/Hubs/Tokenomics: `speakableSchema(canonical)` with `dateModified = BUILD_DATE`.
 - Audit page: `serviceSchema(canonical, locale)` with Starter/Pro/Elite Offers ($1500/$3500/$7500) + speakable.
 - Publications: `BlogPosting` schema with featured_image as og:image and dateModified from page.updated_at.
