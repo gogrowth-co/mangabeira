@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { McpServer, StreamableHttpTransport } from "mcp-lite";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const MAX_REQUEST_SIZE = 200 * 1024; // 200KB
+const MAX_REQUEST_SIZE = 5 * 1024 * 1024; // 5MB
 
 function timingSafeEqual(a: string, b: string): boolean {
   if (a.length !== b.length) return false;
@@ -264,6 +264,45 @@ mcpServer.tool("delete_page", {
     try { await supabase.functions.invoke("generate-llms-txt", {}); } catch (_) {}
 
     return { content: [{ type: "text" as const, text: JSON.stringify({ success: true, deleted: args.slug }) }] };
+  },
+});
+
+// ─── upload_image ───
+mcpServer.tool("upload_image", {
+  description: "Upload an image to Supabase Storage (blog-images bucket). Returns the public URL for use as featured_image in upsert_page. Max ~3.5MB decoded image size.",
+  inputSchema: {
+    type: "object" as const,
+    properties: {
+      filename: { type: "string" as const, description: "Filename with extension (e.g. cover.png). Used as the storage path." },
+      base64_data: { type: "string" as const, description: "Base64-encoded image data (no data URI prefix)." },
+      mime_type: { type: "string" as const, description: "MIME type. Defaults to image/png." },
+    },
+    required: ["filename", "base64_data"] as const,
+  },
+  handler: async (args: any) => {
+    const supabase = getSupabase();
+    const { filename, base64_data, mime_type = "image/png" } = args;
+    let binaryData: Uint8Array;
+    try {
+      binaryData = Uint8Array.from(atob(base64_data), (c) => c.charCodeAt(0));
+    } catch {
+      return { content: [{ type: "text" as const, text: "Error: Invalid base64 data." }], isError: true };
+    }
+    const { error } = await supabase.storage
+      .from("blog-images")
+      .upload(filename, binaryData, { contentType: mime_type, upsert: true });
+    if (error) {
+      return { content: [{ type: "text" as const, text: `Error: ${error.message}` }], isError: true };
+    }
+    const { data: { publicUrl } } = supabase.storage
+      .from("blog-images")
+      .getPublicUrl(filename);
+    return {
+      content: [{
+        type: "text" as const,
+        text: JSON.stringify({ success: true, filename, public_url: publicUrl }, null, 2),
+      }],
+    };
   },
 });
 
