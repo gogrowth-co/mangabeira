@@ -1,72 +1,36 @@
 
 
-# Fix: Make `/sitemap.xml` Always Reflect Latest Published Articles
+# Cleanup: Remove All Netlify References
 
-## Root cause
-- `generate-sitemap` correctly writes the fresh sitemap to Supabase Storage on every publish (verified in logs: `launchpad-scorecard` is in storage).
-- But `https://mangabeira.net/sitemap.xml` is served by **Lovable hosting** as a baked-in static file from `public/sitemap.xml` (or similar), not proxied to Storage.
-- The `netlify/functions/sitemap.js` proxy exists in the repo but is never invoked — there's no `netlify.toml`, no `_redirects`, and the site isn't on Netlify.
-- Result: storage updates, but the live URL keeps serving the build-time copy (cached by Cloudflare too).
+We migrated to Cloudflare Worker proxying. Netlify artifacts are now dead weight and misleading. Audit found minimal residue — one empty directory, one stale code comment, two outdated docs, one memory file.
 
-## Fix (single surgical change to the Cloudflare Worker)
+## Files to delete
 
-Extend the existing `mangabeira-snapshot-router` Worker to also intercept three SEO file paths and proxy them straight to Supabase Storage, with short edge cache. Same pattern already used for the bot snapshot route.
+1. **`netlify/`** — empty directory (functions already deleted last turn). Remove the parent folder.
 
-Add at the top of the Worker's `fetch` handler, **before** the bot/snapshot logic:
+## Files to edit
 
-```js
-const STORAGE_BASE =
-  "https://hetemmltaoirimmoxzku.supabase.co/storage/v1/object/public/blog-images";
+2. **`src/pages/DynamicPage.tsx`** (lines 108–118)
+   - Update the comment that says "let Netlify serve it properly" → "let Cloudflare Worker / hosting serve it properly".
+   - Logic stays — the static-file reload bypass still works correctly under Cloudflare. Just fix the misleading comment.
 
-const STORAGE_PROXIES = {
-  "/sitemap.xml":  `${STORAGE_BASE}/sitemap.xml`,
-  "/rss.xml":      `${STORAGE_BASE}/rss-en.xml`,
-  "/rss/en.xml":   `${STORAGE_BASE}/rss-en.xml`,
-  "/rss/br.xml":   `${STORAGE_BASE}/rss-br.xml`,
-  "/rss/es.xml":   `${STORAGE_BASE}/rss-es.xml`,
-  "/llms.txt":     `${STORAGE_BASE}/llms.txt`,
-  "/llms-full.txt":`${STORAGE_BASE}/llms-full.txt`,
-};
+3. **`public/sitemap-generation-guide.md`** (lines 22, 28)
+   - Replace `_redirects routes /sitemap.xml → storage URL` → `Cloudflare Worker (mangabeira-snapshot-router) proxies /sitemap.xml directly to Supabase Storage`.
+   - Same fix for the RSS line.
 
-const target = STORAGE_PROXIES[url.pathname];
-if (target) {
-  const upstream = await fetch(target, {
-    cf: { cacheTtl: 300, cacheEverything: true },
-  });
-  if (!upstream.ok) return fetch(request); // fallback to Lovable
-  const headers = new Headers();
-  headers.set(
-    "Content-Type",
-    url.pathname.endsWith(".txt")
-      ? "text/plain; charset=utf-8"
-      : "application/xml; charset=utf-8"
-  );
-  headers.set("Cache-Control", "public, max-age=300, s-maxage=600");
-  headers.set("X-Served-By", "cf-worker-storage-proxy");
-  return new Response(upstream.body, { status: 200, headers });
-}
-```
+## Memory to update
 
-That's it for the live fix. Storage is already fresh on every publish (the `usePages` hook + edge function chain works).
+4. **`mem://infrastructure/sitemap-rss-delivery`**
+   - Rewrite to reflect Cloudflare Worker proxy (not Netlify function). New body: "Cloudflare Worker `mangabeira-snapshot-router` intercepts `/sitemap.xml`, `/rss/*.xml`, `/llms.txt`, `/llms-full.txt` and proxies to Supabase Storage `blog-images/` bucket with 5-min edge cache. Regeneration triggered on publish/update/delete via `usePages.ts` → edge functions `generate-sitemap` / `generate-rss` / `generate-llms-txt`."
 
-## Cleanup (optional but recommended)
+## Not touched (already clean)
 
-1. Delete `netlify/functions/sitemap.js` and `netlify/functions/citations.js` and `netlify/functions/llms-txt.js` — they are dead code and misleading future-you.
-2. Delete the static `public/sitemap.xml` (and any `public/rss*.xml`, `public/llms*.txt`) if they exist, so a future build doesn't accidentally re-bake an outdated copy.
-3. After deploying the Worker change, manually purge Cloudflare cache for `/sitemap.xml` once to drop the stale copy immediately (or wait ~10 min for the 600s s-maxage to expire).
+- No `netlify.toml`, no `_redirects` file in repo.
+- No `package.json` Netlify deps.
+- Edge functions, hooks, admin UI — all already correct.
 
-## Verification steps after deploy
+## Verification after cleanup
 
-1. `curl -sI https://mangabeira.net/sitemap.xml` → expect header `x-served-by: cf-worker-storage-proxy`.
-2. `curl -s https://mangabeira.net/sitemap.xml | grep launchpad-scorecard` → expect ≥1 match.
-3. Publish a test article → wait ~5s → `curl` again → new slug appears.
-4. Resubmit `/sitemap.xml` in Google Search Console.
-
-## Why not regenerate static files at build time?
-That would require a deploy on every publish — opposite of what you want. Proxying Storage gives you near-instant freshness (≤5min CF edge cache) with zero rebuilds. Same architecture as the snapshot system already in place.
-
-## Files / surfaces touched
-- **Cloudflare Worker** (`mangabeira-snapshot-router`): add storage-proxy block. Single deploy via `wrangler` or CF dashboard.
-- **Repo cleanup** (optional): remove dead `netlify/functions/*` and any static `public/sitemap.xml`.
-- **No code changes** to edge functions, hooks, or admin UI — they're already correct.
+- `grep -ri netlify .` → returns nothing (except possibly `node_modules/`, ignore).
+- Site continues serving sitemap correctly via Worker — no behavior change, just dead-code/stale-doc removal.
 
