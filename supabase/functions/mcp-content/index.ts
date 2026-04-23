@@ -214,6 +214,8 @@ mcpServer.tool("upsert_page", {
     }
 
     const triggers: string[] = [];
+    // Always regenerate snapshot (handles publish + unpublish cleanup)
+    try { await supabase.functions.invoke("regenerate-snapshot", { body: { slug } }); triggers.push("snapshot"); } catch (_) {}
     if (status === "published") {
       try { await supabase.functions.invoke("generate-sitemap", {}); triggers.push("sitemap"); } catch (_) {}
       try { await supabase.functions.invoke("generate-rss", {}); triggers.push("rss"); } catch (_) {}
@@ -255,15 +257,36 @@ mcpServer.tool("delete_page", {
     if (!page) return { content: [{ type: "text" as const, text: `Page not found: ${args.slug}` }], isError: true };
     if (page.is_system_page) return { content: [{ type: "text" as const, text: `Cannot delete system page '${args.slug}'.` }], isError: true };
 
+    // Capture translation slugs before deletion so we can purge snapshots
+    const { data: trs } = await supabase
+      .from("page_translations")
+      .select("language, slug")
+      .eq("page_id", page.id);
+
     await supabase.from("page_translations").delete().eq("page_id", page.id);
     const { error: deleteErr } = await supabase.from("pages").delete().eq("id", page.id);
     if (deleteErr) return { content: [{ type: "text" as const, text: `Error: ${deleteErr.message}` }], isError: true };
+
+    // Purge snapshots for every locale
+    const localeToHub: Record<string, string> = { en: "publications", br: "br/artigos", es: "es/articulos" };
+    const langToLocale: Record<string, string> = { en: "en", "pt-BR": "br", br: "br", "es-ES": "es", es: "es" };
+    const removals = (trs || [])
+      .map((tr: any) => {
+        const locale = langToLocale[tr.language];
+        if (!locale) return null;
+        const localizedSlug = tr.slug || args.slug;
+        return `${localeToHub[locale]}/${localizedSlug}/index.html`;
+      })
+      .filter(Boolean) as string[];
+    if (removals.length > 0) {
+      try { await supabase.storage.from("seo-snapshots").remove(removals); } catch (_) {}
+    }
 
     try { await supabase.functions.invoke("generate-sitemap", {}); } catch (_) {}
     try { await supabase.functions.invoke("generate-rss", {}); } catch (_) {}
     try { await supabase.functions.invoke("generate-llms-txt", {}); } catch (_) {}
 
-    return { content: [{ type: "text" as const, text: JSON.stringify({ success: true, deleted: args.slug }) }] };
+    return { content: [{ type: "text" as const, text: JSON.stringify({ success: true, deleted: args.slug, snapshots_removed: removals }) }] };
   },
 });
 

@@ -364,7 +364,7 @@ export function useUpdatePage() {
           console.error('[useUpdatePage] Failed to regenerate RSS feeds:', error);
         }
         
-        // Submit to IndexNow for instant search engine indexing
+        // Regenerate per-route SEO snapshot + submit to IndexNow
         try {
           const slug = variables.slug || (await supabase
             .from('pages')
@@ -372,8 +372,14 @@ export function useUpdatePage() {
             .eq('id', variables.id)
             .single()
           ).data?.slug;
-          
+
           if (slug) {
+            try {
+              await supabase.functions.invoke('regenerate-snapshot', { body: { slug } });
+              console.log('[useUpdatePage] SEO snapshot regenerated');
+            } catch (error) {
+              console.error('[useUpdatePage] Failed to regenerate snapshot:', error);
+            }
             await supabase.functions.invoke('submit-indexnow', {
               body: { slug }
             });
@@ -395,7 +401,7 @@ export function useDeletePage() {
     mutationFn: async (id: string) => {
       const { data: page } = await supabase
         .from('pages')
-        .select('is_system_page')
+        .select('is_system_page, slug, page_translations(language, slug)')
         .eq('id', id)
         .single();
 
@@ -403,16 +409,32 @@ export function useDeletePage() {
         throw new Error('Cannot delete system pages');
       }
 
+      // Purge snapshots BEFORE deletion (need translation slugs)
+      if (page?.slug) {
+        const localeToHub: Record<string, string> = { en: 'publications', br: 'br/artigos', es: 'es/articulos' };
+        const langToLocale: Record<string, string> = { en: 'en', 'pt-BR': 'br', br: 'br', 'es-ES': 'es', es: 'es' };
+        const removals = ((page as any).page_translations || [])
+          .map((tr: any) => {
+            const locale = langToLocale[tr.language];
+            if (!locale) return null;
+            return `${localeToHub[locale]}/${tr.slug || page.slug}/index.html`;
+          })
+          .filter(Boolean) as string[];
+        if (removals.length > 0) {
+          try { await supabase.storage.from('seo-snapshots').remove(removals); } catch (_) {}
+        }
+      }
+
       const { error } = await supabase
         .from('pages')
         .delete()
         .eq('id', id);
-      
+
       if (error) throw error;
     },
     onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ['pages'] });
-      
+
       // Regenerate sitemap and RSS feeds after deletion
       try {
         await supabase.functions.invoke('generate-sitemap');
@@ -420,7 +442,7 @@ export function useDeletePage() {
       } catch (error) {
         console.error('[useDeletePage] Failed to regenerate sitemap:', error);
       }
-      
+
       try {
         await supabase.functions.invoke('generate-rss');
         console.log('[useDeletePage] RSS feeds regenerated');
@@ -462,6 +484,17 @@ export function useUnpublishPage() {
       } catch (error) {
         console.error('[useUnpublishPage] Failed to regenerate RSS feeds:', error);
       }
+
+      // Regenerate snapshot — purges stale published snapshot since status is now 'draft'
+      try {
+        const { data: page } = await supabase.from('pages').select('slug').eq('id', id).single();
+        if (page?.slug) {
+          await supabase.functions.invoke('regenerate-snapshot', { body: { slug: page.slug } });
+          console.log('[useUnpublishPage] SEO snapshot purged');
+        }
+      } catch (error) {
+        console.error('[useUnpublishPage] Failed to purge snapshot:', error);
+      }
     },
   });
 }
@@ -498,15 +531,21 @@ export function usePublishPage() {
         console.error('[usePublishPage] Failed to regenerate RSS feeds:', error);
       }
       
-      // Submit to IndexNow for instant search engine indexing
+      // Regenerate per-route SEO snapshot + submit to IndexNow
       try {
         const { data: page } = await supabase
           .from('pages')
           .select('slug')
           .eq('id', id)
           .single();
-        
+
         if (page?.slug) {
+          try {
+            await supabase.functions.invoke('regenerate-snapshot', { body: { slug: page.slug } });
+            console.log('[usePublishPage] SEO snapshot regenerated');
+          } catch (error) {
+            console.error('[usePublishPage] Failed to regenerate snapshot:', error);
+          }
           await supabase.functions.invoke('submit-indexnow', {
             body: { slug: page.slug }
           });
