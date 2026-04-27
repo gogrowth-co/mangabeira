@@ -11,7 +11,22 @@ interface Page {
   translations: {
     language: string;
     slug: string | null;
+    title: string | null;
   }[];
+}
+
+function escapeXml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
+function cleanSlug(slug: string | null | undefined): string | null {
+  const trimmed = slug?.trim();
+  return trimmed ? trimmed : null;
 }
 
 Deno.serve(async (req) => {
@@ -32,10 +47,11 @@ Deno.serve(async (req) => {
       .select(`
         slug,
         updated_at,
-        translations:page_translations(language, slug)
+        translations:page_translations(language, slug, title)
       `)
       .eq('status', 'published')
-      .eq('is_system_page', false);
+      .eq('is_system_page', false)
+      .order('updated_at', { ascending: false });
 
     if (error) throw error;
 
@@ -79,6 +95,11 @@ Deno.serve(async (req) => {
       { path: 'tools/tokenomics-simulator', priority: '0.8', changefreq: 'monthly', title: 'Tokenomics Simulator' },
       { path: 'br/ferramentas/simulador-tokenomics', priority: '0.8', changefreq: 'monthly', title: 'Simulador Tokenomics (BR)' },
       { path: 'es/herramientas/simulador-tokenomics', priority: '0.8', changefreq: 'monthly', title: 'Simulador Tokenomics (ES)' },
+
+      // Web3 Growth Audit service
+      { path: 'services/web3-growth-audit', priority: '0.9', changefreq: 'monthly', title: 'Web3 Growth Audit' },
+      { path: 'br/servicos/web3-auditoria-de-growth', priority: '0.9', changefreq: 'monthly', title: 'Auditoria de Growth Web3 (BR)' },
+      { path: 'es/servicios/web3-auditoria-de-growth', priority: '0.9', changefreq: 'monthly', title: 'Auditoría de Growth Web3 (ES)' },
     ];
 
     let xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -95,10 +116,12 @@ Deno.serve(async (req) => {
         'privacy': { en: 'privacy-policy', br: 'br/politica-de-privacidade', es: 'es/politica-de-privacidad' },
         'tokenomics': { en: 'tools/tokenomics-simulator', br: 'br/ferramentas/simulador-tokenomics', es: 'es/herramientas/simulador-tokenomics' },
         'tools': { en: 'tools', br: 'br/ferramentas', es: 'es/herramientas' },
+        'audit': { en: 'services/web3-growth-audit', br: 'br/servicos/web3-auditoria-de-growth', es: 'es/servicios/web3-auditoria-de-growth' },
       };
       
       let pageType = 'home';
-      if (basePath.includes('tokenomics') || basePath.includes('simulador-tokenomics')) pageType = 'tokenomics';
+      if (basePath.includes('web3-growth-audit') || basePath.includes('web3-auditoria-de-growth')) pageType = 'audit';
+      else if (basePath.includes('tokenomics') || basePath.includes('simulador-tokenomics')) pageType = 'tokenomics';
       else if (basePath.includes('tools') || basePath.includes('ferramentas') || basePath.includes('herramientas')) pageType = 'tools';
       else if (basePath.includes('publication') || basePath.includes('artigos') || basePath.includes('articulos')) pageType = 'publications';
       else if (basePath.includes('about') || basePath.includes('sobre') || basePath.includes('acerca')) pageType = 'about';
@@ -129,6 +152,8 @@ ${hreflang}
 `;
     }
 
+    let dynamicUrlCount = 0;
+
     // Add dynamic pages from database
     for (const page of pages as Page[]) {
       const lastmod = new Date(page.updated_at).toISOString().split('T')[0];
@@ -136,21 +161,26 @@ ${hreflang}
       const brTranslation = page.translations.find(t => t.language === 'br');
       const esTranslation = page.translations.find(t => t.language === 'es');
 
-      const enSlug = enTranslation?.slug?.trim() || page.slug;
-      const brSlug = brTranslation?.slug?.trim();
-      const esSlug = esTranslation?.slug?.trim();
+      const enSlug = cleanSlug(enTranslation?.slug) || cleanSlug(page.slug);
+      const brSlug = cleanSlug(brTranslation?.slug);
+      const esSlug = cleanSlug(esTranslation?.slug);
+
+      if (!enTranslation || !enSlug) {
+        console.warn(`[generate-sitemap] Skipping page without English translation/slug: ${page.slug}`);
+        continue;
+      }
 
       // Build alternate links - CRITICAL: Include x-default and only existing translations
       const buildAlternateLinks = () => {
-        let links = `    <xhtml:link rel="alternate" hreflang="en" href="${baseUrl}/publications/${enSlug}"/>`;
+        let links = `    <xhtml:link rel="alternate" hreflang="en" href="${escapeXml(`${baseUrl}/publications/${enSlug}`)}"/>`;
         if (brSlug) {
-          links += `\n    <xhtml:link rel="alternate" hreflang="pt-BR" href="${baseUrl}/br/artigos/${brSlug}"/>`;
+          links += `\n    <xhtml:link rel="alternate" hreflang="pt-BR" href="${escapeXml(`${baseUrl}/br/artigos/${brSlug}`)}"/>`;
         }
         if (esSlug) {
-          links += `\n    <xhtml:link rel="alternate" hreflang="es" href="${baseUrl}/es/articulos/${esSlug}"/>`;
+          links += `\n    <xhtml:link rel="alternate" hreflang="es" href="${escapeXml(`${baseUrl}/es/articulos/${esSlug}`)}"/>`;
         }
         // x-default ALWAYS points to English version (primary language)
-        links += `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/publications/${enSlug}"/>`;
+        links += `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(`${baseUrl}/publications/${enSlug}`)}"/>`;
         return links;
       };
 
@@ -165,6 +195,7 @@ ${hreflang}
 ${alternateLinks}
   </url>
 `;
+      dynamicUrlCount++;
 
       // Portuguese version (if translation exists)
       if (brTranslation && brSlug) {
@@ -176,6 +207,7 @@ ${alternateLinks}
 ${alternateLinks}
   </url>
 `;
+        dynamicUrlCount++;
       }
 
       // Spanish version (if translation exists)
@@ -188,6 +220,7 @@ ${alternateLinks}
 ${alternateLinks}
   </url>
 `;
+        dynamicUrlCount++;
       }
     }
 
@@ -195,12 +228,13 @@ ${alternateLinks}
 
     const totalSystemPages = systemPages.length;
     const totalDynamicPages = pages?.length || 0;
-    const totalUrls = totalSystemPages + (totalDynamicPages * 3); // Each dynamic page can have up to 3 language versions
+    const totalUrls = totalSystemPages + dynamicUrlCount;
     
     console.log(`[generate-sitemap] Generated sitemap successfully:
     - System pages: ${totalSystemPages}
     - Dynamic pages: ${totalDynamicPages}
-    - Total URLs: ~${totalUrls}`);
+    - Dynamic URLs emitted: ${dynamicUrlCount}
+    - Total URLs: ${totalUrls}`);
 
     // Save to storage bucket for serving
     const { error: uploadError } = await supabase.storage
