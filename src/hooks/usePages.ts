@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Locale } from '@/lib/translations';
+import { toast } from '@/hooks/use-toast';
 
 export interface Page {
   id: string;
@@ -90,6 +91,43 @@ const localizedToEnglish: Record<string, string> = {
   // Spanish versions can be added here as needed
   // Add more mappings as you create localized content
 };
+
+function getFunctionErrorMessage(functionName: string, error: unknown) {
+  if (error instanceof Error) return `${functionName}: ${error.message}`;
+  if (typeof error === 'object' && error && 'message' in error) {
+    return `${functionName}: ${String((error as { message?: unknown }).message)}`;
+  }
+  return `${functionName}: Unknown error`;
+}
+
+async function invokeRequiredFunction(functionName: string, body?: Record<string, unknown>) {
+  const { data, error } = await supabase.functions.invoke(functionName, body ? { body } : undefined);
+  if (error) throw error;
+  if (data && typeof data === 'object' && 'error' in data) {
+    throw new Error(String((data as { error: unknown }).error));
+  }
+  return data;
+}
+
+async function refreshDiscoveryFiles(source: string) {
+  const results = await Promise.allSettled([
+    invokeRequiredFunction('generate-sitemap'),
+    invokeRequiredFunction('generate-rss'),
+    invokeRequiredFunction('generate-llms-txt'),
+  ]);
+  const failed = results
+    .map((result, index) => ({ result, name: ['generate-sitemap', 'generate-rss', 'generate-llms-txt'][index] }))
+    .filter(({ result }) => result.status === 'rejected') as Array<{ result: PromiseRejectedResult; name: string }>;
+
+  if (failed.length > 0) {
+    const description = failed.map(({ name, result }) => getFunctionErrorMessage(name, result.reason)).join(' | ');
+    console.error(`[${source}] Discovery file refresh failed:`, failed);
+    toast({ title: 'Discovery refresh failed', description, variant: 'destructive' });
+    throw new Error(description);
+  }
+
+  console.log(`[${source}] Sitemap, RSS, and llms.txt regenerated`);
+}
 
 // Result type for usePublicPage with canonical info
 export interface PublicPageResult {
