@@ -11,7 +11,22 @@ interface Page {
   translations: {
     language: string;
     slug: string | null;
+    title: string | null;
   }[];
+}
+
+function escapeXml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
+function cleanSlug(slug: string | null | undefined): string | null {
+  const trimmed = slug?.trim();
+  return trimmed ? trimmed : null;
 }
 
 Deno.serve(async (req) => {
@@ -32,10 +47,11 @@ Deno.serve(async (req) => {
       .select(`
         slug,
         updated_at,
-        translations:page_translations(language, slug)
+        translations:page_translations(language, slug, title)
       `)
       .eq('status', 'published')
-      .eq('is_system_page', false);
+      .eq('is_system_page', false)
+      .order('updated_at', { ascending: false });
 
     if (error) throw error;
 
