@@ -152,6 +152,8 @@ ${hreflang}
 `;
     }
 
+    let dynamicUrlCount = 0;
+
     // Add dynamic pages from database
     for (const page of pages as Page[]) {
       const lastmod = new Date(page.updated_at).toISOString().split('T')[0];
@@ -159,21 +161,26 @@ ${hreflang}
       const brTranslation = page.translations.find(t => t.language === 'br');
       const esTranslation = page.translations.find(t => t.language === 'es');
 
-      const enSlug = enTranslation?.slug?.trim() || page.slug;
-      const brSlug = brTranslation?.slug?.trim();
-      const esSlug = esTranslation?.slug?.trim();
+      const enSlug = cleanSlug(enTranslation?.slug) || cleanSlug(page.slug);
+      const brSlug = cleanSlug(brTranslation?.slug);
+      const esSlug = cleanSlug(esTranslation?.slug);
+
+      if (!enTranslation || !enSlug) {
+        console.warn(`[generate-sitemap] Skipping page without English translation/slug: ${page.slug}`);
+        continue;
+      }
 
       // Build alternate links - CRITICAL: Include x-default and only existing translations
       const buildAlternateLinks = () => {
-        let links = `    <xhtml:link rel="alternate" hreflang="en" href="${baseUrl}/publications/${enSlug}"/>`;
+        let links = `    <xhtml:link rel="alternate" hreflang="en" href="${escapeXml(`${baseUrl}/publications/${enSlug}`)}"/>`;
         if (brSlug) {
-          links += `\n    <xhtml:link rel="alternate" hreflang="pt-BR" href="${baseUrl}/br/artigos/${brSlug}"/>`;
+          links += `\n    <xhtml:link rel="alternate" hreflang="pt-BR" href="${escapeXml(`${baseUrl}/br/artigos/${brSlug}`)}"/>`;
         }
         if (esSlug) {
-          links += `\n    <xhtml:link rel="alternate" hreflang="es" href="${baseUrl}/es/articulos/${esSlug}"/>`;
+          links += `\n    <xhtml:link rel="alternate" hreflang="es" href="${escapeXml(`${baseUrl}/es/articulos/${esSlug}`)}"/>`;
         }
         // x-default ALWAYS points to English version (primary language)
-        links += `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/publications/${enSlug}"/>`;
+        links += `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(`${baseUrl}/publications/${enSlug}`)}"/>`;
         return links;
       };
 
@@ -188,6 +195,7 @@ ${hreflang}
 ${alternateLinks}
   </url>
 `;
+      dynamicUrlCount++;
 
       // Portuguese version (if translation exists)
       if (brTranslation && brSlug) {
@@ -199,6 +207,7 @@ ${alternateLinks}
 ${alternateLinks}
   </url>
 `;
+        dynamicUrlCount++;
       }
 
       // Spanish version (if translation exists)
@@ -211,6 +220,7 @@ ${alternateLinks}
 ${alternateLinks}
   </url>
 `;
+        dynamicUrlCount++;
       }
     }
 
@@ -218,12 +228,13 @@ ${alternateLinks}
 
     const totalSystemPages = systemPages.length;
     const totalDynamicPages = pages?.length || 0;
-    const totalUrls = totalSystemPages + (totalDynamicPages * 3); // Each dynamic page can have up to 3 language versions
+    const totalUrls = totalSystemPages + dynamicUrlCount;
     
     console.log(`[generate-sitemap] Generated sitemap successfully:
     - System pages: ${totalSystemPages}
     - Dynamic pages: ${totalDynamicPages}
-    - Total URLs: ~${totalUrls}`);
+    - Dynamic URLs emitted: ${dynamicUrlCount}
+    - Total URLs: ${totalUrls}`);
 
     // Save to storage bucket for serving
     const { error: uploadError } = await supabase.storage
