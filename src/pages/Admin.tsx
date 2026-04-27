@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { PageTable } from '@/components/admin/PageTable';
@@ -11,6 +11,7 @@ import { toast } from '@/hooks/use-toast';
 export default function Admin() {
   const navigate = useNavigate();
   const { user, isAdmin, loading, signOut } = useAuth();
+  const [isRefreshingFeeds, setIsRefreshingFeeds] = useState(false);
 
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) {
@@ -35,6 +36,41 @@ export default function Admin() {
     navigate('/auth');
   };
 
+  const invokeRequiredFunction = async (functionName: string) => {
+    const { data, error } = await supabase.functions.invoke(functionName);
+    if (error) throw new Error(`${functionName}: ${error.message}`);
+    if (data && typeof data === 'object' && 'error' in data) {
+      throw new Error(`${functionName}: ${String((data as { error: unknown }).error)}`);
+    }
+    return data as Record<string, unknown> | null;
+  };
+
+  const handleRefreshFeeds = async () => {
+    setIsRefreshingFeeds(true);
+    try {
+      const [sitemapResult, rssResult, llmsResult] = await Promise.all([
+        invokeRequiredFunction('generate-sitemap'),
+        invokeRequiredFunction('generate-rss'),
+        invokeRequiredFunction('generate-llms-txt'),
+      ]);
+      
+      const totalUrls = Number(sitemapResult?.totalUrls || 0);
+      const totalPages = Number(rssResult?.totalPages || 0);
+      const llmsCount = Number(llmsResult?.articleCount || 0);
+      
+      toast({ 
+        title: "Feeds refreshed", 
+        description: `Sitemap: ${totalUrls} URLs. RSS source pages: ${totalPages}. llms.txt articles: ${llmsCount}.` 
+      }); 
+    } catch (error) {
+      const description = error instanceof Error ? error.message : 'Unknown feed refresh error';
+      console.error('Feed refresh error:', error);
+      toast({ title: "Feed refresh failed", description, variant: "destructive" }); 
+    } finally {
+      setIsRefreshingFeeds(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background p-8">
       <Helmet>
@@ -53,39 +89,12 @@ export default function Admin() {
               New Page
             </Button>
             <Button 
-              onClick={async () => { 
-                try {
-                  const [sitemapResult, rssResult, llmsResult] = await Promise.all([
-                    supabase.functions.invoke('generate-sitemap'),
-                    supabase.functions.invoke('generate-rss'),
-                    supabase.functions.invoke('generate-llms-txt'),
-                  ]);
-                  
-                  if (sitemapResult.error) throw sitemapResult.error;
-                  if (rssResult.error) throw rssResult.error;
-                  if (llmsResult.error) throw llmsResult.error;
-                  
-                  const totalUrls = sitemapResult.data?.totalUrls || 0;
-                  const totalPages = rssResult.data?.totalPages || 0;
-                  const llmsCount = llmsResult.data?.articleCount || 0;
-                  
-                  toast({ 
-                    title: "Success", 
-                    description: `Sitemap (${totalUrls} URLs), RSS (${totalPages} publications) & llms.txt (${llmsCount} articles) regenerated!` 
-                  }); 
-                } catch (error) {
-                  console.error('Feed refresh error:', error);
-                  toast({ 
-                    title: "Error", 
-                    description: "Failed to refresh feeds",
-                    variant: "destructive"
-                  }); 
-                }
-              }} 
+              onClick={handleRefreshFeeds} 
               variant="outline"
+              disabled={isRefreshingFeeds}
             >
-              <RefreshCw className="mr-2 h-4 w-4" />
-              Refresh Feeds
+              <RefreshCw className={`mr-2 h-4 w-4 ${isRefreshingFeeds ? 'animate-spin' : ''}`} />
+              {isRefreshingFeeds ? 'Refreshing...' : 'Refresh Feeds'}
             </Button>
             <Button 
               onClick={async () => { 
