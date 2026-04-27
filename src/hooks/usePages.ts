@@ -389,17 +389,9 @@ export function useUpdatePage() {
       // Regenerate sitemap, RSS feeds, and submit to IndexNow if published
       if (variables.status === 'published') {
         try {
-          await supabase.functions.invoke('generate-sitemap');
-          console.log('[useUpdatePage] Sitemap regenerated');
+          await refreshDiscoveryFiles('useUpdatePage');
         } catch (error) {
-          console.error('[useUpdatePage] Failed to regenerate sitemap:', error);
-        }
-        
-        try {
-          await supabase.functions.invoke('generate-rss');
-          console.log('[useUpdatePage] RSS feeds regenerated');
-        } catch (error) {
-          console.error('[useUpdatePage] Failed to regenerate RSS feeds:', error);
+          console.error('[useUpdatePage] Failed to regenerate discovery files:', error);
         }
         
         // Regenerate per-route SEO snapshot + submit to IndexNow
@@ -475,17 +467,9 @@ export function useDeletePage() {
 
       // Regenerate sitemap and RSS feeds after deletion
       try {
-        await supabase.functions.invoke('generate-sitemap');
-        console.log('[useDeletePage] Sitemap regenerated');
+        await refreshDiscoveryFiles('useDeletePage');
       } catch (error) {
-        console.error('[useDeletePage] Failed to regenerate sitemap:', error);
-      }
-
-      try {
-        await supabase.functions.invoke('generate-rss');
-        console.log('[useDeletePage] RSS feeds regenerated');
-      } catch (error) {
-        console.error('[useDeletePage] Failed to regenerate RSS feeds:', error);
+        console.error('[useDeletePage] Failed to regenerate discovery files:', error);
       }
     },
   });
@@ -510,17 +494,9 @@ export function useUnpublishPage() {
       
       // Regenerate sitemap and RSS feeds after unpublishing
       try {
-        await supabase.functions.invoke('generate-sitemap');
-        console.log('[useUnpublishPage] Sitemap regenerated');
+        await refreshDiscoveryFiles('useUnpublishPage');
       } catch (error) {
-        console.error('[useUnpublishPage] Failed to regenerate sitemap:', error);
-      }
-      
-      try {
-        await supabase.functions.invoke('generate-rss');
-        console.log('[useUnpublishPage] RSS feeds regenerated');
-      } catch (error) {
-        console.error('[useUnpublishPage] Failed to regenerate RSS feeds:', error);
+        console.error('[useUnpublishPage] Failed to regenerate discovery files:', error);
       }
 
       // Regenerate snapshot — purges stale published snapshot since status is now 'draft'
@@ -556,17 +532,9 @@ export function usePublishPage() {
       
       // Regenerate sitemap and RSS feeds after publishing
       try {
-        await supabase.functions.invoke('generate-sitemap');
-        console.log('[usePublishPage] Sitemap regenerated');
+        await refreshDiscoveryFiles('usePublishPage');
       } catch (error) {
-        console.error('[usePublishPage] Failed to regenerate sitemap:', error);
-      }
-      
-      try {
-        await supabase.functions.invoke('generate-rss');
-        console.log('[usePublishPage] RSS feeds regenerated');
-      } catch (error) {
-        console.error('[usePublishPage] Failed to regenerate RSS feeds:', error);
+        console.error('[usePublishPage] Failed to regenerate discovery files:', error);
       }
       
       // Regenerate per-route SEO snapshot + submit to IndexNow
