@@ -95,6 +95,11 @@ Deno.serve(async (req) => {
       { path: 'tools/tokenomics-simulator', priority: '0.8', changefreq: 'monthly', title: 'Tokenomics Simulator' },
       { path: 'br/ferramentas/simulador-tokenomics', priority: '0.8', changefreq: 'monthly', title: 'Simulador Tokenomics (BR)' },
       { path: 'es/herramientas/simulador-tokenomics', priority: '0.8', changefreq: 'monthly', title: 'Simulador Tokenomics (ES)' },
+
+      // Web3 Growth Audit service
+      { path: 'services/web3-growth-audit', priority: '0.9', changefreq: 'monthly', title: 'Web3 Growth Audit' },
+      { path: 'br/servicos/web3-auditoria-de-growth', priority: '0.9', changefreq: 'monthly', title: 'Auditoria de Growth Web3 (BR)' },
+      { path: 'es/servicios/web3-auditoria-de-growth', priority: '0.9', changefreq: 'monthly', title: 'Auditoría de Growth Web3 (ES)' },
     ];
 
     let xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -111,10 +116,12 @@ Deno.serve(async (req) => {
         'privacy': { en: 'privacy-policy', br: 'br/politica-de-privacidade', es: 'es/politica-de-privacidad' },
         'tokenomics': { en: 'tools/tokenomics-simulator', br: 'br/ferramentas/simulador-tokenomics', es: 'es/herramientas/simulador-tokenomics' },
         'tools': { en: 'tools', br: 'br/ferramentas', es: 'es/herramientas' },
+        'audit': { en: 'services/web3-growth-audit', br: 'br/servicos/web3-auditoria-de-growth', es: 'es/servicios/web3-auditoria-de-growth' },
       };
       
       let pageType = 'home';
-      if (basePath.includes('tokenomics') || basePath.includes('simulador-tokenomics')) pageType = 'tokenomics';
+      if (basePath.includes('web3-growth-audit') || basePath.includes('web3-auditoria-de-growth')) pageType = 'audit';
+      else if (basePath.includes('tokenomics') || basePath.includes('simulador-tokenomics')) pageType = 'tokenomics';
       else if (basePath.includes('tools') || basePath.includes('ferramentas') || basePath.includes('herramientas')) pageType = 'tools';
       else if (basePath.includes('publication') || basePath.includes('artigos') || basePath.includes('articulos')) pageType = 'publications';
       else if (basePath.includes('about') || basePath.includes('sobre') || basePath.includes('acerca')) pageType = 'about';
