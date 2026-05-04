@@ -395,7 +395,7 @@ export default function DynamicPage() {
               ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel', 'title', 'width', 'height', 'loading']
             }) }} />}
             category={page.category}
-            publishedDate={page.created_at}
+            publishedDate={page.updated_at || page.created_at}
             metaDescription={translation.meta_description || ''}
             featuredImage={
               heroImageMap[rawSlug] ||
