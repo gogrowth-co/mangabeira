@@ -108,15 +108,6 @@ Deno.serve(async (req) => {
       }
 
       console.log(`Generated ${urlsToSubmit.length} URLs for slug: ${slug}`);
-    } 
-    // If URLs provided directly, use those
-    else if (urls && urls.length > 0) {
-      urlsToSubmit = urls;
-      console.log(`Using ${urlsToSubmit.length} provided URLs`);
-    } 
-    else {
-      throw new Error('Either slug or urls parameter is required');
-    }
 
     // Submit to IndexNow API
     const submission: IndexNowSubmission = {
