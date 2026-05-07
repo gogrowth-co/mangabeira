@@ -79,9 +79,8 @@
         and any client that does not execute JS. React removes this on mount
         (see src/main.tsx) before hydration so users never see duplicate copy.
       -->
-      <div data-prerender="true" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;">
-        <!-- Visually hidden via off-screen positioning (NOT display:none).
-             Crawlers, AI fetchers, audit tools, and screen readers all parse this.
+      <div data-prerender="true" style="min-height:100vh;">
+        <!-- Prerendered content visible to crawlers as primary page content.
              React removes the entire block on mount before hydration. -->
         <div>
         <header>

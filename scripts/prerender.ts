@@ -661,7 +661,7 @@ function rewriteHtml(baselineHtml: string, spec: RouteSpec): string {
   html = html.replace(/<\/head>/i, `    ${block}\n  </head>`);
 
   // Replace the off-screen <div data-prerender="true">…</div> block with route-specific body content
-  const newPrerender = `<div data-prerender="true" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;">
+  const newPrerender = `<div data-prerender="true" style="min-height:100vh;">
         <div>
 ${buildBodyContent(spec)}
         </div>
