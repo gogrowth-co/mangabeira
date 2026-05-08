@@ -56,7 +56,7 @@ function sanitizePublicationHtml(html: string, max = 6000): string {
 }
 
 interface SnapshotSpec {
-  outPath: string; // e.g. "publications/my-slug"
+  outPath: string;
   locale: Locale;
   canonical: string;
   alternates: { en?: string; "pt-BR"?: string; es?: string };
@@ -65,6 +65,21 @@ interface SnapshotSpec {
   ogImage: string;
   content: string;
   featuredImage?: string;
+  datePublished?: string;
+  dateModified?: string;
+  readTime?: number;
+}
+
+const AUTHOR_STRINGS: Record<Locale, { byline: string; readSuffix: string; localeFmt: string }> = {
+  en: { byline: 'By <a href="/about" style="color:#0A2540;font-weight:600;text-decoration:none;">Gabriel Mangabeira</a> — Web3 growth consultant, ex-Olympic athlete', readSuffix: "min read", localeFmt: "en-US" },
+  br: { byline: 'Por <a href="/about" style="color:#0A2540;font-weight:600;text-decoration:none;">Gabriel Mangabeira</a> — Consultor de growth Web3, ex-atleta olímpico', readSuffix: "min de leitura", localeFmt: "pt-BR" },
+  es: { byline: 'Por <a href="/about" style="color:#0A2540;font-weight:600;text-decoration:none;">Gabriel Mangabeira</a> — Consultor de growth Web3, ex-atleta olímpico', readSuffix: "min de lectura", localeFmt: "es-ES" },
+};
+
+function fmtDate(iso: string | undefined, localeFmt: string): string {
+  if (!iso) return "";
+  try { return new Date(iso).toLocaleDateString(localeFmt, { year: "numeric", month: "short", day: "numeric" }); }
+  catch { return iso; }
 }
 
 function buildHead(spec: SnapshotSpec): string {
