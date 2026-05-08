@@ -28,6 +28,11 @@ function pathToObjectKey(p: string): string {
   return p.replace(/^\//, "") + "/index.html";
 }
 
+// Permanent redirects (old path -> new path) for crawlers
+const REDIRECTS: Record<string, string> = {
+  "/es/articulos/estudo-de-caso-defi-avici": "/es/articulos/estudio-de-caso-defi-avici",
+};
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
