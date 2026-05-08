@@ -229,6 +229,73 @@ async function requireAdmin(req: Request): Promise<Response | null> {
   return null;
 }
 
+const PAGE_SELECT = "slug, status, is_system_page, featured_image, created_at, updated_at, reading_time, page_translations(language, title, meta_description, slug, content)";
+
+async function regeneratePage(supabase: any, page: any): Promise<{ uploaded: string[]; errors: { locale: Locale; message: string }[]; removed?: string[]; skipped?: string }> {
+  if (page.is_system_page) return { uploaded: [], errors: [], skipped: "system_page" };
+
+  const trList = page.page_translations || [];
+  const trMap = new Map<string, any>();
+  for (const tr of trList) trMap.set(tr.language, tr);
+
+  if (page.status !== "published") {
+    const removals: string[] = [];
+    for (const locale of ["en", "br", "es"] as Locale[]) {
+      const langKey = locale === "en" ? "en" : locale === "br" ? "pt-BR" : "es-ES";
+      const tr = trMap.get(langKey) || trMap.get(locale);
+      if (!tr) continue;
+      const localizedSlug = tr.slug || page.slug;
+      removals.push(`${LOCALE_TO_HUB[locale]}/${localizedSlug}/index.html`);
+    }
+    if (removals.length > 0) await supabase.storage.from("seo-snapshots").remove(removals);
+    return { uploaded: [], errors: [], removed: removals };
+  }
+
+  const enTr = trMap.get("en");
+  const brTr = trMap.get("pt-BR") || trMap.get("br");
+  const esTr = trMap.get("es-ES") || trMap.get("es");
+  const alternates: SnapshotSpec["alternates"] = {};
+  if (enTr) alternates.en = `${BASE_URL}/publications/${enTr.slug || page.slug}`;
+  if (brTr) alternates["pt-BR"] = `${BASE_URL}/br/artigos/${brTr.slug || page.slug}`;
+  if (esTr) alternates.es = `${BASE_URL}/es/articulos/${esTr.slug || page.slug}`;
+
+  const uploaded: string[] = [];
+  const errors: { locale: Locale; message: string }[] = [];
+
+  for (const locale of ["en", "br", "es"] as Locale[]) {
+    const langKey = locale === "en" ? "en" : locale === "br" ? "pt-BR" : "es-ES";
+    const tr = trMap.get(langKey) || trMap.get(locale);
+    if (!tr) continue;
+    const localizedSlug = tr.slug || page.slug;
+    const outPath = `${LOCALE_TO_HUB[locale]}/${localizedSlug}`;
+    const spec: SnapshotSpec = {
+      outPath,
+      locale,
+      canonical: `${BASE_URL}/${outPath}`,
+      alternates,
+      title: tr.title || "Publication",
+      description: tr.meta_description || "",
+      ogImage: page.featured_image || OG_IMAGE,
+      content: tr.content || "",
+      featuredImage: page.featured_image || undefined,
+      datePublished: page.created_at,
+      dateModified: page.updated_at,
+      readTime: typeof page.reading_time === "number" && page.reading_time > 0 ? page.reading_time : undefined,
+    };
+    const html = buildFullHtml(spec);
+    const key = `${outPath}/index.html`;
+    const { error: upErr } = await supabase.storage
+      .from("seo-snapshots")
+      .upload(key, new Blob([html], { type: "text/html; charset=utf-8" }), {
+        contentType: "text/html; charset=utf-8",
+        upsert: true,
+      });
+    if (upErr) errors.push({ locale, message: upErr.message });
+    else uploaded.push(key);
+  }
+  return { uploaded, errors };
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -244,7 +311,36 @@ Deno.serve(async (req) => {
   if (authErr) return authErr;
 
   try {
-    const { slug } = await req.json().catch(() => ({}));
+    const body = await req.json().catch(() => ({}));
+    const { slug, all } = body || {};
+
+    const supabase = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+    );
+
+    if (all === true) {
+      const { data: pages, error } = await supabase
+        .from("pages")
+        .select(PAGE_SELECT)
+        .eq("status", "published")
+        .eq("is_system_page", false);
+      if (error) {
+        return new Response(JSON.stringify({ error: "db_error", message: error.message }), {
+          status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      const results: any[] = [];
+      for (const p of pages || []) {
+        const r = await regeneratePage(supabase, p);
+        results.push({ slug: p.slug, uploaded: r.uploaded.length, errors: r.errors });
+      }
+      const totalUploaded = results.reduce((s, r) => s + r.uploaded, 0);
+      return new Response(JSON.stringify({ success: true, pages: results.length, totalUploaded, results }), {
+        status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     if (!slug || typeof slug !== "string") {
       return new Response(JSON.stringify({ error: "missing_slug" }), {
         status: 400,
@@ -252,127 +348,32 @@ Deno.serve(async (req) => {
       });
     }
 
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
-    );
-
     const { data: page, error: fetchErr } = await supabase
       .from("pages")
-      .select(
-        "slug, status, is_system_page, featured_image, page_translations(language, title, meta_description, slug, content)"
-      )
+      .select(PAGE_SELECT)
       .eq("slug", slug)
       .maybeSingle();
 
     if (fetchErr) {
-      return new Response(
-        JSON.stringify({ error: "db_error", message: fetchErr.message }),
-        {
-          status: 500,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        }
-      );
+      return new Response(JSON.stringify({ error: "db_error", message: fetchErr.message }), {
+        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
     if (!page) {
       return new Response(JSON.stringify({ error: "page_not_found", slug }), {
-        status: 404,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
     if (page.is_system_page) {
-      return new Response(
-        JSON.stringify({
-          skipped: true,
-          reason: "system_page_built_at_deploy_time",
-          slug,
-        }),
-        {
-          status: 200,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        }
-      );
-    }
-    if (page.status !== "published") {
-      // Remove any stale snapshots for unpublished page
-      const removals: string[] = [];
-      const trList = (page as any).page_translations || [];
-      const trMap = new Map<string, any>();
-      for (const tr of trList) trMap.set(tr.language, tr);
-      for (const locale of ["en", "br", "es"] as Locale[]) {
-        const tr =
-          trMap.get(locale) ||
-          trMap.get(locale === "br" ? "pt-BR" : locale === "es" ? "es-ES" : "en");
-        if (!tr) continue;
-        const localizedSlug = tr.slug || page.slug;
-        removals.push(`${LOCALE_TO_HUB[locale]}/${localizedSlug}/index.html`);
-      }
-      if (removals.length > 0) {
-        await supabase.storage.from("seo-snapshots").remove(removals);
-      }
-      return new Response(
-        JSON.stringify({ removed: removals, status: page.status }),
-        {
-          status: 200,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        }
-      );
+      return new Response(JSON.stringify({ skipped: true, reason: "system_page_built_at_deploy_time", slug }), {
+        status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
-    // Build alternates map
-    const trList = (page as any).page_translations || [];
-    const trMap = new Map<string, any>();
-    for (const tr of trList) trMap.set(tr.language, tr);
-    const enTr = trMap.get("en");
-    const brTr = trMap.get("pt-BR") || trMap.get("br");
-    const esTr = trMap.get("es-ES") || trMap.get("es");
-    const alternates: SnapshotSpec["alternates"] = {};
-    if (enTr) alternates.en = `${BASE_URL}/publications/${enTr.slug || page.slug}`;
-    if (brTr)
-      alternates["pt-BR"] = `${BASE_URL}/br/artigos/${brTr.slug || page.slug}`;
-    if (esTr)
-      alternates.es = `${BASE_URL}/es/articulos/${esTr.slug || page.slug}`;
-
-    const uploaded: string[] = [];
-    const errors: { locale: Locale; message: string }[] = [];
-
-    for (const locale of ["en", "br", "es"] as Locale[]) {
-      const langKey =
-        locale === "en" ? "en" : locale === "br" ? "pt-BR" : "es-ES";
-      const tr = trMap.get(langKey) || trMap.get(locale);
-      if (!tr) continue;
-      const localizedSlug = tr.slug || page.slug;
-      const outPath = `${LOCALE_TO_HUB[locale]}/${localizedSlug}`;
-      const spec: SnapshotSpec = {
-        outPath,
-        locale,
-        canonical: `${BASE_URL}/${outPath}`,
-        alternates,
-        title: tr.title || "Publication",
-        description: tr.meta_description || "",
-        ogImage: (page as any).featured_image || OG_IMAGE,
-        content: tr.content || "",
-        featuredImage: (page as any).featured_image || undefined,
-      };
-      const html = buildFullHtml(spec);
-      const key = `${outPath}/index.html`;
-      const { error: upErr } = await supabase.storage
-        .from("seo-snapshots")
-        .upload(key, new Blob([html], { type: "text/html; charset=utf-8" }), {
-          contentType: "text/html; charset=utf-8",
-          upsert: true,
-        });
-      if (upErr) errors.push({ locale, message: upErr.message });
-      else uploaded.push(key);
-    }
-
-    return new Response(
-      JSON.stringify({ success: errors.length === 0, slug, uploaded, errors }),
-      {
-        status: 200,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      }
-    );
+    const r = await regeneratePage(supabase, page);
+    return new Response(JSON.stringify({ success: r.errors.length === 0, slug, ...r }), {
+      status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   } catch (e) {
     return new Response(
       JSON.stringify({ error: "server_error", message: String(e) }),
