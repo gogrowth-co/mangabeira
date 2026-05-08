@@ -110,6 +110,7 @@ const App = () => {
               <Route path="/br/token-health-scan" element={<Navigate to="/br/artigos/vibe-coded-token-health-scan" replace />} />
               <Route path="/es/web3-seo-guide" element={<Navigate to="/es/articulos/definitive-guide-web3-seo" replace />} />
               <Route path="/es/token-health-scan" element={<Navigate to="/es/articulos/vibe-coded-token-health-scan" replace />} />
+              <Route path="/es/articulos/estudo-de-caso-defi-avici" element={<Navigate to="/es/articulos/estudio-de-caso-defi-avici" replace />} />
               
               {/* Auth route */}
               <Route path="/auth" element={<Auth />} />
