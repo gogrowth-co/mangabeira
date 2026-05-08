@@ -21,19 +21,28 @@ const translations = {
     authorTitle: "Olympian & Growth Strategist",
     defaultReadTime: "8 min read",
     updatedPrefix: "Updated",
-    avatarAlt: "Gabriel Mangabeira headshot"
+    avatarAlt: "Gabriel Mangabeira headshot",
+    bylinePrefix: "By",
+    bylineSuffix: "— Web3 growth consultant, ex-Olympic athlete",
+    readSuffix: "min read",
   },
   br: {
     authorTitle: "Atleta Olímpico e Estrategista de Growth",
     defaultReadTime: "8 min de leitura",
     updatedPrefix: "Atualizado",
-    avatarAlt: "Foto de Gabriel Mangabeira"
+    avatarAlt: "Foto de Gabriel Mangabeira",
+    bylinePrefix: "Por",
+    bylineSuffix: "— Consultor de growth Web3, ex-atleta olímpico",
+    readSuffix: "min de leitura",
   },
   es: {
     authorTitle: "Atleta Olímpico y Estratega de Crecimiento",
     defaultReadTime: "8 min de lectura",
     updatedPrefix: "Actualizado",
-    avatarAlt: "Foto de Gabriel Mangabeira"
+    avatarAlt: "Foto de Gabriel Mangabeira",
+    bylinePrefix: "Por",
+    bylineSuffix: "— Consultor de growth Web3, ex-atleta olímpico",
+    readSuffix: "min de lectura",
   }
 };
 

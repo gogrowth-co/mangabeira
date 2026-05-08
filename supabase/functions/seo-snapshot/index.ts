@@ -28,6 +28,11 @@ function pathToObjectKey(p: string): string {
   return p.replace(/^\//, "") + "/index.html";
 }
 
+// Permanent redirects (old path -> new path) for crawlers
+const REDIRECTS: Record<string, string> = {
+  "/es/articulos/estudo-de-caso-defi-avici": "/es/articulos/estudio-de-caso-defi-avici",
+};
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -36,6 +41,19 @@ Deno.serve(async (req) => {
   try {
     const url = new URL(req.url);
     const requested = normalizePath(url.searchParams.get("path") || "/");
+
+    if (REDIRECTS[requested]) {
+      const target = REDIRECTS[requested];
+      return new Response(null, {
+        status: 301,
+        headers: {
+          ...corsHeaders,
+          Location: `https://mangabeira.net${target}`,
+          "Cache-Control": "public, max-age=300, s-maxage=86400",
+        },
+      });
+    }
+
     const objectKey = pathToObjectKey(requested);
 
     const supabase = createClient(
