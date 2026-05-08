@@ -101,7 +101,7 @@ function buildHead(spec: SnapshotSpec): string {
     .filter(Boolean)
     .join("\n    ");
 
-  const schema = {
+  const schema: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Article",
     url: spec.canonical,
@@ -111,8 +111,17 @@ function buildHead(spec: SnapshotSpec): string {
     inLanguage: lang,
     image: spec.ogImage,
     isPartOf: { "@type": "WebSite", url: BASE_URL, name: "Mangabeira.net" },
-    author: { "@type": "Person", name: "Gabriel Mangabeira", url: BASE_URL },
+    author: {
+      "@type": "Person",
+      name: "Gabriel Mangabeira",
+      url: `${BASE_URL}/about`,
+      jobTitle: "Web3 Growth Consultant",
+    },
+    publisher: { "@type": "Person", name: "Gabriel Mangabeira", url: BASE_URL },
+    mainEntityOfPage: { "@type": "WebPage", "@id": spec.canonical },
   };
+  if (spec.datePublished) schema.datePublished = spec.datePublished;
+  if (spec.dateModified) schema.dateModified = spec.dateModified;
 
   return `<title>${escapeHtml(spec.title)}</title>
     <meta name="title" content="${escapeHtml(spec.title)}" />
