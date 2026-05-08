@@ -150,6 +150,16 @@ function buildHead(spec: SnapshotSpec): string {
 function buildBody(spec: SnapshotSpec): string {
   const cleaned = sanitizePublicationHtml(spec.content);
   const img = spec.featuredImage;
+  const t = AUTHOR_STRINGS[spec.locale];
+  const dateStr = fmtDate(spec.datePublished || spec.dateModified, t.localeFmt);
+  const dateIso = spec.datePublished || spec.dateModified || "";
+  const readBlock = spec.readTime ? `<span aria-hidden="true">·</span><span>${spec.readTime} ${t.readSuffix}</span>` : "";
+  const authorMeta = `
+    <div class="author-meta" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:14px;color:#555;margin:0 0 32px;border-top:1px solid #eee;border-bottom:1px solid #eee;padding:12px 0;">
+      <span>${t.byline}</span>
+      ${dateIso ? `<span aria-hidden="true">·</span><time datetime="${escapeHtml(dateIso)}">${escapeHtml(dateStr)}</time>` : ""}
+      ${readBlock}
+    </div>`;
   const article = `
     <article>
       ${img ? `<p><img src="${img}" alt="${escapeHtml(spec.title)}" style="max-width:100%;height:auto;" /></p>` : ""}
@@ -160,6 +170,7 @@ function buildBody(spec: SnapshotSpec): string {
   return `<header>
       <p style="margin:0 0 8px;font-size:14px;color:#1FB6FF;font-weight:600;letter-spacing:.04em;text-transform:uppercase;">Gabriel Mangabeira — Mangabeira.net</p>
       <h1 style="font-family:Poppins,sans-serif;font-size:40px;line-height:1.15;margin:0 0 16px;color:#0A2540;">${escapeHtml(spec.title)}</h1>
+      ${authorMeta}
       <p style="font-size:18px;margin:0 0 24px;">${escapeHtml(spec.description)}</p>
     </header>
 ${article}
