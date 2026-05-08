@@ -41,6 +41,19 @@ Deno.serve(async (req) => {
   try {
     const url = new URL(req.url);
     const requested = normalizePath(url.searchParams.get("path") || "/");
+
+    if (REDIRECTS[requested]) {
+      const target = REDIRECTS[requested];
+      return new Response(null, {
+        status: 301,
+        headers: {
+          ...corsHeaders,
+          Location: `https://mangabeira.net${target}`,
+          "Cache-Control": "public, max-age=300, s-maxage=86400",
+        },
+      });
+    }
+
     const objectKey = pathToObjectKey(requested);
 
     const supabase = createClient(
