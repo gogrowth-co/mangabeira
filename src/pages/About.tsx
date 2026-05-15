@@ -10,8 +10,8 @@ import gabrielSwimming from "@/assets/gabriel-swimming-action.png";
 import gabrielProfessional from "@/assets/gabriel-professional-about.png";
 const OG_IMAGE = "https://storage.googleapis.com/gpt-engineer-file-uploads/vPREpio8p8h1iruSSNkQMQeWPo62/social-images/social-1759804725149-og-mangabeira.png";
 
-const pageTitle = "About Gabriel Mangabeira | Olympian & Growth Marketing Strategist";
-const pageDescription = "From Olympic discipline to Web3 growth strategy — discover how Gabriel Mangabeira blends AI, data, and storytelling to help brands grow with precision and focus.";
+const pageTitle = "About Gabriel Mangabeira | Olympian & Growth Strategist";
+const pageDescription = "From Olympic discipline to Web3 growth — Gabriel Mangabeira blends AI, data, and storytelling to help brands grow with precision and focus.";
 const canonicalUrl = "https://mangabeira.net/about";
 
 

@@ -1,3 +1,11 @@
+export const auditFaqs = [
+  { q: "Do you need private data?", a: "Mostly no. Reddit, Discord, on-chain, SEO & social are public. Dashboards optional." },
+  { q: "How fast is delivery?", a: "Within 72 hours." },
+  { q: "Who runs the audit?", a: "Me — a former Olympian and Web3 growth operator with 10+ years experience." },
+  { q: "What happens after I buy?", a: "You immediately get an intake form + your delivery date." },
+  { q: "Do you accept crypto?", a: "Yes — USDC/USDT across major L1s." },
+];
+
 const FAQSection = () => {
   const faqs = [
     {
