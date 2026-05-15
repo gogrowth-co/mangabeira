@@ -12,7 +12,7 @@ import WhyTrustSection from "@/components/audit/WhyTrustSection";
 import PricingSection from "@/components/audit/PricingSection";
 import GuaranteeSection from "@/components/audit/GuaranteeSection";
 import FounderReactions from "@/components/audit/FounderReactions";
-import FAQSection from "@/components/audit/FAQSection";
+import FAQSection, { auditFaqs } from "@/components/audit/FAQSection";
 import FinalCTA from "@/components/audit/FinalCTA";
 import { useState, useEffect } from "react";
 
@@ -31,8 +31,8 @@ const Web3GrowthAudit = () => {
   return (
     <>
       <SEOHead
-        title="Web3 Growth Audit | Find Your Growth Leaks in 72 Hours | Mangabeira.net"
-        description="AI + Human Web3 Growth Audit — Find your top growth leaks in 72 hours. On-chain, Reddit, Discord, and funnel insights delivered via Notion + Loom. Data-backed. Actionable."
+        title="Web3 Growth Audit — Find Growth Leaks in 72 Hours"
+        description="AI + Human Web3 Growth Audit — find your top growth leaks in 72 hours. On-chain, Reddit, Discord & funnel insights delivered via Notion + Loom."
         canonical="https://mangabeira.net/services/web3-growth-audit"
       />
       <Helmet>
@@ -40,6 +40,37 @@ const Web3GrowthAudit = () => {
         <link rel="alternate" hrefLang="pt-BR" href="https://mangabeira.net/br/servicos/web3-auditoria-de-growth" />
         <link rel="alternate" hrefLang="es" href="https://mangabeira.net/es/servicios/web3-auditoria-de-growth" />
         <link rel="alternate" hrefLang="x-default" href="https://mangabeira.net/services/web3-growth-audit" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "FAQPage",
+              mainEntity: auditFaqs.map(({ q, a }) => ({
+                "@type": "Question",
+                name: q,
+                acceptedAnswer: { "@type": "Answer", text: a },
+              })),
+            },
+            {
+              "@type": "Service",
+              name: "Web3 Growth Audit",
+              serviceType: "Growth Marketing Audit",
+              url: "https://mangabeira.net/services/web3-growth-audit",
+              description: "AI + human Web3 growth audit delivered in 72 hours, covering on-chain, social, community, and funnel insights.",
+              provider: {
+                "@type": "Person",
+                name: "Gabriel Mangabeira",
+                url: "https://mangabeira.net/about",
+              },
+              areaServed: "Worldwide",
+              offers: [
+                { "@type": "Offer", name: "Starter", price: "1500", priceCurrency: "USD", url: "https://mangabeira.net/services/web3-growth-audit#pricing" },
+                { "@type": "Offer", name: "Pro", price: "3500", priceCurrency: "USD", url: "https://mangabeira.net/services/web3-growth-audit#pricing" },
+                { "@type": "Offer", name: "Elite", price: "7500", priceCurrency: "USD", url: "https://mangabeira.net/services/web3-growth-audit#pricing" },
+              ],
+            },
+          ],
+        })}</script>
       </Helmet>
 
       <Header locale="en" />
