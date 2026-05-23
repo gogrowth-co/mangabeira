@@ -1,0 +1,42 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# ============================================================
+# mangabeira — Main website / personal brand
+# ============================================================
+
+language: "en-US"
+
+reviews:
+  profile: "assertive"
+  request_changes_workflow: true
+  high_level_summary: true
+  poem: false
+
+  auto_review:
+    enabled: true
+    auto_incremental_review: true
+    drafts: false
+
+  path_instructions:
+    - path: "**/*.js"
+      instructions: |
+        Website JS. Check for:
+        - XSS via innerHTML or eval with external data
+        - Hardcoded API keys or tokens
+        - Exposed sensitive endpoints
+        - Missing HTTPS enforcement on fetch/axios calls
+
+    - path: "**/*.html"
+      instructions: |
+        Check for XSS, missing CSP meta tags, inline scripts with external data.
+
+    - path: "**/.env*"
+      instructions: CRITICAL: .env files must never be committed.
+
+  tools:
+    semgrep:
+      enabled: true
+    gitleaks:
+      enabled: true
+
+chat:
+  auto_reply: true
