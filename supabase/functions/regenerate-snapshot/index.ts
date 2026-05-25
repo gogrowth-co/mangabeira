@@ -209,6 +209,15 @@ async function requireAdmin(req: Request): Promise<Response | null> {
       status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   }
+  const token = authHeader.slice(7);
+
+  // Accept service role key for internal calls from mcp-content and other edge functions.
+  // supabase.functions.invoke() passes the service role key as Bearer but it is not a
+  // user JWT — anonClient.auth.getUser() would always fail with it. Checking here before
+  // the user-JWT path keeps internal calls fast and avoids the false-positive 401.
+  const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+  if (serviceRoleKey && token === serviceRoleKey) return null;
+
   const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
   const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
   const anonClient = createClient(supabaseUrl, supabaseAnonKey, {
