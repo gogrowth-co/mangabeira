@@ -1,57 +1,58 @@
-# Auto-deploys edge functions on push to main when supabase/functions/** changes.
-# Requires repo secret: SUPABASE_ACCESS_TOKEN
-name: Deploy Supabase Edge Functions
+name: Edge functions changed — notify (Lovable Cloud manual deploy required)
+
+# This Supabase project (hetemmltaoirimmoxzku) is managed by Lovable Cloud.
+# Personal access tokens (sbp_*) from https://supabase.com/dashboard/account/tokens
+# return HTTP 403 on `supabase functions deploy` against this project — verified
+# 2026-05-25 with token belonging to gogrowth2024@gmail.com / gogrowth-co's Org.
+# Lovable Cloud's own deploy mechanism is the only path that works here.
+#
+# This workflow does NOT attempt to deploy. It only notifies that edge function
+# code changed and a Lovable-side deploy is needed.
 
 on:
   push:
-    branches:
-      - main
-      - master
+    branches: [main, master]
     paths:
       - "supabase/functions/**"
   workflow_dispatch:
-    inputs:
-      function:
-        description: "Function name to deploy (leave blank to deploy all)"
-        required: false
-        default: ""
-
-concurrency:
-  group: deploy-functions-${{ github.ref }}
-  cancel-in-progress: false
 
 jobs:
-  deploy:
-    name: Deploy to Supabase
+  notify:
+    name: Notify edge function change
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Supabase CLI
-        uses: supabase/setup-cli@v1
         with:
-          version: latest
+          fetch-depth: 2
 
-      - name: Deploy changed functions
-        env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      - name: List changed edge functions and emit deploy notice
         run: |
-          PROJECT_REF="hetemmltaoirimmoxzku"
-
-          if [ -n "${{ github.event.inputs.function }}" ]; then
-            echo "Deploying single function: ${{ github.event.inputs.function }}"
-            supabase functions deploy ${{ github.event.inputs.function }} \
-              --project-ref "$PROJECT_REF" \
-              --no-verify-jwt
+          echo "::group::Changed files under supabase/functions/"
+          CHANGED=$(git diff --name-only HEAD^ HEAD -- 'supabase/functions/**' 2>/dev/null || echo "")
+          if [ -z "$CHANGED" ]; then
+            echo "No changes detected (manual dispatch or first commit)."
           else
-            echo "Deploying all functions in supabase/functions/"
-            for fn_dir in supabase/functions/*/; do
-              fn_name=$(basename "$fn_dir")
-              echo "→ Deploying $fn_name"
-              supabase functions deploy "$fn_name" \
-                --project-ref "$PROJECT_REF" \
-                --no-verify-jwt || echo "WARNING: $fn_name deploy failed"
-            done
+            echo "$CHANGED"
           fi
+          echo "::endgroup::"
+
+          FUNCTIONS=$(echo "$CHANGED" | awk -F'/' '/^supabase\/functions\//{print $3}' | sort -u | grep -v '^$' || true)
+
+          {
+            echo "## Edge functions changed"
+            echo ""
+            if [ -n "$FUNCTIONS" ]; then
+              for fn in $FUNCTIONS; do echo "- \`$fn\`"; done
+            else
+              echo "_(no specific function detected from diff)_"
+            fi
+            echo ""
+            echo "## Deploy required"
+            echo ""
+            echo "This project is Lovable Cloud-managed. Personal Supabase access tokens cannot deploy here."
+            echo ""
+            echo "Open https://lovable.dev/projects/0a284096-9804-4f63-a8a0-00f3274dbacd → Cloud → Edge functions and trigger a deploy, or ask Lovable AI to pull the latest commit and deploy the changed function(s)."
+            echo ""
+            echo "See \`DEPLOY.md\` in the repo root for the full constraint."
+          } >> $GITHUB_STEP_SUMMARY
