@@ -1,3 +1,5 @@
+# Auto-deploys edge functions on push to main when supabase/functions/** changes.
+# Requires repo secret: SUPABASE_ACCESS_TOKEN
 name: Deploy Supabase Edge Functions
 
 on:
