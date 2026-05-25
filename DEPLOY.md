@@ -17,21 +17,26 @@ GitHub Actions calling `supabase/setup-cli@v1` with a `SUPABASE_ACCESS_TOKEN` se
 
 ## What actually works
 
-### Option A — Manual via Lovable dashboard (always works)
+### Option A — One-word chat command in Lovable (canonical path, wired 2026-05-25)
 
-1. Open https://lovable.dev/projects/0a284096-9804-4f63-a8a0-00f3274dbacd
-2. Cloud → Edge functions
-3. Ask Lovable AI in the chat box: *"Pull the latest commit on main from the connected GitHub repo and redeploy the changed edge functions in supabase/functions/."* Confirm with smoke test after.
+Open https://lovable.dev/projects/0a284096-9804-4f63-a8a0-00f3274dbacd and type **`deploy`** (or `/redeploy-functions`, or `redeploy edge functions`) as a standalone message in the chat.
 
-### Option B — Programmatic via `lovable-mcp` (one-time setup)
+Lovable AI has been instructed (via project memory) to:
+1. Diff `supabase/functions/**` between the currently-deployed state and `main`
+2. Call its internal `supabase--deploy_edge_functions` tool with the list of changed function names
+3. Smoke-test each one and report pass/fail
 
-Install CSVIVERDEIA's `lovable-mcp` (`npm i -g lovable-mcp`) and auth with a **Lovable.dev refresh token** (NOT a Supabase token). Get the refresh token via this Chrome DevTools console snippet at lovable.dev:
+That's the entire flow. Single turn, no other input.
 
-```js
-(async()=>{const db=await new Promise(r=>{const req=indexedDB.open('firebaseLocalStorageDb');req.onsuccess=e=>r(e.target.result)});const tx=db.transaction('firebaseLocalStorage','readonly');const items=await new Promise(r=>{const req=tx.objectStore('firebaseLocalStorage').getAll();req.onsuccess=()=>r(req.result)});const t=items.find(i=>i.value?.stsTokenManager)?.value.stsTokenManager;console.log(t.refreshToken);copy(t.refreshToken)})()
-```
+Confirmed limitations (verified by Lovable AI 2026-05-25):
+- Lovable Cloud has **no** native git-push → edge function auto-deploy
+- No webhook, no auto-sync toggle, no Lovable Cloud API to register a GitHub repo against
+- GitHub→Lovable sync only pulls source files into the project tree — it does not trigger function deploys
+- `supabase--deploy_edge_functions` only runs when Lovable AI is invoked in a chat turn
 
-Then Claude (or any MCP client) can deploy autonomously via `lovable_send_prompt` / `lovable_deploy`.
+### Option B — Programmatic via `lovable-mcp` (deferred — not needed while Option A works)
+
+CSVIVERDEIA's `lovable-mcp` would let Claude trigger Lovable AI without Gabriel pasting the chat command. Requires extracting a Firebase refresh token from lovable.dev via Chrome DevTools. Deferred indefinitely — Option A is one word and Just Works.
 
 ## Misleading aliases
 
