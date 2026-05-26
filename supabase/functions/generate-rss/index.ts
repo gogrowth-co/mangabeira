@@ -64,6 +64,11 @@ async function requireAdmin(req: Request): Promise<Response | null> {
       status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   }
+  // Allow internal invocations from mcp-content (service role key bypass)
+  const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+  if (serviceRoleKey && authHeader === `Bearer ${serviceRoleKey}`) {
+    return null; // Internal call — skip user check
+  }
   const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
   const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
   const anonClient = createClient(supabaseUrl, supabaseAnonKey, {
