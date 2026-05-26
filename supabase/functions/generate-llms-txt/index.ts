@@ -96,7 +96,6 @@ const FOOTER = `
 - RSS (EN): ${BASE_URL}/rss/en.xml
 - RSS (BR): ${BASE_URL}/rss/br.xml
 - RSS (ES): ${BASE_URL}/rss/es.xml
-- Citations JSON: ${BASE_URL}/api/citations.json
 `;
 
 async function requireAdmin(req: Request): Promise<Response | null> {
@@ -105,6 +104,11 @@ async function requireAdmin(req: Request): Promise<Response | null> {
     return new Response(JSON.stringify({ error: 'Missing authorization' }), {
       status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
+  }
+  // Allow internal invocations from mcp-content (service role key bypass)
+  const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+  if (serviceRoleKey && authHeader === `Bearer ${serviceRoleKey}`) {
+    return null; // Internal call — skip user check
   }
   const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
   const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
