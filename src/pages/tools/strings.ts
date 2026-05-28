@@ -13,6 +13,7 @@ export type ToolsStrings = {
     web3Roast: { title: string; description: string }
     growthFramework: { title: string; description: string }
     shopifyGrader: { title: string; description: string }
+    onchainAttributionKit: { title: string; description: string }
   }
 }
 
