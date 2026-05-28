@@ -47,6 +47,10 @@ export const en: ToolsStrings = {
       title: "Shopify Grader",
       description: "Benchmark and optimize your e-commerce store for conversions.",
     },
+    onchainAttributionKit: {
+      title: "Onchain Attribution Kit",
+      description: "Connect UTM campaigns to wallet activity. See which channels produce wallets that actually transact.",
+    },
   },
 }
 
@@ -80,6 +84,10 @@ export const ptBR: ToolsStrings = {
       title: "Shopify Grader",
       description: "Avalie e otimize sua loja de e-commerce para conversões.",
     },
+    onchainAttributionKit: {
+      title: "Onchain Attribution Kit",
+      description: "Conecte campanhas UTM à atividade de carteiras. Veja quais canais geram carteiras que realmente transacionam.",
+    },
   },
 }
 
@@ -112,6 +120,10 @@ export const es: ToolsStrings = {
     shopifyGrader: {
       title: "Shopify Grader",
       description: "Evalúa y optimiza tu tienda de e-commerce para conversiones.",
+    },
+    onchainAttributionKit: {
+      title: "Onchain Attribution Kit",
+      description: "Conecta campañas UTM a la actividad de billeteras. Ve qué canales generan billeteras que realmente transaccionan.",
     },
   },
 }
