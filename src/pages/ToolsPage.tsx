@@ -97,6 +97,20 @@ function getTools(strings: ToolsStrings, lang: string) {
       previewText: strings.tools.shopifyGrader.title,
       previewSubtitle: undefined as string | undefined,
     },
+    {
+      ...strings.tools.onchainAttributionKit,
+      category: "Open Source",
+      categoryColor: "text-cyan-600 border-cyan-300 bg-cyan-50",
+      icon: "🎯",
+      iconBg: "bg-cyan-100",
+      tags: ["TypeScript", "Dune Analytics", "Node.js"],
+      year: "2026",
+      href: "https://github.com/gmangabeira/onchain-attribution-kit",
+      internal: false,
+      previewImage: undefined as string | undefined,
+      previewText: "Onchain Attribution Kit",
+      previewSubtitle: "UTM → Wallet → Dune" as string | undefined,
+    },
   ];
 }
 
