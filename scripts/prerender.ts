@@ -310,7 +310,7 @@ async function publicationRoutes(): Promise<RouteSpec[]> {
     br: "br/artigos",
     es: "es/articulos",
   };
-  const localeKey: Record<Locale, string> = { en: "en", br: "pt-BR", es: "es-ES" };
+  const localeKey: Record<Locale, string> = { en: "en", br: "br", es: "es" };
 
   for (const page of data || []) {
     const trMap = new Map<string, any>();
@@ -318,8 +318,8 @@ async function publicationRoutes(): Promise<RouteSpec[]> {
       trMap.set(tr.language, tr);
     }
     const enTr = trMap.get("en");
-    const brTr = trMap.get("pt-BR") || trMap.get("br");
-    const esTr = trMap.get("es-ES") || trMap.get("es");
+    const brTr = trMap.get("br") || trMap.get("pt-BR");
+    const esTr = trMap.get("es") || trMap.get("es-ES");
     const alts: Record<string, string> = {};
     if (enTr) alts.en = `${BASE_URL}/publications/${enTr.slug || page.slug}`;
     if (brTr) alts["pt-BR"] = `${BASE_URL}/br/artigos/${brTr.slug || page.slug}`;
