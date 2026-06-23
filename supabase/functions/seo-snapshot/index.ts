@@ -33,6 +33,8 @@ const REDIRECTS: Record<string, string> = {
     "/br/artigos/checklist-go-to-market-defi",
   "/es/articulos/defi-gtm-checklist":
     "/es/articulos/lista-verificacion-gtm-defi",
+  "/es/articulos/web3-seo-guia-definitivo":
+    "/es/articulos/web3-seo-guia-definitiva",
 };
 
 function parsePubPath(
