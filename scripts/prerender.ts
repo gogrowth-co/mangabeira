@@ -1,3 +1,4 @@
+// prerender v2.2 — defi-gtm-checklist localized slugs fixed
 /**
  * Build-time prerender plugin.
  *
