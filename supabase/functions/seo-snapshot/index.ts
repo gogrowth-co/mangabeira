@@ -202,6 +202,37 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
+    // Force-regenerate: skip storage, regenerate from DB, overwrite storage
+    const forceRefresh = url.searchParams.get("refresh") === "1";
+    if (forceRefresh) {
+      const parsed = parsePubPath(requested);
+      if (parsed) {
+        const generated = await generatePublicationSnapshot(
+          supabase,
+          parsed.locale,
+          parsed.slug
+        );
+        if (generated) {
+          await supabase.storage
+            .from("seo-snapshots")
+            .upload(objectKey, new Blob([generated], { type: "text/html" }), {
+              contentType: "text/html; charset=utf-8",
+              upsert: true,
+              cacheControl: "300",
+            });
+          return new Response(generated, {
+            status: 200,
+            headers: {
+              ...corsHeaders,
+              "Content-Type": "text/html; charset=utf-8",
+              "Cache-Control": "no-store",
+              "X-Snapshot-Source": "refreshed",
+            },
+          });
+        }
+      }
+    }
+
     // 1. Try storage first (fast path)
     const { data, error } = await supabase.storage
       .from("seo-snapshots")
