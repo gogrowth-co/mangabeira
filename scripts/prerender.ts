@@ -769,6 +769,29 @@ export function prerenderPlugin(): Plugin {
           }
         }
         console.log(`[prerender] Uploaded ${uploaded}/${snapshots.length} snapshots to Storage.`);
+
+        // Regenerate sitemap from DB after snapshots are uploaded
+        console.log("[prerender] Triggering sitemap regeneration...");
+        try {
+          const sitemapResp = await fetch(
+            `${supaUrl}/functions/v1/generate-sitemap`,
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${serviceKey}`,
+                "Content-Type": "application/json",
+              },
+              body: "{}",
+            }
+          );
+          const sitemapResult = await sitemapResp.json().catch(() => ({}));
+          console.log(
+            `[prerender] Sitemap regenerated: ${sitemapResp.status}`,
+            sitemapResult
+          );
+        } catch (sitemapErr) {
+          console.warn("[prerender] Sitemap regeneration failed:", sitemapErr);
+        }
       } catch (e) {
         console.warn("[prerender] snapshot upload error:", e);
       }
