@@ -39,6 +39,8 @@ function pathToObjectKey(p: string): string {
 // Permanent redirects (old path -> new path) for crawlers
 const REDIRECTS: Record<string, string> = {
   "/es/articulos/estudo-de-caso-defi-avici": "/es/articulos/estudio-de-caso-defi-avici",
+  "/br/artigos/defi-gtm-checklist": "/br/artigos/checklist-go-to-market-defi",
+  "/es/articulos/defi-gtm-checklist": "/es/articulos/lista-verificacion-gtm-defi",
 };
 
 Deno.serve(async (req) => {
