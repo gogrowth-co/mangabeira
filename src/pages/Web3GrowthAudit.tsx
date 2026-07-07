@@ -64,9 +64,9 @@ const Web3GrowthAudit = () => {
               },
               areaServed: "Worldwide",
               offers: [
-                { "@type": "Offer", name: "Starter", price: "1500", priceCurrency: "USD", url: "https://mangabeira.net/services/web3-growth-audit#pricing" },
-                { "@type": "Offer", name: "Pro", price: "3500", priceCurrency: "USD", url: "https://mangabeira.net/services/web3-growth-audit#pricing" },
-                { "@type": "Offer", name: "Elite", price: "7500", priceCurrency: "USD", url: "https://mangabeira.net/services/web3-growth-audit#pricing" },
+                { "@type": "Offer", name: "Starter", price: "197", priceCurrency: "USD", url: "https://mangabeira.net/services/web3-growth-audit#pricing" },
+                { "@type": "Offer", name: "Pro", price: "497", priceCurrency: "USD", url: "https://mangabeira.net/services/web3-growth-audit#pricing" },
+                { "@type": "Offer", name: "Elite", price: "997", priceCurrency: "USD", url: "https://mangabeira.net/services/web3-growth-audit#pricing" },
               ],
             },
           ],
