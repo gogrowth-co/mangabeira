@@ -43,7 +43,7 @@ const escapeHtml = (s: string) =>
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
 
-function sanitizePublicationHtml(html: string, max = 6000): string {
+function sanitizePublicationHtml(html: string, max = 500000): string {
   let cleaned = String(html ?? "")
     .replace(/<script[\s\S]*?<\/script>/gi, "")
     .replace(/<style[\s\S]*?<\/style>/gi, "")
@@ -149,6 +149,7 @@ function buildHead(spec: SnapshotSpec): string {
 
 function buildBody(spec: SnapshotSpec): string {
   const cleaned = sanitizePublicationHtml(spec.content);
+  const contentHasH1 = /<h1[\s>]/i.test(cleaned);
   const img = spec.featuredImage;
   const t = AUTHOR_STRINGS[spec.locale];
   const dateStr = fmtDate(spec.datePublished || spec.dateModified, t.localeFmt);
@@ -169,7 +170,7 @@ function buildBody(spec: SnapshotSpec): string {
 
   return `<header>
       <p style="margin:0 0 8px;font-size:14px;color:#1FB6FF;font-weight:600;letter-spacing:.04em;text-transform:uppercase;">Gabriel Mangabeira — Mangabeira.net</p>
-      <h1 style="font-family:Poppins,sans-serif;font-size:40px;line-height:1.15;margin:0 0 16px;color:#0A2540;">${escapeHtml(spec.title)}</h1>
+      ${contentHasH1 ? "" : `<h1 style="font-family:Poppins,sans-serif;font-size:40px;line-height:1.15;margin:0 0 16px;color:#0A2540;">${escapeHtml(spec.title)}</h1>`}
       ${authorMeta}
       <p style="font-size:18px;margin:0 0 24px;">${escapeHtml(spec.description)}</p>
     </header>
