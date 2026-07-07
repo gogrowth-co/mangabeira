@@ -1,4 +1,4 @@
-// Cloudflare Worker: mangabeira-snapshot-router v2.3
+// Cloudflare Worker: mangabeira-snapshot-router v2.4
 // - Proxies /sitemap.xml, /rss/*.xml, /llms*.txt to Supabase Storage (all visitors)
 // - Serves seo-snapshot pre-rendered HTML to bots (HTML bot requests only)
 // - Propagates 3xx redirects from seo-snapshot (slug corrections)
@@ -25,7 +25,9 @@ const STATIC_ROUTES = new Set([
   "/", "/about", "/publications", "/privacy-policy",
   "/tools", "/tools/tokenomics-simulator", "/services/web3-growth-audit",
   "/br", "/br/sobre", "/br/artigos", "/br/politica-de-privacidade",
+  "/br/ferramentas", "/br/ferramentas/simulador-tokenomics", "/br/servicos/web3-auditoria-de-growth",
   "/es", "/es/acerca-de", "/es/articulos", "/es/politica-de-privacidad",
+  "/es/herramientas", "/es/herramientas/simulador-tokenomics", "/es/servicios/web3-auditoria-de-growth",
 ]);
 
 const DYNAMIC_PREFIXES = [

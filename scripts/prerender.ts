@@ -74,6 +74,76 @@ interface RouteSpec {
   bodyExtra?: Record<string, string>;
 }
 
+// Audit page copy — mirrors the live React components exactly (Web3GrowthAudit.tsx
+// mounts the same English-only component tree at all 3 locale routes; there is no
+// per-locale copy to translate, so the snapshot must match verbatim, not invent one).
+const AUDIT_PRICING: { name: string; price: string; description: string; badge?: string; features: string[] }[] = [
+  {
+    name: "Starter",
+    price: "$197",
+    description: "For early teams needing fast clarity.",
+    features: ["6–8 key insights", "Light audit + actions", "Delivered in 72 hours", "Notion report"],
+  },
+  {
+    name: "Pro",
+    price: "$497",
+    description: "For teams who want clarity and a plan.",
+    badge: "Best for 90% of teams",
+    features: ["Full audit (all channels)", "12–20 high-impact insights", "90-day roadmap", "Loom walkthrough", "Priority delivery"],
+  },
+  {
+    name: "Elite",
+    price: "$997",
+    description: "For funded teams or major launches.",
+    features: ["Everything in Pro", "Deeper cohort & sentiment analysis", "Token + narrative + liquidity loop audit", "Launch/campaign prep insights", "Advanced cross-platform funnel map"],
+  },
+];
+
+const AUDIT_FAQS: { q: string; a: string }[] = [
+  { q: "Do you need private data?", a: "Mostly no. Reddit, Discord, on-chain, SEO & social are public. Dashboards optional." },
+  { q: "How fast is delivery?", a: "Within 72 hours." },
+  { q: "Who runs the audit?", a: "Me — a former Olympian and Web3 growth operator with 10+ years experience." },
+  { q: "What happens after I buy?", a: "You immediately get an intake form + your delivery date." },
+  { q: "Do you accept crypto?", a: "Yes — USDC/USDT across major L1s." },
+];
+
+/** Service + Offer×3 + FAQPage JSON-LD for the audit money page, matching PricingSection.tsx / FAQSection.tsx verbatim. */
+function auditSchemas(canonical: string): unknown[] {
+  const faqEntities = AUDIT_FAQS.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  }));
+  const offers = AUDIT_PRICING.map((tier) => ({
+    "@type": "Offer",
+    name: tier.name,
+    price: tier.price.replace(/[^0-9.]/g, ""),
+    priceCurrency: "USD",
+    url: canonical,
+    availability: "https://schema.org/InStock",
+    description: tier.description,
+  }));
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      serviceType: "Web3 Growth Audit",
+      name: "Web3 Growth Audit",
+      description:
+        "AI + human Web3 growth audit delivered in 72 hours, covering on-chain, social, community, and funnel insights.",
+      url: canonical,
+      provider: { "@type": "Person", name: "Gabriel Mangabeira", url: BASE_URL },
+      areaServed: "Worldwide",
+      offers,
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faqEntities,
+    },
+  ];
+}
+
 function staticRoutes(): RouteSpec[] {
   const routes: RouteSpec[] = [];
 
@@ -140,37 +210,6 @@ function staticRoutes(): RouteSpec[] {
         kind: p.base === "about" ? "about" : "privacy",
       });
     }
-  }
-
-  // Publications hub (localized)
-  const pubHub: Record<Locale, string> = {
-    en: "publications",
-    br: "br/artigos",
-    es: "es/articulos",
-  };
-  const pubAlts = {
-    en: `${BASE_URL}/publications`,
-    "pt-BR": `${BASE_URL}/br/artigos`,
-    es: `${BASE_URL}/es/articulos`,
-  };
-  for (const locale of LOCALES) {
-    routes.push({
-      outPath: pubHub[locale],
-      locale,
-      canonical: `${BASE_URL}/${pubHub[locale]}`,
-      alternates: pubAlts,
-      title:
-        t(locale, "publications_hub", "page_title") ||
-        (locale === "br"
-          ? "Publicações | Gabriel Mangabeira"
-          : locale === "es"
-          ? "Publicaciones | Gabriel Mangabeira"
-          : "Publications | Gabriel Mangabeira"),
-      description:
-        t(locale, "publications_hub", "page_description") ||
-        t(locale, "meta", "page_description"),
-      kind: "publications-hub",
-    });
   }
 
   // Tools hub
@@ -269,6 +308,7 @@ function staticRoutes(): RouteSpec[] {
           ? "Auditoría de funnel, contenido, tokenomics y adquisición en 72h. 5 clientes/mes."
           : "72-hour deep audit of your funnel, content, tokenomics, and acquisition. 5 clients/month.",
       kind: "audit",
+      schemas: auditSchemas(`${BASE_URL}/${audit[locale]}`),
     });
   }
 
@@ -277,7 +317,7 @@ function staticRoutes(): RouteSpec[] {
 
 // --- Supabase: fetch publications ------------------------------------------
 
-async function publicationRoutes(): Promise<RouteSpec[]> {
+async function fetchPublishedPages(): Promise<any[]> {
   const url = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
   const key =
     process.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
@@ -304,7 +344,63 @@ async function publicationRoutes(): Promise<RouteSpec[]> {
     console.warn("[prerender] Supabase fetch failed:", error.message);
     return [];
   }
+  return data || [];
+}
 
+/** Publications hub (localized) — built from the same fetched page list as the article routes. */
+function hubRoutes(pages: any[]): RouteSpec[] {
+  const pubHub: Record<Locale, string> = {
+    en: "publications",
+    br: "br/artigos",
+    es: "es/articulos",
+  };
+  const pubAlts = {
+    en: `${BASE_URL}/publications`,
+    "pt-BR": `${BASE_URL}/br/artigos`,
+    es: `${BASE_URL}/es/articulos`,
+  };
+  const localeKey: Record<Locale, string> = { en: "en", br: "br", es: "es" };
+
+  const routes: RouteSpec[] = [];
+  for (const locale of LOCALES) {
+    const items: { title: string; href: string; description: string }[] = [];
+    for (const page of pages) {
+      const trMap = new Map<string, any>();
+      for (const tr of page.page_translations || []) trMap.set(tr.language, tr);
+      const tr =
+        trMap.get(localeKey[locale]) ||
+        trMap.get(locale === "br" ? "pt-BR" : locale === "es" ? "es-ES" : locale);
+      if (!tr) continue;
+      const slug = tr.slug || page.slug;
+      items.push({
+        title: tr.title || "Untitled",
+        href: `/${pubHub[locale]}/${slug}`,
+        description: tr.meta_description || "",
+      });
+    }
+    routes.push({
+      outPath: pubHub[locale],
+      locale,
+      canonical: `${BASE_URL}/${pubHub[locale]}`,
+      alternates: pubAlts,
+      title:
+        t(locale, "publications_hub", "page_title") ||
+        (locale === "br"
+          ? "Publicações | Gabriel Mangabeira"
+          : locale === "es"
+          ? "Publicaciones | Gabriel Mangabeira"
+          : "Publications | Gabriel Mangabeira"),
+      description:
+        t(locale, "publications_hub", "page_description") ||
+        t(locale, "meta", "page_description"),
+      kind: "publications-hub",
+      bodyExtra: { articles: JSON.stringify(items) },
+    });
+  }
+  return routes;
+}
+
+function publicationRoutes(pages: any[]): RouteSpec[] {
   const routes: RouteSpec[] = [];
   const localeToHubBase: Record<Locale, string> = {
     en: "publications",
@@ -313,7 +409,7 @@ async function publicationRoutes(): Promise<RouteSpec[]> {
   };
   const localeKey: Record<Locale, string> = { en: "en", br: "br", es: "es" };
 
-  for (const page of data || []) {
+  for (const page of pages) {
     const trMap = new Map<string, any>();
     for (const tr of (page as any).page_translations || []) {
       trMap.set(tr.language, tr);
@@ -485,7 +581,7 @@ function htmlToText(html: string, max = 1200): string {
 }
 
 /** Convert publication HTML to a sanitized subset (h2/h3/p/ul/ol/li/blockquote/strong/em/a). */
-function sanitizePublicationHtml(html: string, max = 6000): string {
+function sanitizePublicationHtml(html: string, max = 500000): string {
   // Drop scripts/styles/iframes
   let cleaned = html
     .replace(/<script[\s\S]*?<\/script>/gi, "")
@@ -514,13 +610,35 @@ function buildSectionContent(spec: RouteSpec): string {
     </article>`;
       break;
     }
-    case "publications-hub":
+    case "publications-hub": {
+      const items: { title: string; href: string; description: string }[] =
+        spec.bodyExtra?.articles ? JSON.parse(spec.bodyExtra.articles) : [];
+      const listHtml = items.length
+        ? `<ul>
+        ${items
+          .map(
+            (i) =>
+              `<li><a href="${i.href}">${escapeHtml(i.title)}</a>${
+                i.description ? ` — ${escapeHtml(i.description)}` : ""
+              }</li>`
+          )
+          .join("\n        ")}
+      </ul>`
+        : `<p>${
+            spec.locale === "br"
+              ? "Nenhuma publicação encontrada."
+              : spec.locale === "es"
+              ? "No se encontraron publicaciones."
+              : "No publications found."
+          }</p>`;
       sectionHtml = `
     <section>
       <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">${spec.locale === "br" ? "Biblioteca de publicações" : spec.locale === "es" ? "Biblioteca de publicaciones" : "Publications library"}</h2>
       <p>${spec.locale === "br" ? "Pesquisa de longo formato e frameworks sobre growth Web3, tokenomics, AEO e marketing impulsionado por IA." : spec.locale === "es" ? "Investigación de formato largo y frameworks sobre growth Web3, tokenomics, AEO y marketing impulsado por IA." : "Long-form research and frameworks on Web3 growth, tokenomics, AEO, and AI-driven marketing."}</p>
+      ${listHtml}
     </section>`;
       break;
+    }
     case "tools-hub":
       sectionHtml = `
     <section>
@@ -537,18 +655,110 @@ function buildSectionContent(spec: RouteSpec): string {
       <p>${spec.locale === "br" ? "Projete oferta circulante, demanda e preço do seu token em 5 anos com curvas de emissão, vesting e queima. Sem cadastro, 100% no navegador, código aberto." : spec.locale === "es" ? "Proyecta oferta circulante, demanda y precio de tu token a 5 años con curvas de emisión, vesting y quema. Sin registro, 100% en el navegador, código abierto." : "Project circulating supply, demand, and token price over 5 years with emission, vesting, and burn curves. No signup, 100% in-browser, open source."}</p>
     </section>`;
       break;
-    case "audit":
+    case "audit": {
+      // English-only, verbatim from the live components — Web3GrowthAudit.tsx mounts
+      // this same tree at /services, /br/servicos, and /es/servicios with no
+      // per-locale copy, so the snapshot must match what every locale actually renders.
+      const painPoints = ["Reddit chaos", "Discord noise", "Fragmented on-chain data", "Unstructured dashboards", "Gut-based decisions"];
+      const findings = [
+        { category: "Wallet Cohort Analysis", insight: "30% of your 'active' wallets churn after one interaction — inflating retention.", fix: "Segment paths, improve onboarding, activate silent lurkers." },
+        { category: "Discord → Funnel Leak", insight: "Your highest-intent questions happen 1am–4am UTC — but no replies.", fix: "Async answers library + timezone coverage." },
+        { category: "Token Visibility Gap", insight: "78% of new users never discover your token page due to Reddit thread structure.", fix: "Restructure entry points + sentiment touchpoints." },
+      ];
+      const included = [
+        { title: "Reddit Sentiment & Community Health Check", description: "See what your users actually think — unfiltered." },
+        { title: "Wallet Cohort Quality Scan", description: "Identify real participants vs tourists." },
+        { title: "On-Chain Visibility Score", description: "See how discoverable you really are." },
+        { title: "Cross-Platform Funnel Map", description: "Understand how people move Discord → Web → Wallet → Action." },
+        { title: "Token/Engagement Feedback Loop", description: "See how holdings, utility, and communication interact." },
+        { title: "90-Day Growth Plan", description: "Clear actions. No guesswork." },
+      ];
+      const credentials = ["10+ years in growth across Web2 + Web3", "Operator experience with Binance, L1 ecosystems & major Web3 startups", "Combines qualitative + quantitative insights", "Designed for founders, growth leads & community teams", "Olympic-level discipline applied to analysis"];
+
+      const painHtml = painPoints.map((p) => `<li>${escapeHtml(p)}</li>`).join("\n        ");
+      const findingsHtml = findings
+        .map(
+          (f) =>
+            `<li><strong>${escapeHtml(f.category)}:</strong> "${escapeHtml(f.insight)}" <em>→ Fix: ${escapeHtml(f.fix)}</em></li>`
+        )
+        .join("\n        ");
+      const includedHtml = included
+        .map((f) => `<li><strong>${escapeHtml(f.title)}</strong> — ${escapeHtml(f.description)}</li>`)
+        .join("\n        ");
+      const credentialsHtml = credentials.map((c) => `<li>${escapeHtml(c)}</li>`).join("\n        ");
+      const pricingHtml = AUDIT_PRICING
+        .map(
+          (tier) => `<div style="border:1px solid #EAF6FA;border-radius:8px;padding:16px;margin:0 0 12px;">
+          <h3 style="font-family:Poppins,sans-serif;font-size:20px;margin:0 0 4px;">${escapeHtml(tier.name)}${tier.badge ? ` — ${escapeHtml(tier.badge)}` : ""}</h3>
+          <p style="font-size:28px;font-weight:700;margin:0 0 4px;color:#0A2540;">${escapeHtml(tier.price)}</p>
+          <p style="margin:0 0 8px;">${escapeHtml(tier.description)}</p>
+          <ul>
+            ${tier.features.map((f) => `<li>${escapeHtml(f)}</li>`).join("\n            ")}
+          </ul>
+        </div>`
+        )
+        .join("\n        ");
+      const faqHtml = AUDIT_FAQS
+        .map(
+          (f) => `<div style="margin:0 0 12px;">
+          <h3 style="font-family:Poppins,sans-serif;font-size:18px;margin:0 0 4px;">${escapeHtml(f.q)}</h3>
+          <p style="margin:0;">${escapeHtml(f.a)}</p>
+        </div>`
+        )
+        .join("\n        ");
+
       sectionHtml = `
     <section>
-      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">${spec.locale === "br" ? "O que está incluído" : spec.locale === "es" ? "Qué incluye" : "What's included"}</h2>
+      <p style="margin:0 0 8px;font-size:14px;color:#555;">Trusted by operators across Binance, EigenLayer, L1 ecosystems, Token Health Scan.</p>
+      <p style="font-size:18px;">Stop guessing why growth feels unpredictable. Get a cross-channel Web3 audit that reveals your blind spots across Reddit, Discord, on-chain, website, and your dApp — analyzed by a growth operator with 10+ years of experience.</p>
+
+      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">If your growth feels chaotic, it's not your fault.</h2>
+      <p>Most Web3 teams operate blind because insights are scattered across:</p>
       <ul>
-        <li>${spec.locale === "br" ? "Auditoria do funil de aquisição, conteúdo e conversão" : spec.locale === "es" ? "Auditoría del funnel de adquisición, contenido y conversión" : "Funnel, content, and conversion audit"}</li>
-        <li>${spec.locale === "br" ? "Revisão de tokenomics e economia do projeto" : spec.locale === "es" ? "Revisión de tokenomics y economía del proyecto" : "Tokenomics and economy review"}</li>
-        <li>${spec.locale === "br" ? "Mapa de oportunidades de growth de 90 dias" : spec.locale === "es" ? "Mapa de oportunidades de growth de 90 días" : "90-day growth opportunity map"}</li>
-        <li>${spec.locale === "br" ? "Entrega em 72h. Limitado a 5 clientes/mês." : spec.locale === "es" ? "Entrega en 72h. Limitado a 5 clientes/mes." : "Delivered in 72 hours. Limited to 5 clients/month."}</li>
+        ${painHtml}
       </ul>
+      <p>This audit pulls everything together into one clear, actionable picture — so you know exactly where momentum is leaking and how to fix it.</p>
+
+      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">Sample Findings From Real Audits</h2>
+      <ul>
+        ${findingsHtml}
+      </ul>
+
+      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">How It Works</h2>
+      <p>Clear. Visual. 72 hours.</p>
+      <ol>
+        <li><strong>Day 1: Deep Data Scan</strong> — Reddit sentiment &amp; discussion clusters, Discord behaviors &amp; engagement loops, website &amp; dApp funnel paths, on-chain activity &amp; wallet cohorts, social footprint, SEO, PR narratives.</li>
+        <li><strong>Day 2: Insights That Actually Matter</strong> — what's driving or blocking growth, where users fall off, what levers work, what patterns are hidden beneath the surface.</li>
+        <li><strong>Day 3: Your Action Roadmap</strong> — what to fix, why it matters, how to fix it, what to do first, what NOT to waste time on.</li>
+      </ol>
+
+      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">What's Included</h2>
+      <p>A complete Web3 Growth Audit — delivered via Notion + Loom walkthrough.</p>
+      <ul>
+        ${includedHtml}
+      </ul>
+
+      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">Why Web3 Teams Choose This Over Internal Reviews</h2>
+      <ul>
+        ${credentialsHtml}
+      </ul>
+
+      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">Pricing — Choose How Deep You Want to Go</h2>
+      ${pricingHtml}
+      <p><em>I take 5 audit clients per month for quality.</em></p>
+
+      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">The Guarantee</h2>
+      <p>If I don't find at least 3 meaningful, actionable insights, I refund the entire audit fee. No risk. No excuses. Just clarity.</p>
+
+      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">FAQ</h2>
+      ${faqHtml}
+
+      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">Ready to stop guessing and start scaling?</h2>
+      <p>Get a real diagnosis of your Web3 growth engine — backed by data and operator experience.</p>
+      <p>Delivered in 72 hours · Clear insights · Zero-risk guarantee</p>
     </section>`;
       break;
+    }
     case "about":
       sectionHtml = `
     <section>
@@ -596,14 +806,15 @@ function buildBodyContent(spec: RouteSpec): string {
       <p style="margin:12px 0 0;font-size:14px;">${altLangs}</p>
     </nav>`;
 
+  const sectionHtml = buildSectionContent(spec);
+  const sectionHasH1 = /<h1[\s>]/i.test(sectionHtml);
+
   const headerHtml = `
     <header>
       <p style="margin:0 0 8px;font-size:14px;color:#1FB6FF;font-weight:600;letter-spacing:.04em;text-transform:uppercase;">Gabriel Mangabeira — Mangabeira.net</p>
-      <h1 style="font-family:Poppins,sans-serif;font-size:40px;line-height:1.15;margin:0 0 16px;color:#0A2540;">${escapeHtml(spec.title)}</h1>
+      ${sectionHasH1 ? "" : `<h1 style="font-family:Poppins,sans-serif;font-size:40px;line-height:1.15;margin:0 0 16px;color:#0A2540;">${escapeHtml(spec.title)}</h1>`}
       <p style="font-size:18px;margin:0 0 24px;">${escapeHtml(spec.description)}</p>
     </header>`;
-
-  const sectionHtml = buildSectionContent(spec);
 
   const footerHtml = `
     <footer style="margin-top:32px;border-top:1px solid #EAF6FA;padding-top:16px;font-size:14px;color:#333;">
@@ -617,16 +828,18 @@ function buildBodyContent(spec: RouteSpec): string {
 function buildNoscript(spec: RouteSpec): string {
   const nav = NAV_BY_LOCALE[spec.locale];
   const altLangs = ALT_LANG_LINKS[spec.locale];
+  const sectionHtml = buildSectionContent(spec);
+  const sectionHasH1 = /<h1[\s>]/i.test(sectionHtml);
   return `
       <noscript>
         <div style="font-family:Inter,system-ui,sans-serif;max-width:920px;margin:0 auto;padding:32px 20px;color:#0A2540;line-height:1.6;">
-          <h1 style="font-family:Poppins,sans-serif;">${escapeHtml(spec.title)}</h1>
+          ${sectionHasH1 ? "" : `<h1 style="font-family:Poppins,sans-serif;">${escapeHtml(spec.title)}</h1>`}
           <p>${escapeHtml(spec.description)}</p>
           <h2>${nav.label}</h2>
           <ul>
             ${nav.items.map((i) => `<li><a href="${i.href}">${escapeHtml(i.text)}</a></li>`).join("\n            ")}
           </ul>
-          ${buildSectionContent(spec)}
+          ${sectionHtml}
           <p>${altLangs}</p>
           <p>Contact: hello@mangabeira.net</p>
         </div>
@@ -707,7 +920,12 @@ export function prerenderPlugin(): Plugin {
         }
       }
 
-      const routes = [...staticRoutes(), ...(await publicationRoutes())];
+      const pages = await fetchPublishedPages();
+      const routes = [
+        ...staticRoutes(),
+        ...hubRoutes(pages),
+        ...publicationRoutes(pages),
+      ];
       let written = 0;
       const snapshots: { key: string; html: string }[] = [];
 
