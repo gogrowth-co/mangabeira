@@ -74,12 +74,34 @@ async function generatePublicationSnapshot(
   locale: "en" | "br" | "es",
   slug: string
 ): Promise<string | null> {
-  const { data: tr, error: trErr } = await supabase
+  let { data: tr, error: trErr } = await supabase
     .from("page_translations")
     .select("title, meta_description, content, language, slug, page_id")
     .eq("slug", slug)
     .eq("language", locale)
     .maybeSingle();
+
+  // Fallback: the URL may use the canonical pages.slug while the
+  // translation row carries a different localized slug (e.g.
+  // defi-tokenomics-simulator-guide -> how-to-design-tokenomics-protocol-growth).
+  if (!tr) {
+    const { data: pageBySlug } = await supabase
+      .from("pages")
+      .select("id")
+      .eq("slug", slug)
+      .eq("status", "published")
+      .maybeSingle();
+    if (pageBySlug) {
+      const res = await supabase
+        .from("page_translations")
+        .select("title, meta_description, content, language, slug, page_id")
+        .eq("page_id", pageBySlug.id)
+        .eq("language", locale)
+        .maybeSingle();
+      tr = res.data;
+      trErr = res.error;
+    }
+  }
 
   if (trErr || !tr) return null;
 
