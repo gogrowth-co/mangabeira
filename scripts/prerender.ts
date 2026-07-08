@@ -144,6 +144,42 @@ function auditSchemas(canonical: string): unknown[] {
   ];
 }
 
+// --- Site-level schema (mirrors src/components/SEO.tsx so bot HTML carries the
+// same Person/Organization/WebSite entities the hydrated DOM injects) ---------
+
+const PERSON_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Gabriel Mangabeira",
+  url: BASE_URL,
+  jobTitle: "Web3 Growth Strategist",
+  description:
+    "Two-time Olympian turned growth marketing strategist. Former growth lead at Binance, Coca-Cola, and the International Olympic Committee.",
+  sameAs: [
+    "https://x.com/manga82",
+    "https://linkedin.com/in/mangabeira",
+    "https://medium.com/@mangabeira",
+  ],
+};
+
+const ORG_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Mangabeira.net",
+  url: BASE_URL,
+  logo: OG_IMAGE,
+  founder: { "@type": "Person", name: "Gabriel Mangabeira" },
+};
+
+const WEBSITE_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Mangabeira.net",
+  url: BASE_URL,
+  inLanguage: ["en", "pt-BR", "es"],
+  publisher: { "@type": "Person", name: "Gabriel Mangabeira", url: BASE_URL },
+};
+
 function staticRoutes(): RouteSpec[] {
   const routes: RouteSpec[] = [];
 
@@ -162,6 +198,7 @@ function staticRoutes(): RouteSpec[] {
       title: t(locale, "meta", "page_title"),
       description: t(locale, "meta", "page_description"),
       kind: "home",
+      schemas: [PERSON_SCHEMA, ORG_SCHEMA, WEBSITE_SCHEMA],
     });
   }
 
@@ -208,6 +245,7 @@ function staticRoutes(): RouteSpec[] {
         title: `${p.titles[locale]} | Gabriel Mangabeira`,
         description: t(locale, "meta", "page_description"),
         kind: p.base === "about" ? "about" : "privacy",
+        schemas: p.base === "about" ? [PERSON_SCHEMA] : undefined,
       });
     }
   }
@@ -335,7 +373,7 @@ async function fetchPublishedPages(): Promise<any[]> {
   const { data, error } = await supabase
     .from("pages")
     .select(
-      "slug, status, is_system_page, featured_image, page_translations(language, title, meta_description, slug, content)"
+      "slug, status, is_system_page, featured_image, page_translations(language, title, meta_description, slug, content, schema)"
     )
     .eq("status", "published")
     .eq("is_system_page", false);
@@ -395,6 +433,19 @@ function hubRoutes(pages: any[]): RouteSpec[] {
         t(locale, "meta", "page_description"),
       kind: "publications-hub",
       bodyExtra: { articles: JSON.stringify(items) },
+      schemas: [
+        {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: "Publications by Gabriel Mangabeira",
+          itemListElement: items.map((item, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            url: `${BASE_URL}${item.href}`,
+            name: item.title,
+          })),
+        },
+      ],
     });
   }
   return routes;
@@ -427,6 +478,17 @@ function publicationRoutes(pages: any[]): RouteSpec[] {
       if (!tr) continue;
       const slug = tr.slug || page.slug;
       const outPath = `${localeToHubBase[locale]}/${slug}`;
+      // Carry the translation's DB schema (Article/FAQPage/Breadcrumb @graph the
+      // app injects client-side) into the bot snapshot so non-JS crawlers see it.
+      let dbSchemas: unknown[] = [];
+      if (tr.schema) {
+        try {
+          const parsed = typeof tr.schema === "string" ? JSON.parse(tr.schema) : tr.schema;
+          dbSchemas = Array.isArray(parsed) ? parsed : [parsed];
+        } catch {
+          console.warn(`[prerender] Invalid DB schema for ${outPath}; skipping.`);
+        }
+      }
       routes.push({
         outPath,
         locale,
@@ -438,6 +500,7 @@ function publicationRoutes(pages: any[]): RouteSpec[] {
         ogImage: (page as any).featured_image || undefined,
         ogType: "article",
         kind: "publication",
+        schemas: dbSchemas.length ? dbSchemas : undefined,
         bodyExtra: {
           content: tr.content || "",
           featuredImage: (page as any).featured_image || "",
@@ -639,15 +702,30 @@ function buildSectionContent(spec: RouteSpec): string {
     </section>`;
       break;
     }
-    case "tools-hub":
+    case "tools-hub": {
+      // Mirrors the live Tools section cards (translations CSV `tools` section).
+      const L = spec.locale;
+      const simHref = L === "en" ? "/tools/tokenomics-simulator" : `/${L}/${L === "br" ? "ferramentas/simulador-tokenomics" : "herramientas/simulador-tokenomics"}`;
+      const cards = ["growth_exp", "web3_roast", "token_health", "shopify"]
+        .map((k) => {
+          const title = t(L, "tools", `${k}_title`);
+          const desc = t(L, "tools", `${k}_description`);
+          const cat = t(L, "tools", `${k}_category`);
+          return title ? `<li><strong>${escapeHtml(title)}</strong>${cat ? ` (${escapeHtml(cat)})` : ""}${desc ? ` — ${escapeHtml(desc)}` : ""}</li>` : "";
+        })
+        .filter(Boolean)
+        .join("\n        ");
       sectionHtml = `
     <section>
-      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">${spec.locale === "br" ? "Ferramentas gratuitas" : spec.locale === "es" ? "Herramientas gratuitas" : "Free tools"}</h2>
+      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">${escapeHtml(t(L, "tools", "section_title", L === "br" ? "Ferramentas gratuitas" : L === "es" ? "Herramientas gratuitas" : "Free tools"))}</h2>
+      <p>${escapeHtml(t(L, "tools", "section_subtitle", ""))}</p>
       <ul>
-        <li><a href="${spec.locale === "en" ? "/tools/tokenomics-simulator" : `/${spec.locale}/${spec.locale === "br" ? "ferramentas/simulador-tokenomics" : "herramientas/simulador-tokenomics"}`}">Tokenomics Simulator</a></li>
+        <li><a href="${simHref}">${L === "br" ? "Simulador de Tokenomics DeFi (5 anos)" : L === "es" ? "Simulador de Tokenomics DeFi (5 años)" : "DeFi Tokenomics Simulator (5-year)"}</a> — ${L === "br" ? "Projete oferta, demanda e preço do token. Grátis, sem cadastro." : L === "es" ? "Proyecta oferta, demanda y precio del token. Gratis, sin registro." : "Project token supply, demand, and price. Free, no signup."}</li>
+        ${cards}
       </ul>
     </section>`;
       break;
+    }
     case "tokenomics":
       sectionHtml = `
     <section>
@@ -759,13 +837,37 @@ function buildSectionContent(spec: RouteSpec): string {
     </section>`;
       break;
     }
-    case "about":
+    case "about": {
+      // Mirrors the live About/Journey sections — copy sourced from the same
+      // translations CSV the React components render.
+      const L = spec.locale;
+      const signals = ["olympian", "transition", "leader", "global"]
+        .map((s) => {
+          const title = t(L, "about", `signal_${s}_title`);
+          const desc = t(L, "about", `signal_${s}_desc`);
+          return title ? `<li><strong>${escapeHtml(title)}</strong>${desc ? ` — ${escapeHtml(desc)}` : ""}</li>` : "";
+        })
+        .filter(Boolean)
+        .join("\n        ");
+      const milestones = ["1999", "2004", "2008", "2014", "2016", "2017", "2020", "2022", "2023", "2025"]
+        .map((y) => {
+          const role = t(L, "journey", `milestone_${y}_role`);
+          const desc = t(L, "journey", `milestone_${y}_desc`);
+          const year = t(L, "journey", `milestone_${y}_year`, y);
+          return role ? `<li><strong>${escapeHtml(year)} — ${escapeHtml(role)}:</strong> ${escapeHtml(desc)}</li>` : "";
+        })
+        .filter(Boolean)
+        .join("\n        ");
       sectionHtml = `
     <section>
-      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">${spec.locale === "br" ? "Sobre Gabriel" : spec.locale === "es" ? "Acerca de Gabriel" : "About Gabriel"}</h2>
-      <p>${spec.locale === "br" ? "Atleta olímpico de duas olimpíadas que se tornou Estrategista de Growth Marketing. Liderou growth na Binance, Coca-Cola e no Comitê Olímpico Internacional. Ajuda empresas Web3, DeFi e IA a escalar com dados, automação e storytelling." : spec.locale === "es" ? "Atleta olímpico de dos olimpiadas convertido en Estratega de Growth Marketing. Lideró growth en Binance, Coca-Cola y el Comité Olímpico Internacional. Ayuda a empresas Web3, DeFi e IA a escalar con datos, automatización y storytelling." : "Two-time Olympian turned Growth Marketing Strategist. Former growth lead at Binance, Coca-Cola, and the International Olympic Committee. Helps Web3, DeFi, and AI companies scale through data, automation, and storytelling."}</p>
+      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">${escapeHtml(t(L, "about", "section_title", L === "br" ? "Sobre Gabriel" : L === "es" ? "Acerca de Gabriel" : "About Gabriel"))}</h2>
+      <p>${escapeHtml(t(L, "about", "narrative_para1", "Two-time Olympian turned Growth Marketing Strategist. Former growth lead at Binance, Coca-Cola, and the International Olympic Committee."))}</p>
+      <p>${escapeHtml(t(L, "about", "narrative_para2", ""))}</p>
+      ${signals ? `<ul>\n        ${signals}\n      </ul>` : ""}
+      ${milestones ? `<h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">${escapeHtml(t(L, "journey", "section_title", "Journey"))}</h2>\n      <ul>\n        ${milestones}\n      </ul>` : ""}
     </section>`;
       break;
+    }
     case "privacy":
       sectionHtml = `
     <section>
@@ -774,21 +876,159 @@ function buildSectionContent(spec: RouteSpec): string {
     </section>`;
       break;
     case "home":
-    default:
+    default: {
+      // Mirrors the live homepage section-by-section (hero, stats, about,
+      // case studies, capabilities, methods, testimonials, CTA) using the same
+      // translations CSV the React components render from.
+      const L = spec.locale;
+      const h2 = (text: string) =>
+        `<h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">${escapeHtml(text)}</h2>`;
+
+      const heroProofs = ["proof_olympian", "proof_readers", "proof_raised"]
+        .map((k) => t(L, "hero", k))
+        .filter(Boolean)
+        .map((p) => `<li>${escapeHtml(p)}</li>`)
+        .join("\n        ");
+
+      const stats = ["olympian", "raised", "readers", "ad_spend"]
+        .map((s) => {
+          const num = t(L, "social_proof", `stat_${s}_number`);
+          const suffix = t(L, "social_proof", `stat_${s}_suffix`);
+          const label = t(L, "social_proof", `stat_${s}_label`);
+          const sub = t(L, "social_proof", `stat_${s}_subtitle`);
+          return num ? `<li><strong>${escapeHtml(num)}${escapeHtml(suffix)} ${escapeHtml(label)}</strong>${sub ? ` — ${escapeHtml(sub)}` : ""}</li>` : "";
+        })
+        .filter(Boolean)
+        .join("\n        ");
+
+      const labelChallenge = t(L, "case_studies", "label_challenge", "Challenge");
+      const labelApproach = t(L, "case_studies", "label_approach", "Approach");
+      const labelImpact = t(L, "case_studies", "label_impact", "Impact");
+      const cases = ["binance", "np", "russell", "coca_cola"]
+        .map((c) => {
+          const title = t(L, "case_studies", `${c}_title`);
+          if (!title) return "";
+          const challenge = t(L, "case_studies", `${c}_challenge`);
+          const approach = t(L, "case_studies", `${c}_approach`);
+          const resultNum = t(L, "case_studies", `${c}_result_number`);
+          const resultText = t(L, "case_studies", `${c}_result_text`);
+          return `<li><strong>${escapeHtml(title)}.</strong> ${escapeHtml(labelChallenge)}: ${escapeHtml(challenge)} ${escapeHtml(labelApproach)}: ${escapeHtml(approach)} ${escapeHtml(labelImpact)}: <strong>${escapeHtml(resultNum)}</strong> ${escapeHtml(resultText)}</li>`;
+        })
+        .filter(Boolean)
+        .join("\n        ");
+
+      const capabilities = ["ai", "web3", "data"]
+        .map((c) => {
+          const title = t(L, "capabilities", `${c}_title`);
+          if (!title) return "";
+          const desc = t(L, "capabilities", `${c}_description`);
+          const toolsList = [1, 2, 3].map((i) => t(L, "capabilities", `${c}_tool_${i}`)).filter(Boolean).join(", ");
+          return `<li><strong>${escapeHtml(title)}</strong> — ${escapeHtml(desc)}${toolsList ? ` (${escapeHtml(toolsList)})` : ""}</li>`;
+        })
+        .filter(Boolean)
+        .join("\n        ");
+
+      const methods = ["funnel", "loops", "media"]
+        .map((m) => {
+          const title = t(L, "methods", `${m}_title`);
+          if (!title) return "";
+          const sub = t(L, "methods", `${m}_subtitle`);
+          const desc = t(L, "methods", `${m}_description`);
+          return `<li><strong>${escapeHtml(title)}</strong>${sub ? ` (${escapeHtml(sub)})` : ""} — ${escapeHtml(desc)}</li>`;
+        })
+        .filter(Boolean)
+        .join("\n        ");
+
+      const journeyMilestones = ["1999", "2004", "2008", "2014", "2016", "2017", "2020", "2022", "2023", "2025"]
+        .map((y) => {
+          const role = t(L, "journey", `milestone_${y}_role`);
+          if (!role) return "";
+          const desc = t(L, "journey", `milestone_${y}_desc`);
+          const year = t(L, "journey", `milestone_${y}_year`, y);
+          return `<li><strong>${escapeHtml(year)} — ${escapeHtml(role)}:</strong> ${escapeHtml(desc)}</li>`;
+        })
+        .filter(Boolean)
+        .join("\n        ");
+
+      const toolCards = ["growth_exp", "web3_roast", "token_health", "shopify"]
+        .map((k) => {
+          const title = t(L, "tools", `${k}_title`);
+          if (!title) return "";
+          const desc = t(L, "tools", `${k}_description`);
+          const cat = t(L, "tools", `${k}_category`);
+          return `<li><strong>${escapeHtml(title)}</strong>${cat ? ` (${escapeHtml(cat)})` : ""} — ${escapeHtml(desc)}</li>`;
+        })
+        .filter(Boolean)
+        .join("\n        ");
+
+      const pubTeasers = ["web3_athletes", "web2_vs_web3", "vibe_coded"]
+        .map((k) => {
+          const title = t(L, "publications", `${k}_title`);
+          if (!title) return "";
+          const desc = t(L, "publications", `${k}_description`);
+          return `<li><strong>${escapeHtml(title)}</strong> — ${escapeHtml(desc)}</li>`;
+        })
+        .filter(Boolean)
+        .join("\n        ");
+
+      const testimonials = ["will", "lucas", "jonathan", "lambert"]
+        .map((w) => {
+          const quote = t(L, "testimonials", `${w}_quote`);
+          if (!quote) return "";
+          const name = t(L, "testimonials", `${w}_name`);
+          const title = t(L, "testimonials", `${w}_title`);
+          const company = t(L, "testimonials", `${w}_company`);
+          const attribution = [name, title, company].filter(Boolean).join(", ");
+          return `<blockquote style="margin:0 0 12px;border-left:3px solid #1FB6FF;padding-left:12px;">"${escapeHtml(quote)}" — <strong>${escapeHtml(attribution)}</strong></blockquote>`;
+        })
+        .filter(Boolean)
+        .join("\n      ");
+
       sectionHtml = `
     <section>
-      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">${spec.locale === "br" ? "O que eu faço" : spec.locale === "es" ? "Qué hago" : "What I do"}</h2>
-      <p>${spec.locale === "br" ? "Projeto e opero sistemas de growth para empresas baseadas em tokens e startups nativas de IA — combinando análise quantitativa, criativo de performance, automação de ciclo de vida e estratégia de conteúdo AEO/SEO." : spec.locale === "es" ? "Diseño y opero sistemas de growth para empresas basadas en tokens y startups nativas de IA — combinando análisis cuantitativo, creativo de performance, automatización de ciclo de vida y estrategia de contenido AEO/SEO." : "I design and operate growth systems for token-based businesses and AI-native startups — combining quantitative analysis, performance creative, lifecycle automation, and AEO/SEO content strategy."}</p>
+      ${h2(t(L, "hero", "main_headline", "Growth systems for Web3 and AI-native companies"))}
+      <p>${escapeHtml(t(L, "hero", "subheadline", ""))}</p>
+      ${heroProofs ? `<ul>\n        ${heroProofs}\n      </ul>` : ""}
 
-      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">${spec.locale === "br" ? "Capacidades" : spec.locale === "es" ? "Capacidades" : "Capabilities"}</h2>
-      <ul>
-        <li>${spec.locale === "br" ? "Estratégia de growth para Web3, DeFi e IA" : spec.locale === "es" ? "Estrategia de growth para Web3, DeFi e IA" : "Growth strategy for Web3, DeFi, and AI products"}</li>
-        <li>${spec.locale === "br" ? "Design de tokenomics e simulação econômica de 5 anos" : spec.locale === "es" ? "Diseño de tokenomics y simulación económica de 5 años" : "Tokenomics design and 5-year economic simulation"}</li>
-        <li>${spec.locale === "br" ? "Sistemas de comunidade, conteúdo e automação de ciclo de vida" : spec.locale === "es" ? "Sistemas de comunidad, contenido y automatización de ciclo de vida" : "Community, content, and lifecycle automation systems"}</li>
-        <li>SEO + AEO (ChatGPT, Claude, Perplexity, Google AI Overviews)</li>
-        <li>${spec.locale === "br" ? "Analytics de performance, atribuição e dashboards de receita" : spec.locale === "es" ? "Analytics de performance, atribución y dashboards de ingresos" : "Performance analytics, attribution, and revenue dashboards"}</li>
-      </ul>
+      ${h2(t(L, "social_proof", "section_title", "Track record"))}
+      <p>${escapeHtml(t(L, "social_proof", "section_subtitle", ""))}</p>
+      ${stats ? `<ul>\n        ${stats}\n      </ul>` : ""}
+
+      ${h2(t(L, "about", "section_title", "About Gabriel"))}
+      <p>${escapeHtml(t(L, "about", "narrative_para1", ""))}</p>
+      <p>${escapeHtml(t(L, "about", "narrative_para2", ""))}</p>
+
+      ${h2(t(L, "case_studies", "section_title", "Case studies"))}
+      <p>${escapeHtml(t(L, "case_studies", "section_subtitle", ""))}</p>
+      ${cases ? `<ul>\n        ${cases}\n      </ul>` : ""}
+
+      ${h2(t(L, "capabilities", "section_title", "Capabilities"))}
+      <p>${escapeHtml(t(L, "capabilities", "section_subtitle", ""))}</p>
+      ${capabilities ? `<ul>\n        ${capabilities}\n      </ul>` : ""}
+
+      ${h2(t(L, "methods", "section_title", "Methods"))}
+      <p>${escapeHtml(t(L, "methods", "section_subtitle", ""))}</p>
+      ${methods ? `<ul>\n        ${methods}\n      </ul>` : ""}
+
+      ${h2(t(L, "journey", "section_title", "Journey"))}
+      <p>${escapeHtml(t(L, "journey", "section_subtitle", ""))}</p>
+      ${journeyMilestones ? `<ul>\n        ${journeyMilestones}\n      </ul>` : ""}
+
+      ${h2(t(L, "tools", "section_title", "Tools & experiments"))}
+      <p>${escapeHtml(t(L, "tools", "section_subtitle", ""))}</p>
+      ${toolCards ? `<ul>\n        ${toolCards}\n      </ul>` : ""}
+
+      ${h2(t(L, "publications", "section_title", "Publications"))}
+      <p>${escapeHtml(t(L, "publications", "section_subtitle", ""))}</p>
+      ${pubTeasers ? `<ul>\n        ${pubTeasers}\n      </ul>` : ""}
+
+      ${h2(t(L, "testimonials", "section_title", "What operators say"))}
+      ${testimonials}
+
+      ${h2(t(L, "cta", "section_headline", "Work with me"))}
+      <p>${escapeHtml(t(L, "cta", "section_subheadline", ""))}</p>
     </section>`;
+    }
   }
 
   return sectionHtml;
@@ -826,20 +1066,21 @@ function buildBodyContent(spec: RouteSpec): string {
 }
 
 function buildNoscript(spec: RouteSpec): string {
+  // Intentionally slim: the full route content already sits in the visible
+  // <div data-prerender> block, so repeating it here doubled every snapshot's
+  // payload and made bot-vs-rendered word counts read ~2x. No-JS visitors
+  // still get title, description, and full navigation.
   const nav = NAV_BY_LOCALE[spec.locale];
   const altLangs = ALT_LANG_LINKS[spec.locale];
-  const sectionHtml = buildSectionContent(spec);
-  const sectionHasH1 = /<h1[\s>]/i.test(sectionHtml);
   return `
       <noscript>
         <div style="font-family:Inter,system-ui,sans-serif;max-width:920px;margin:0 auto;padding:32px 20px;color:#0A2540;line-height:1.6;">
-          ${sectionHasH1 ? "" : `<h1 style="font-family:Poppins,sans-serif;">${escapeHtml(spec.title)}</h1>`}
+          <p><strong>${escapeHtml(spec.title)}</strong></p>
           <p>${escapeHtml(spec.description)}</p>
           <h2>${nav.label}</h2>
           <ul>
             ${nav.items.map((i) => `<li><a href="${i.href}">${escapeHtml(i.text)}</a></li>`).join("\n            ")}
           </ul>
-          ${sectionHtml}
           <p>${altLangs}</p>
           <p>Contact: hello@mangabeira.net</p>
         </div>
