@@ -145,6 +145,20 @@ mcpServer.tool("upsert_page", {
       return { content: [{ type: "text" as const, text: "Error: At least one translation is required." }], isError: true };
     }
 
+    // Featured images must be hosted URLs. Dev-only paths like
+    // /src/assets/foo.png resolve in the Vite dev server but 404 in
+    // production (assets are hashed at build), which shipped three broken
+    // covers before this guard (fixed 2026-07-09).
+    if (featured_image && !/^https?:\/\//.test(featured_image)) {
+      return {
+        content: [{
+          type: "text" as const,
+          text: `Error: featured_image must be a full https:// URL (got "${featured_image}"). Upload the image first with the upload_image tool and use the returned public_url.`,
+        }],
+        isError: true,
+      };
+    }
+
     const { data: existingPage, error: fetchError } = await supabase
       .from("pages")
       .select("id, is_system_page")

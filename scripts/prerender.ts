@@ -497,13 +497,13 @@ function publicationRoutes(pages: any[]): RouteSpec[] {
         title: tr.title || "Publication",
         description:
           tr.meta_description || t(locale, "meta", "page_description"),
-        ogImage: (page as any).featured_image || undefined,
+        ogImage: /^https?:\/\//.test((page as any).featured_image || "") ? (page as any).featured_image : undefined,
         ogType: "article",
         kind: "publication",
         schemas: dbSchemas.length ? dbSchemas : undefined,
         bodyExtra: {
           content: tr.content || "",
-          featuredImage: (page as any).featured_image || "",
+          featuredImage: /^https?:\/\//.test((page as any).featured_image || "") ? (page as any).featured_image : "",
         },
       });
     }
