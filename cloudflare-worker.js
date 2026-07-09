@@ -1,6 +1,12 @@
-// Cloudflare Worker: mangabeira-snapshot-router v2.4
+// Cloudflare Worker: mangabeira-snapshot-router v2.5
 // - Proxies /sitemap.xml, /rss/*.xml, /llms*.txt to Supabase Storage (all visitors)
-// - Serves seo-snapshot pre-rendered HTML to bots (HTML bot requests only)
+// - Static system routes (home/about/tools/audit/privacy): bots go to ORIGIN —
+//   Lovable serves the per-route prerendered dist file, which is regenerated on
+//   every deploy. The Storage bucket copy goes stale when the build can't upload
+//   (no service key in build env), so origin is the reliable source here.
+// - Publication articles + hubs: bots get seo-snapshot (Storage-backed,
+//   self-healing from DB) because origin serves the SPA shell for nested routes
+//   and the hub's build-time article list is empty without DB access.
 // - Propagates 3xx redirects from seo-snapshot (slug corrections)
 // - Falls back to origin for all other requests
 
@@ -21,13 +27,19 @@ const STORAGE_PROXY = {
   "/llms-full.txt": STORAGE_BASE + "/llms-full.txt",
 };
 
-const STATIC_ROUTES = new Set([
-  "/", "/about", "/publications", "/privacy-policy",
+// Served to bots from ORIGIN (fresh per-route prerendered file every deploy).
+const ORIGIN_PRERENDERED_ROUTES = new Set([
+  "/", "/about", "/privacy-policy",
   "/tools", "/tools/tokenomics-simulator", "/services/web3-growth-audit",
-  "/br", "/br/sobre", "/br/artigos", "/br/politica-de-privacidade",
+  "/br", "/br/sobre", "/br/politica-de-privacidade",
   "/br/ferramentas", "/br/ferramentas/simulador-tokenomics", "/br/servicos/web3-auditoria-de-growth",
-  "/es", "/es/acerca-de", "/es/articulos", "/es/politica-de-privacidad",
+  "/es", "/es/acerca-de", "/es/politica-de-privacidad",
   "/es/herramientas", "/es/herramientas/simulador-tokenomics", "/es/servicios/web3-auditoria-de-growth",
+]);
+
+// Served to bots from seo-snapshot (Storage bucket, DB self-heal for articles).
+const SNAPSHOT_ROUTES = new Set([
+  "/publications", "/br/artigos", "/es/articulos",
 ]);
 
 const DYNAMIC_PREFIXES = [
@@ -45,8 +57,8 @@ function normalizePath(p) {
   return p;
 }
 
-function isKnownRoute(path) {
-  if (STATIC_ROUTES.has(path)) return true;
+function isSnapshotRoute(path) {
+  if (SNAPSHOT_ROUTES.has(path)) return true;
   return DYNAMIC_PREFIXES.some(function(pre) { return path.startsWith(pre); });
 }
 
@@ -87,7 +99,22 @@ async function handleRequest(request) {
   var isBot = BOT_UA.test(ua);
   var isHTMLRequest = request.method === "GET" && accept.includes("text/html");
 
-  if (!isHTMLRequest || !isBot || !isKnownRoute(path)) {
+  if (!isHTMLRequest || !isBot) {
+    return fetch(request);
+  }
+
+  // Static system routes: origin already serves the prerendered per-route file
+  // (full body content + meta + JSON-LD, regenerated on every Lovable deploy).
+  if (ORIGIN_PRERENDERED_ROUTES.has(path)) {
+    var originResp = await fetch(request, {
+      cf: { cacheTtl: 300, cacheEverything: true },
+    });
+    var oh = new Headers(originResp.headers);
+    oh.set("x-render-source", "cf-worker-origin-prerender");
+    return new Response(originResp.body, { status: originResp.status, headers: oh });
+  }
+
+  if (!isSnapshotRoute(path)) {
     return fetch(request);
   }
 
