@@ -1,4 +1,4 @@
-// Cloudflare Worker: mangabeira-snapshot-router v2.5
+// Cloudflare Worker: mangabeira-snapshot-router v2.6
 // - Proxies /sitemap.xml, /rss/*.xml, /llms*.txt to Supabase Storage (all visitors)
 // - Static system routes (home/about/tools/audit/privacy): bots go to ORIGIN —
 //   Lovable serves the per-route prerendered dist file, which is regenerated on
@@ -8,6 +8,10 @@
 //   self-healing from DB) because origin serves the SPA shell for nested routes
 //   and the hub's build-time article list is empty without DB access.
 // - Propagates 3xx redirects from seo-snapshot (slug corrections)
+// - Propagates 404 from seo-snapshot as a REAL 404 (v2.6). Previously an
+//   unknown article slug fell through to origin, which returns index.html
+//   with status 200 — a soft 404. Body still comes from origin so the SPA
+//   renders its NotFound page; only the status code is corrected.
 // - Falls back to origin for all other requests
 
 const SNAPSHOT_ENDPOINT =
@@ -142,6 +146,20 @@ async function handleRequest(request) {
       headers.set("Cache-Control", "public, max-age=300, s-maxage=300");
       headers.set("x-render-source", "cf-worker-snapshot");
       return new Response(snap.body, { status: 200, headers: headers });
+    }
+
+    // Unknown slug on a publication route. seo-snapshot self-heals from the DB,
+    // so a 404 here means the page does not exist. Serve origin's body (React
+    // renders NotFound) but with the correct 404 status instead of a soft 404.
+    // Deliberately not cached: a transient upstream 404 must not stick at edge.
+    if (snap.status === 404) {
+      var nf = await fetch(request);
+      var nfh = new Headers(nf.headers);
+      nfh.set("Content-Type", "text/html; charset=utf-8");
+      nfh.set("Cache-Control", "no-store");
+      nfh.set("X-Robots-Tag", "noindex");
+      nfh.set("x-render-source", "cf-worker-404");
+      return new Response(nf.body, { status: 404, headers: nfh });
     }
   } catch (e) {
     console.error("Snapshot fetch failed:", e);
