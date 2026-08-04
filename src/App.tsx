@@ -25,6 +25,7 @@ import Web3GrowthAudit from "./pages/Web3GrowthAudit";
 import AuditPaymentSuccess from "./pages/AuditPaymentSuccess";
 import TokenomicsSimulatorPage from "./tools/tokenomics-simulator/TokenomicsSimulatorPage";
 import ToolsPage from "./pages/ToolsPage";
+import OAuthConsent from "./pages/OAuthConsent";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -114,6 +115,9 @@ const App = () => {
               
               {/* Auth route */}
               <Route path="/auth" element={<Auth />} />
+
+              {/* MCP OAuth consent screen */}
+              <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
               
               {/* Admin routes - requires authentication */}
               <Route path="/admin" element={<Admin />} />
