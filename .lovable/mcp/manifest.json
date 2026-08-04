@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "sdk_version": "0.26.1",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://hetemmltaoirimmoxzku.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "mangabeira",
+      "version": "0.1.0",
+      "title": "mangabeira"
+    },
+    "tools": [
+      {
+        "name": "list_pages",
+        "title": "List pages",
+        "description": "List content pages (articles and system pages) with slug, status, category and available languages.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "all",
+                "published",
+                "draft"
+              ],
+              "description": "Filter by page status. Defaults to 'all'."
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "description": "Maximum number of pages to return. Defaults to 50."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_page",
+        "title": "Get page",
+        "description": "Get one page by its canonical (English) slug, including every translation with title, meta description, content and JSON-LD schema.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "slug": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The canonical/English page slug."
+            }
+          },
+          "required": [
+            "slug"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "search_content",
+        "title": "Search content",
+        "description": "Full-text-ish search across page translations (title, meta description and body) for a keyword, optionally scoped to one language.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "minLength": 2,
+              "description": "Keyword or phrase to look for."
+            },
+            "language": {
+              "type": "string",
+              "description": "Optional language filter: 'en', 'br' or 'es'."
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "description": "Defaults to 10."
+            }
+          },
+          "required": [
+            "query"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "upsert_page",
+        "title": "Create or update page",
+        "description": "Create or update a content page and its translations. Defaults to status 'draft'. Requires an admin account; system pages are protected unless force_system_page is true.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "slug": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Canonical (English) URL slug."
+            },
+            "category": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "draft",
+                "published"
+              ],
+              "description": "Defaults to 'draft'."
+            },
+            "featured_image": {
+              "type": "string",
+              "description": "Full https:// URL to the featured image."
+            },
+            "author_name": {
+              "type": "string"
+            },
+            "read_time": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "is_featured": {
+              "type": "boolean"
+            },
+            "force_system_page": {
+              "type": "boolean",
+              "description": "Set true to allow overwriting a system page."
+            },
+            "translations": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "language": {
+                    "type": "string",
+                    "minLength": 2,
+                    "description": "Language code: 'en', 'br' or 'es'."
+                  },
+                  "title": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "meta_description": {
+                    "type": "string"
+                  },
+                  "content": {
+                    "type": "string",
+                    "description": "HTML content body."
+                  },
+                  "localized_slug": {
+                    "type": "string",
+                    "description": "Localized URL slug."
+                  },
+                  "featured_image_alt": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "language",
+                  "title"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1,
+              "description": "At least one translation (EN recommended)."
+            }
+          },
+          "required": [
+            "slug",
+            "translations"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
