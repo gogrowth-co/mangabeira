@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,18 +8,34 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { toast } from 'sonner';
 import { Helmet } from 'react-helmet-async';
 
+/** Only same-origin relative paths are allowed as post-login redirects. */
+function safeNext(value: string | null): string | null {
+  if (!value) return null;
+  if (!value.startsWith('/') || value.startsWith('//')) return null;
+  return value;
+}
+
 export default function Auth() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const { signIn, user, isAdmin } = useAuth();
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const next = safeNext(params.get('next'));
 
   useEffect(() => {
-    if (user && isAdmin) {
+    if (!user) return;
+    // A preserved `next` (e.g. the MCP OAuth consent URL) always wins so the
+    // connector flow returns to where it started instead of the admin panel.
+    if (next) {
+      window.location.href = next;
+      return;
+    }
+    if (isAdmin) {
       navigate('/admin');
     }
-  }, [user, isAdmin, navigate]);
+  }, [user, isAdmin, navigate, next]);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
