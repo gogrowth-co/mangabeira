@@ -45,22 +45,30 @@ const AuditPaymentSuccess = () => {
             </p>
           </div>
           
-          {/* Intake Form Section */}
-          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 md:p-8 mb-8 border border-white/10">
+          {/*
+            Light card, deliberately. HubSpot renders this form inside a
+            cross-origin iframe (.hs-form-frame), so no CSS of ours can reach its
+            labels — and its theme paints them dark navy, which was invisible on
+            the translucent dark card this used to sit on. Putting the form on a
+            white surface is the only fix available from our side; the alternative
+            is recolouring the form in HubSpot's own editor. Keep this background
+            light unless that theme changes.
+          */}
+          <div className="bg-white rounded-2xl p-6 md:p-8 mb-8 border border-black/5 shadow-lg">
             <div className="flex items-center gap-3 mb-4">
-              <div className="flex-shrink-0 w-10 h-10 bg-[hsl(var(--aqua-bright))]/20 rounded-lg flex items-center justify-center">
+              <div className="flex-shrink-0 w-10 h-10 bg-[hsl(var(--navy-deep))] rounded-lg flex items-center justify-center">
                 <ClipboardList className="w-5 h-5 text-[hsl(var(--aqua-bright))]" />
               </div>
               <div>
-                <h2 className="font-hero font-bold text-xl text-white">
+                <h2 className="font-hero font-bold text-xl text-[hsl(var(--navy-deep))]">
                   Complete Your Intake Form
                 </h2>
-                <p className="font-body text-sm text-white/60">
+                <p className="font-body text-sm text-slate-600">
                   Fill this out so I can start your audit immediately
                 </p>
               </div>
             </div>
-            
+
             <HubSpotForm 
               portalId="44894585" 
               formId="bb7ca9e0-d5bd-4b9f-96bf-dd66ccf6aec5" 
