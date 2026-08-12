@@ -144,11 +144,11 @@ const AuditLanding = () => {
                 </div>
                 <figure className="hero-proof">
                   <img
-                    src={boardOverview.url}
+                    src={boardOverview}
                     width={1440}
                     height={693}
                     alt="Real EigenLayer Miro board organized across Website, dApp, Social Media, Community, SEO, PR, and Paid Ads"
-                    fetchPriority="high"
+                    fetchpriority="high"
                   />
                   <figcaption>Real Miro evidence, organized as one growth system.</figcaption>
                 </figure>
@@ -327,9 +327,9 @@ const AuditLanding = () => {
           </ol>
           <figure className="method-visual">
             <picture>
-              <source media="(max-width: 700px)" srcSet={sixSurfaceMobile.url} />
+              <source media="(max-width: 700px)" srcSet={sixSurfaceMobile} />
               <img
-                src={sixSurfaceDesktop.url}
+                src={sixSurfaceDesktop}
                 width={1600}
                 height={900}
                 loading="lazy"
@@ -371,9 +371,9 @@ const AuditLanding = () => {
           </div>
           <figure className="method-visual method-visual-pool">
             <picture>
-              <source media="(max-width: 700px)" srcSet={evidenceMobile.url} />
+              <source media="(max-width: 700px)" srcSet={evidenceMobile} />
               <img
-                src={evidenceDesktop.url}
+                src={evidenceDesktop}
                 width={1400}
                 height={700}
                 loading="lazy"
@@ -389,7 +389,7 @@ const AuditLanding = () => {
             <figure className="evidence-card tall-evidence">
               <div className="image-stage image-stage-tall">
                 <img
-                  src={websiteFrame.url}
+                  src={websiteFrame}
                   width={205}
                   height={610}
                   loading="lazy"
@@ -446,7 +446,7 @@ const AuditLanding = () => {
           <figure className="evidence-card board-card">
             <div className="image-stage board-stage">
               <img
-                src={boardOverview.url}
+                src={boardOverview}
                 width={1440}
                 height={693}
                 loading="lazy"
@@ -480,7 +480,7 @@ const AuditLanding = () => {
               controls
               muted
               playsInline
-              poster={walkthroughPoster.url}
+              poster={walkthroughPoster}
               preload="none"
               width={1008}
               height={1116}
@@ -645,7 +645,7 @@ const AuditLanding = () => {
           <figure className="evidence-card board-card">
             <div className="image-stage sprint-stage">
               <img
-                src={sprintProof.url}
+                src={sprintProof}
                 width={1440}
                 height={360}
                 loading="lazy"
@@ -755,7 +755,7 @@ const AuditLanding = () => {
           </div>
           <figure className="method-visual handoff-visual">
             <img
-              src={deliveryHandoff.url}
+              src={deliveryHandoff}
               width={1400}
               height={700}
               loading="lazy"
