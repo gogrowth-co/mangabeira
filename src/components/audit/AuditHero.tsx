@@ -67,7 +67,7 @@ const AuditHero = () => {
           
           {/* Guarantee Text */}
           <p className="text-white/80 text-sm font-body mt-4">
-            If I don't find at least 3 meaningful insights, you don't pay.
+            If I don't find at least 3 meaningful, actionable insights, you get a full refund.
           </p>
 
           {/* Trust Logos Bar (bottom of hero) */}
