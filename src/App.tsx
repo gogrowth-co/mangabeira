@@ -23,7 +23,6 @@ import Auth from "./pages/Auth";
 import RssFeed from "./pages/RssFeed";
 import Web3GrowthAudit from "./pages/Web3GrowthAudit";
 import AuditPaymentSuccess from "./pages/AuditPaymentSuccess";
-import AuditLanding from "./pages/AuditLanding";
 import AuditLandingV2 from "./pages/AuditLandingV2";
 import TokenomicsSimulatorPage from "./tools/tokenomics-simulator/TokenomicsSimulatorPage";
 import ToolsPage from "./pages/ToolsPage";
@@ -69,8 +68,16 @@ const App = () => {
               <Route path="/br/servicos/web3-auditoria-de-growth" element={<Web3GrowthAudit />} />
               <Route path="/es/servicios/web3-auditoria-de-growth" element={<Web3GrowthAudit />} />
 
-              {/* Standalone ads landing page (not linked in site nav) */}
-              <Route path="/audit" element={<AuditLanding />} />
+              {/* Retired 2026-08-12. The old ads landing page is no longer live;
+                  redirected rather than 404'd so any stray ad or email link still
+                  lands on the real service page. src/pages/AuditLanding.tsx is kept
+                  in the repo, so restoring is just re-adding its import and route.
+                  Dropping the import also keeps that page's code and images out of
+                  the bundle. */}
+              <Route
+                path="/audit"
+                element={<Navigate to="/services/web3-growth-audit" replace />}
+              />
 
               {/* Test landing page from the Claude Design prototype. noindex; not in site nav. */}
               <Route path="/lp/web3-growth-audit-v2" element={<AuditLandingV2 />} />
