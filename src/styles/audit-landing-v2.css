@@ -1,0 +1,48 @@
+/* Web3 Growth Audit landing page (v2 test route: /lp/web3-growth-audit-v2).
+   Ported from the Claude Design prototype. All layout lives in inline styles on
+   the elements themselves; this file only carries what inline styles cannot
+   express: the base reset, link colours, and :hover / :active states.
+   Everything is scoped under .w3v2 so it cannot leak into the rest of the site. */
+
+.w3v2, .w3v2 * { box-sizing: border-box; }
+
+.w3v2 {
+  background: #FFFFFF;
+  color: #0A2540;
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.w3v2 a { color: #0A2540; text-decoration: underline; text-underline-offset: 3px; }
+.w3v2 a:hover { color: #FF7A3D; }
+
+/* Generated from the prototype's style-hover / style-active attributes. */
+.w3v2 .hv1:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(255,184,0,0.40); }
+.w3v2 .hv2:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(255,184,0,0.40); }
+.w3v2 .ac3:active { transform:scale(0.97); }
+.w3v2 .hv4:hover { background:#FFFFFF; color:#0A2540; }
+.w3v2 .hv5:hover { filter:grayscale(0); opacity:1; }
+.w3v2 .hv6:hover { filter:grayscale(0); opacity:1; }
+.w3v2 .hv7:hover { filter:grayscale(0); opacity:1; }
+.w3v2 .hv8:hover { filter:grayscale(0); opacity:1; }
+.w3v2 .hv9:hover { transform:translateY(-4px); border-color:rgba(255,122,61,0.30); box-shadow:0 8px 30px rgba(10,37,64,0.12); }
+.w3v2 .hv10:hover { transform:translateY(-4px); border-color:rgba(255,122,61,0.30); box-shadow:0 8px 30px rgba(10,37,64,0.12); }
+.w3v2 .hv11:hover { transform:translateY(-4px); border-color:rgba(255,122,61,0.30); box-shadow:0 8px 30px rgba(10,37,64,0.12); }
+.w3v2 .hv12:hover { transform:translateY(-4px); border-color:rgba(255,122,61,0.30); box-shadow:0 8px 30px rgba(10,37,64,0.12); }
+.w3v2 .hv13:hover { transform:translateY(-4px); border-color:rgba(255,122,61,0.30); box-shadow:0 8px 30px rgba(10,37,64,0.12); }
+.w3v2 .hv14:hover { transform:translateY(-4px); border-color:rgba(255,122,61,0.30); box-shadow:0 8px 30px rgba(10,37,64,0.12); }
+.w3v2 .hv15:hover { transform:translateY(-4px); border-color:rgba(255,122,61,0.30); box-shadow:0 8px 30px rgba(10,37,64,0.12); }
+.w3v2 .hv16:hover { transform:translateY(-4px); border-color:rgba(255,122,61,0.30); box-shadow:0 8px 30px rgba(10,37,64,0.12); }
+.w3v2 .hv17:hover { transform:translateY(-4px); border-color:rgba(255,122,61,0.30); box-shadow:0 8px 30px rgba(10,37,64,0.12); }
+.w3v2 .hv18:hover { transform:translateY(-4px); border-color:rgba(255,122,61,0.30); box-shadow:0 8px 30px rgba(10,37,64,0.12); }
+.w3v2 .hv19:hover { transform:translateY(-2px); box-shadow:0 6px 12px rgba(255,140,26,0.30); }
+.w3v2 .hv20:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(255,184,0,0.40); }
+.w3v2 .hv21:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(255,184,0,0.40); }
+
+/* The prototype ships no media queries, so every multi-column grid stayed
+   multi-column down to 390px: cards collapsed to ~100px wide and the pricing
+   row pushed 20px past the viewport. Stack them below the tablet breakpoint.
+   Layout above 720px is untouched and still matches the design exactly. */
+@media (max-width: 720px) {
+  .w3v2 .stackable-grid { grid-template-columns: 1fr !important; }
+}

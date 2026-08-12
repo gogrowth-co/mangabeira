@@ -24,6 +24,7 @@ import RssFeed from "./pages/RssFeed";
 import Web3GrowthAudit from "./pages/Web3GrowthAudit";
 import AuditPaymentSuccess from "./pages/AuditPaymentSuccess";
 import AuditLanding from "./pages/AuditLanding";
+import AuditLandingV2 from "./pages/AuditLandingV2";
 import TokenomicsSimulatorPage from "./tools/tokenomics-simulator/TokenomicsSimulatorPage";
 import ToolsPage from "./pages/ToolsPage";
 import OAuthConsent from "./pages/OAuthConsent";
@@ -70,6 +71,9 @@ const App = () => {
 
               {/* Standalone ads landing page (not linked in site nav) */}
               <Route path="/audit" element={<AuditLanding />} />
+
+              {/* Test landing page from the Claude Design prototype. noindex; not in site nav. */}
+              <Route path="/lp/web3-growth-audit-v2" element={<AuditLandingV2 />} />
               
               {/* Redirects for audit pages without locale prefix */}
               <Route path="/servicos/web3-auditoria-de-growth" element={<Navigate to="/br/servicos/web3-auditoria-de-growth" replace />} />
