@@ -33,6 +33,29 @@ const SPOTS_REMAINING: number = 10;
 
 const FAQ_COUNT = 6;
 
+/** Identifies this page in GA4 so its events can be compared against /audit. */
+const LP_ID = "web3-growth-audit-v2";
+
+declare global {
+  interface Window {
+    dataLayer?: Record<string, unknown>[];
+  }
+}
+
+/**
+ * Push a custom event to the GTM dataLayer.
+ *
+ * GA4 on this site is loaded *inside* GTM (window.gtag is undefined), so there
+ * is no way to send GA4 events straight from code. Every event below needs a
+ * matching GTM trigger + GA4 event tag to reach GA4. All names share the `lp_`
+ * prefix so one regex trigger (`^lp_`) can forward the whole set.
+ */
+const track = (event: string, params: Record<string, string | number | boolean> = {}) => {
+  if (typeof window === "undefined") return;
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event, lp_id: LP_ID, ...params });
+};
+
 const AuditLandingV2 = () => {
   const [openFaq, setOpenFaq] = useState(0);
 
@@ -58,7 +81,20 @@ const AuditLandingV2 = () => {
     return () => root.removeEventListener("click", onClick);
   }, []);
 
-  const toggle = (i: number) => setOpenFaq((current) => (current === i ? -1 : i));
+  const toggle = (i: number) => {
+    setOpenFaq((current) => {
+      const next = current === i ? -1 : i;
+      // Only report opens. Which objection people click is the useful signal.
+      if (next === i) {
+        const header = document.querySelectorAll('#w3v2-root [role="button"]')[i];
+        track("lp_faq_open", {
+          faq_index: i,
+          faq_question: (header?.textContent || "").trim().replace(/[+−]\s*$/, "").slice(0, 90),
+        });
+      }
+      return next;
+    });
+  };
 
   // Mirrors the prototype's renderVals(): one open/sign/toggle triple per item.
   const faq = Array.from({ length: FAQ_COUNT }, (_, i) => ({
@@ -75,6 +111,100 @@ const AuditLandingV2 = () => {
   const starterPrice = showLaunch ? 97 : 197;
   const proPrice = showLaunch ? 397 : 497;
   const spotsLine = SPOTS_REMAINING === 1 ? "1 spot left" : `first ${SPOTS_REMAINING} buyers`;
+
+  // --- Engagement tracking -------------------------------------------------
+  // All listeners are delegated off the page root, so none of the markup below
+  // carries tracking attributes and the page stays a faithful copy of the design.
+
+  // Clicks on any link: in-page jumps, and the two outbound CTAs.
+  useEffect(() => {
+    const root = document.getElementById("w3v2-root");
+    if (!root) return;
+
+    const onClick = (event: Event) => {
+      const link = (event.target as HTMLElement | null)?.closest<HTMLAnchorElement>("a");
+      if (!link || !root.contains(link)) return;
+
+      const href = link.getAttribute("href") || "";
+      const label = (link.textContent || "").trim().slice(0, 60);
+
+      if (href.startsWith("#")) {
+        track("lp_anchor_click", { anchor: href.slice(1), label });
+        return;
+      }
+
+      const tier = href === STARTER_CTA ? "starter" : href === PRO_CTA ? "pro" : "other";
+      const price = tier === "starter" ? starterPrice : tier === "pro" ? proPrice : 0;
+
+      track("lp_cta_click", { tier, label, price, destination: href, launch_pricing: showLaunch });
+
+      // The Stripe link is the only real checkout entry point on this page.
+      if (href === STARTER_CTA) {
+        track("lp_begin_checkout", { tier, price, currency: "USD" });
+      }
+    };
+
+    root.addEventListener("click", onClick);
+    return () => root.removeEventListener("click", onClick);
+  }, [starterPrice, proPrice, showLaunch]);
+
+  // Scroll depth, once per threshold.
+  useEffect(() => {
+    const thresholds = [25, 50, 75, 90];
+    const fired = new Set<number>();
+
+    const onScroll = () => {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      if (scrollable <= 0) return;
+      const percent = (window.scrollY / scrollable) * 100;
+      thresholds.forEach((mark) => {
+        if (percent >= mark && !fired.has(mark)) {
+          fired.add(mark);
+          track("lp_scroll_depth", { percent: mark });
+        }
+      });
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Which sections actually get seen — this is what shows where readers drop off.
+  useEffect(() => {
+    const root = document.getElementById("w3v2-root");
+    if (!root || typeof IntersectionObserver === "undefined") return;
+
+    const sections = Array.from(root.querySelectorAll("section"));
+    const seen = new Set<Element>();
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting || seen.has(entry.target)) return;
+          seen.add(entry.target);
+          const index = sections.indexOf(entry.target as HTMLElement);
+          track("lp_section_view", {
+            section_id: entry.target.id || `section-${index}`,
+            section_index: index,
+            section_heading: (entry.target.querySelector("h1,h2")?.textContent || "").trim().slice(0, 70),
+          });
+        });
+      },
+      { threshold: 0.4 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  // Dwell-time milestones, so ad traffic can be scored on more than a page_view.
+  useEffect(() => {
+    const timers = [15, 30, 60, 120].map((seconds) =>
+      window.setTimeout(() => track("lp_engaged_time", { seconds }), seconds * 1000)
+    );
+    return () => timers.forEach((id) => window.clearTimeout(id));
+  }, []);
 
   return (
     <div className="w3v2" id="w3v2-root">
