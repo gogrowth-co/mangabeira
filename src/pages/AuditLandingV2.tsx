@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import "@/styles/audit-landing-v2.css";
 
-import imgSwimmer from "@/assets/audit-v2/swimmer-butterfly.png";
+import imgSwimmer from "@/assets/audit-v2/swimmer-butterfly.webp";
 import imgHeadshot from "@/assets/audit-v2/gabriel-headshot.webp";
-import imgBinance from "@/assets/audit-v2/logo-binance.png";
-import imgCocaCola from "@/assets/audit-v2/logo-coca-cola.png";
-import imgIoc from "@/assets/audit-v2/logo-ioc.png";
-import imgNpDigital from "@/assets/audit-v2/logo-np-digital.png";
-import imgMiroBoard from "@/assets/audit-v2/miro-board.png";
-import imgNotionReport from "@/assets/audit-v2/notion-report.png";
-import imgSprintBoard from "@/assets/audit-v2/sprint-board.png";
-import imgFindingCapture from "@/assets/audit-v2/finding-capture.png";
+import imgBinance from "@/assets/audit-v2/logo-binance.webp";
+import imgCocaCola from "@/assets/audit-v2/logo-coca-cola.webp";
+import imgIoc from "@/assets/audit-v2/logo-ioc.webp";
+import imgNpDigital from "@/assets/audit-v2/logo-np-digital.webp";
+import imgMiroBoard from "@/assets/audit-v2/miro-board.webp";
+import imgNotionReport from "@/assets/audit-v2/notion-report.webp";
+import imgSprintBoard from "@/assets/audit-v2/sprint-board.webp";
+import imgFindingCapture from "@/assets/audit-v2/finding-capture.webp";
 
 /**
  * Purchase destinations. Kept identical to the /audit page so both landing
@@ -43,14 +43,6 @@ declare global {
 }
 
 /**
- * Push a custom event to the GTM dataLayer.
- *
- * GA4 on this site is loaded *inside* GTM (window.gtag is undefined), so there
- * is no way to send GA4 events straight from code. Every event below needs a
- * matching GTM trigger + GA4 event tag to reach GA4. All names share the `lp_`
- * prefix so one regex trigger (`^lp_`) can forward the whole set.
- */
-/**
  * Every parameter any lp_ event can send. GTM's dataLayer model *persists* keys
  * between pushes, so without clearing these an event inherits whatever the
  * previous one set — a CTA click would arrive carrying the last scroll depth and
@@ -63,6 +55,14 @@ const EVENT_PARAM_KEYS = [
   "seconds", "currency",
 ] as const;
 
+/**
+ * Push a custom event to the GTM dataLayer.
+ *
+ * GA4 on this site is loaded *inside* GTM (window.gtag is undefined), so there
+ * is no way to send GA4 events straight from code. Every event below needs a
+ * matching GTM trigger + GA4 event tag to reach GA4. All names share the `lp_`
+ * prefix so one regex trigger (`^lp_`) forwards the whole set.
+ */
 const track = (event: string, params: Record<string, string | number | boolean> = {}) => {
   if (typeof window === "undefined") return;
   window.dataLayer = window.dataLayer || [];
