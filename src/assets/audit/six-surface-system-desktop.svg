@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">The six-surface Web3 growth audit system</title>
+  <desc id="desc">Website, dApp, Social Media, Community, SEO and answer visibility, and PR and Paid Ads connect across a journey from discovery to advocacy.</desc>
+  <rect width="1600" height="900" fill="#FFFFFF"/>
+  <style>.display{font-family:Montserrat,Arial,sans-serif;font-weight:800;fill:#0A2540}.body{font-family:Inter,Arial,sans-serif;fill:#333333}.label{font-family:Inter,Arial,sans-serif;font-size:18px;font-weight:700;letter-spacing:2px;fill:#607888}.node{fill:#FFFFFF;stroke:#C8D5DE;stroke-width:2}.nodeTitle{font-family:Montserrat,Arial,sans-serif;font-size:25px;font-weight:800;fill:#0A2540}.nodeBody{font-family:Inter,Arial,sans-serif;font-size:17px;fill:#607888}.journey{font-family:Inter,Arial,sans-serif;font-size:16px;font-weight:700;fill:#0A2540}</style>
+  <text class="label" x="90" y="80">METHOD DIAGRAM</text>
+  <text class="display" x="90" y="145" font-size="48">One growth system. Six connected surfaces.</text>
+  <text class="body" x="90" y="190" font-size="21">The audit follows the visitor journey and tests every handoff.</text>
+  <path d="M200 450H1400" stroke="#1FB6FF" stroke-width="4"/>
+  <path d="M1392 438L1410 450L1392 462" fill="none" stroke="#1FB6FF" stroke-width="4"/>
+  <g>
+    <rect class="node" x="90" y="270" width="220" height="205" rx="8"/><rect x="90" y="270" width="220" height="10" fill="#1FB6FF"/>
+    <text class="nodeTitle" x="118" y="325">Website</text><text class="nodeBody" x="118" y="363"><tspan x="118">Narrative, proof,</tspan><tspan x="118" dy="27">navigation and</tspan><tspan x="118" dy="27">conversion paths.</tspan></text>
+    <circle cx="200" cy="450" r="12" fill="#1FB6FF" stroke="#FFFFFF" stroke-width="5"/>
+  </g>
+  <g>
+    <rect class="node" x="330" y="270" width="220" height="205" rx="8"/><rect x="330" y="270" width="220" height="10" fill="#1FB6FF"/>
+    <text class="nodeTitle" x="358" y="325">dApp</text><text class="nodeBody" x="358" y="363"><tspan x="358">Onboarding, first</tspan><tspan x="358" dy="27">meaningful action</tspan><tspan x="358" dy="27">and return paths.</tspan></text>
+    <circle cx="440" cy="450" r="12" fill="#1FB6FF" stroke="#FFFFFF" stroke-width="5"/>
+  </g>
+  <g>
+    <rect class="node" x="570" y="270" width="220" height="205" rx="8"/><rect x="570" y="270" width="220" height="10" fill="#1FB6FF"/>
+    <text class="nodeTitle" x="598" y="325">Social Media</text><text class="nodeBody" x="598" y="363"><tspan x="598">Narrative, publishing,</tspan><tspan x="598" dy="27">response quality</tspan><tspan x="598" dy="27">and downstream paths.</tspan></text>
+    <circle cx="680" cy="450" r="12" fill="#1FB6FF" stroke="#FFFFFF" stroke-width="5"/>
+  </g>
+  <g>
+    <rect class="node" x="810" y="270" width="220" height="205" rx="8"/><rect x="810" y="270" width="220" height="10" fill="#FFB800"/>
+    <text class="nodeTitle" x="838" y="325">Community</text><text class="nodeBody" x="838" y="363"><tspan x="838">Welcome, support,</tspan><tspan x="838" dy="27">activation and</tspan><tspan x="838" dy="27">reactivation loops.</tspan></text>
+    <circle cx="920" cy="450" r="12" fill="#FFB800" stroke="#FFFFFF" stroke-width="5"/>
+  </g>
+  <g>
+    <rect class="node" x="1050" y="270" width="220" height="205" rx="8"/><rect x="1050" y="270" width="220" height="10" fill="#1FB6FF"/>
+    <text class="nodeTitle" x="1078" y="325">SEO + Answers</text><text class="nodeBody" x="1078" y="363"><tspan x="1078">Search discovery,</tspan><tspan x="1078" dy="27">citations, authority</tspan><tspan x="1078" dy="27">and coverage.</tspan></text>
+    <circle cx="1160" cy="450" r="12" fill="#1FB6FF" stroke="#FFFFFF" stroke-width="5"/>
+  </g>
+  <g>
+    <rect class="node" x="1290" y="270" width="220" height="205" rx="8"/><rect x="1290" y="270" width="220" height="10" fill="#1FB6FF"/>
+    <text class="nodeTitle" x="1318" y="325">PR + Paid Ads</text><text class="nodeBody" x="1318" y="363"><tspan x="1318">Earned authority,</tspan><tspan x="1318" dy="27">message fit and</tspan><tspan x="1318" dy="27">attribution.</tspan></text>
+    <circle cx="1400" cy="450" r="12" fill="#1FB6FF" stroke="#FFFFFF" stroke-width="5"/>
+  </g>
+  <rect x="505" y="495" width="590" height="48" rx="6" fill="#0A2540"/>
+  <text x="800" y="526" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="700" fill="#FFFFFF">ONE DIAGNOSIS · WHERE THE HANDOFF BREAKS</text>
+  <rect x="90" y="555" width="1420" height="220" rx="8" fill="#EAF6FA"/>
+  <text class="label" x="125" y="605">THE USER JOURNEY</text>
+  <g class="journey">
+    <text x="125" y="680">Discovery</text><text x="315" y="680">Understanding</text><text x="560" y="680">Trust</text><text x="745" y="680">First action</text><text x="970" y="680">Repeat use</text><text x="1210" y="680">Advocacy</text>
+  </g>
+  <g fill="none" stroke="#0A2540" stroke-width="2"><path d="M220 674H285"/><path d="M465 674H530"/><path d="M625 674H710"/><path d="M855 674H935"/><path d="M1080 674H1175"/></g>
+  <g fill="#0A2540"><path d="M285 674l-10-7v14z"/><path d="M530 674l-10-7v14z"/><path d="M710 674l-10-7v14z"/><path d="M935 674l-10-7v14z"/><path d="M1175 674l-10-7v14z"/></g>
+  <text class="body" x="125" y="735" font-size="18">The break is often not inside one surface. It appears where one surface hands intent to the next.</text>
+</svg>

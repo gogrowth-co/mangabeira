@@ -23,6 +23,7 @@ import Auth from "./pages/Auth";
 import RssFeed from "./pages/RssFeed";
 import Web3GrowthAudit from "./pages/Web3GrowthAudit";
 import AuditPaymentSuccess from "./pages/AuditPaymentSuccess";
+import AuditLanding from "./pages/AuditLanding";
 import TokenomicsSimulatorPage from "./tools/tokenomics-simulator/TokenomicsSimulatorPage";
 import ToolsPage from "./pages/ToolsPage";
 import OAuthConsent from "./pages/OAuthConsent";
@@ -66,6 +67,9 @@ const App = () => {
               <Route path="/services/web3-growth-audit/payment-success" element={<AuditPaymentSuccess />} />
               <Route path="/br/servicos/web3-auditoria-de-growth" element={<Web3GrowthAudit />} />
               <Route path="/es/servicios/web3-auditoria-de-growth" element={<Web3GrowthAudit />} />
+
+              {/* Standalone ads landing page (not linked in site nav) */}
+              <Route path="/audit" element={<AuditLanding />} />
               
               {/* Redirects for audit pages without locale prefix */}
               <Route path="/servicos/web3-auditoria-de-growth" element={<Navigate to="/br/servicos/web3-auditoria-de-growth" replace />} />
