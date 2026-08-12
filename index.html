@@ -65,7 +65,10 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <!-- Loaded async (media=print -> all on load) so the fonts CSS round-trip
+         never blocks first paint; display=swap already handles the glyph swap. -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet"></noscript>
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
@@ -208,6 +211,16 @@
         var path = window.location.pathname.replace(/\/+$/, "") || "/";
         // Skip for asset-like paths and the homepage (already correct baseline).
         if (path === "/" || /\.[a-z0-9]+$/i.test(path)) return;
+        // /lp/* ad landing pages: noindex, so the snapshot buys nothing, and
+        // this XHR is SYNCHRONOUS so it would delay first paint for paid
+        // traffic. Also drop the (homepage) prerender block NOW, before first
+        // paint: removing it after paint counts as a layout shift (measured
+        // 0.19 CLS on mobile) and flashes homepage copy at ad visitors.
+        if (/^\/lp(\/|$)/.test(path)) {
+          var pre = document.querySelector('[data-prerender="true"]');
+          if (pre && pre.parentNode) pre.parentNode.removeChild(pre);
+          return;
+        }
         // Skip admin / auth / API / functions routes.
         if (/^\/(admin|auth|functions|api|rss|assets|src)(\/|$)/.test(path)) return;
 

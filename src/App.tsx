@@ -5,28 +5,36 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { AuthProvider } from "./contexts/AuthContext";
+import { lazy, Suspense } from "react";
+// Eager: entry pages that must paint fast (home variants + the paid-ads
+// landing page) and the tiny NotFound fallback.
 import Index from "./pages/Index";
 import IndexBR from "./pages/IndexBR";
 import IndexES from "./pages/IndexES";
 import NotFound from "./pages/NotFound";
-import About from "./pages/About";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import Admin from "./pages/Admin";
-import AdminNew from "./pages/AdminNew";
-import AdminEdit from "./pages/AdminEdit";
-import AdminEditLanguage from "./pages/AdminEditLanguage";
-import DynamicPage from "./pages/DynamicPage";
-import Publications from "./pages/Publications";
-import PublicationsBR from "./pages/PublicationsBR";
-import PublicationsES from "./pages/PublicationsES";
-import Auth from "./pages/Auth";
-import RssFeed from "./pages/RssFeed";
-import Web3GrowthAudit from "./pages/Web3GrowthAudit";
-import AuditPaymentSuccess from "./pages/AuditPaymentSuccess";
 import AuditLandingV2 from "./pages/AuditLandingV2";
-import TokenomicsSimulatorPage from "./tools/tokenomics-simulator/TokenomicsSimulatorPage";
-import ToolsPage from "./pages/ToolsPage";
-import OAuthConsent from "./pages/OAuthConsent";
+// Lazy: everything else is route-split so the main bundle stays small.
+// (recharts + html2canvas live only in the tokenomics simulator; the admin
+// editor stack is behind auth; article pages fetch content anyway.)
+const About = lazy(() => import("./pages/About"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const Admin = lazy(() => import("./pages/Admin"));
+const AdminNew = lazy(() => import("./pages/AdminNew"));
+const AdminEdit = lazy(() => import("./pages/AdminEdit"));
+const AdminEditLanguage = lazy(() => import("./pages/AdminEditLanguage"));
+const DynamicPage = lazy(() => import("./pages/DynamicPage"));
+const Publications = lazy(() => import("./pages/Publications"));
+const PublicationsBR = lazy(() => import("./pages/PublicationsBR"));
+const PublicationsES = lazy(() => import("./pages/PublicationsES"));
+const Auth = lazy(() => import("./pages/Auth"));
+const RssFeed = lazy(() => import("./pages/RssFeed"));
+const Web3GrowthAudit = lazy(() => import("./pages/Web3GrowthAudit"));
+const AuditPaymentSuccess = lazy(() => import("./pages/AuditPaymentSuccess"));
+const TokenomicsSimulatorPage = lazy(
+  () => import("./tools/tokenomics-simulator/TokenomicsSimulatorPage")
+);
+const ToolsPage = lazy(() => import("./pages/ToolsPage"));
+const OAuthConsent = lazy(() => import("./pages/OAuthConsent"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -45,6 +53,7 @@ const App = () => {
         <BrowserRouter>
           <AuthProvider>
             <LanguageProvider>
+              <Suspense fallback={null}>
               <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/br" element={<IndexBR />} />
@@ -153,6 +162,7 @@ const App = () => {
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
               </Routes>
+              </Suspense>
             </LanguageProvider>
           </AuthProvider>
         </BrowserRouter>
