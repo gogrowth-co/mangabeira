@@ -2,17 +2,18 @@ import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import "@/styles/audit-landing.css";
 
-import boardOverview from "@/assets/audit/eigenlayer-board-overview.png.asset.json";
-import websiteFrame from "@/assets/audit/eigenlayer-website-frame-proof.png.asset.json";
-import sprintProof from "@/assets/audit/zaros-growth-sprint-proof.png.asset.json";
-import sixSurfaceDesktop from "@/assets/audit/six-surface-system-desktop.svg.asset.json";
-import sixSurfaceMobile from "@/assets/audit/six-surface-system-mobile.svg.asset.json";
-import evidenceDesktop from "@/assets/audit/evidence-to-decision-desktop.svg.asset.json";
-import evidenceMobile from "@/assets/audit/evidence-to-decision-mobile.svg.asset.json";
-import deliveryHandoff from "@/assets/audit/delivery-handoff.svg.asset.json";
+import boardOverview from "@/assets/audit/eigenlayer-board-overview.png";
+import websiteFrame from "@/assets/audit/eigenlayer-website-frame-proof.png";
+import sprintProof from "@/assets/audit/zaros-growth-sprint-proof.png";
+import sixSurfaceDesktop from "@/assets/audit/six-surface-system-desktop.svg";
+import sixSurfaceMobile from "@/assets/audit/six-surface-system-mobile.svg";
+import evidenceDesktop from "@/assets/audit/evidence-to-decision-desktop.svg";
+import evidenceMobile from "@/assets/audit/evidence-to-decision-mobile.svg";
+import deliveryHandoff from "@/assets/audit/delivery-handoff.svg";
+import walkthroughPoster from "@/assets/audit/notion-report-walkthrough-poster.jpg";
+// Large video files stay on the Lovable CDN instead of the repository.
 import walkthroughMp4 from "@/assets/audit/notion-report-walkthrough-30s.mp4.asset.json";
 import walkthroughWebm from "@/assets/audit/notion-report-walkthrough-30s.webm.asset.json";
-import walkthroughPoster from "@/assets/audit/notion-report-walkthrough-poster.jpg.asset.json";
 
 /**
  * Single source of truth for the purchase destinations on this ads landing page.
@@ -143,11 +144,11 @@ const AuditLanding = () => {
                 </div>
                 <figure className="hero-proof">
                   <img
-                    src={boardOverview.url}
+                    src={boardOverview}
                     width={1440}
                     height={693}
                     alt="Real EigenLayer Miro board organized across Website, dApp, Social Media, Community, SEO, PR, and Paid Ads"
-                    fetchPriority="high"
+                    fetchpriority="high"
                   />
                   <figcaption>Real Miro evidence, organized as one growth system.</figcaption>
                 </figure>
@@ -326,9 +327,9 @@ const AuditLanding = () => {
           </ol>
           <figure className="method-visual">
             <picture>
-              <source media="(max-width: 700px)" srcSet={sixSurfaceMobile.url} />
+              <source media="(max-width: 700px)" srcSet={sixSurfaceMobile} />
               <img
-                src={sixSurfaceDesktop.url}
+                src={sixSurfaceDesktop}
                 width={1600}
                 height={900}
                 loading="lazy"
@@ -370,9 +371,9 @@ const AuditLanding = () => {
           </div>
           <figure className="method-visual method-visual-pool">
             <picture>
-              <source media="(max-width: 700px)" srcSet={evidenceMobile.url} />
+              <source media="(max-width: 700px)" srcSet={evidenceMobile} />
               <img
-                src={evidenceDesktop.url}
+                src={evidenceDesktop}
                 width={1400}
                 height={700}
                 loading="lazy"
@@ -388,7 +389,7 @@ const AuditLanding = () => {
             <figure className="evidence-card tall-evidence">
               <div className="image-stage image-stage-tall">
                 <img
-                  src={websiteFrame.url}
+                  src={websiteFrame}
                   width={205}
                   height={610}
                   loading="lazy"
@@ -445,7 +446,7 @@ const AuditLanding = () => {
           <figure className="evidence-card board-card">
             <div className="image-stage board-stage">
               <img
-                src={boardOverview.url}
+                src={boardOverview}
                 width={1440}
                 height={693}
                 loading="lazy"
@@ -479,7 +480,7 @@ const AuditLanding = () => {
               controls
               muted
               playsInline
-              poster={walkthroughPoster.url}
+              poster={walkthroughPoster}
               preload="none"
               width={1008}
               height={1116}
@@ -644,7 +645,7 @@ const AuditLanding = () => {
           <figure className="evidence-card board-card">
             <div className="image-stage sprint-stage">
               <img
-                src={sprintProof.url}
+                src={sprintProof}
                 width={1440}
                 height={360}
                 loading="lazy"
@@ -754,7 +755,7 @@ const AuditLanding = () => {
           </div>
           <figure className="method-visual handoff-visual">
             <img
-              src={deliveryHandoff.url}
+              src={deliveryHandoff}
               width={1400}
               height={700}
               loading="lazy"
