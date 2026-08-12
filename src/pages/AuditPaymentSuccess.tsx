@@ -1,10 +1,19 @@
+import { useEffect } from "react";
 import { CheckCircle, Clock, FileText, ClipboardList } from "lucide-react";
 import { Link } from "react-router-dom";
 import { HelmetProvider, Helmet } from "react-helmet-async";
 import SEOHead from "@/components/SEOHead";
 import HubSpotForm from "@/components/HubSpotForm";
+import { reportPurchase } from "@/lib/checkout-tracking";
 
 const AuditPaymentSuccess = () => {
+  // Reaching this page means Stripe took the payment. Report the sale to GA4 as
+  // a standard `purchase` — 1 sale, its dollars as revenue. Runs once; the
+  // stash is cleared inside reportPurchase so a refresh cannot double-count.
+  useEffect(() => {
+    reportPurchase();
+  }, []);
+
   const nextSteps = [
     {
       icon: Clock,

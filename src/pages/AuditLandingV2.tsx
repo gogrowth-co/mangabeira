@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import "@/styles/audit-landing-v2.css";
+import { beginCheckout } from "@/lib/checkout-tracking";
 
 import imgSwimmer from "@/assets/audit-v2/swimmer-butterfly.webp";
 import imgHeadshot from "@/assets/audit-v2/gabriel-headshot.webp";
@@ -162,11 +163,12 @@ const AuditLandingV2 = () => {
 
       track("lp_cta_click", { tier, label, price, destination: href, launch_pricing: showLaunch });
 
-      // Both tiers are real Stripe checkouts now, so checkout intent has to fire
-      // for either one. Matching on the Stripe host rather than a specific
-      // constant means a future link is covered without touching this code.
+      // Standard GA4 ecommerce event, not a custom one. value / currency are
+      // built-in GA4 parameters, so revenue reporting and the checkout funnel
+      // work without registering any custom dimension or metric. Matching on the
+      // Stripe host covers any future link without touching this code.
       if (href.startsWith("https://buy.stripe.com/")) {
-        track("lp_begin_checkout", { tier, price, currency: "USD" });
+        beginCheckout(tier, price);
       }
     };
 
