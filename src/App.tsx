@@ -65,6 +65,11 @@ const App = () => {
               {/* Web3 Growth Audit */}
               <Route path="/services/web3-growth-audit" element={<Web3GrowthAudit />} />
               <Route path="/services/web3-growth-audit/payment-success" element={<AuditPaymentSuccess />} />
+              {/* Every Stripe Payment Link redirects here after checkout, and the
+                  component's own canonical is this URL — but the route was missing,
+                  so buyers landed on the 404 page after paying. Live since the $97
+                  promo launched 2026-08-04. Added 2026-08-12. */}
+              <Route path="/audit-payment-success" element={<AuditPaymentSuccess />} />
               <Route path="/br/servicos/web3-auditoria-de-growth" element={<Web3GrowthAudit />} />
               <Route path="/es/servicios/web3-auditoria-de-growth" element={<Web3GrowthAudit />} />
 

@@ -14,13 +14,20 @@ import imgSprintBoard from "@/assets/audit-v2/sprint-board.webp";
 import imgFindingCapture from "@/assets/audit-v2/finding-capture.webp";
 
 /**
- * Purchase destinations. Kept identical to the /audit page so both landing
- * pages point at the same live Stripe promo instead of drifting apart.
- * STARTER_CTA is the $97 promo Payment Link, capped at 10 completed checkouts.
- * PRO_CTA points at the live service page until a dedicated $397 link exists.
+ * Purchase destinations. Both are live Stripe Payment Links capped at 10
+ * completed checkouts, so each auto-deactivates after its 10th sale — that cap
+ * is the "first 10 buyers" scarcity mechanic, enforced by Stripe rather than
+ * tracked by hand.
+ *
+ * STARTER_CTA — $97 promo   (price_1U0h0nD41aNWIHmdx04iXCu5)
+ * PRO_CTA     — $397 promo  (price_1U3aZHD41aNWIHmdx2OS9WLj)
+ *
+ * When either link hits its cap Stripe stops accepting payments while this page
+ * still advertises the promo price, so SHOW_LAUNCH_PRICING below must be flipped
+ * to false at that point. Nothing does that automatically.
  */
 const STARTER_CTA = "https://buy.stripe.com/6oUbJ0bHO57f7jiaD12ZO05";
-const PRO_CTA = "https://mangabeira.net/services/web3-growth-audit";
+const PRO_CTA = "https://buy.stripe.com/5kQeVccLSczH3328uT2ZO06";
 
 /**
  * Launch-pricing switch, carried over from the prototype's DCLogic props.
@@ -155,8 +162,10 @@ const AuditLandingV2 = () => {
 
       track("lp_cta_click", { tier, label, price, destination: href, launch_pricing: showLaunch });
 
-      // The Stripe link is the only real checkout entry point on this page.
-      if (href === STARTER_CTA) {
+      // Both tiers are real Stripe checkouts now, so checkout intent has to fire
+      // for either one. Matching on the Stripe host rather than a specific
+      // constant means a future link is covered without touching this code.
+      if (href.startsWith("https://buy.stripe.com/")) {
         track("lp_begin_checkout", { tier, price, currency: "USD" });
       }
     };
