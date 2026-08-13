@@ -97,6 +97,18 @@ try {
   );
 } catch {}
 
+// Classes built at RUNTIME, which Tailwind's static scan can never see.
+// src/components/audit/SampleFindings.tsx stores `bg-[...]` in a data object and
+// renders `finding.color.replace('bg-', 'text-')`, so the text- variants only
+// exist once the component runs. Losing them turned the "-> Fix:" labels grey on
+// the live service page. Add here if another dynamic className appears.
+const RUNTIME_DERIVED = [
+  "text-[#9B59B6]",
+  "text-[hsl(var(--aqua-bright))]",
+  "text-[hsl(var(--gold-olympic))]",
+];
+for (const c of RUNTIME_DERIVED) classes.add(c);
+
 // Grow-only merge with the committed safelist.
 try {
   for (const c of JSON.parse(await fs.readFile(OUT, "utf8"))) classes.add(c);
