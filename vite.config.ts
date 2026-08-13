@@ -5,6 +5,34 @@ import { componentTagger } from "lovable-tagger";
 import { prerenderPlugin } from "./scripts/prerender";
 import { mcpPlugin } from "@lovable.dev/mcp-js/stacks/supabase/vite";
 
+// /lp/* mobile LCP fix (2026-08-12): the landing page's LCP element is the
+// hero swimmer-butterfly.webp (79 KB), but as a React-imported <img> its
+// download only starts after the JS bundle executes (~8.4s LCP on throttled
+// mobile). Inject a tiny head script into index.html that preloads the hashed
+// asset ONLY on /lp/* paths, so the fetch starts with the HTML instead.
+// Route-conditional on purpose: index.html is shared by every route and other
+// pages must not pay for this image.
+function lpHeroPreloadPlugin() {
+  return {
+    name: "lp-hero-preload",
+    apply: "build" as const,
+    transformIndexHtml: {
+      order: "post" as const,
+      handler(html: string, ctx: { bundle?: Record<string, unknown> }) {
+        const asset = Object.keys(ctx.bundle ?? {}).find((k) =>
+          /swimmer-butterfly.*\.webp$/.test(k)
+        );
+        if (!asset) return html;
+        const script =
+          `<script>if(/^\\/lp(\\/|$)/.test(location.pathname)){` +
+          `var l=document.createElement("link");l.rel="preload";l.as="image";` +
+          `l.href="/${asset}";l.fetchPriority="high";document.head.appendChild(l);}</script>`;
+        return html.replace("</head>", script + "\n  </head>");
+      },
+    },
+  };
+}
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   // Vite only exposes .env values through import.meta.env by default, not
@@ -23,6 +51,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       react(),
+      lpHeroPreloadPlugin(),
       mcpPlugin(),
       mode === "development" && componentTagger(),
       mode !== "development" && prerenderPlugin(),
