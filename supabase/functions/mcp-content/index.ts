@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { McpServer, StreamableHttpTransport } from "mcp-lite";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.58.0";
 
 const MAX_REQUEST_SIZE = 5 * 1024 * 1024; // 5MB
 
@@ -21,6 +21,38 @@ function getSupabase() {
     Deno.env.get("SUPABASE_URL")!,
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
   );
+}
+
+// Downstream regeneration (sitemap/RSS/llms/snapshot/indexnow) must not depend
+// on supabase-js functions.invoke: invoke() reports failure via a return value,
+// not an exception, so try/catch never sees it — the whole chain was silently
+// dead from 2026-07-09 to 2026-08-13 and every artifact in storage went stale.
+// Explicit fetch + explicit service-role Authorization keeps the call
+// independent of library auth defaults, and the result string surfaces
+// failures to the MCP caller.
+async function triggerFn(name: string, body: unknown): Promise<string> {
+  try {
+    const url = `${Deno.env.get("SUPABASE_URL")}/functions/v1/${name}`;
+    const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${key}`,
+        apikey: key,
+      },
+      body: JSON.stringify(body ?? {}),
+    });
+    if (!res.ok) {
+      const text = await res.text().catch(() => "");
+      console.error(`[mcp-content] trigger ${name} failed: HTTP ${res.status} ${text.slice(0, 200)}`);
+      return `${name}:FAILED(${res.status})`;
+    }
+    return name;
+  } catch (e) {
+    console.error(`[mcp-content] trigger ${name} threw:`, e);
+    return `${name}:FAILED(unreachable)`;
+  }
 }
 
 const mcpServer = new McpServer({
@@ -229,12 +261,12 @@ mcpServer.tool("upsert_page", {
 
     const triggers: string[] = [];
     // Always regenerate snapshot (handles publish + unpublish cleanup)
-    try { await supabase.functions.invoke("regenerate-snapshot", { body: { slug } }); triggers.push("snapshot"); } catch (_) {}
+    triggers.push(await triggerFn("regenerate-snapshot", { slug }));
     if (status === "published") {
-      try { await supabase.functions.invoke("generate-sitemap", {}); triggers.push("sitemap"); } catch (_) {}
-      try { await supabase.functions.invoke("generate-rss", {}); triggers.push("rss"); } catch (_) {}
-      try { await supabase.functions.invoke("generate-llms-txt", {}); triggers.push("llms-txt"); } catch (_) {}
-      try { await supabase.functions.invoke("submit-indexnow", { body: { slug } }); triggers.push("indexnow"); } catch (_) {}
+      triggers.push(await triggerFn("generate-sitemap", {}));
+      triggers.push(await triggerFn("generate-rss", {}));
+      triggers.push(await triggerFn("generate-llms-txt", {}));
+      triggers.push(await triggerFn("submit-indexnow", { slug }));
     }
 
     return {
@@ -296,11 +328,12 @@ mcpServer.tool("delete_page", {
       try { await supabase.storage.from("seo-snapshots").remove(removals); } catch (_) {}
     }
 
-    try { await supabase.functions.invoke("generate-sitemap", {}); } catch (_) {}
-    try { await supabase.functions.invoke("generate-rss", {}); } catch (_) {}
-    try { await supabase.functions.invoke("generate-llms-txt", {}); } catch (_) {}
+    const triggers: string[] = [];
+    triggers.push(await triggerFn("generate-sitemap", {}));
+    triggers.push(await triggerFn("generate-rss", {}));
+    triggers.push(await triggerFn("generate-llms-txt", {}));
 
-    return { content: [{ type: "text" as const, text: JSON.stringify({ success: true, deleted: args.slug, snapshots_removed: removals }) }] };
+    return { content: [{ type: "text" as const, text: JSON.stringify({ success: true, deleted: args.slug, snapshots_removed: removals, triggers }) }] };
   },
 });
 
