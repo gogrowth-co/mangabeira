@@ -1,4 +1,4 @@
-// Cloudflare Worker: mangabeira-snapshot-router v2.7
+// Cloudflare Worker: mangabeira-snapshot-router v2.8
 // - v2.7 (2026-08-23) EDGE REPAIR, temporary. The seo-snapshot edge function
 //   currently returns article HTML with no <h1>, no internal links, and (for
 //   articles authored in the CMS as complete HTML documents) a second <title>
@@ -11,6 +11,15 @@
 //   response at the edge in the meantime. Every step is conditional, so once
 //   the fixed builder ships each branch becomes a no-op and this code stops
 //   touching anything. Remove it after confirming the deploy.
+// - v2.8 (2026-08-23) adds enrichSnapshot(): author byline with a VISIBLE
+//   publish date, and BreadcrumbList JSON-LD. Every ranking competitor on
+//   "web3 seo" shows a date in the SERP and mangabeira.net showed none, so
+//   this closes the last gap to PR #29's output without needing the blocked
+//   Supabase deploy. Dates come from the public PostgREST endpoint using the
+//   SAME publishable key the site already ships in its client bundle (it is
+//   an anon read key by design, bound here as a Worker secret rather than
+//   committed). Also conditional: if the byline or breadcrumb is already
+//   present, nothing is added.
 // - Proxies /sitemap.xml, /rss/*.xml, /llms*.txt to Supabase Storage (all visitors)
 // - Static system routes (home/about/tools/audit/privacy): bots go to ORIGIN —
 //   Lovable serves the per-route prerendered dist file, which is regenerated on
@@ -79,6 +88,103 @@ var NAV = {
   es: { hub: "/es/articulos", hubLabel: "Más artículos", about: "/es/acerca-de", aboutLabel: "Acerca de",
         tools: "/es/herramientas", toolsLabel: "Herramientas", audit: "/es/servicios/web3-auditoria-de-growth", auditLabel: "Auditoría de Growth Web3" },
 };
+
+var SUPA_REST = "https://hetemmltaoirimmoxzku.supabase.co/rest/v1/";
+
+var BYLINE = {
+  en: { by: "By", role: "Web3 growth consultant, ex-Olympic athlete", about: "/about", hub: "/publications", hubLabel: "More publications", loc: "en-US" },
+  br: { by: "Por", role: "Consultor de growth Web3, ex-atleta ol\u00edmpico", about: "/br/sobre", hub: "/br/artigos", hubLabel: "Mais artigos", loc: "pt-BR" },
+  es: { by: "Por", role: "Consultor de growth Web3, ex-atleta ol\u00edmpico", about: "/es/acerca-de", hub: "/es/articulos", hubLabel: "M\u00e1s art\u00edculos", loc: "es-ES" },
+};
+
+function parseArticlePath(path) {
+  if (path.indexOf("/publications/") === 0) return { locale: "en", slug: path.slice("/publications/".length) };
+  if (path.indexOf("/br/artigos/") === 0) return { locale: "br", slug: path.slice("/br/artigos/".length) };
+  if (path.indexOf("/es/articulos/") === 0) return { locale: "es", slug: path.slice("/es/articulos/".length) };
+  return null;
+}
+
+function pubKey() {
+  try { return typeof SUPABASE_PUBLISHABLE_KEY !== "undefined" ? SUPABASE_PUBLISHABLE_KEY : ""; }
+  catch (e) { return ""; }
+}
+
+async function fetchArticleMeta(art) {
+  var key = pubKey();
+  if (!key || !art || !art.slug) return null;
+  var url = SUPA_REST + "page_translations?select=title,pages(created_at,updated_at,status)" +
+    "&slug=eq." + encodeURIComponent(art.slug) +
+    "&language=eq." + encodeURIComponent(art.locale) + "&limit=1";
+  try {
+    var r = await fetch(url, {
+      headers: { apikey: key, Authorization: "Bearer " + key, Accept: "application/json" },
+      cf: { cacheTtl: 600, cacheEverything: true },
+    });
+    if (!r.ok) return null;
+    var rows = await r.json();
+    if (!rows || !rows.length || !rows[0].pages) return null;
+    if (rows[0].pages.status !== "published") return null;
+    return { created: rows[0].pages.created_at, updated: rows[0].pages.updated_at };
+  } catch (e) { return null; }
+}
+
+function fmtDate(iso, loc) {
+  try { return new Date(iso).toLocaleDateString(loc, { year: "numeric", month: "short", day: "numeric" }); }
+  catch (e) { return String(iso || "").slice(0, 10); }
+}
+
+/**
+ * Adds the two things patchSnapshot cannot derive from the HTML alone:
+ * a visible publish date (the freshness signal every ranking competitor has)
+ * and BreadcrumbList structured data. Both are skipped when already present.
+ */
+function enrichSnapshot(html, path, meta) {
+  var art = parseArticlePath(path);
+  if (!art) return { html: html, changed: [] };
+  var t = BYLINE[art.locale] || BYLINE.en;
+  var changed = [];
+  var out = html;
+
+  var tm = /<title[^>]*>([\s\S]*?)<\/title>/i.exec(out);
+  var title = tm ? tm[1].trim() : "";
+  var canonical = "https://mangabeira.net" + path;
+
+  if (meta && meta.created && out.indexOf('class="author-meta"') === -1) {
+    var iso = String(meta.created);
+    var byline =
+      '<div class="author-meta" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:14px;color:#555;margin:0 0 24px;border-top:1px solid #eee;border-bottom:1px solid #eee;padding:12px 0;">' +
+      "<span>" + t.by + ' <a href="' + t.about + '" style="color:#0A2540;font-weight:600;text-decoration:none;">Gabriel Mangabeira</a> \u2014 ' + t.role + "</span>" +
+      '<span aria-hidden="true">\u00b7</span><time datetime="' + iso + '">' + fmtDate(iso, t.loc) + "</time>" +
+      "</div>";
+    // Place it directly after the injected/native <h1>.
+    var h1end = out.search(/<\/h1>/i);
+    if (h1end > -1) {
+      var cut = h1end + "</h1>".length;
+      out = out.slice(0, cut) + byline + out.slice(cut);
+      changed.push("injected-byline-date");
+    }
+  }
+
+  if (title && out.indexOf("BreadcrumbList") === -1) {
+    var crumb = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Mangabeira.net", item: "https://mangabeira.net" },
+        { "@type": "ListItem", position: 2, name: t.hubLabel, item: "https://mangabeira.net" + t.hub },
+        { "@type": "ListItem", position: 3, name: title, item: canonical },
+      ],
+    };
+    var tag = '<script type="application/ld+json">' + JSON.stringify(crumb).replace(/</g, "\\u003c") + "</script>";
+    var headEnd = out.search(/<\/head>/i);
+    if (headEnd > -1) {
+      out = out.slice(0, headEnd) + tag + out.slice(headEnd);
+      changed.push("injected-breadcrumb");
+    }
+  }
+
+  return { html: out, changed: changed };
+}
 
 function localeOf(path) {
   if (path.indexOf("/br/") === 0 || path === "/br") return "br";
@@ -244,13 +350,20 @@ async function handleRequest(request) {
       var snapHtml = await snap.text();
       var outHtml = snapHtml;
       try {
+        var acts = [];
         var patched = patchSnapshot(snapHtml, path);
-        if (patched.changed.length) {
-          outHtml = patched.html;
-          headers.set("x-snapshot-patched", patched.changed.join(","));
+        if (patched.changed.length) { outHtml = patched.html; acts = acts.concat(patched.changed); }
+
+        var art = parseArticlePath(path);
+        if (art) {
+          var meta = await fetchArticleMeta(art);
+          var enriched = enrichSnapshot(outHtml, path, meta);
+          if (enriched.changed.length) { outHtml = enriched.html; acts = acts.concat(enriched.changed); }
         }
+        if (acts.length) headers.set("x-snapshot-patched", acts.join(","));
       } catch (patchErr) {
         console.error("snapshot patch failed for " + path + ":", patchErr);
+        outHtml = snapHtml;
       }
       headers.delete("content-length");
       return new Response(outHtml, { status: 200, headers: headers });
