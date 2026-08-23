@@ -13,6 +13,15 @@
 // crawlers / no-JS clients fetched via the seo-snapshot edge function.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import {
+  BASE_URL,
+  LOCALE_TO_HUB,
+  HTML_LANG,
+  buildFullHtml,
+  validateSnapshot,
+  type Locale,
+  type SnapshotSpec,
+} from "../_shared/snapshot-html.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -21,187 +30,7 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-const BASE_URL = "https://mangabeira.net";
 const OG_IMAGE = `${BASE_URL}/og-image.jpg`;
-
-type Locale = "en" | "br" | "es";
-const LOCALE_TO_HUB: Record<Locale, string> = {
-  en: "publications",
-  br: "br/artigos",
-  es: "es/articulos",
-};
-const HTML_LANG: Record<Locale, string> = {
-  en: "en",
-  br: "pt-BR",
-  es: "es-ES",
-};
-
-const escapeHtml = (s: string) =>
-  String(s ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-
-function sanitizePublicationHtml(html: string, max = 500000): string {
-  let cleaned = String(html ?? "")
-    .replace(/<script[\s\S]*?<\/script>/gi, "")
-    .replace(/<style[\s\S]*?<\/style>/gi, "")
-    .replace(/<iframe[\s\S]*?<\/iframe>/gi, "")
-    .replace(/\son[a-z]+="[^"]*"/gi, "")
-    .replace(/\sstyle="[^"]*"/gi, "")
-    .replace(/\sclass="[^"]*"/gi, "");
-  if (cleaned.length > max) cleaned = cleaned.slice(0, max) + "…";
-  return cleaned;
-}
-
-interface SnapshotSpec {
-  outPath: string;
-  locale: Locale;
-  canonical: string;
-  alternates: { en?: string; "pt-BR"?: string; es?: string };
-  title: string;
-  description: string;
-  ogImage: string;
-  content: string;
-  featuredImage?: string;
-  datePublished?: string;
-  dateModified?: string;
-  readTime?: number;
-}
-
-const AUTHOR_STRINGS: Record<Locale, { byline: string; readSuffix: string; localeFmt: string }> = {
-  en: { byline: 'By <a href="/about" style="color:#0A2540;font-weight:600;text-decoration:none;">Gabriel Mangabeira</a> — Web3 growth consultant, ex-Olympic athlete', readSuffix: "min read", localeFmt: "en-US" },
-  br: { byline: 'Por <a href="/about" style="color:#0A2540;font-weight:600;text-decoration:none;">Gabriel Mangabeira</a> — Consultor de growth Web3, ex-atleta olímpico', readSuffix: "min de leitura", localeFmt: "pt-BR" },
-  es: { byline: 'Por <a href="/about" style="color:#0A2540;font-weight:600;text-decoration:none;">Gabriel Mangabeira</a> — Consultor de growth Web3, ex-atleta olímpico', readSuffix: "min de lectura", localeFmt: "es-ES" },
-};
-
-function fmtDate(iso: string | undefined, localeFmt: string): string {
-  if (!iso) return "";
-  try { return new Date(iso).toLocaleDateString(localeFmt, { year: "numeric", month: "short", day: "numeric" }); }
-  catch { return iso; }
-}
-
-function buildHead(spec: SnapshotSpec): string {
-  const lang = HTML_LANG[spec.locale];
-  const altLinks = [
-    spec.alternates.en
-      ? `<link rel="alternate" hreflang="en" href="${spec.alternates.en}" />`
-      : "",
-    spec.alternates["pt-BR"]
-      ? `<link rel="alternate" hreflang="pt-BR" href="${spec.alternates["pt-BR"]}" />`
-      : "",
-    spec.alternates.es
-      ? `<link rel="alternate" hreflang="es" href="${spec.alternates.es}" />`
-      : "",
-    spec.alternates.en
-      ? `<link rel="alternate" hreflang="x-default" href="${spec.alternates.en}" />`
-      : "",
-  ]
-    .filter(Boolean)
-    .join("\n    ");
-
-  const schema: Record<string, unknown> = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    url: spec.canonical,
-    name: spec.title,
-    headline: spec.title,
-    description: spec.description,
-    inLanguage: lang,
-    image: spec.ogImage,
-    isPartOf: { "@type": "WebSite", url: BASE_URL, name: "Mangabeira.net" },
-    author: {
-      "@type": "Person",
-      name: "Gabriel Mangabeira",
-      url: `${BASE_URL}/about`,
-      jobTitle: "Web3 Growth Consultant",
-    },
-    publisher: { "@type": "Person", name: "Gabriel Mangabeira", url: BASE_URL },
-    mainEntityOfPage: { "@type": "WebPage", "@id": spec.canonical },
-  };
-  if (spec.datePublished) schema.datePublished = spec.datePublished;
-  if (spec.dateModified) schema.dateModified = spec.dateModified;
-
-  return `<title>${escapeHtml(spec.title)}</title>
-    <meta name="title" content="${escapeHtml(spec.title)}" />
-    <meta name="description" content="${escapeHtml(spec.description)}" />
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-    <link rel="canonical" href="${spec.canonical}" />
-    ${altLinks}
-    <meta property="og:type" content="article" />
-    <meta property="og:site_name" content="Gabriel Mangabeira" />
-    <meta property="og:title" content="${escapeHtml(spec.title)}" />
-    <meta property="og:description" content="${escapeHtml(spec.description)}" />
-    <meta property="og:url" content="${spec.canonical}" />
-    <meta property="og:image" content="${spec.ogImage}" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:locale" content="${lang.replace("-", "_")}" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@manga82" />
-    <meta name="twitter:creator" content="@manga82" />
-    <meta name="twitter:title" content="${escapeHtml(spec.title)}" />
-    <meta name="twitter:description" content="${escapeHtml(spec.description)}" />
-    <meta name="twitter:image" content="${spec.ogImage}" />
-    <script type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script>`;
-}
-
-function buildBody(spec: SnapshotSpec): string {
-  const cleaned = sanitizePublicationHtml(spec.content);
-  const contentHasH1 = /<h1[\s>]/i.test(cleaned);
-  const img = spec.featuredImage;
-  const t = AUTHOR_STRINGS[spec.locale];
-  const dateStr = fmtDate(spec.datePublished || spec.dateModified, t.localeFmt);
-  const dateIso = spec.datePublished || spec.dateModified || "";
-  const readBlock = spec.readTime ? `<span aria-hidden="true">·</span><span>${spec.readTime} ${t.readSuffix}</span>` : "";
-  const authorMeta = `
-    <div class="author-meta" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:14px;color:#555;margin:0 0 32px;border-top:1px solid #eee;border-bottom:1px solid #eee;padding:12px 0;">
-      <span>${t.byline}</span>
-      ${dateIso ? `<span aria-hidden="true">·</span><time datetime="${escapeHtml(dateIso)}">${escapeHtml(dateStr)}</time>` : ""}
-      ${readBlock}
-    </div>`;
-  const article = `
-    <article>
-      ${img ? `<p><img src="${img}" alt="${escapeHtml(spec.title)}" style="max-width:100%;height:auto;" /></p>` : ""}
-      ${cleaned || `<p>${escapeHtml(spec.description)}</p>`}
-      <p><a href="${spec.canonical}">Read the full article</a></p>
-    </article>`;
-
-  return `<header>
-      <p style="margin:0 0 8px;font-size:14px;color:#1FB6FF;font-weight:600;letter-spacing:.04em;text-transform:uppercase;">Gabriel Mangabeira — Mangabeira.net</p>
-      ${contentHasH1 ? "" : `<h1 style="font-family:Poppins,sans-serif;font-size:40px;line-height:1.15;margin:0 0 16px;color:#0A2540;">${escapeHtml(spec.title)}</h1>`}
-      ${authorMeta}
-      <p style="font-size:18px;margin:0 0 24px;">${escapeHtml(spec.description)}</p>
-    </header>
-${article}
-    <footer style="margin-top:32px;border-top:1px solid #EAF6FA;padding-top:16px;font-size:14px;color:#333;">
-      <p>© Gabriel Mangabeira — <a href="${BASE_URL}/">mangabeira.net</a></p>
-    </footer>`;
-}
-
-function buildFullHtml(spec: SnapshotSpec): string {
-  return `<!doctype html>
-<html lang="${HTML_LANG[spec.locale]}">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    ${buildHead(spec)}
-  </head>
-  <body>
-    <div data-prerender="true">
-      <div>
-${buildBody(spec)}
-      </div>
-    </div>
-    <noscript>
-      <div style="font-family:Inter,system-ui,sans-serif;max-width:920px;margin:0 auto;padding:32px 20px;color:#0A2540;line-height:1.6;">
-${buildBody(spec)}
-      </div>
-    </noscript>
-  </body>
-</html>`;
-}
 
 async function requireAdmin(req: Request): Promise<Response | null> {
   const authHeader = req.headers.get('authorization');
@@ -294,6 +123,13 @@ async function regeneratePage(supabase: any, page: any): Promise<{ uploaded: str
     };
     const html = buildFullHtml(spec);
     const key = `${outPath}/index.html`;
+    // Never let an invalid snapshot into the bucket: storage is served first,
+    // so a bad object silently becomes the permanent version Googlebot sees.
+    const check = validateSnapshot(html, spec.canonical);
+    if (!check.ok) {
+      errors.push({ locale, message: `validation_failed: ${check.problems.join("; ")}` });
+      continue;
+    }
     const { error: upErr } = await supabase.storage
       .from("seo-snapshots")
       .upload(key, new Blob([html], { type: "text/html; charset=utf-8" }), {
