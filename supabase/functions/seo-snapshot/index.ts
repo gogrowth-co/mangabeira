@@ -1,5 +1,30 @@
-// seo-snapshot v2.1 — self-healing: generates missing publication snapshots on-demand
+// seo-snapshot v3.0
+//
+// Serves bot-facing HTML for publication routes. The Cloudflare Worker
+// (cloudflare-worker.js) routes any request with a bot UA + `Accept: text/html`
+// here, so THIS is what Googlebot, Bingbot, GPTBot, ClaudeBot and
+// PerplexityBot actually read. Humans never see it.
+//
+// v3.0 (2026-08-23) — fixes the incident described in _shared/snapshot-html.ts:
+//   1. Snapshot HTML is now built ONLY by the shared canonical builder, so the
+//      self-heal path can no longer emit a thinner page than the publish path.
+//      The old inline generator produced `<body><article>{content}</article>`
+//      with no <h1>, no internal links and a minimal Article schema, and then
+//      uploaded that over the good object in storage.
+//   2. Every upload is gated by validateSnapshot(). A snapshot that fails
+//      never reaches the bucket.
+//   3. Storage reads are validated too. A previously-poisoned object is
+//      detected on read and regenerated in place, so the bucket heals itself
+//      without a manual bulk pass.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import {
+  BASE_URL,
+  LOCALE_TO_HUB,
+  buildFullHtml,
+  validateSnapshot,
+  type Locale,
+  type SnapshotSpec,
+} from "../_shared/snapshot-html.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -8,7 +33,6 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "GET, OPTIONS",
 };
 
-const BASE_URL = "https://mangabeira.net";
 const FALLBACK_OG =
   "https://storage.googleapis.com/gpt-engineer-file-uploads/vPREpio8p8h1iruSSNkQMQeWPo62/social-images/social-1759804725149-og-mangabeira.png";
 
@@ -37,9 +61,7 @@ const REDIRECTS: Record<string, string> = {
     "/es/articulos/web3-seo-guia-definitiva",
 };
 
-function parsePubPath(
-  path: string
-): { locale: "en" | "br" | "es"; slug: string } | null {
+function parsePubPath(path: string): { locale: Locale; slug: string } | null {
   if (path.startsWith("/publications/")) {
     const slug = path.slice("/publications/".length).replace(/\/$/, "");
     return slug ? { locale: "en", slug } : null;
@@ -57,23 +79,15 @@ function parsePubPath(
 
 function localeToUrl(lang: string, slug: string): string {
   if (lang === "en") return `${BASE_URL}/publications/${slug}`;
-  if (lang === "br") return `${BASE_URL}/br/artigos/${slug}`;
+  if (lang === "br" || lang === "pt-BR") return `${BASE_URL}/br/artigos/${slug}`;
   return `${BASE_URL}/es/articulos/${slug}`;
 }
 
-function esc(s: string): string {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
-
 async function generatePublicationSnapshot(
-  supabase: ReturnType<typeof createClient>,
-  locale: "en" | "br" | "es",
+  supabase: any,
+  locale: Locale,
   slug: string
-): Promise<string | null> {
+): Promise<{ html: string; canonical: string } | null> {
   let { data: tr, error: trErr } = await supabase
     .from("page_translations")
     .select("title, meta_description, content, language, slug, page_id")
@@ -81,9 +95,8 @@ async function generatePublicationSnapshot(
     .eq("language", locale)
     .maybeSingle();
 
-  // Fallback: the URL may use the canonical pages.slug while the
-  // translation row carries a different localized slug (e.g.
-  // defi-tokenomics-simulator-guide -> how-to-design-tokenomics-protocol-growth).
+  // The URL may use the canonical pages.slug while the translation row carries
+  // a different localized slug.
   if (!tr) {
     const { data: pageBySlug } = await supabase
       .from("pages")
@@ -95,7 +108,7 @@ async function generatePublicationSnapshot(
       const res = await supabase
         .from("page_translations")
         .select("title, meta_description, content, language, slug, page_id")
-        .eq("page_id", pageBySlug.id)
+        .eq("page_id", (pageBySlug as any).id)
         .eq("language", locale)
         .maybeSingle();
       tr = res.data;
@@ -107,8 +120,8 @@ async function generatePublicationSnapshot(
 
   const { data: page, error: pageErr } = await supabase
     .from("pages")
-    .select("featured_image, status")
-    .eq("id", tr.page_id)
+    .select("featured_image, status, created_at, updated_at, reading_time")
+    .eq("id", (tr as any).page_id)
     .eq("status", "published")
     .maybeSingle();
 
@@ -117,84 +130,68 @@ async function generatePublicationSnapshot(
   const { data: allTrs } = await supabase
     .from("page_translations")
     .select("language, slug")
-    .eq("page_id", tr.page_id);
+    .eq("page_id", (tr as any).page_id);
 
   const slugMap: Record<string, string> = {};
-  for (const t of allTrs || []) slugMap[t.language] = t.slug;
+  for (const t of (allTrs as any[]) || []) slugMap[t.language] = t.slug;
 
+  const alternates: SnapshotSpec["alternates"] = {};
+  if (slugMap.en) alternates.en = localeToUrl("en", slugMap.en);
+  const brSlug = slugMap.br || slugMap["pt-BR"];
+  if (brSlug) alternates["pt-BR"] = localeToUrl("br", brSlug);
+  const esSlug = slugMap.es || slugMap["es-ES"];
+  if (esSlug) alternates.es = localeToUrl("es", esSlug);
+
+  const p = page as any;
+  const featured = /^https?:\/\//.test(p.featured_image || "")
+    ? p.featured_image
+    : undefined;
   const canonical = localeToUrl(locale, slug);
-  const htmlLang =
-    locale === "br" ? "pt-BR" : locale === "es" ? "es" : "en";
 
-  const altLinks: string[] = [];
-  if (slugMap.en)
-    altLinks.push(
-      `<link rel="alternate" hreflang="en" href="${localeToUrl("en", slugMap.en)}" />`
+  const spec: SnapshotSpec = {
+    outPath: `${LOCALE_TO_HUB[locale]}/${slug}`,
+    locale,
+    canonical,
+    alternates,
+    title: (tr as any).title || "Publication",
+    description: (tr as any).meta_description || "",
+    ogImage: featured || FALLBACK_OG,
+    content: (tr as any).content || "",
+    featuredImage: featured,
+    datePublished: p.created_at,
+    dateModified: p.updated_at,
+    readTime:
+      typeof p.reading_time === "number" && p.reading_time > 0
+        ? p.reading_time
+        : undefined,
+  };
+
+  return { html: buildFullHtml(spec), canonical };
+}
+
+/** Upload only if the HTML passes validation. Returns whether it was stored. */
+async function safeUpload(
+  supabase: any,
+  objectKey: string,
+  html: string,
+  canonical: string
+): Promise<boolean> {
+  const v = validateSnapshot(html, canonical);
+  if (!v.ok) {
+    console.error(
+      `REFUSED snapshot upload for ${objectKey}: ${v.problems.join("; ")}`
     );
-  if (slugMap.br)
-    altLinks.push(
-      `<link rel="alternate" hreflang="pt-BR" href="${localeToUrl("br", slugMap.br)}" />`
-    );
-  if (slugMap.es)
-    altLinks.push(
-      `<link rel="alternate" hreflang="es" href="${localeToUrl("es", slugMap.es)}" />`
-    );
-  if (slugMap.en)
-    altLinks.push(
-      `<link rel="alternate" hreflang="x-default" href="${localeToUrl("en", slugMap.en)}" />`
-    );
-
-  const ogImage = (page as any).featured_image || FALLBACK_OG;
-  const title = esc(tr.title || "");
-  const description = esc(tr.meta_description || "");
-
-  const sanitized = (tr.content || "")
-    .replace(/<script[\s\S]*?<\/script>/gi, "")
-    .replace(/<style[\s\S]*?<\/style>/gi, "")
-    .replace(/<iframe[\s\S]*?<\/iframe>/gi, "")
-    .replace(/\son\w+="[^"]*"/gi, "");
-
-  const schema = JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "Article",
-    url: canonical,
-    headline: tr.title,
-    description: tr.meta_description || "",
-    image: ogImage,
-    inLanguage: htmlLang,
-    author: {
-      "@type": "Person",
-      name: "Gabriel Mangabeira",
-      url: BASE_URL,
-    },
-  }).replace(/</g, "\\u003c");
-
-  return `<!DOCTYPE html>
-<html lang="${htmlLang}">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>${title}</title>
-<meta name="description" content="${description}" />
-<link rel="canonical" href="${canonical}" />
-${altLinks.join("\n")}
-<meta property="og:type" content="article" />
-<meta property="og:title" content="${title}" />
-<meta property="og:description" content="${description}" />
-<meta property="og:url" content="${canonical}" />
-<meta property="og:image" content="${ogImage}" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="${title}" />
-<meta name="twitter:description" content="${description}" />
-<meta name="twitter:image" content="${ogImage}" />
-<script type="application/ld+json">${schema}</script>
-</head>
-<body>
-<article>
-${sanitized}
-</article>
-</body>
-</html>`;
+    return false;
+  }
+  const { error } = await supabase.storage
+    .from("seo-snapshots")
+    .upload(objectKey, new Blob([html], { type: "text/html" }), {
+      contentType: "text/html; charset=utf-8",
+      upsert: true,
+      cacheControl: "300",
+    });
+  if (error) console.error(`snapshot upload failed for ${objectKey}:`, error.message);
+  return !error;
 }
 
 Deno.serve(async (req) => {
@@ -206,7 +203,6 @@ Deno.serve(async (req) => {
     const url = new URL(req.url);
     const requested = normalizePath(url.searchParams.get("path") || "/");
 
-    // Permanent redirect check
     if (REDIRECTS[requested]) {
       const target = REDIRECTS[requested];
       return new Response(null, {
@@ -220,94 +216,108 @@ Deno.serve(async (req) => {
     }
 
     const objectKey = pathToObjectKey(requested);
+    const parsed = parsePubPath(requested);
 
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    // Force-regenerate: skip storage, regenerate from DB, overwrite storage
     const forceRefresh = url.searchParams.get("refresh") === "1";
-    if (forceRefresh) {
-      const parsed = parsePubPath(requested);
-      if (parsed) {
-        const generated = await generatePublicationSnapshot(
-          supabase,
-          parsed.locale,
-          parsed.slug
-        );
-        if (generated) {
-          await supabase.storage
-            .from("seo-snapshots")
-            .upload(objectKey, new Blob([generated], { type: "text/html" }), {
-              contentType: "text/html; charset=utf-8",
-              upsert: true,
-              cacheControl: "300",
-            });
-          return new Response(generated, {
-            status: 200,
-            headers: {
-              ...corsHeaders,
-              "Content-Type": "text/html; charset=utf-8",
-              "Cache-Control": "no-store",
-              "X-Snapshot-Source": "refreshed",
-            },
-          });
-        }
+
+    if (forceRefresh && parsed) {
+      const gen = await generatePublicationSnapshot(supabase, parsed.locale, parsed.slug);
+      if (gen) {
+        const stored = await safeUpload(supabase, objectKey, gen.html, gen.canonical);
+        return new Response(gen.html, {
+          status: 200,
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "text/html; charset=utf-8",
+            "Cache-Control": "no-store",
+            "X-Snapshot-Source": stored ? "refreshed" : "refreshed-unstored",
+          },
+        });
       }
     }
 
-    // 1. Try storage first (fast path)
+    // 1. Storage fast path — but verify what we found is not a poisoned object.
     const { data, error } = await supabase.storage
       .from("seo-snapshots")
       .download(objectKey);
 
     if (!error && data) {
       const html = await data.text();
+      const expected = parsed ? localeToUrl(parsed.locale, parsed.slug) : "";
+      const check = parsed ? validateSnapshot(html, expected) : { ok: true, problems: [] };
+
+      if (check.ok) {
+        return new Response(html, {
+          status: 200,
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "text/html; charset=utf-8",
+            "Cache-Control": "public, max-age=300, s-maxage=86400",
+            "X-Snapshot-Path": requested,
+            "X-Snapshot-Source": "storage",
+          },
+        });
+      }
+
+      // Poisoned or stale-format object: rebuild in place.
+      console.warn(
+        `stored snapshot invalid for ${objectKey}: ${check.problems.join("; ")} — regenerating`
+      );
+      if (parsed) {
+        const gen = await generatePublicationSnapshot(supabase, parsed.locale, parsed.slug);
+        if (gen) {
+          const stored = await safeUpload(supabase, objectKey, gen.html, gen.canonical);
+          return new Response(gen.html, {
+            status: 200,
+            headers: {
+              ...corsHeaders,
+              "Content-Type": "text/html; charset=utf-8",
+              "Cache-Control": "public, max-age=60",
+              "X-Snapshot-Path": requested,
+              "X-Snapshot-Source": stored ? "self-healed" : "self-healed-unstored",
+            },
+          });
+        }
+      }
+
+      // Could not rebuild: serving a known-bad snapshot is worse than nothing,
+      // but it still beats a 404 on a live article. Serve it, flagged.
       return new Response(html, {
         status: 200,
         headers: {
           ...corsHeaders,
           "Content-Type": "text/html; charset=utf-8",
-          "Cache-Control": "public, max-age=300, s-maxage=86400",
+          "Cache-Control": "no-store",
           "X-Snapshot-Path": requested,
-          "X-Snapshot-Source": "storage",
+          "X-Snapshot-Source": "storage-invalid",
         },
       });
     }
 
-    // 2. Self-heal: generate missing publication snapshot from DB
-    const parsed = parsePubPath(requested);
+    // 2. Self-heal: generate a missing snapshot from the DB.
     if (parsed) {
-      const generated = await generatePublicationSnapshot(
-        supabase,
-        parsed.locale,
-        parsed.slug
-      );
-      if (generated) {
-        // Upload async so next request hits storage
-        supabase.storage
-          .from("seo-snapshots")
-          .upload(objectKey, new Blob([generated], { type: "text/html" }), {
-            contentType: "text/html; charset=utf-8",
-            upsert: true,
-            cacheControl: "300",
-          });
-
-        return new Response(generated, {
+      const gen = await generatePublicationSnapshot(supabase, parsed.locale, parsed.slug);
+      if (gen) {
+        const stored = await safeUpload(supabase, objectKey, gen.html, gen.canonical);
+        return new Response(gen.html, {
           status: 200,
           headers: {
             ...corsHeaders,
             "Content-Type": "text/html; charset=utf-8",
             "Cache-Control": "public, max-age=60",
             "X-Snapshot-Path": requested,
-            "X-Snapshot-Source": "generated",
+            "X-Snapshot-Source": stored ? "generated" : "generated-unstored",
           },
         });
       }
     }
 
-    // 3. Not found
+    // 3. Not found — the Worker turns this into a real 404.
     return new Response(
       JSON.stringify({ error: "snapshot_not_found", path: requested }),
       {
