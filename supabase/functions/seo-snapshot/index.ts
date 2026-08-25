@@ -50,13 +50,23 @@ function pathToObjectKey(p: string): string {
   return p.replace(/^\//, "") + "/index.html";
 }
 
+// Fixed (reversed) 2026-08-25: "/br/artigos/defi-gtm-checklist" -> "checklist-go-to-market-defi"
+// and its ES twin used to redirect LIVE, DB-backed URLs (page slug
+// "defi-gtm-checklist" exists with full en/br/es translations) to a slug with
+// ZERO matching page_translations rows. generatePublicationSnapshot correctly
+// returned null for that dead slug even on refresh=1, so the request silently
+// fell through to an orphaned pre-fix object left in the seo-snapshots bucket
+// (found because it was the only pair still failing seo-bot-view-guard after
+// the v3.0 deploy + full regenerate-snapshot rebuild). Reversed rather than
+// deleted: anyone or anything (Google included) with the old broken URL
+// bookmarked or indexed now lands on the real page instead of a dead end.
 const REDIRECTS: Record<string, string> = {
   "/es/articulos/estudo-de-caso-defi-avici":
     "/es/articulos/estudio-de-caso-defi-avici",
-  "/br/artigos/defi-gtm-checklist":
-    "/br/artigos/checklist-go-to-market-defi",
-  "/es/articulos/defi-gtm-checklist":
-    "/es/articulos/lista-verificacion-gtm-defi",
+  "/br/artigos/checklist-go-to-market-defi":
+    "/br/artigos/defi-gtm-checklist",
+  "/es/articulos/lista-verificacion-gtm-defi":
+    "/es/articulos/defi-gtm-checklist",
   "/es/articulos/web3-seo-guia-definitivo":
     "/es/articulos/web3-seo-guia-definitiva",
 };
