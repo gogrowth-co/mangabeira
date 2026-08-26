@@ -13,6 +13,7 @@ import IndexBR from "./pages/IndexBR";
 import IndexES from "./pages/IndexES";
 import NotFound from "./pages/NotFound";
 import AuditLandingV2 from "./pages/AuditLandingV2";
+import AuditLandingV3 from "./pages/AuditLandingV3";
 // Lazy: everything else is route-split so the main bundle stays small.
 // (recharts + html2canvas live only in the tokenomics simulator; the admin
 // editor stack is behind auth; article pages fetch content anyway.)
@@ -95,6 +96,7 @@ const App = () => {
 
               {/* Test landing page from the Claude Design prototype. noindex; not in site nav. */}
               <Route path="/lp/web3-growth-audit-v2" element={<AuditLandingV2 />} />
+              <Route path="/lp/web3-growth-audit-v3" element={<AuditLandingV3 />} />
               
               {/* Redirects for audit pages without locale prefix */}
               <Route path="/servicos/web3-auditoria-de-growth" element={<Navigate to="/br/servicos/web3-auditoria-de-growth" replace />} />

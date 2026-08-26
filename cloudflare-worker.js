@@ -60,6 +60,11 @@ const ORIGIN_PRERENDERED_ROUTES = new Set([
   "/br/ferramentas", "/br/ferramentas/simulador-tokenomics", "/br/servicos/web3-auditoria-de-growth",
   "/es", "/es/acerca-de", "/es/politica-de-privacidad",
   "/es/herramientas", "/es/herramientas/simulador-tokenomics", "/es/servicios/web3-auditoria-de-growth",
+  // Ad landing pages. Not in search (they ship noindex), but LinkedIn, X,
+  // Slack and Discord unfurlers all match BOT_UA — without these entries they
+  // fall through to the homepage prerender and every share of a paid LP shows
+  // the homepage title, description and OG image. Verified broken 2026-08-25.
+  "/lp/web3-growth-audit-v2", "/lp/web3-growth-audit-v3",
 ]);
 
 // Served to bots from seo-snapshot (Storage bucket, DB self-heal for articles).
