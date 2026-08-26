@@ -1,4 +1,4 @@
-// prerender v2.2 — defi-gtm-checklist localized slugs fixed
+// prerender v2.3 — /lp ad landing pages prerendered (noindex, unfurl-safe)
 /**
  * Build-time prerender plugin.
  *
@@ -69,7 +69,9 @@ interface RouteSpec {
   /** Optional JSON-LD blocks; each must be an object or array. */
   schemas?: unknown[];
   /** Page kind — drives the body content template. */
-  kind?: "home" | "about" | "privacy" | "publications-hub" | "tools-hub" | "tokenomics" | "audit" | "publication";
+  kind?: "home" | "about" | "privacy" | "publications-hub" | "tools-hub" | "tokenomics" | "audit" | "audit-lp" | "publication";
+  /** Ad landing pages must stay out of search while still unfurling correctly. */
+  noindex?: boolean;
   /** Extra context for body templates (publication body, etc.). */
   bodyExtra?: Record<string, string>;
 }
@@ -350,6 +352,43 @@ function staticRoutes(): RouteSpec[] {
     });
   }
 
+  // --- Ad landing pages (/lp/*) --------------------------------------------
+  // These are paid-traffic test routes and ship noindex so they never compete
+  // with /services/web3-growth-audit in search. They still need prerendering:
+  // LinkedIn, X, Slack and Discord unfurlers are all matched by the worker's
+  // BOT_UA, and without a per-route file they receive dist/index.html — i.e.
+  // every share of a paid landing page rendered the HOMEPAGE card. Confirmed
+  // broken 2026-08-25 (Googlebot + GPTBot both returned the homepage title).
+  const AUDIT_LPS: { outPath: string; title: string; description: string; lp: string }[] = [
+    {
+      outPath: "lp/web3-growth-audit-v2",
+      lp: "v2",
+      title: "Web3 Growth Audit | Find where your growth system is breaking",
+      description:
+        "A 72-hour async diagnosis of where your Web3 growth system is breaking, across six connected surfaces. Every finding arrives with the evidence behind it.",
+    },
+    {
+      outPath: "lp/web3-growth-audit-v3",
+      lp: "v3",
+      title: "Web3 Growth Audit | Find the handoff where your growth system breaks",
+      description:
+        "A 72-hour async diagnosis of the handoffs between your six growth surfaces, where the leak usually sits. You get a Miro evidence board, a Loom walkthrough and a Notion operating report.",
+    },
+  ];
+  for (const lp of AUDIT_LPS) {
+    routes.push({
+      outPath: lp.outPath,
+      locale: "en",
+      canonical: `${BASE_URL}/${lp.outPath}`,
+      alternates: {},
+      title: lp.title,
+      description: lp.description,
+      kind: "audit-lp",
+      noindex: true,
+      bodyExtra: { lp: lp.lp },
+    });
+  }
+
   return routes;
 }
 
@@ -567,7 +606,7 @@ function buildHead(spec: RouteSpec): string {
   return `<title>${escapeHtml(spec.title)}</title>
     <meta name="title" content="${escapeHtml(spec.title)}" />
     <meta name="description" content="${escapeHtml(spec.description)}" />
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="robots" content="${spec.noindex ? "noindex, nofollow" : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"}" />
     <link rel="canonical" href="${spec.canonical}" />
     ${altLinks}
     <meta property="og:type" content="${ogType}" />
@@ -733,6 +772,53 @@ function buildSectionContent(spec: RouteSpec): string {
       <p>${spec.locale === "br" ? "Projete oferta circulante, demanda e preço do seu token em 5 anos com curvas de emissão, vesting e queima. Sem cadastro, 100% no navegador, código aberto." : spec.locale === "es" ? "Proyecta oferta circulante, demanda y precio de tu token a 5 años con curvas de emisión, vesting y quema. Sin registro, 100% en el navegador, código abierto." : "Project circulating supply, demand, and token price over 5 years with emission, vesting, and burn curves. No signup, 100% in-browser, open source."}</p>
     </section>`;
       break;
+    case "audit-lp": {
+      // Text mirror of AuditLandingV3.tsx. Bots never run the React tree, so if
+      // this drifts from the component the unfurl and any AI fetch drift too.
+      const isV3 = spec.bodyExtra?.lp === "v3";
+      const surfaces = [
+        ["Website", "Positioning, narrative clarity, conversion paths and the promise you make before anyone connects a wallet."],
+        ["dApp", "First-session activation, wallet-connect friction, and whether the product delivers what acquisition promised."],
+        ["Social", "What your feed actually teaches a stranger, and whether attention converts into a next step or dead-ends."],
+        ["Community", "Discord and Telegram as a funnel stage: who arrives, what they ask, and where onboarding silently fails."],
+        ["Search & AEO", "The demand already looking for what you built, and whether ChatGPT, Perplexity and Google's AI answers name you."],
+        ["Paid & PR", "Where spend and coverage land, and whether the traffic they buy meets a surface built to receive it."],
+      ];
+      const surfacesHtml = surfaces
+        .map(([n, d]) => `<li><strong>${escapeHtml(n)}</strong> — ${escapeHtml(d)}</li>`)
+        .join("\n        ");
+      sectionHtml = `
+    <section>
+      <h2>Find where your Web3 growth system is breaking, in 72 hours.</h2>
+      <p>${escapeHtml(spec.description)}</p>
+      ${isV3 ? `<h2>The leak is almost never inside a channel. It is in the handoff between two.</h2>
+      <p>A website audit reads your website. A UX audit reads your dApp. Neither can see that your hero promises one action and your dApp opens on another, because that break does not live inside either surface. I inspect all six separately, then read them as one system. That second pass is the product.</p>` : ""}
+      <h3>The six surfaces</h3>
+      <ul>
+        ${surfacesHtml}
+      </ul>
+      ${isV3 ? `<h3>From a real audit</h3>
+      <p>The board shown on this page is from an actual six-surface audit, run against EigenLayer ($EIGEN), a live restaking protocol. Six frames, one per surface, each holding the captured evidence the findings were drawn from. Shown with permission.</p>
+      <h3>Who does the work</h3>
+      <p>One senior operator does the entire audit. No juniors, no account manager, no handoff. Gabriel Mangabeira: ten years running growth inside other people's systems, paid and community at Binance LATAM, SEO at scale at Neil Patel Brasil, sponsorship activation for Coca-Cola and the IOC.</p>
+      <h3>Can't Dune already tell me this?</h3>
+      <p>Dune tells you where users stopped. It cannot tell you why the ones who arrived were primed for the wrong first action, because the cause sits in copy, sequence and expectation, none of which is on-chain. Dashboards measure inside one surface; the breaks that matter live in the gap between two.</p>` : ""}
+      <h3>What lands in your workspace</h3>
+      <ul>
+        <li><strong>Miro evidence board</strong> — every surface inspected, captured and connected.</li>
+        <li><strong>Loom walkthrough</strong> — how each conclusion was reached, so your team can argue with it.</li>
+        <li><strong>Private cloneable skills</strong> — built against your protocol's context, so you can rerun the checks.</li>
+        <li><strong>Notion operating report</strong> — assignable, commentable, closeable.</li>
+      </ul>
+      <h3>Pricing</h3>
+      <p><strong>Starter, $97</strong> — know what is wrong. Six-surface audit and synthesis, evidence-backed findings, Miro board, Loom walkthrough, private skills, Notion report.</p>
+      <p><strong>Pro, $397</strong> — know what to fix first. Everything in Starter plus prioritised findings, an experiment backlog, a Growth Sprint board and a 30-day execution calendar.</p>
+      <p>Delivered in 72 hours, async, no calls. At least 3 meaningful, actionable insights or a full refund within 7 days.</p>
+      ${isV3 ? `<p>Built for post-TGE DeFi, DePIN, stablecoin, wallet, dApp, exchange, DeFAI and RWA teams already carrying real traffic: roughly 5,000+ monthly visitors, 500+ monthly wallet connects, or live paid spend.</p>` : `<p>Built for post-TGE DeFi, DePIN, stablecoin, wallet, dApp, exchange, DeFAI and RWA teams with initial distribution already in motion.</p>`}
+      <p><a href="${spec.canonical}">Open the full landing page</a></p>
+    </section>`;
+      break;
+    }
     case "audit": {
       // English-only, verbatim from the live components — Web3GrowthAudit.tsx mounts
       // this same tree at /services, /br/servicos, and /es/servicios with no
