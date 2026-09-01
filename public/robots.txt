@@ -1,5 +1,10 @@
 # General rule - allow all bots
+# Content-Signal declares AI content usage preferences (contentsignals.org):
+# search = build a search index and show links/snippets
+# ai-input = use content as input to AI answers (grounding/RAG)
+# ai-train = use content to train or fine-tune AI models
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 # Search Engine Bots
