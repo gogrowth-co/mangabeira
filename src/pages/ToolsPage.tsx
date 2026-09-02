@@ -4,6 +4,8 @@ import SEOHead from "@/components/SEOHead";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { en, ptBR, es, type ToolsStrings } from "./tools/strings";
+import { TOOLS_CONTENT, contentLocale, faqSchema } from "@/content/tools-content";
+import { ProseSection, FaqAccordion } from "@/components/tools/ToolsProse";
 import tokenHealthImage from "@/assets/token-health-scan-screenshot.png";
 import web3RoastImage from "@/assets/web3-roast-screenshot.png";
 import growthExperimentsImage from "@/assets/growth-experiments-screenshot.png";
@@ -116,6 +118,7 @@ function getTools(strings: ToolsStrings, lang: string) {
 
 const ToolsPage = ({ lang = "en" }: ToolsPageProps) => {
   const strings = lang === "pt-BR" ? ptBR : lang === "es" ? es : en;
+  const copy = TOOLS_CONTENT[contentLocale(lang)].tools;
   const locale = localeMap[lang];
   const tools = getTools(strings, lang);
 
@@ -233,6 +236,9 @@ const ToolsPage = ({ lang = "en" }: ToolsPageProps) => {
           </div>
         </div>
       </main>
+
+      <ProseSection heading={copy.introHeading} paragraphs={copy.introParagraphs} />
+      <FaqAccordion heading={copy.faqHeading} faqs={copy.faqs} />
 
       <Footer />
     </>

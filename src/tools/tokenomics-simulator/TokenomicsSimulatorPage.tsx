@@ -4,6 +4,8 @@ import { ChevronRight, Info } from "lucide-react"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import SimulatorSEO from "./SimulatorSEO"
+import { TOOLS_CONTENT, contentLocale } from "@/content/tools-content"
+import { ProseSection, StepsSection, FaqAccordion } from "@/components/tools/ToolsProse"
 import ConfigPanel from "./ConfigPanel"
 import ResultsPanel from "./ResultsPanel"
 import { en, ptBR, es } from "./strings"
@@ -30,6 +32,7 @@ const homeLinks: Record<string, string> = {
 export default function TokenomicsSimulatorPage({ lang }: TokenomicsSimulatorPageProps) {
   const strings = lang === "pt-BR" ? ptBR : lang === "es" ? es : en
   const locale = langToLocale[lang]
+  const copy = TOOLS_CONTENT[contentLocale(lang)].simulator
 
   const [params, setParams] = useState<SimulationParams>(() => {
     return decodeParamsFromURL() || { ...DEFAULT_PARAMS }
@@ -118,6 +121,10 @@ export default function TokenomicsSimulatorPage({ lang }: TokenomicsSimulatorPag
           </div>
         </div>
       </main>
+
+      <ProseSection heading={copy.aboutHeading} paragraphs={copy.aboutParagraphs} />
+      <StepsSection heading={copy.howHeading} items={copy.howItems} />
+      <FaqAccordion heading={copy.faqHeading} faqs={copy.faqs} />
 
       <Footer />
     </div>

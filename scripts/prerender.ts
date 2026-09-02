@@ -25,6 +25,11 @@ import type { Plugin } from "vite";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import Papa from "papaparse";
+import {
+  TOOLS_CONTENT,
+  faqSchema,
+  type FaqEntry,
+} from "../src/content/tools-content";
 
 type Locale = "en" | "br" | "es";
 const LOCALES: Locale[] = ["en", "br", "es"];
@@ -337,6 +342,7 @@ function staticRoutes(): RouteSpec[] {
           ? "Herramientas gratuitas y calculadoras para growth Web3, DeFi y tokenomics."
           : "Free tools and calculators for Web3, DeFi, and tokenomics growth.",
       kind: "tools-hub",
+      schemas: [faqSchema(TOOLS_CONTENT[locale].tools.faqs)],
     });
   }
 
@@ -370,6 +376,7 @@ function staticRoutes(): RouteSpec[] {
           ? "Simula oferta, demanda y precio de tu token a 5 años. Gratis, sin registro."
           : "Simulate token supply, demand, and price over 5 years. Free, no signup.",
       kind: "tokenomics",
+      schemas: [faqSchema(TOOLS_CONTENT[locale].simulator.faqs)],
     });
   }
 
@@ -737,6 +744,41 @@ export function assertNoDuplicateSchemaTypes(
   }
 }
 
+
+// --- Tools copy, shared with the React pages ------------------------------
+// Renders the same strings src/components/tools/ToolsProse.tsx renders, using
+// <details>/<summary> so the answers sit in the HTML with no JavaScript.
+
+function proseHtml(heading: string, paragraphs: string[]): string {
+  return `
+    <section>
+      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">${escapeHtml(heading)}</h2>
+      ${paragraphs.map((x) => `<p>${escapeHtml(x)}</p>`).join("\n      ")}
+    </section>`;
+}
+
+function stepsHtml(heading: string, items: { title: string; text: string }[]): string {
+  return `
+    <section>
+      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">${escapeHtml(heading)}</h2>
+      <ol>
+        ${items.map((i) => `<li><strong>${escapeHtml(i.title)}</strong> ${escapeHtml(i.text)}</li>`).join("\n        ")}
+      </ol>
+    </section>`;
+}
+
+function faqHtml(heading: string, faqs: FaqEntry[]): string {
+  return `
+    <section>
+      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">${escapeHtml(heading)}</h2>
+      ${faqs
+        .map(
+          (f) => `<details><summary><strong>${escapeHtml(f.q)}</strong></summary><p>${escapeHtml(f.a)}</p></details>`,
+        )
+        .join("\n      ")}
+    </section>`;
+}
+
 function buildHead(spec: RouteSpec): string {
   const lang = htmlLangFor(spec.locale);
   const ogImage = spec.ogImage || OG_IMAGE;
@@ -979,16 +1021,18 @@ function buildSectionContent(spec: RouteSpec): string {
         <li><a href="${simHref}">${L === "br" ? "Simulador de Tokenomics DeFi (5 anos)" : L === "es" ? "Simulador de Tokenomics DeFi (5 años)" : "DeFi Tokenomics Simulator (5-year)"}</a> — ${L === "br" ? "Projete oferta, demanda e preço do token. Grátis, sem cadastro." : L === "es" ? "Proyecta oferta, demanda y precio del token. Gratis, sin registro." : "Project token supply, demand, and price. Free, no signup."}</li>
         ${cards}
       </ul>
-    </section>`;
+    </section>` + proseHtml(TOOLS_CONTENT[L].tools.introHeading, TOOLS_CONTENT[L].tools.introParagraphs)
+      + faqHtml(TOOLS_CONTENT[L].tools.faqHeading, TOOLS_CONTENT[L].tools.faqs);
       break;
     }
-    case "tokenomics":
-      sectionHtml = `
-    <section>
-      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">${spec.locale === "br" ? "Sobre o simulador" : spec.locale === "es" ? "Sobre el simulador" : "About the simulator"}</h2>
-      <p>${spec.locale === "br" ? "Projete oferta circulante, demanda e preço do seu token em 5 anos com curvas de emissão, vesting e queima. Sem cadastro, 100% no navegador, código aberto." : spec.locale === "es" ? "Proyecta oferta circulante, demanda y precio de tu token a 5 años con curvas de emisión, vesting y quema. Sin registro, 100% en el navegador, código abierto." : "Project circulating supply, demand, and token price over 5 years with emission, vesting, and burn curves. No signup, 100% in-browser, open source."}</p>
-    </section>`;
+    case "tokenomics": {
+      const C = TOOLS_CONTENT[spec.locale].simulator;
+      sectionHtml =
+        proseHtml(C.aboutHeading, C.aboutParagraphs) +
+        stepsHtml(C.howHeading, C.howItems) +
+        faqHtml(C.faqHeading, C.faqs);
       break;
+    }
     case "audit": {
       // English-only, verbatim from the live components — Web3GrowthAudit.tsx mounts
       // this same tree at /services, /br/servicos, and /es/servicios with no

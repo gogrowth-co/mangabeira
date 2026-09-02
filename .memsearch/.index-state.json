@@ -1,0 +1,18 @@
+{
+  "collection": "ms_mangabeira_audit_de662571",
+  "failed_files": [],
+  "indexed_chunks": 1,
+  "indexed_files": 1,
+  "last_completed_at": "2026-09-02T00:59:50.708403Z",
+  "last_started_at": "2026-09-02T00:59:46.127172Z",
+  "last_success_at": "2026-09-02T00:59:50.708403Z",
+  "milvus_uri": "~/.memsearch/milvus.db",
+  "operation": "index",
+  "paths": [
+    "/private/tmp/claude-501/-Users-gabrielmangabeira-Documents-Gabriel-Mangabeira-marketing/546b01b1-2380-4056-be12-2bdbc3cf45cb/scratchpad/mangabeira-audit/.memsearch/memory"
+  ],
+  "schema_version": 1,
+  "status": "ok",
+  "total_files": 1,
+  "updated_at": "2026-09-02T00:59:50.708403Z"
+}
