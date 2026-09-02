@@ -4,7 +4,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider } from "./contexts/LanguageContext";
-import { AuthProvider } from "./contexts/AuthContext";
 import { lazy, Suspense } from "react";
 // Eager: entry pages that must paint fast (home variants + the paid-ads
 // landing page) and the tiny NotFound fallback.
@@ -18,15 +17,10 @@ import AuditLandingV2 from "./pages/AuditLandingV2";
 // editor stack is behind auth; article pages fetch content anyway.)
 const About = lazy(() => import("./pages/About"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
-const Admin = lazy(() => import("./pages/Admin"));
-const AdminNew = lazy(() => import("./pages/AdminNew"));
-const AdminEdit = lazy(() => import("./pages/AdminEdit"));
-const AdminEditLanguage = lazy(() => import("./pages/AdminEditLanguage"));
 const DynamicPage = lazy(() => import("./pages/DynamicPage"));
 const Publications = lazy(() => import("./pages/Publications"));
 const PublicationsBR = lazy(() => import("./pages/PublicationsBR"));
 const PublicationsES = lazy(() => import("./pages/PublicationsES"));
-const Auth = lazy(() => import("./pages/Auth"));
 const RssFeed = lazy(() => import("./pages/RssFeed"));
 const Web3GrowthAudit = lazy(() => import("./pages/Web3GrowthAudit"));
 const AuditPaymentSuccess = lazy(() => import("./pages/AuditPaymentSuccess"));
@@ -34,7 +28,6 @@ const TokenomicsSimulatorPage = lazy(
   () => import("./tools/tokenomics-simulator/TokenomicsSimulatorPage")
 );
 const ToolsPage = lazy(() => import("./pages/ToolsPage"));
-const OAuthConsent = lazy(() => import("./pages/OAuthConsent"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -51,8 +44,7 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <AuthProvider>
-            <LanguageProvider>
+          <LanguageProvider>
               <Suspense fallback={null}>
               <Routes>
               <Route path="/" element={<Index />} />
@@ -142,18 +134,6 @@ const App = () => {
               <Route path="/es/token-health-scan" element={<Navigate to="/es/articulos/vibe-coded-token-health-scan" replace />} />
               <Route path="/es/articulos/estudo-de-caso-defi-avici" element={<Navigate to="/es/articulos/estudio-de-caso-defi-avici" replace />} />
               
-              {/* Auth route */}
-              <Route path="/auth" element={<Auth />} />
-
-              {/* MCP OAuth consent screen */}
-              <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
-              
-              {/* Admin routes - requires authentication */}
-              <Route path="/admin" element={<Admin />} />
-              <Route path="/admin/new" element={<AdminNew />} />
-              <Route path="/admin/edit/:id" element={<AdminEdit />} />
-              <Route path="/admin/edit/:id/:lang" element={<AdminEditLanguage />} />
-              
               {/* Dynamic pages */}
               <Route path="/br/:slug" element={<DynamicPage />} />
               <Route path="/es/:slug" element={<DynamicPage />} />
@@ -163,8 +143,7 @@ const App = () => {
               <Route path="*" element={<NotFound />} />
               </Routes>
               </Suspense>
-            </LanguageProvider>
-          </AuthProvider>
+          </LanguageProvider>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

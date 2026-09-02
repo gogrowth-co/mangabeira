@@ -11,6 +11,8 @@ interface Message {
   content: string;
 }
 
+const CHAT_ENDPOINT = '/api/chat';
+
 const ChatWithMyAIContent = () => {
   const { locale } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
@@ -34,11 +36,12 @@ const ChatWithMyAIContent = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat-assistant`, {
+      // Same-origin Cloudflare Worker (routed at mangabeira.net/api/chat);
+      // streams SSE in the same OpenAI chunk format the old edge function used.
+      const response = await fetch(CHAT_ENDPOINT, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
         body: JSON.stringify({ messages: [...messages, userMessage] }),
       });

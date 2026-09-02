@@ -6,7 +6,7 @@ interface SEOProps {
   path?: string;
 }
 
-const OG_IMAGE = "https://storage.googleapis.com/gpt-engineer-file-uploads/vPREpio8p8h1iruSSNkQMQeWPo62/social-images/social-1759804725149-og-mangabeira.png";
+const OG_IMAGE = "https://mangabeira.net/og-mangabeira.png";
 
 const SEO = ({ locale, path = '/' }: SEOProps) => {
   const baseUrl = 'https://mangabeira.net';
