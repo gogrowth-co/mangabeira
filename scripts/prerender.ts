@@ -1004,6 +1004,22 @@ function buildSectionContent(spec: RouteSpec): string {
       // Mirrors the live Tools section cards (translations CSV `tools` section).
       const L = spec.locale;
       const simHref = L === "en" ? "/tools/tokenomics-simulator" : `/${L}/${L === "br" ? "ferramentas/simulador-tokenomics" : "herramientas/simulador-tokenomics"}`;
+      // Onchain Attribution Kit has no translations-CSV entry; its copy lives in
+      // src/pages/tools/strings.ts, so it is appended from there below.
+      const kit = {
+        en: {
+          title: "Onchain Attribution Kit",
+          desc: "Connect UTM campaigns to wallet activity. See which channels produce wallets that actually transact.",
+        },
+        br: {
+          title: "Onchain Attribution Kit",
+          desc: "Conecte campanhas UTM à atividade de carteiras. Veja quais canais geram carteiras que realmente transacionam.",
+        },
+        es: {
+          title: "Onchain Attribution Kit",
+          desc: "Conecta campañas UTM a la actividad de billeteras. Ve qué canales generan billeteras que realmente transaccionan.",
+        },
+      }[L];
       const cards = ["growth_exp", "web3_roast", "token_health", "shopify"]
         .map((k) => {
           const title = t(L, "tools", `${k}_title`);
@@ -1020,6 +1036,7 @@ function buildSectionContent(spec: RouteSpec): string {
       <ul>
         <li><a href="${simHref}">${L === "br" ? "Simulador de Tokenomics DeFi (5 anos)" : L === "es" ? "Simulador de Tokenomics DeFi (5 años)" : "DeFi Tokenomics Simulator (5-year)"}</a> — ${L === "br" ? "Projete oferta, demanda e preço do token. Grátis, sem cadastro." : L === "es" ? "Proyecta oferta, demanda y precio del token. Gratis, sin registro." : "Project token supply, demand, and price. Free, no signup."}</li>
         ${cards}
+        <li><a href="https://github.com/gmangabeira/onchain-attribution-kit" rel="noopener">${escapeHtml(kit.title)}</a> — ${escapeHtml(kit.desc)}</li>
       </ul>
     </section>` + proseHtml(TOOLS_CONTENT[L].tools.introHeading, TOOLS_CONTENT[L].tools.introParagraphs)
       + faqHtml(TOOLS_CONTENT[L].tools.faqHeading, TOOLS_CONTENT[L].tools.faqs);

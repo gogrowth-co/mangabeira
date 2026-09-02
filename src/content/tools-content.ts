@@ -43,7 +43,7 @@ export const TOOLS_CONTENT: Record<ContentLocale, ToolsContent> = {
       "introHeading": "Tools Built From the Work",
       "introParagraphs": [
         "I built each of these tools while doing Web3 growth work for real protocols. They started as internal scripts to answer one question fast: is this tokenomics model going to survive year two, does this landing page convert, is this project sitting on a critical risk nobody flagged. I turned the useful ones into free tools.",
-        "Five are live right now. The Tokenomics Simulator models emission schedules and staking mechanics before you launch. Token Health Scan checks a crypto project for critical risks. Web3 ROAST reviews a site for conversion and CRO issues. The Growth Experiments Framework tracks and analyzes growth experiments over time. The Shopify Grader benchmarks an e-commerce store against what actually moves revenue.",
+        "Six are live right now. The Tokenomics Simulator models emission schedules and staking mechanics before you launch. Token Health Scan checks a crypto project for critical risks. Web3 ROAST reviews a site for conversion and CRO issues. The Growth Experiments Framework tracks and analyzes growth experiments over time. The Shopify Grader benchmarks an e-commerce store against what actually moves revenue. The Onchain Attribution Kit connects UTM campaigns to wallet activity, so you can see which channels produce wallets that actually transact.",
         "None of them require a sign-up or a wallet connection. Use what's useful, skip what isn't."
       ],
       "faqHeading": "FAQ",
@@ -122,7 +122,7 @@ export const TOOLS_CONTENT: Record<ContentLocale, ToolsContent> = {
       "introHeading": "Ferramentas Construídas a Partir do Trabalho",
       "introParagraphs": [
         "Eu construí cada uma dessas ferramentas fazendo trabalho de growth em Web3 para protocolos reais. Elas começaram como scripts internos para responder uma pergunta rápido: esse modelo de tokenomics sobrevive ao segundo ano, essa landing page converte, esse projeto tem um risco crítico que ninguém sinalizou. Transformei as mais úteis em ferramentas gratuitas.",
-        "Cinco estão no ar agora. O Tokenomics Simulator modela cronogramas de emissão e mecânicas de staking antes do lançamento. O Token Health Scan verifica riscos críticos em um projeto cripto. O Web3 ROAST analisa um site em busca de problemas de conversão e CRO. O Growth Experiments Framework acompanha e analisa experimentos de growth ao longo do tempo. O Shopify Grader compara uma loja de e-commerce com o que realmente move receita.",
+        "Seis estão no ar agora. O Tokenomics Simulator modela cronogramas de emissão e mecânicas de staking antes do lançamento. O Token Health Scan verifica riscos críticos em um projeto cripto. O Web3 ROAST analisa um site em busca de problemas de conversão e CRO. O Growth Experiments Framework acompanha e analisa experimentos de growth ao longo do tempo. O Shopify Grader compara uma loja de e-commerce com o que realmente move receita. O Onchain Attribution Kit conecta campanhas UTM à atividade de carteiras, mostrando quais canais geram carteiras que realmente transacionam.",
         "Nenhuma delas pede cadastro ou conexão de carteira. Use o que for útil, ignore o resto."
       ],
       "faqHeading": "Perguntas Frequentes",
@@ -201,7 +201,7 @@ export const TOOLS_CONTENT: Record<ContentLocale, ToolsContent> = {
       "introHeading": "Herramientas Construidas Desde el Trabajo",
       "introParagraphs": [
         "Construí cada una de estas herramientas mientras hacía trabajo de growth en Web3 para protocolos reales. Empezaron como scripts internos para responder una pregunta rápido: este modelo de tokenomics, sobrevive al segundo año, esta landing page, convierte, este proyecto, tiene un riesgo crítico que nadie marcó. Convertí las más útiles en herramientas gratuitas.",
-        "Hay cinco activas ahora mismo. El Tokenomics Simulator modela cronogramas de emisión y mecánicas de staking antes del lanzamiento. Token Health Scan revisa un proyecto cripto en busca de riesgos críticos. Web3 ROAST analiza un sitio para detectar problemas de conversión y CRO. El Growth Experiments Framework registra y analiza experimentos de growth a lo largo del tiempo. El Shopify Grader compara una tienda de e-commerce con lo que realmente mueve ingresos.",
+        "Hay seis activas ahora mismo. El Tokenomics Simulator modela cronogramas de emisión y mecánicas de staking antes del lanzamiento. Token Health Scan revisa un proyecto cripto en busca de riesgos críticos. Web3 ROAST analiza un sitio para detectar problemas de conversión y CRO. El Growth Experiments Framework registra y analiza experimentos de growth a lo largo del tiempo. El Shopify Grader compara una tienda de e-commerce con lo que realmente mueve ingresos. El Onchain Attribution Kit conecta campañas UTM a la actividad de billeteras, para ver qué canales generan billeteras que realmente transaccionan.",
         "Ninguna pide registro ni conexión de wallet. Usa lo que te sirva, ignora el resto."
       ],
       "faqHeading": "Preguntas Frecuentes",
