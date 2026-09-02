@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Award, Brain, TrendingUp, Users, ExternalLink } from "lucide-react";
 import gabrielSwimming from "@/assets/gabriel-swimming-action.png";
 import gabrielProfessional from "@/assets/gabriel-professional-about.png";
-const OG_IMAGE = "https://storage.googleapis.com/gpt-engineer-file-uploads/vPREpio8p8h1iruSSNkQMQeWPo62/social-images/social-1759804725149-og-mangabeira.png";
+const OG_IMAGE = "https://mangabeira.net/og-mangabeira.png";
 
 const pageTitle = "About Gabriel Mangabeira | Olympian & Growth Strategist";
 const pageDescription = "From Olympic discipline to Web3 growth — Gabriel Mangabeira blends AI, data, and storytelling to help brands grow with precision and focus.";

@@ -9,7 +9,7 @@ interface SEOHeadProps {
 }
 
 const DEFAULT_OG_IMAGE =
-  "https://storage.googleapis.com/gpt-engineer-file-uploads/vPREpio8p8h1iruSSNkQMQeWPo62/social-images/social-1759804725149-og-mangabeira.png";
+  "https://mangabeira.net/og-mangabeira.png";
 
 const SEOHead = ({ title, description, canonical, image, ogType = "website" }: SEOHeadProps) => {
   const ogImage = image || DEFAULT_OG_IMAGE;

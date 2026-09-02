@@ -28,7 +28,7 @@
     <meta property="og:title" content="Gabriel Mangabeira | Olympian & Growth Marketing Strategist" />
     <meta property="og:description" content="Two-time Olympian turned Growth Marketing Strategist for Web3, DeFi, and AI companies." />
     <meta property="og:url" content="https://mangabeira.net/" />
-    <meta property="og:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/vPREpio8p8h1iruSSNkQMQeWPo62/social-images/social-1759804725149-og-mangabeira.png" />
+    <meta property="og:image" content="https://mangabeira.net/og-mangabeira.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
 
@@ -37,7 +37,7 @@
     <meta name="twitter:creator" content="@manga82" />
     <meta name="twitter:title" content="Gabriel Mangabeira | Olympian & Growth Marketing Strategist" />
     <meta name="twitter:description" content="Two-time Olympian turned Growth Marketing Strategist for Web3, DeFi, and AI companies." />
-    <meta name="twitter:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/vPREpio8p8h1iruSSNkQMQeWPo62/social-images/social-1759804725149-og-mangabeira.png" />
+    <meta name="twitter:image" content="https://mangabeira.net/og-mangabeira.png" />
 
     <script type="application/ld+json">
     {
@@ -197,82 +197,20 @@
     </div>
 
     <!--
-      Pre-hydration SEO snapshot bootstrap.
-      Lovable hosting serves this index.html for every extensionless URL, which
-      means crawlers / AI fetchers / audit tools see the homepage HTML for
-      every route. To fix that without changing URLs, we synchronously fetch
-      the matching prerendered snapshot from the seo-snapshot edge function
-      and swap in its <head> + prerender body BEFORE React hydrates.
-      Real users with JS still see React; only the first paint differs.
+      Static divorce (Phase 1): every indexable route now ships its own
+      prerendered dist/<route>/index.html, so the old synchronous
+      seo-snapshot bootstrap XHR (Supabase edge function) is gone. Only the
+      /lp/* guard remains: those ad landing pages fall back to this shell, and
+      dropping the homepage prerender block BEFORE first paint avoids the
+      measured 0.19 CLS and the flash of homepage copy at paid visitors.
     -->
     <script>
     (function () {
       try {
         var path = window.location.pathname.replace(/\/+$/, "") || "/";
-        // Skip for asset-like paths and the homepage (already correct baseline).
-        if (path === "/" || /\.[a-z0-9]+$/i.test(path)) return;
-        // /lp/* ad landing pages: noindex, so the snapshot buys nothing, and
-        // this XHR is SYNCHRONOUS so it would delay first paint for paid
-        // traffic. Also drop the (homepage) prerender block NOW, before first
-        // paint: removing it after paint counts as a layout shift (measured
-        // 0.19 CLS on mobile) and flashes homepage copy at ad visitors.
         if (/^\/lp(\/|$)/.test(path)) {
           var pre = document.querySelector('[data-prerender="true"]');
           if (pre && pre.parentNode) pre.parentNode.removeChild(pre);
-          return;
-        }
-        // Skip admin / auth / API / functions routes.
-        if (/^\/(admin|auth|functions|api|rss|assets|src)(\/|$)/.test(path)) return;
-
-        var endpoint =
-          "https://hetemmltaoirimmoxzku.supabase.co/functions/v1/seo-snapshot?path=" +
-          encodeURIComponent(path);
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", endpoint, false); // synchronous: must complete before main.tsx runs
-        try { xhr.send(); } catch (e) { return; }
-        if (xhr.status !== 200 || !xhr.responseText) return;
-
-        var doc = new DOMParser().parseFromString(xhr.responseText, "text/html");
-        if (!doc) return;
-
-        // Replace document <title>.
-        var newTitle = doc.querySelector("title");
-        if (newTitle) document.title = newTitle.textContent || document.title;
-
-        // Replace meta + link[rel=canonical|alternate] + JSON-LD scripts.
-        var selectorsToReplace = [
-          'meta[name="description"]',
-          'meta[name="title"]',
-          'meta[name="robots"]',
-          'meta[property^="og:"]',
-          'meta[name^="twitter:"]',
-          'link[rel="canonical"]',
-          'link[rel="alternate"]',
-          'script[type="application/ld+json"]',
-        ];
-        selectorsToReplace.forEach(function (sel) {
-          var existing = document.head.querySelectorAll(sel);
-          existing.forEach(function (el) { el.parentNode.removeChild(el); });
-          var incoming = doc.head.querySelectorAll(sel);
-          incoming.forEach(function (el) {
-            document.head.appendChild(document.importNode(el, true));
-          });
-        });
-
-        // Set <html lang> from snapshot.
-        var snapLang = doc.documentElement.getAttribute("lang");
-        if (snapLang) document.documentElement.setAttribute("lang", snapLang);
-
-        // Swap the visible prerender body block so audit tools / no-JS clients
-        // see route-specific content. React removes this on mount.
-        var newPrerender = doc.querySelector('[data-prerender="true"]');
-        var oldPrerender = document.querySelector('[data-prerender="true"]');
-        if (newPrerender && oldPrerender && oldPrerender.parentNode) {
-          oldPrerender.parentNode.replaceChild(
-            document.importNode(newPrerender, true),
-            oldPrerender
-          );
         }
       } catch (e) {
         // Fail silently — React will hydrate normally.

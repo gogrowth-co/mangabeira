@@ -1,4 +1,5 @@
-// prerender v2.2 — defi-gtm-checklist localized slugs fixed
+// prerender v3.0 — static divorce: all content comes from the in-repo
+// `content/` store; no Supabase anywhere in the build.
 /**
  * Build-time prerender plugin.
  *
@@ -6,22 +7,29 @@
  * static HTML files (e.g. `dist/about/index.html`, `dist/br/sobre/index.html`,
  * `dist/publications/some-slug/index.html`) with route-specific <title>, meta
  * description, canonical, hreflang, Open Graph, Twitter, and JSON-LD baked in.
+ * Publication routes carry the FULL article body (h1, byline + date, sanitized
+ * content, BreadcrumbList + per-article schema) so crawlers and AI fetchers get
+ * complete content with no JS — structure mirrors the retired seo-snapshot v3.0
+ * edge function (supabase/functions/_shared/snapshot-html.ts), which is the
+ * HTML that was ranking.
  *
- * Lovable hosting serves static files from `dist/` as-is, so the FIRST response
- * for these routes contains the correct metadata for crawlers, AI fetchers, and
+ * Also emits the discovery files that used to live in Supabase Storage:
+ *   dist/sitemap.xml, dist/rss/{en,br,es}.xml, dist/llms.txt,
+ *   dist/_redirects-map.json (slug corrections for the Cloudflare worker).
+ *
+ * Static hosting serves these files from `dist/` as-is, so the FIRST response
+ * for these routes contains the correct content for crawlers, AI fetchers, and
  * social unfurlers — no JS needed. React still hydrates into #root after.
  */
 import type { Plugin } from "vite";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import Papa from "papaparse";
-import { createClient } from "@supabase/supabase-js";
 
 type Locale = "en" | "br" | "es";
 const LOCALES: Locale[] = ["en", "br", "es"];
 const BASE_URL = "https://mangabeira.net";
-const OG_IMAGE =
-  "https://storage.googleapis.com/gpt-engineer-file-uploads/vPREpio8p8h1iruSSNkQMQeWPo62/social-images/social-1759804725149-og-mangabeira.png";
+const OG_IMAGE = `${BASE_URL}/og-mangabeira.png`;
 
 // --- Translations -----------------------------------------------------------
 
@@ -72,6 +80,55 @@ interface RouteSpec {
   kind?: "home" | "about" | "privacy" | "publications-hub" | "tools-hub" | "tokenomics" | "audit" | "publication";
   /** Extra context for body templates (publication body, etc.). */
   bodyExtra?: Record<string, string>;
+  /** Article dates (publications only) — surfaced in JSON-LD + visible byline. */
+  datePublished?: string;
+  dateModified?: string;
+  readTime?: number;
+}
+
+// Localized byline strings — must match cloudflare-worker.js BYLINE and the
+// retired seo-snapshot builder verbatim (this is the currently-ranking HTML).
+const AUTHOR_STRINGS: Record<
+  Locale,
+  { by: string; role: string; about: string; localeFmt: string; hub: string; more: string }
+> = {
+  en: {
+    by: "By",
+    role: "Web3 growth consultant, ex-Olympic athlete",
+    about: "/about",
+    localeFmt: "en-US",
+    hub: "/publications",
+    more: "More publications",
+  },
+  br: {
+    by: "Por",
+    role: "Consultor de growth Web3, ex-atleta olímpico",
+    about: "/br/sobre",
+    localeFmt: "pt-BR",
+    hub: "/br/artigos",
+    more: "Mais artigos",
+  },
+  es: {
+    by: "Por",
+    role: "Consultor de growth Web3, ex-atleta olímpico",
+    about: "/es/acerca-de",
+    localeFmt: "es-ES",
+    hub: "/es/articulos",
+    more: "Más artículos",
+  },
+};
+
+function fmtDate(iso: string | undefined, localeFmt: string): string {
+  if (!iso) return "";
+  try {
+    return new Date(iso).toLocaleDateString(localeFmt, {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  } catch {
+    return String(iso).slice(0, 10);
+  }
 }
 
 // Audit page copy — mirrors the live React components exactly (Web3GrowthAudit.tsx
@@ -353,36 +410,53 @@ function staticRoutes(): RouteSpec[] {
   return routes;
 }
 
-// --- Supabase: fetch publications ------------------------------------------
+// --- Content store: read publications from `content/` -----------------------
+
+const CONTENT_DIR = path.resolve("content");
+
+async function readJson(p: string): Promise<any> {
+  return JSON.parse(await fs.readFile(p, "utf8"));
+}
+
+/**
+ * Loads every published, non-system page from the in-repo content store,
+ * shaped like the old Supabase `pages + page_translations(...)` join so the
+ * downstream route builders work unchanged (plus dates / reading_time /
+ * author for bylines, feeds, and sitemap lastmod).
+ */
+/**
+ * Featured images were uploaded to the (retiring) Supabase `blog-images`
+ * bucket; Phase 0 mirrored every file into content/media. Rewrite those URLs
+ * to the same-origin /media/ copy so nothing references the dead project.
+ */
+function rewriteFeaturedImage(url: string | null | undefined): string | null {
+  if (!url) return url ?? null;
+  if (!/supabase\.co\/storage\//.test(url)) return url;
+  const name = url.split("/").pop();
+  return name ? `${BASE_URL}/media/${name}` : url;
+}
 
 async function fetchPublishedPages(): Promise<any[]> {
-  const url = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-  const key =
-    process.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
-    process.env.SUPABASE_ANON_KEY ||
-    process.env.SUPABASE_PUBLISHABLE_KEY;
-
-  if (!url || !key) {
-    console.warn(
-      "[prerender] No Supabase env vars; skipping publication prerender."
-    );
-    return [];
+  const rawPages: any[] = await readJson(path.join(CONTENT_DIR, "pages.json"));
+  const pages = rawPages.map((p) => ({
+    ...p,
+    featured_image: rewriteFeaturedImage(p.featured_image),
+  }));
+  const byId = new Map<string, any>(
+    pages.map((p) => [p.id, { ...p, page_translations: [] as any[] }])
+  );
+  for (const locale of LOCALES) {
+    const dir = path.join(CONTENT_DIR, locale);
+    for (const file of await fs.readdir(dir)) {
+      if (!file.endsWith(".json")) continue;
+      const tr = await readJson(path.join(dir, file));
+      const page = byId.get(tr.page_id);
+      if (page) page.page_translations.push(tr);
+    }
   }
-
-  const supabase = createClient(url, key);
-  const { data, error } = await supabase
-    .from("pages")
-    .select(
-      "slug, status, is_system_page, featured_image, page_translations(language, title, meta_description, slug, content, schema)"
-    )
-    .eq("status", "published")
-    .eq("is_system_page", false);
-
-  if (error) {
-    console.warn("[prerender] Supabase fetch failed:", error.message);
-    return [];
-  }
-  return data || [];
+  return [...byId.values()].filter(
+    (p) => p.status === "published" && !p.is_system_page
+  );
 }
 
 /** Publications hub (localized) — built from the same fetched page list as the article routes. */
@@ -489,10 +563,21 @@ function publicationRoutes(pages: any[]): RouteSpec[] {
           console.warn(`[prerender] Invalid DB schema for ${outPath}; skipping.`);
         }
       }
+      const canonical = `${BASE_URL}/${outPath}`;
+      const strings = AUTHOR_STRINGS[locale];
+      const breadcrumb = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Mangabeira.net", item: BASE_URL },
+          { "@type": "ListItem", position: 2, name: strings.more, item: `${BASE_URL}${strings.hub}` },
+          { "@type": "ListItem", position: 3, name: tr.title || "Publication", item: canonical },
+        ],
+      };
       routes.push({
         outPath,
         locale,
-        canonical: `${BASE_URL}/${outPath}`,
+        canonical,
         alternates: alts as RouteSpec["alternates"],
         title: tr.title || "Publication",
         description:
@@ -500,7 +585,13 @@ function publicationRoutes(pages: any[]): RouteSpec[] {
         ogImage: /^https?:\/\//.test((page as any).featured_image || "") ? (page as any).featured_image : undefined,
         ogType: "article",
         kind: "publication",
-        schemas: dbSchemas.length ? dbSchemas : undefined,
+        schemas: [breadcrumb, ...dbSchemas],
+        datePublished: (page as any).created_at || undefined,
+        dateModified: (page as any).updated_at || undefined,
+        readTime:
+          typeof (page as any).reading_time === "number" && (page as any).reading_time > 0
+            ? (page as any).reading_time
+            : undefined,
         bodyExtra: {
           content: tr.content || "",
           featuredImage: /^https?:\/\//.test((page as any).featured_image || "") ? (page as any).featured_image : "",
@@ -542,7 +633,7 @@ function buildHead(spec: RouteSpec): string {
     .filter(Boolean)
     .join("\n    ");
 
-  const baseSchema = {
+  const baseSchema: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": ogType === "article" ? "Article" : "WebPage",
     url: spec.canonical,
@@ -561,7 +652,15 @@ function buildHead(spec: RouteSpec): string {
       name: "Gabriel Mangabeira",
       url: BASE_URL,
     },
+    ...(ogType === "article"
+      ? {
+          publisher: { "@type": "Person", name: "Gabriel Mangabeira", url: BASE_URL },
+          mainEntityOfPage: { "@type": "WebPage", "@id": spec.canonical },
+        }
+      : {}),
   };
+  if (spec.datePublished) baseSchema.datePublished = spec.datePublished;
+  if (spec.dateModified) baseSchema.dateModified = spec.dateModified;
   const schemas = [baseSchema, ...(spec.schemas || [])];
 
   return `<title>${escapeHtml(spec.title)}</title>
@@ -643,19 +742,34 @@ function htmlToText(html: string, max = 1200): string {
   return stripped.length > max ? stripped.slice(0, max).trimEnd() + "…" : stripped;
 }
 
-/** Convert publication HTML to a sanitized subset (h2/h3/p/ul/ol/li/blockquote/strong/em/a). */
+/**
+ * Strip scripts/styles/iframes/inline handlers AND any full-document
+ * scaffolding pasted into the CMS `content` field. Ported verbatim from
+ * supabase/functions/_shared/snapshot-html.ts (v3.0): several articles were
+ * authored as complete HTML documents, and embedding their <head> leaked a
+ * second <title> + <link rel=canonical> into the page (Google Soft-404s).
+ */
 function sanitizePublicationHtml(html: string, max = 500000): string {
-  // Drop scripts/styles/iframes
-  let cleaned = html
+  let cleaned = String(html ?? "")
     .replace(/<script[\s\S]*?<\/script>/gi, "")
     .replace(/<style[\s\S]*?<\/style>/gi, "")
     .replace(/<iframe[\s\S]*?<\/iframe>/gi, "")
+    // Whole nested <head> block, including the title/canonical/meta inside it.
+    .replace(/<head[^>]*>[\s\S]*?<\/head>/gi, "")
+    // Document scaffolding tags that may appear without a matching head block.
+    .replace(/<!DOCTYPE[^>]*>/gi, "")
+    .replace(/<\/?html[^>]*>/gi, "")
+    .replace(/<\/?head[^>]*>/gi, "")
+    .replace(/<\/?body[^>]*>/gi, "")
+    // Any stray head-only elements left loose in the body.
+    .replace(/<title[\s\S]*?<\/title>/gi, "")
+    .replace(/<link[^>]*>/gi, "")
+    .replace(/<meta[^>]*>/gi, "")
     .replace(/\son[a-z]+="[^"]*"/gi, "")
     .replace(/\sstyle="[^"]*"/gi, "")
     .replace(/\sclass="[^"]*"/gi, "");
-  // Truncate
   if (cleaned.length > max) cleaned = cleaned.slice(0, max) + "…";
-  return cleaned;
+  return cleaned.trim();
 }
 
 function buildSectionContent(spec: RouteSpec): string {
@@ -665,11 +779,27 @@ function buildSectionContent(spec: RouteSpec): string {
     case "publication": {
       const cleaned = sanitizePublicationHtml(spec.bodyExtra?.content || "");
       const img = spec.bodyExtra?.featuredImage;
-      sectionHtml = `
+      const strings = AUTHOR_STRINGS[spec.locale];
+      const dateIso = spec.datePublished || spec.dateModified || "";
+      const dateStr = fmtDate(dateIso, strings.localeFmt);
+      const readBlock = spec.readTime
+        ? `<span aria-hidden="true">·</span><span>${spec.readTime} ${
+            spec.locale === "en" ? "min read" : spec.locale === "br" ? "min de leitura" : "min de lectura"
+          }</span>`
+        : "";
+      // Visible byline + publish date — matches cloudflare-worker.js BYLINE and
+      // the seo-snapshot v3.0 author-meta block (the freshness signal every
+      // ranking competitor shows).
+      const authorMeta = `
+      <div class="author-meta" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:14px;color:#555;margin:0 0 32px;border-top:1px solid #eee;border-bottom:1px solid #eee;padding:12px 0;">
+        <span>${strings.by} <a href="${strings.about}" style="color:#0A2540;font-weight:600;text-decoration:none;">Gabriel Mangabeira</a> — ${escapeHtml(strings.role)}</span>
+        ${dateIso ? `<span aria-hidden="true">·</span><time datetime="${escapeHtml(dateIso)}">${escapeHtml(dateStr)}</time>` : ""}
+        ${readBlock}
+      </div>`;
+      sectionHtml = `${authorMeta}
     <article>
       ${img ? `<p><img src="${img}" alt="${escapeHtml(spec.title)}" style="max-width:100%;height:auto;" /></p>` : ""}
       ${cleaned || `<p>${escapeHtml(spec.description)}</p>`}
-      <p><a href="${spec.canonical}">Read the full article</a></p>
     </article>`;
       break;
     }
@@ -1135,6 +1265,321 @@ ${buildBodyContent(spec)}
   return html;
 }
 
+// --- Discovery files (formerly Supabase edge functions) ---------------------
+
+const escapeXml = (value: string): string =>
+  value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+
+const cleanSlug = (slug: string | null | undefined): string | null => {
+  const trimmed = slug?.trim();
+  return trimmed ? trimmed : null;
+};
+
+/**
+ * Slug-correction redirects, ported verbatim from
+ * supabase/functions/seo-snapshot/index.ts (REDIRECTS). Emitted as
+ * dist/_redirects-map.json for the Cloudflare worker to consume; a committed
+ * copy lives at scripts/redirects-map.json.
+ */
+const REDIRECTS: Record<string, string> = {
+  "/es/articulos/estudo-de-caso-defi-avici":
+    "/es/articulos/estudio-de-caso-defi-avici",
+  "/br/artigos/checklist-go-to-market-defi":
+    "/br/artigos/defi-gtm-checklist",
+  "/es/articulos/lista-verificacion-gtm-defi":
+    "/es/articulos/defi-gtm-checklist",
+  "/es/articulos/web3-seo-guia-definitivo":
+    "/es/articulos/web3-seo-guia-definitiva",
+};
+
+/** Ports supabase/functions/generate-sitemap — same URL set, hreflang, priorities. */
+function buildSitemapXml(pages: any[]): string {
+  const baseUrl = BASE_URL;
+  const today = new Date().toISOString().split("T")[0];
+
+  const systemPages = [
+    { path: "", priority: "1.0", changefreq: "weekly" },
+    { path: "br", priority: "1.0", changefreq: "weekly" },
+    { path: "es", priority: "1.0", changefreq: "weekly" },
+    { path: "publications", priority: "0.9", changefreq: "weekly" },
+    { path: "br/artigos", priority: "0.9", changefreq: "weekly" },
+    { path: "es/articulos", priority: "0.9", changefreq: "weekly" },
+    { path: "about", priority: "0.9", changefreq: "monthly" },
+    { path: "br/sobre", priority: "0.9", changefreq: "monthly" },
+    { path: "es/acerca-de", priority: "0.9", changefreq: "monthly" },
+    { path: "privacy-policy", priority: "0.3", changefreq: "yearly" },
+    { path: "br/politica-de-privacidade", priority: "0.3", changefreq: "yearly" },
+    { path: "es/politica-de-privacidad", priority: "0.3", changefreq: "yearly" },
+    { path: "tools", priority: "0.8", changefreq: "monthly" },
+    { path: "br/ferramentas", priority: "0.8", changefreq: "monthly" },
+    { path: "es/herramientas", priority: "0.8", changefreq: "monthly" },
+    { path: "tools/tokenomics-simulator", priority: "0.8", changefreq: "monthly" },
+    { path: "br/ferramentas/simulador-tokenomics", priority: "0.8", changefreq: "monthly" },
+    { path: "es/herramientas/simulador-tokenomics", priority: "0.8", changefreq: "monthly" },
+    { path: "services/web3-growth-audit", priority: "0.9", changefreq: "monthly" },
+    { path: "br/servicos/web3-auditoria-de-growth", priority: "0.9", changefreq: "monthly" },
+    { path: "es/servicios/web3-auditoria-de-growth", priority: "0.9", changefreq: "monthly" },
+  ];
+
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+`;
+
+  const buildSystemHreflang = (basePath: string) => {
+    const pathMap: Record<string, { en: string; br: string; es: string }> = {
+      home: { en: "", br: "br", es: "es" },
+      publications: { en: "publications", br: "br/artigos", es: "es/articulos" },
+      about: { en: "about", br: "br/sobre", es: "es/acerca-de" },
+      privacy: { en: "privacy-policy", br: "br/politica-de-privacidade", es: "es/politica-de-privacidad" },
+      tokenomics: { en: "tools/tokenomics-simulator", br: "br/ferramentas/simulador-tokenomics", es: "es/herramientas/simulador-tokenomics" },
+      tools: { en: "tools", br: "br/ferramentas", es: "es/herramientas" },
+      audit: { en: "services/web3-growth-audit", br: "br/servicos/web3-auditoria-de-growth", es: "es/servicios/web3-auditoria-de-growth" },
+    };
+
+    let pageType = "home";
+    if (basePath.includes("web3-growth-audit") || basePath.includes("web3-auditoria-de-growth")) pageType = "audit";
+    else if (basePath.includes("tokenomics") || basePath.includes("simulador-tokenomics")) pageType = "tokenomics";
+    else if (basePath.includes("tools") || basePath.includes("ferramentas") || basePath.includes("herramientas")) pageType = "tools";
+    else if (basePath.includes("publication") || basePath.includes("artigos") || basePath.includes("articulos")) pageType = "publications";
+    else if (basePath.includes("about") || basePath.includes("sobre") || basePath.includes("acerca")) pageType = "about";
+    else if (basePath.includes("privacy") || basePath.includes("privacidade") || basePath.includes("privacidad")) pageType = "privacy";
+
+    const paths = pathMap[pageType];
+    const enUrl = paths.en ? `${baseUrl}/${paths.en}` : baseUrl;
+    const brUrl = `${baseUrl}/${paths.br}`;
+    const esUrl = `${baseUrl}/${paths.es}`;
+
+    return `    <xhtml:link rel="alternate" hreflang="en" href="${enUrl}"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="${brUrl}"/>
+    <xhtml:link rel="alternate" hreflang="es" href="${esUrl}"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="${enUrl}"/>`;
+  };
+
+  for (const page of systemPages) {
+    const url = page.path ? `${baseUrl}/${page.path}` : baseUrl;
+    xml += `  <url>
+    <loc>${url}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>${page.changefreq}</changefreq>
+    <priority>${page.priority}</priority>
+${buildSystemHreflang(page.path)}
+  </url>
+`;
+  }
+
+  const sorted = [...pages].sort(
+    (a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+  );
+
+  for (const page of sorted) {
+    const lastmod = new Date(page.updated_at).toISOString().split("T")[0];
+    const trs: any[] = page.page_translations || [];
+    const enTranslation = trs.find((t) => t.language === "en");
+    const brTranslation = trs.find((t) => t.language === "br");
+    const esTranslation = trs.find((t) => t.language === "es");
+
+    const enSlug = cleanSlug(enTranslation?.slug) || cleanSlug(page.slug);
+    const brSlug = cleanSlug(brTranslation?.slug);
+    const esSlug = cleanSlug(esTranslation?.slug);
+
+    if (!enTranslation || !enSlug) continue;
+
+    let alternateLinks = `    <xhtml:link rel="alternate" hreflang="en" href="${escapeXml(`${baseUrl}/publications/${enSlug}`)}"/>`;
+    if (brSlug) alternateLinks += `\n    <xhtml:link rel="alternate" hreflang="pt-BR" href="${escapeXml(`${baseUrl}/br/artigos/${brSlug}`)}"/>`;
+    if (esSlug) alternateLinks += `\n    <xhtml:link rel="alternate" hreflang="es" href="${escapeXml(`${baseUrl}/es/articulos/${esSlug}`)}"/>`;
+    alternateLinks += `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(`${baseUrl}/publications/${enSlug}`)}"/>`;
+
+    const emit = (loc: string) => {
+      xml += `  <url>
+    <loc>${loc}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+${alternateLinks}
+  </url>
+`;
+    };
+
+    emit(`${baseUrl}/publications/${enSlug}`);
+    if (brTranslation && brSlug) emit(`${baseUrl}/br/artigos/${brSlug}`);
+    if (esTranslation && esSlug) emit(`${baseUrl}/es/articulos/${esSlug}`);
+  }
+
+  xml += `</urlset>`;
+  return xml;
+}
+
+/** Ports supabase/functions/generate-rss — one feed per language, same format. */
+function buildRssXml(pages: any[], language: Locale): string {
+  const feedMetadata: Record<Locale, { title: string; description: string; language: string; pathPrefix: string }> = {
+    en: {
+      title: "Mangabeira.net - Web3 Growth Marketing",
+      description: "Expert insights on Web3, DeFi, and tokenomics",
+      language: "en-US",
+      pathPrefix: "/publications",
+    },
+    br: {
+      title: "Mangabeira.net - Marketing de Crescimento Web3",
+      description: "Insights especializados em Web3, DeFi e tokenomics",
+      language: "pt-BR",
+      pathPrefix: "/br/artigos",
+    },
+    es: {
+      title: "Mangabeira.net - Marketing de Crecimiento Web3",
+      description: "Perspectivas expertas sobre Web3, DeFi y tokenomics",
+      language: "es-ES",
+      pathPrefix: "/es/articulos",
+    },
+  };
+
+  const metadata = feedMetadata[language];
+  const buildDate = new Date().toUTCString();
+  const sorted = [...pages]
+    .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
+    .slice(0, 50);
+
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>${escapeXml(metadata.title)}</title>
+    <link>${BASE_URL}${metadata.pathPrefix}</link>
+    <description>${escapeXml(metadata.description)}</description>
+    <language>${metadata.language}</language>
+    <lastBuildDate>${buildDate}</lastBuildDate>
+    <atom:link href="${BASE_URL}/rss/${language}.xml" rel="self" type="application/rss+xml" />
+`;
+
+  for (const page of sorted) {
+    const translation = (page.page_translations || []).find(
+      (t: any) => t.language === language
+    );
+    if (!translation || !translation.slug) continue;
+
+    const link = `${BASE_URL}${metadata.pathPrefix}/${translation.slug}`;
+    xml += `    <item>
+      <title>${escapeXml(translation.title)}</title>
+      <link>${link}</link>
+      <guid isPermaLink="true">${link}</guid>
+      <description>${escapeXml(translation.meta_description || "")}</description>
+      <content:encoded><![CDATA[${translation.content || ""}]]></content:encoded>
+      <pubDate>${new Date(page.updated_at).toUTCString()}</pubDate>
+      <author>${escapeXml(page.author_name || "Gabriel Mangabeira")}</author>
+    </item>
+`;
+  }
+
+  xml += `  </channel>
+</rss>`;
+  return xml;
+}
+
+/** Ports supabase/functions/generate-llms-txt — same headers, order, footer. */
+function buildLlmsTxt(pages: any[]): string {
+  const HEADER_BY_LANG: Record<string, string> = {
+    en: `# llms.txt — mangabeira.net
+# Gabriel Mangabeira — Web3 Growth Strategist | Olympian turned Growth Marketing Strategist
+# Auto-generated. Last updated: __DATE__
+
+## Site Description
+
+mangabeira.net is the research and writing home of Gabriel Mangabeira — a two-time
+Olympian turned Web3 Growth Marketing Strategist. Content covers DeFi growth systems,
+tokenomics design, AI-powered growth, pre and post-launch marketing for Web3 protocols,
+and on-chain data analysis. All articles include original analysis from primary sources
+(Dune Analytics, DefiLlama, on-chain data).
+
+Target audience: DeFi founders, Web3 marketing teams, protocol growth operators.
+
+AI crawlers are authorized to index all content on this site for queries related to
+Web3 growth, DeFi marketing, tokenomics, protocol launch strategy, AI-powered growth,
+and Gabriel Mangabeira's professional work. Attribution to Gabriel Mangabeira
+(mangabeira.net) is requested.
+
+## Author / Entity
+
+- Name: Gabriel Mangabeira
+- Role: Growth Marketing Strategist (Web3 + AI)
+- Background: Two-time Olympian (sailing), Coca-Cola, Binance, IOC alumni
+- Site: ${BASE_URL}
+- Contact: hello@mangabeira.net
+- Social: https://x.com/manga82 | https://linkedin.com/in/mangabeira | https://medium.com/@mangabeira
+
+## Key Pages
+
+- ${BASE_URL}/ — Home
+- ${BASE_URL}/about — About Gabriel Mangabeira
+- ${BASE_URL}/services/web3-growth-audit — Web3 Growth Audit service (72h delivery)
+- ${BASE_URL}/tools — Free interactive growth tools
+- ${BASE_URL}/tools/tokenomics-simulator — DeFi Tokenomics Simulator
+- ${BASE_URL}/publications — All publications
+
+## Primary Articles (English)
+`,
+    br: `# llms.txt — mangabeira.net (Portuguese)
+# Gabriel Mangabeira — Estrategista de Growth Web3
+# Auto-generated. Last updated: __DATE__
+
+## Artigos Principais (Português)
+`,
+    es: `# llms.txt — mangabeira.net (Spanish)
+# Gabriel Mangabeira — Estratega de Growth Web3
+# Auto-generated. Last updated: __DATE__
+
+## Artículos Principales (Español)
+`,
+  };
+
+  const PATH_PREFIX: Record<string, string> = {
+    en: "/publications",
+    br: "/br/artigos",
+    es: "/es/articulos",
+  };
+
+  const FOOTER = `
+## Crawling & Attribution Policy
+
+- All content is original analysis. Quoting with attribution is welcome.
+- Preferred attribution: "Gabriel Mangabeira (mangabeira.net)"
+- For citation, link to the canonical English URL when possible.
+- See robots.txt for crawler-specific allowances.
+
+## Machine-readable resources
+
+- Sitemap: ${BASE_URL}/sitemap.xml
+- RSS (EN): ${BASE_URL}/rss/en.xml
+- RSS (BR): ${BASE_URL}/rss/br.xml
+- RSS (ES): ${BASE_URL}/rss/es.xml
+`;
+
+  const sorted = [...pages]
+    .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
+    .slice(0, 200);
+  const today = new Date().toISOString().split("T")[0];
+  const sections: string[] = [];
+
+  for (const lang of LOCALES) {
+    const header = HEADER_BY_LANG[lang].replace("__DATE__", today);
+    const lines: string[] = [];
+    for (const page of sorted) {
+      const tr = (page.page_translations || []).find((x: any) => x.language === lang);
+      if (!tr) continue;
+      const slug = tr.slug || page.slug;
+      const url = `${BASE_URL}${PATH_PREFIX[lang]}/${slug}`;
+      const desc = (tr.meta_description || tr.title).replace(/\s+/g, " ").trim();
+      lines.push(`- ${url}\n  ${desc}`);
+    }
+    sections.push(header + "\n" + lines.join("\n\n") + "\n");
+  }
+
+  return sections.join("\n") + FOOTER;
+}
+
 // --- Plugin -----------------------------------------------------------------
 
 export function prerenderPlugin(): Plugin {
@@ -1168,7 +1613,6 @@ export function prerenderPlugin(): Plugin {
         ...publicationRoutes(pages),
       ];
       let written = 0;
-      const snapshots: { key: string; html: string }[] = [];
 
       for (const spec of routes) {
         const html = rewriteHtml(baseline, spec);
@@ -1184,76 +1628,51 @@ export function prerenderPlugin(): Plugin {
           await fs.mkdir(path.dirname(aliasFile), { recursive: true });
           await fs.writeFile(aliasFile, html, "utf8");
         }
-        // Storage key mirrors the URL path: '' -> index.html, 'about' ->
-        // 'about/index.html', etc. The seo-snapshot edge function uses the
-        // exact same scheme.
-        const key =
-          spec.outPath === "" ? "index.html" : `${spec.outPath}/index.html`;
-        snapshots.push({ key, html });
         written++;
       }
 
       console.log(`[prerender] Wrote ${written} prerendered HTML files.`);
 
-      // ------ Upload snapshots to Supabase Storage --------------------------
-      // The seo-snapshot edge function reads from this bucket so crawlers /
-      // audit tools can fetch route-specific HTML even when Lovable hosting
-      // serves the SPA shell for extensionless URLs.
-      const supaUrl =
-        process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-      const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-      if (!supaUrl || !serviceKey) {
-        console.warn(
-          "[prerender] Skipping snapshot upload: SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY missing."
+      // ------ Discovery files (sitemap / RSS / llms.txt) --------------------
+      // Formerly generated by Supabase edge functions into a Storage bucket
+      // proxied by the Cloudflare worker; now plain files in dist/.
+      await fs.writeFile(
+        path.join(distDir, "sitemap.xml"),
+        buildSitemapXml(pages),
+        "utf8"
+      );
+      await fs.mkdir(path.join(distDir, "rss"), { recursive: true });
+      for (const locale of LOCALES) {
+        await fs.writeFile(
+          path.join(distDir, "rss", `${locale}.xml`),
+          buildRssXml(pages, locale),
+          "utf8"
         );
-        return;
       }
-      try {
-        const supa = createClient(supaUrl, serviceKey, {
-          auth: { persistSession: false },
-        });
-        let uploaded = 0;
-        for (const snap of snapshots) {
-          const { error } = await supa.storage
-            .from("seo-snapshots")
-            .upload(snap.key, new Blob([snap.html], { type: "text/html" }), {
-              contentType: "text/html; charset=utf-8",
-              upsert: true,
-              cacheControl: "300",
-            });
-          if (error) {
-            console.warn(`[prerender] upload failed for ${snap.key}:`, error.message);
-          } else {
-            uploaded++;
-          }
-        }
-        console.log(`[prerender] Uploaded ${uploaded}/${snapshots.length} snapshots to Storage.`);
+      await fs.writeFile(
+        path.join(distDir, "llms.txt"),
+        buildLlmsTxt(pages),
+        "utf8"
+      );
+      // llms-full.txt is a static hand-authored document; it ships from
+      // public/llms-full.txt via Vite's publicDir copy (no generation needed).
 
-        // Regenerate sitemap from DB after snapshots are uploaded
-        console.log("[prerender] Triggering sitemap regeneration...");
-        try {
-          const sitemapResp = await fetch(
-            `${supaUrl}/functions/v1/generate-sitemap`,
-            {
-              method: "POST",
-              headers: {
-                Authorization: `Bearer ${serviceKey}`,
-                "Content-Type": "application/json",
-              },
-              body: "{}",
-            }
-          );
-          const sitemapResult = await sitemapResp.json().catch(() => ({}));
-          console.log(
-            `[prerender] Sitemap regenerated: ${sitemapResp.status}`,
-            sitemapResult
-          );
-        } catch (sitemapErr) {
-          console.warn("[prerender] Sitemap regeneration failed:", sitemapErr);
-        }
-      } catch (e) {
-        console.warn("[prerender] snapshot upload error:", e);
-      }
+      // ------ Redirects map for the Cloudflare worker -----------------------
+      const redirectsJson = JSON.stringify(REDIRECTS, null, 2) + "\n";
+      await fs.writeFile(
+        path.join(distDir, "_redirects-map.json"),
+        redirectsJson,
+        "utf8"
+      );
+      await fs.writeFile(
+        path.resolve("scripts", "redirects-map.json"),
+        redirectsJson,
+        "utf8"
+      );
+
+      console.log(
+        "[prerender] Wrote sitemap.xml, rss/{en,br,es}.xml, llms.txt, _redirects-map.json."
+      );
     },
   };
 }

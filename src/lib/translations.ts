@@ -1,6 +1,5 @@
 import Papa from 'papaparse';
 import { getSystemPageSlug } from './systemPageRoutes';
-import { supabase } from '@/integrations/supabase/client';
 
 export type Locale = 'en' | 'br' | 'es';
 
@@ -124,7 +123,8 @@ export function t(section: string, key: string, locale: Locale): string {
   return translation;
 }
 
-// Fetch slug mappings from database
+// Fetch slug mappings from the static build artifact
+// (public/content-index/slug-map.json, emitted by scripts/emit-static-content.mjs).
 async function fetchSlugMappings(): Promise<SlugMapping> {
   if (slugMappingPromise) {
     return slugMappingPromise;
@@ -136,56 +136,25 @@ async function fetchSlugMappings(): Promise<SlugMapping> {
 
   slugMappingPromise = (async () => {
     try {
-      console.log('[SLUG MAPPING] Fetching slug mappings from database...');
-      
-      const { data: pages, error } = await supabase
-        .from('pages')
-        .select(`
-          id,
-          slug,
-          page_translations (
-            language,
-            slug
-          )
-        `)
-        .eq('status', 'published');
-
-      if (error) {
-        console.error('[SLUG MAPPING] Error fetching pages:', error);
+      const response = await fetch('/content-index/slug-map.json');
+      if (!response.ok) {
+        console.error('[SLUG MAPPING] Failed to load slug map: HTTP', response.status);
         return {};
       }
+      const mapping = (await response.json()) as SlugMapping;
 
-      const mapping: SlugMapping = {};
       const reverseMapping: Record<string, string> = {};
-
-      pages?.forEach((page: any) => {
-        const baseSlug = page.slug;
-        const locales: Record<string, string> = {
-          en: baseSlug,
-          br: baseSlug,
-          es: baseSlug,
-        };
-
-        // Map each translation's slug to its locale
-        page.page_translations?.forEach((translation: any) => {
-          const locale = translation.language as Locale;
-          const localizedSlug = translation.slug || baseSlug;
-          locales[locale] = localizedSlug;
-
-          // Build reverse mapping: localized slug -> base slug
-          if (localizedSlug !== baseSlug) {
+      for (const [baseSlug, locales] of Object.entries(mapping)) {
+        for (const localizedSlug of Object.values(locales)) {
+          if (localizedSlug && localizedSlug !== baseSlug) {
             reverseMapping[localizedSlug] = baseSlug;
           }
-        });
-
-        mapping[baseSlug] = locales as { en: string; br: string; es: string };
-
-        console.log(`[SLUG MAPPING] ${baseSlug}:`, locales);
-      });
+        }
+      }
 
       slugMappingCache = mapping;
       reverseSlugCache = reverseMapping;
-      
+
       console.log('[SLUG MAPPING] Cache updated:', Object.keys(mapping).length, 'pages');
       return mapping;
     } catch (error) {
