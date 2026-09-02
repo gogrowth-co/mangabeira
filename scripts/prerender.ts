@@ -611,6 +611,132 @@ const escapeHtml = (s: string) =>
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
 
+/**
+ * One entity per page-level type in the emitted JSON-LD.
+ *
+ * A publication carries hand-authored schema in the CMS (`page_translations.schema`)
+ * that usually declares its own Article and BreadcrumbList. Emitting those next to
+ * the ones this script generates left two Article and two BreadcrumbList nodes in
+ * the same graph, disagreeing on `datePublished` format. Google dedupes, but the
+ * page was asserting two versions of one fact.
+ *
+ * Rule: generated nodes are the floor, authored nodes win. For each singleton type
+ * the authored object is merged over the generated one, field by field, so authored
+ * values take precedence while generated-only fields (image, publisher,
+ * mainEntityOfPage) survive. Types that legitimately repeat are left untouched.
+ *
+ * `assertNoDuplicateSchemaTypes` enforces the result at build time, so a future
+ * article with richer authored schema cannot silently reintroduce the duplication.
+ */
+const SCHEMA_TYPE_ALIASES: Record<string, string> = {
+  Article: "Article",
+  BlogPosting: "Article",
+  NewsArticle: "Article",
+  TechArticle: "Article",
+};
+
+/** Page-level types that must appear at most once in a page's graph. */
+const SINGLETON_SCHEMA_TYPES = new Set([
+  "Article",
+  "WebPage",
+  "WebSite",
+  "BreadcrumbList",
+  "FAQPage",
+]);
+
+function schemaTypeKey(entity: unknown): string | null {
+  if (!entity || typeof entity !== "object") return null;
+  const raw = (entity as Record<string, unknown>)["@type"];
+  const type = Array.isArray(raw) ? raw[0] : raw;
+  if (typeof type !== "string") return null;
+  return SCHEMA_TYPE_ALIASES[type] || type;
+}
+
+/** Flattens any `@graph` wrappers so every node can be inspected on its own. */
+function flattenSchemaNodes(input: unknown[]): Record<string, unknown>[] {
+  const out: Record<string, unknown>[] = [];
+  for (const item of input) {
+    if (!item || typeof item !== "object") continue;
+    if (Array.isArray(item)) {
+      out.push(...flattenSchemaNodes(item));
+      continue;
+    }
+    const node = item as Record<string, unknown>;
+    if (Array.isArray(node["@graph"])) {
+      out.push(...flattenSchemaNodes(node["@graph"] as unknown[]));
+      continue;
+    }
+    out.push(node);
+  }
+  return out;
+}
+
+export function normalizeSchemas(input: unknown[]): Record<string, unknown>[] {
+  const nodes = flattenSchemaNodes(input);
+  const order: string[] = [];
+  const byKey = new Map<string, Record<string, unknown>>();
+  const passthrough: Record<string, unknown>[] = [];
+
+  for (const node of nodes) {
+    const key = schemaTypeKey(node);
+    if (!key || !SINGLETON_SCHEMA_TYPES.has(key)) {
+      passthrough.push(node);
+      continue;
+    }
+    const existing = byKey.get(key);
+    if (!existing) {
+      order.push(key);
+      byKey.set(key, { ...node });
+      continue;
+    }
+    // Later node is the authored one: its fields win, generated extras remain.
+    byKey.set(key, { ...existing, ...node });
+  }
+
+  return [...order.map((k) => byKey.get(k)!), ...passthrough];
+}
+
+/**
+ * Build-time guard. Throws if any emitted page declares a page-level type twice,
+ * which fails the Pages build instead of shipping conflicting structured data.
+ */
+export function assertNoDuplicateSchemaTypes(
+  html: string,
+  routeLabel: string,
+): void {
+  const blocks = [
+    ...html.matchAll(
+      /<script[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi,
+    ),
+  ];
+  const counts = new Map<string, number>();
+  for (const [, body] of blocks) {
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(body.trim());
+    } catch {
+      throw new Error(
+        `[prerender] ${routeLabel}: emitted JSON-LD is not valid JSON.`,
+      );
+    }
+    for (const node of flattenSchemaNodes(
+      Array.isArray(parsed) ? parsed : [parsed],
+    )) {
+      const key = schemaTypeKey(node);
+      if (!key || !SINGLETON_SCHEMA_TYPES.has(key)) continue;
+      counts.set(key, (counts.get(key) || 0) + 1);
+    }
+  }
+  const dupes = [...counts.entries()].filter(([, n]) => n > 1);
+  if (dupes.length) {
+    throw new Error(
+      `[prerender] ${routeLabel}: duplicate JSON-LD entities ` +
+        dupes.map(([t, n]) => `${t}×${n}`).join(", ") +
+        `. Page-level types must appear once; see normalizeSchemas().`,
+    );
+  }
+}
+
 function buildHead(spec: RouteSpec): string {
   const lang = htmlLangFor(spec.locale);
   const ogImage = spec.ogImage || OG_IMAGE;
@@ -661,7 +787,7 @@ function buildHead(spec: RouteSpec): string {
   };
   if (spec.datePublished) baseSchema.datePublished = spec.datePublished;
   if (spec.dateModified) baseSchema.dateModified = spec.dateModified;
-  const schemas = [baseSchema, ...(spec.schemas || [])];
+  const schemas = normalizeSchemas([baseSchema, ...(spec.schemas || [])]);
 
   return `<title>${escapeHtml(spec.title)}</title>
     <meta name="title" content="${escapeHtml(spec.title)}" />
@@ -1616,6 +1742,8 @@ export function prerenderPlugin(): Plugin {
 
       for (const spec of routes) {
         const html = rewriteHtml(baseline, spec);
+        // Fail the build rather than ship conflicting structured data.
+        assertNoDuplicateSchemaTypes(html, `/${spec.outPath}`);
         const outDir =
           spec.outPath === ""
             ? distDir
