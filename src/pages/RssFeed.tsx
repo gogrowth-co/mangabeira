@@ -8,15 +8,10 @@ export default function RssFeed() {
   useEffect(() => {
     const fetchRss = async () => {
       try {
-        // Call edge function with language as query parameter
-        const response = await fetch(
-          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-rss?lang=${lang || 'en'}`,
-          {
-            headers: {
-              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-            },
-          }
-        );
+        // Static feed emitted at build time (dist/rss/<lang>.xml); in
+        // production the host serves the file directly and this component
+        // never mounts — this fetch is the SPA-navigation fallback.
+        const response = await fetch(`/rss/${lang || 'en'}.xml`);
         
         if (!response.ok) throw new Error('Failed to fetch RSS');
         

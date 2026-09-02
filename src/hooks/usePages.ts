@@ -1,7 +1,10 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { useQuery } from '@tanstack/react-query';
 import { Locale } from '@/lib/translations';
-import { toast } from '@/hooks/use-toast';
+
+// Static divorce (Phase 1): this hook now reads pre-baked article documents
+// from /content/<locale>/<slug>.json (emitted by scripts/emit-static-content.mjs
+// from the in-repo content/ store). The admin CRUD hooks that used to live here
+// (create/update/delete/publish) were removed along with the Supabase backend.
 
 export interface Page {
   id: string;
@@ -25,108 +28,39 @@ export interface PageTranslation {
   content: string | null;
   slug: string | null;
   featured_image_alt: string | null;
+  schema?: unknown;
   created_at: string;
   updated_at: string;
 }
 
-export interface PageWithTranslations extends Page {
-  translations: PageTranslation[];
-}
-
-// Fetch all pages with their translations
-export function usePages(filter?: 'all' | 'published' | 'draft') {
-  return useQuery({
-    queryKey: ['pages', filter],
-    queryFn: async () => {
-      let query = supabase
-        .from('pages')
-        .select(`
-          *,
-          translations:page_translations(*)
-        `)
-        .order('updated_at', { ascending: false });
-      
-      if (filter === 'published') {
-        query = query.eq('status', 'published');
-      } else if (filter === 'draft') {
-        query = query.eq('status', 'draft');
-      }
-      
-      const { data, error } = await query;
-      
-      if (error) throw error;
-      return data as PageWithTranslations[];
-    },
-  });
-}
-
-// Fetch single page with all translations
-export function usePage(id: string | undefined) {
-  return useQuery({
-    queryKey: ['page', id],
-    queryFn: async () => {
-      if (!id) throw new Error('Page ID required');
-      
-      const { data, error } = await supabase
-        .from('pages')
-        .select(`
-          *,
-          translations:page_translations(*)
-        `)
-        .eq('id', id)
-        .single();
-      
-      if (error) throw error;
-      return data as PageWithTranslations;
-    },
-    enabled: !!id,
-  });
+interface ArticleDoc {
+  page: Page;
+  translation: PageTranslation;
+  alternates: Partial<Record<Locale, string>>;
 }
 
 // Map of known localized slugs to their English equivalents
 const localizedToEnglish: Record<string, string> = {
-  // Brazilian Portuguese versions
   'construindo-comunidade-web3-atletas': 'web3-for-athletes',
   'web3-para-atletas': 'web3-for-athletes',
-  // Spanish versions can be added here as needed
-  // Add more mappings as you create localized content
 };
 
-function getFunctionErrorMessage(functionName: string, error: unknown) {
-  if (error instanceof Error) return `${functionName}: ${error.message}`;
-  if (typeof error === 'object' && error && 'message' in error) {
-    return `${functionName}: ${String((error as { message?: unknown }).message)}`;
+/**
+ * Fetch one static article document. Returns null on 404 or when the host
+ * serves the SPA shell instead of JSON (soft-404 on some static hosts).
+ */
+async function fetchArticleDoc(locale: Locale, slug: string): Promise<ArticleDoc | null> {
+  if (!slug) return null;
+  try {
+    const res = await fetch(`/content/${locale}/${encodeURIComponent(slug)}.json`);
+    if (!res.ok) return null;
+    const text = await res.text();
+    const doc = JSON.parse(text) as ArticleDoc;
+    if (!doc || !doc.page || !doc.translation) return null;
+    return doc;
+  } catch {
+    return null;
   }
-  return `${functionName}: Unknown error`;
-}
-
-async function invokeRequiredFunction(functionName: string, body?: Record<string, unknown>) {
-  const { data, error } = await supabase.functions.invoke(functionName, body ? { body } : undefined);
-  if (error) throw error;
-  if (data && typeof data === 'object' && 'error' in data) {
-    throw new Error(String((data as { error: unknown }).error));
-  }
-  return data;
-}
-
-async function refreshDiscoveryFiles(source: string) {
-  const results = await Promise.allSettled([
-    invokeRequiredFunction('generate-sitemap'),
-    invokeRequiredFunction('generate-rss'),
-    invokeRequiredFunction('generate-llms-txt'),
-  ]);
-  const failed = results
-    .map((result, index) => ({ result, name: ['generate-sitemap', 'generate-rss', 'generate-llms-txt'][index] }))
-    .filter(({ result }) => result.status === 'rejected') as Array<{ result: PromiseRejectedResult; name: string }>;
-
-  if (failed.length > 0) {
-    const description = failed.map(({ name, result }) => getFunctionErrorMessage(name, result.reason)).join(' | ');
-    console.error(`[${source}] Discovery file refresh failed:`, failed);
-    toast({ title: 'Discovery refresh failed', description, variant: 'destructive' });
-    throw new Error(description);
-  }
-
-  console.log(`[${source}] Sitemap, RSS, and llms.txt regenerated`);
 }
 
 // Result type for usePublicPage with canonical info
@@ -135,6 +69,7 @@ export interface PublicPageResult {
   translation: PageTranslation;
   matchedViaFallback: boolean;  // True if URL slug didn't match localized slug
   canonicalSlug: string | null; // The correct localized slug for this locale
+  alternates: Partial<Record<Locale, string>>; // localized slug per language
 }
 
 // Fetch published page by slug and language (public route)
@@ -142,424 +77,46 @@ export function usePublicPage(slug: string, locale: Locale) {
   return useQuery({
     queryKey: ['public-page', slug, locale],
     queryFn: async (): Promise<PublicPageResult | null> => {
-      console.log('[usePublicPage] Fetching slug:', slug, 'locale:', locale);
-      
-      // For non-English locales, first try to find by localized slug
-      if (locale !== 'en') {
-        const { data: translation } = await supabase
-          .from('page_translations')
-          .select(`
-            *,
-            page:pages(*)
-          `)
-          .eq('slug', slug)
-          .eq('language', locale)
-          .maybeSingle();
-        
-        if (translation && translation.page) {
-          console.log('[usePublicPage] Found by localized slug - canonical match');
-          const pageData = Array.isArray(translation.page) ? translation.page[0] : translation.page;
-          return { 
-            page: pageData as Page, 
-            translation: translation as unknown as PageTranslation,
-            matchedViaFallback: false,
-            canonicalSlug: translation.slug
-          };
-        }
-        
-        // If no localized slug found, try mapping to English slug
-        const englishSlug = localizedToEnglish[slug] || slug;
-        if (englishSlug !== slug) {
-          console.log('[usePublicPage] Using English slug fallback:', englishSlug);
-          const { data: page } = await supabase
-            .from('pages')
-            .select('*')
-            .eq('slug', englishSlug)
-            .eq('status', 'published')
-            .maybeSingle();
-          
-          if (page) {
-            // Prefer localized translation
-            const { data: localizedTranslation } = await supabase
-              .from('page_translations')
-              .select('*')
-              .eq('page_id', page.id)
-              .eq('language', locale)
-              .maybeSingle();
-            
-            if (localizedTranslation) {
-              return { 
-                page: page as Page, 
-                translation: localizedTranslation as PageTranslation,
-                matchedViaFallback: true,
-                canonicalSlug: localizedTranslation.slug
-              };
-            }
+      const mappedSlug = localizedToEnglish[slug] || slug;
 
-            // Fallback to English translation if localized is missing
-            const { data: englishTranslation } = await supabase
-              .from('page_translations')
-              .select('*')
-              .eq('page_id', page.id)
-              .eq('language', 'en')
-              .maybeSingle();
-
-            if (englishTranslation) {
-              return { 
-                page: page as Page, 
-                translation: englishTranslation as PageTranslation,
-                matchedViaFallback: true,
-                canonicalSlug: null // No localized slug exists
-              };
-            }
-          }
-        }
+      // 1. Document in the requested locale — the emitter writes each article
+      //    under BOTH its localized slug and the base (English) page slug, so
+      //    a single fetch covers canonical and fallback URLs.
+      let doc = await fetchArticleDoc(locale, slug);
+      if (!doc && mappedSlug !== slug) {
+        doc = await fetchArticleDoc(locale, mappedSlug);
       }
-      
-      // Fall back to base slug lookup (this is the problematic path for non-English)
-      const { data: page, error: pageError } = await supabase
-        .from('pages')
-        .select('*')
-        .eq('slug', slug)
-        .eq('status', 'published')
-        .maybeSingle();
-      
-      if (pageError) throw pageError;
-      if (!page) return null;
-      
-      // Then get translation for requested language
-      const { data: translation } = await supabase
-        .from('page_translations')
-        .select('*')
-        .eq('page_id', page.id)
-        .eq('language', locale)
-        .maybeSingle();
-      
-      // Determine if this was a fallback match (base slug used for non-English locale)
-      const matchedViaFallback = locale !== 'en' && slug === page.slug;
-      
-      // If no translation for requested language, try English fallback
-      if (!translation && locale !== 'en') {
-        console.log('[usePublicPage] No translation found for', locale, '- falling back to English');
-        const { data: fallback } = await supabase
-          .from('page_translations')
-          .select('*')
-          .eq('page_id', page.id)
-          .eq('language', 'en')
-          .maybeSingle();
-        
-        return { 
-          page: page as Page, 
-          translation: fallback as PageTranslation,
-          matchedViaFallback: true,
-          canonicalSlug: null // No localized translation exists
+
+      if (doc) {
+        const canonicalSlug = doc.translation.slug || null;
+        const matchedViaFallback =
+          locale !== 'en' && !!canonicalSlug && canonicalSlug !== slug;
+        return {
+          page: doc.page,
+          translation: doc.translation,
+          matchedViaFallback,
+          canonicalSlug,
+          alternates: doc.alternates || {},
         };
       }
-      
-      console.log('[usePublicPage] Returning translation:', translation?.language, 'matchedViaFallback:', matchedViaFallback);
-      return { 
-        page: page as Page, 
-        translation: translation as PageTranslation,
-        matchedViaFallback,
-        canonicalSlug: translation?.slug || null
-      };
-    },
-  });
-}
 
-// Create new page
-export function useCreatePage() {
-  const queryClient = useQueryClient();
-  
-  return useMutation({
-    mutationFn: async (data: {
-      slug: string;
-      category: string | null;
-      featured_image?: string | null;
-      read_time?: string | null;
-      preserve_styles?: boolean;
-      translations: Array<{
-        language: Locale;
-        title: string;
-        meta_description: string | null;
-        content: string | null;
-        slug?: string | null;
-      }>;
-    }) => {
-      // Generate ID client-side to avoid RLS issues with draft pages
-      const newId = crypto.randomUUID();
-      
-      // Create page with generated ID
-      const { error: pageError } = await supabase
-        .from('pages')
-        .insert({
-          id: newId,
-          slug: data.slug,
-          category: data.category,
-          featured_image: data.featured_image,
-          read_time: data.read_time,
-          preserve_styles: data.preserve_styles || false,
-          status: 'draft',
-        });
-      
-      if (pageError) throw pageError;
-      
-      // Create translations
-      const translationsToInsert = data.translations.map(t => ({
-        page_id: newId,
-        ...t,
-      }));
-      
-      const { error: translationsError } = await supabase
-        .from('page_translations')
-        .insert(translationsToInsert);
-      
-      if (translationsError) throw translationsError;
-      
-      return { id: newId };
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['pages'] });
-    },
-  });
-}
-
-// Update page
-export function useUpdatePage() {
-  const queryClient = useQueryClient();
-  
-  return useMutation({
-    mutationFn: async (data: {
-      id: string;
-      slug?: string;
-      category?: string | null;
-      status?: 'draft' | 'published';
-      featured_image?: string | null;
-      read_time?: string | null;
-      preserve_styles?: boolean;
-      translations?: Array<{
-        language: Locale;
-        title: string;
-        meta_description: string | null;
-        content: string | null;
-        slug?: string | null;
-        featured_image_alt?: string | null;
-      }>;
-    }) => {
-      // Update page
-      const { slug, category, status, featured_image, read_time, preserve_styles, translations } = data;
-      
-      if (slug !== undefined || category !== undefined || status !== undefined || featured_image !== undefined || read_time !== undefined || preserve_styles !== undefined) {
-        const updateData: any = {};
-        if (slug !== undefined) updateData.slug = slug;
-        if (category !== undefined) updateData.category = category;
-        if (status !== undefined) updateData.status = status;
-        if (featured_image !== undefined) updateData.featured_image = featured_image;
-        if (read_time !== undefined) updateData.read_time = read_time;
-        if (preserve_styles !== undefined) updateData.preserve_styles = preserve_styles;
-        
-        const { error: pageError } = await supabase
-          .from('pages')
-          .update(updateData)
-          .eq('id', data.id);
-        
-        if (pageError) throw pageError;
-      }
-      
-      // Update or create translations
-      if (translations) {
-        for (const translation of translations) {
-          const { error } = await supabase
-            .from('page_translations')
-            .upsert({
-              page_id: data.id,
-              ...translation,
-            }, {
-              onConflict: 'page_id,language'
-            });
-          
-          if (error) throw error;
-        }
-      }
-    },
-    onSuccess: async (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['pages'] });
-      queryClient.invalidateQueries({ queryKey: ['page', variables.id] });
-      
-      // Regenerate sitemap, RSS feeds, and submit to IndexNow if published
-      if (variables.status === 'published') {
-        try {
-          await refreshDiscoveryFiles('useUpdatePage');
-        } catch (error) {
-          console.error('[useUpdatePage] Failed to regenerate discovery files:', error);
-        }
-        
-        // Regenerate per-route SEO snapshot + submit to IndexNow
-        try {
-          const slug = variables.slug || (await supabase
-            .from('pages')
-            .select('slug')
-            .eq('id', variables.id)
-            .single()
-          ).data?.slug;
-
-          if (slug) {
-            try {
-              await supabase.functions.invoke('regenerate-snapshot', { body: { slug } });
-              console.log('[useUpdatePage] SEO snapshot regenerated');
-            } catch (error) {
-              console.error('[useUpdatePage] Failed to regenerate snapshot:', error);
-            }
-            await supabase.functions.invoke('submit-indexnow', {
-              body: { slug }
-            });
-            console.log('[useUpdatePage] URLs submitted to IndexNow');
-          }
-        } catch (error) {
-          console.error('[useUpdatePage] Failed to submit to IndexNow:', error);
-        }
-      }
-    },
-  });
-}
-
-// Delete page
-export function useDeletePage() {
-  const queryClient = useQueryClient();
-  
-  return useMutation({
-    mutationFn: async (id: string) => {
-      const { data: page } = await supabase
-        .from('pages')
-        .select('is_system_page, slug, page_translations(language, slug)')
-        .eq('id', id)
-        .single();
-
-      if (page?.is_system_page) {
-        throw new Error('Cannot delete system pages');
-      }
-
-      // Purge snapshots BEFORE deletion (need translation slugs)
-      if (page?.slug) {
-        const localeToHub: Record<string, string> = { en: 'publications', br: 'br/artigos', es: 'es/articulos' };
-        const langToLocale: Record<string, string> = { en: 'en', 'pt-BR': 'br', br: 'br', 'es-ES': 'es', es: 'es' };
-        const removals = ((page as any).page_translations || [])
-          .map((tr: any) => {
-            const locale = langToLocale[tr.language];
-            if (!locale) return null;
-            return `${localeToHub[locale]}/${tr.slug || page.slug}/index.html`;
-          })
-          .filter(Boolean) as string[];
-        if (removals.length > 0) {
-          try { await supabase.storage.from('seo-snapshots').remove(removals); } catch (_) {}
+      // 2. English fallback when no localized translation exists.
+      if (locale !== 'en') {
+        const enDoc =
+          (await fetchArticleDoc('en', slug)) ||
+          (mappedSlug !== slug ? await fetchArticleDoc('en', mappedSlug) : null);
+        if (enDoc) {
+          return {
+            page: enDoc.page,
+            translation: enDoc.translation,
+            matchedViaFallback: true,
+            canonicalSlug: null, // No localized translation exists
+            alternates: enDoc.alternates || {},
+          };
         }
       }
 
-      const { error } = await supabase
-        .from('pages')
-        .delete()
-        .eq('id', id);
-
-      if (error) throw error;
-    },
-    onSuccess: async () => {
-      queryClient.invalidateQueries({ queryKey: ['pages'] });
-
-      // Regenerate sitemap and RSS feeds after deletion
-      try {
-        await refreshDiscoveryFiles('useDeletePage');
-      } catch (error) {
-        console.error('[useDeletePage] Failed to regenerate discovery files:', error);
-      }
-    },
-  });
-}
-
-// Unpublish page (revert to draft)
-export function useUnpublishPage() {
-  const queryClient = useQueryClient();
-  
-  return useMutation({
-    mutationFn: async (id: string) => {
-      const { error } = await supabase
-        .from('pages')
-        .update({ status: 'draft' })
-        .eq('id', id);
-      
-      if (error) throw error;
-    },
-    onSuccess: async (_, id) => {
-      queryClient.invalidateQueries({ queryKey: ['pages'] });
-      queryClient.invalidateQueries({ queryKey: ['page', id] });
-      
-      // Regenerate sitemap and RSS feeds after unpublishing
-      try {
-        await refreshDiscoveryFiles('useUnpublishPage');
-      } catch (error) {
-        console.error('[useUnpublishPage] Failed to regenerate discovery files:', error);
-      }
-
-      // Regenerate snapshot — purges stale published snapshot since status is now 'draft'
-      try {
-        const { data: page } = await supabase.from('pages').select('slug').eq('id', id).single();
-        if (page?.slug) {
-          await supabase.functions.invoke('regenerate-snapshot', { body: { slug: page.slug } });
-          console.log('[useUnpublishPage] SEO snapshot purged');
-        }
-      } catch (error) {
-        console.error('[useUnpublishPage] Failed to purge snapshot:', error);
-      }
-    },
-  });
-}
-
-// Publish page
-export function usePublishPage() {
-  const queryClient = useQueryClient();
-  
-  return useMutation({
-    mutationFn: async (id: string) => {
-      const { error } = await supabase
-        .from('pages')
-        .update({ status: 'published' })
-        .eq('id', id);
-      
-      if (error) throw error;
-    },
-    onSuccess: async (_, id) => {
-      queryClient.invalidateQueries({ queryKey: ['pages'] });
-      queryClient.invalidateQueries({ queryKey: ['page', id] });
-      
-      // Regenerate sitemap and RSS feeds after publishing
-      try {
-        await refreshDiscoveryFiles('usePublishPage');
-      } catch (error) {
-        console.error('[usePublishPage] Failed to regenerate discovery files:', error);
-      }
-      
-      // Regenerate per-route SEO snapshot + submit to IndexNow
-      try {
-        const { data: page } = await supabase
-          .from('pages')
-          .select('slug')
-          .eq('id', id)
-          .single();
-
-        if (page?.slug) {
-          try {
-            await supabase.functions.invoke('regenerate-snapshot', { body: { slug: page.slug } });
-            console.log('[usePublishPage] SEO snapshot regenerated');
-          } catch (error) {
-            console.error('[usePublishPage] Failed to regenerate snapshot:', error);
-          }
-          await supabase.functions.invoke('submit-indexnow', {
-            body: { slug: page.slug }
-          });
-          console.log('[usePublishPage] URLs submitted to IndexNow');
-        }
-      } catch (error) {
-        console.error('[usePublishPage] Failed to submit to IndexNow:', error);
-      }
+      return null;
     },
   });
 }

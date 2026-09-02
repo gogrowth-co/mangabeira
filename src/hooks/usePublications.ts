@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
 import { Locale } from '@/lib/translations';
 
 export interface Publication {
@@ -40,33 +39,16 @@ function isNetworkError(err: unknown): boolean {
   );
 }
 
-function friendlyError(err: unknown): Error {
-  console.error('[usePublications] raw error:', err);
-  if (isNetworkError(err)) {
-    return new Error(
-      "Couldn't reach the content server. This is usually caused by a browser extension (ad blocker, privacy extension), a VPN, or a corporate firewall blocking the request. Try disabling extensions for this site or switching networks."
-    );
+// Static divorce (Phase 1): the article index is baked into
+// /content-index/<locale>.json at build time (scripts/emit-static-content.mjs)
+// and served same-origin — no Supabase, no third-party request to block.
+async function fetchAllPublications(locale: Locale): Promise<PublicationsResult> {
+  const res = await fetch(`/content-index/${locale}.json`);
+  if (!res.ok) {
+    throw new Error(`Failed to load publication index (HTTP ${res.status})`);
   }
-  if (err instanceof Error) return err;
-  const details = [(err as any)?.message, (err as any)?.code, (err as any)?.details]
-    .filter(Boolean)
-    .join(' | ');
-  return new Error(details || 'Supabase query failed');
-}
-
-async function fetchAllPublications(): Promise<PublicationsResult> {
-  try {
-    const { data, error } = await supabase
-      .from('pages')
-      .select(`*, translations:page_translations(*)`)
-      .eq('status', 'published')
-      .eq('is_system_page', false)
-      .order('created_at', { ascending: false });
-    if (error) throw error;
-    return { publications: (data || []) as Publication[], source: 'live' };
-  } catch (err) {
-    throw friendlyError(err);
-  }
+  const data = (await res.json()) as Publication[];
+  return { publications: data || [], source: 'live' };
 }
 
 function applyFilters(
@@ -114,7 +96,7 @@ export function usePublications(locale: Locale, categoryFilter?: string, searchQ
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 4000),
     queryKey: ['publications', locale, categoryFilter, searchQuery],
     queryFn: async () => {
-      const { publications, source } = await fetchAllPublications();
+      const { publications, source } = await fetchAllPublications(locale);
       const filtered = applyFilters(publications, locale, categoryFilter, searchQuery);
       return { publications: filtered, source };
     },
@@ -131,22 +113,17 @@ export function useFeaturedPublications(locale: Locale) {
     queryKey: ['featured-publications', locale],
     queryFn: async () => {
       try {
-        const { data, error } = await supabase
-          .from('pages')
-          .select(`*, translations:page_translations(*)`)
-          .eq('status', 'published')
-          .eq('is_system_page', false)
-          .eq('is_featured', true)
-          .order('updated_at', { ascending: false })
-          .limit(3);
-        if (error) throw error;
-        let publications = (data || []) as Publication[];
+        const { publications } = await fetchAllPublications(locale);
+        let featured = publications
+          .filter(p => p.is_featured)
+          .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
+          .slice(0, 3);
         if (locale !== 'en') {
-          publications = publications.filter(pub =>
+          featured = featured.filter(pub =>
             (pub.translations || []).some(t => t.language === locale)
           );
         }
-        return publications;
+        return featured;
       } catch {
         return [];
       }

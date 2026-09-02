@@ -1,7 +1,5 @@
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useMemo } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
 import { usePublicPage } from '@/hooks/usePages';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Locale } from '@/lib/translations';
@@ -124,22 +122,15 @@ export default function DynamicPage() {
 
   console.log('[DynamicPage] Slug:', resolvedSlug, 'Locale:', locale, 'Data:', data ? 'found' : 'not found');
 
-  // Fetch all translations for hreflang tags (only if we have a page)
-  const { data: allTranslations } = useQuery({
-    queryKey: ['page-translations', data?.page.id],
-    queryFn: async () => {
-      if (!data?.page.id) return [];
-
-      const { data: translations, error } = await supabase
-        .from('page_translations')
-        .select('language, slug')
-        .eq('page_id', data.page.id);
-
-      if (error) throw error;
-      return translations || [];
-    },
-    enabled: !!data?.page.id,
-  });
+  // All translations for hreflang tags — the static article document already
+  // carries every language's localized slug (no extra request needed).
+  const allTranslations = useMemo(() => {
+    if (!data?.alternates) return undefined;
+    return Object.entries(data.alternates).map(([language, slug]) => ({
+      language,
+      slug: slug as string,
+    }));
+  }, [data?.alternates]);
 
   // Clean and extract content
   const { schemas: contentSchemas, bodyContent: rawBodyContent } = useMemo(
