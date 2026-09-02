@@ -1,0 +1,1114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://mangabeira.net</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/about</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/about"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/sobre"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/acerca-de"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/about"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/sobre</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/about"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/sobre"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/acerca-de"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/about"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/acerca-de</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/about"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/sobre"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/acerca-de"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/about"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/privacy-policy</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/privacy-policy"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/politica-de-privacidade"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/politica-de-privacidad"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/privacy-policy"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/politica-de-privacidade</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/privacy-policy"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/politica-de-privacidade"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/politica-de-privacidad"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/privacy-policy"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/politica-de-privacidad</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/privacy-policy"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/politica-de-privacidade"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/politica-de-privacidad"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/privacy-policy"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/tools</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/tools"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/ferramentas"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/herramientas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/tools"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/ferramentas</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/tools"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/ferramentas"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/herramientas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/tools"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/herramientas</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/tools"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/ferramentas"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/herramientas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/tools"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/tools/tokenomics-simulator</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/tools/tokenomics-simulator"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/ferramentas/simulador-tokenomics"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/herramientas/simulador-tokenomics"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/tools/tokenomics-simulator"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/ferramentas/simulador-tokenomics</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/tools/tokenomics-simulator"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/ferramentas/simulador-tokenomics"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/herramientas/simulador-tokenomics"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/tools/tokenomics-simulator"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/herramientas/simulador-tokenomics</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/tools/tokenomics-simulator"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/ferramentas/simulador-tokenomics"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/herramientas/simulador-tokenomics"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/tools/tokenomics-simulator"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/services/web3-growth-audit</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/services/web3-growth-audit"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/servicos/web3-auditoria-de-growth"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/servicios/web3-auditoria-de-growth"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/services/web3-growth-audit"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/servicos/web3-auditoria-de-growth</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/services/web3-growth-audit"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/servicos/web3-auditoria-de-growth"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/servicios/web3-auditoria-de-growth"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/services/web3-growth-audit"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/servicios/web3-auditoria-de-growth</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/services/web3-growth-audit"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/servicos/web3-auditoria-de-growth"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/servicios/web3-auditoria-de-growth"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/services/web3-growth-audit"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/hyperliquid-analysis</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/hyperliquid-analysis"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/analise-hyperliquid"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/analisis-hyperliquid"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/hyperliquid-analysis"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/analise-hyperliquid</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/hyperliquid-analysis"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/analise-hyperliquid"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/analisis-hyperliquid"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/hyperliquid-analysis"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/analisis-hyperliquid</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/hyperliquid-analysis"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/analise-hyperliquid"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/analisis-hyperliquid"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/hyperliquid-analysis"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/defi-agency-vs-in-house-vs-consultant</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-agency-vs-in-house-vs-consultant"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-agency-vs-in-house-vs-consultant"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-agency-vs-in-house-vs-consultant"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-agency-vs-in-house-vs-consultant"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/defi-agency-vs-in-house-vs-consultant</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-agency-vs-in-house-vs-consultant"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-agency-vs-in-house-vs-consultant"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-agency-vs-in-house-vs-consultant"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-agency-vs-in-house-vs-consultant"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/defi-agency-vs-in-house-vs-consultant</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-agency-vs-in-house-vs-consultant"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-agency-vs-in-house-vs-consultant"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-agency-vs-in-house-vs-consultant"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-agency-vs-in-house-vs-consultant"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/alternatives-airdrop-defi-founders</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/alternatives-airdrop-defi-founders"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/alternatives-airdrop-defi-founders"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/alternatives-airdrop-defi-founders"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/alternatives-airdrop-defi-founders"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/alternatives-airdrop-defi-founders</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/alternatives-airdrop-defi-founders"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/alternatives-airdrop-defi-founders"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/alternatives-airdrop-defi-founders"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/alternatives-airdrop-defi-founders"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/alternatives-airdrop-defi-founders</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/alternatives-airdrop-defi-founders"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/alternatives-airdrop-defi-founders"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/alternatives-airdrop-defi-founders"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/alternatives-airdrop-defi-founders"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/defi-tokenomics-for-founders</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-tokenomics-for-founders"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-tokenomics-for-founders"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-tokenomics-for-founders"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-tokenomics-for-founders"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/defi-tokenomics-for-founders</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-tokenomics-for-founders"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-tokenomics-for-founders"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-tokenomics-for-founders"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-tokenomics-for-founders"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/defi-tokenomics-for-founders</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-tokenomics-for-founders"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-tokenomics-for-founders"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-tokenomics-for-founders"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-tokenomics-for-founders"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/web2-vs-web3-marketing</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/web2-vs-web3-marketing"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web2-vs-web3-marketing"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web2-vs-web3-marketing"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/web2-vs-web3-marketing"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/web2-vs-web3-marketing</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/web2-vs-web3-marketing"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web2-vs-web3-marketing"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web2-vs-web3-marketing"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/web2-vs-web3-marketing"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/web2-vs-web3-marketing</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/web2-vs-web3-marketing"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web2-vs-web3-marketing"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web2-vs-web3-marketing"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/web2-vs-web3-marketing"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/defi-growth-guide</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-growth-guide"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/guia-growth-defi"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/guia-growth-defi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-growth-guide"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/guia-growth-defi</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-growth-guide"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/guia-growth-defi"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/guia-growth-defi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-growth-guide"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/guia-growth-defi</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-growth-guide"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/guia-growth-defi"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/guia-growth-defi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-growth-guide"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/web3-growth-marketers-defi-playbook</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/web3-growth-marketers-defi-playbook"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web3-growth-marketers-defi-playbook"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web3-growth-marketers-defi-playbook"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/web3-growth-marketers-defi-playbook"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/web3-growth-marketers-defi-playbook</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/web3-growth-marketers-defi-playbook"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web3-growth-marketers-defi-playbook"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web3-growth-marketers-defi-playbook"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/web3-growth-marketers-defi-playbook"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/web3-growth-marketers-defi-playbook</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/web3-growth-marketers-defi-playbook"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web3-growth-marketers-defi-playbook"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web3-growth-marketers-defi-playbook"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/web3-growth-marketers-defi-playbook"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/defi-tokenomics-simulator-guide</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-tokenomics-simulator-guide"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-tokenomics-simulator-guide"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-tokenomics-simulator-guide"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-tokenomics-simulator-guide"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/defi-tokenomics-simulator-guide</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-tokenomics-simulator-guide"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-tokenomics-simulator-guide"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-tokenomics-simulator-guide"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-tokenomics-simulator-guide"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/defi-tokenomics-simulator-guide</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-tokenomics-simulator-guide"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-tokenomics-simulator-guide"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-tokenomics-simulator-guide"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-tokenomics-simulator-guide"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/vibe-coded-token-health-scan</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/vibe-coded-token-health-scan"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/vibe-coded-token-health-scan"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/vibe-coded-token-health-scan"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/vibe-coded-token-health-scan"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/vibe-coded-token-health-scan</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/vibe-coded-token-health-scan"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/vibe-coded-token-health-scan"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/vibe-coded-token-health-scan"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/vibe-coded-token-health-scan"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/vibe-coded-token-health-scan</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/vibe-coded-token-health-scan"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/vibe-coded-token-health-scan"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/vibe-coded-token-health-scan"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/vibe-coded-token-health-scan"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/web3-for-athletes</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/web3-for-athletes"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web3-for-athletes"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web3-for-athletes"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/web3-for-athletes"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/web3-for-athletes</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/web3-for-athletes"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web3-for-athletes"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web3-for-athletes"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/web3-for-athletes"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/web3-for-athletes</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/web3-for-athletes"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web3-for-athletes"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web3-for-athletes"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/web3-for-athletes"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/definitive-guide-web3-seo</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/definitive-guide-web3-seo"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web3-seo-guia-definitivo"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web3-seo-guia-definitiva"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/definitive-guide-web3-seo"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/web3-seo-guia-definitivo</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/definitive-guide-web3-seo"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web3-seo-guia-definitivo"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web3-seo-guia-definitiva"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/definitive-guide-web3-seo"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/web3-seo-guia-definitiva</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/definitive-guide-web3-seo"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web3-seo-guia-definitivo"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web3-seo-guia-definitiva"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/definitive-guide-web3-seo"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/web3-growth-operator-stack</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/web3-growth-operator-stack"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web3-growth-operator-stack"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web3-growth-operator-stack"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/web3-growth-operator-stack"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/web3-growth-operator-stack</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/web3-growth-operator-stack"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web3-growth-operator-stack"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web3-growth-operator-stack"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/web3-growth-operator-stack"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/web3-growth-operator-stack</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/web3-growth-operator-stack"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web3-growth-operator-stack"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web3-growth-operator-stack"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/web3-growth-operator-stack"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/web3-user-retention-after-incentives</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/web3-user-retention-after-incentives"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web3-user-retention-after-incentives"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web3-user-retention-after-incentives"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/web3-user-retention-after-incentives"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/web3-user-retention-after-incentives</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/web3-user-retention-after-incentives"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web3-user-retention-after-incentives"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web3-user-retention-after-incentives"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/web3-user-retention-after-incentives"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/web3-user-retention-after-incentives</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/web3-user-retention-after-incentives"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web3-user-retention-after-incentives"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web3-user-retention-after-incentives"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/web3-user-retention-after-incentives"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/web3-email-vs-discord-vs-telegram</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/web3-email-vs-discord-vs-telegram"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web3-email-vs-discord-vs-telegram"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web3-email-vs-discord-vs-telegram"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/web3-email-vs-discord-vs-telegram"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/web3-email-vs-discord-vs-telegram</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/web3-email-vs-discord-vs-telegram"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web3-email-vs-discord-vs-telegram"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web3-email-vs-discord-vs-telegram"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/web3-email-vs-discord-vs-telegram"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/web3-email-vs-discord-vs-telegram</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/web3-email-vs-discord-vs-telegram"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web3-email-vs-discord-vs-telegram"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web3-email-vs-discord-vs-telegram"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/web3-email-vs-discord-vs-telegram"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/web3-marketing-metrics-lying</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/web3-marketing-metrics-lying"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web3-marketing-metrics-lying"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web3-marketing-metrics-lying"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/web3-marketing-metrics-lying"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/web3-marketing-metrics-lying</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/web3-marketing-metrics-lying"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web3-marketing-metrics-lying"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web3-marketing-metrics-lying"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/web3-marketing-metrics-lying"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/web3-marketing-metrics-lying</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/web3-marketing-metrics-lying"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/web3-marketing-metrics-lying"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/web3-marketing-metrics-lying"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/web3-marketing-metrics-lying"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/hyperliquid-revenue-led-growth</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/hyperliquid-revenue-led-growth"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/crescimento-liderado-por-receita-cripto"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/crecimiento-orientado-a-ingresos-cripto"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/hyperliquid-revenue-led-growth"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/crescimento-liderado-por-receita-cripto</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/hyperliquid-revenue-led-growth"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/crescimento-liderado-por-receita-cripto"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/crecimiento-orientado-a-ingresos-cripto"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/hyperliquid-revenue-led-growth"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/crecimiento-orientado-a-ingresos-cripto</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/hyperliquid-revenue-led-growth"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/crescimento-liderado-por-receita-cripto"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/crecimiento-orientado-a-ingresos-cripto"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/hyperliquid-revenue-led-growth"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/defi-user-acquisition-channels</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-user-acquisition-channels"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-user-acquisition-channels"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-user-acquisition-channels"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-user-acquisition-channels"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/defi-user-acquisition-channels</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-user-acquisition-channels"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-user-acquisition-channels"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-user-acquisition-channels"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-user-acquisition-channels"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/defi-user-acquisition-channels</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-user-acquisition-channels"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-user-acquisition-channels"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-user-acquisition-channels"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-user-acquisition-channels"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/community-driven-growth-defi-evangelists</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/community-driven-growth-defi-evangelists"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/community-driven-growth-defi-evangelists"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/community-driven-growth-defi-evangelists"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/community-driven-growth-defi-evangelists"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/community-driven-growth-defi-evangelists</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/community-driven-growth-defi-evangelists"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/community-driven-growth-defi-evangelists"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/community-driven-growth-defi-evangelists"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/community-driven-growth-defi-evangelists"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/community-driven-growth-defi-evangelists</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/community-driven-growth-defi-evangelists"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/community-driven-growth-defi-evangelists"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/community-driven-growth-defi-evangelists"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/community-driven-growth-defi-evangelists"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/defi-growth-experiments-marketing-team</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-growth-experiments-marketing-team"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/experimentos-crescimento-equipe-marketing-defi"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/experimentos-crecimiento-equipo-marketing-defi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-growth-experiments-marketing-team"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/experimentos-crescimento-equipe-marketing-defi</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-growth-experiments-marketing-team"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/experimentos-crescimento-equipe-marketing-defi"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/experimentos-crecimiento-equipo-marketing-defi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-growth-experiments-marketing-team"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/experimentos-crecimiento-equipo-marketing-defi</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-growth-experiments-marketing-team"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/experimentos-crescimento-equipe-marketing-defi"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/experimentos-crecimiento-equipo-marketing-defi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-growth-experiments-marketing-team"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/defi-attribution-growth-marketer-roi-framework</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-attribution-growth-marketer-roi-framework"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/atribuicao-defi-framework-roi-growth-marketer"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/atribucion-defi-framework-roi-growth-marketer"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-attribution-growth-marketer-roi-framework"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/atribuicao-defi-framework-roi-growth-marketer</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-attribution-growth-marketer-roi-framework"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/atribuicao-defi-framework-roi-growth-marketer"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/atribucion-defi-framework-roi-growth-marketer"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-attribution-growth-marketer-roi-framework"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/atribucion-defi-framework-roi-growth-marketer</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-attribution-growth-marketer-roi-framework"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/atribuicao-defi-framework-roi-growth-marketer"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/atribucion-defi-framework-roi-growth-marketer"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-attribution-growth-marketer-roi-framework"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/defi-marketing-team-metrics</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-marketing-team-metrics"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/metricas-equipe-marketing-defi"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/metricas-equipo-marketing-defi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-marketing-team-metrics"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/metricas-equipe-marketing-defi</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-marketing-team-metrics"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/metricas-equipe-marketing-defi"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/metricas-equipo-marketing-defi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-marketing-team-metrics"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/metricas-equipo-marketing-defi</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-marketing-team-metrics"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/metricas-equipe-marketing-defi"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/metricas-equipo-marketing-defi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-marketing-team-metrics"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/defi-growth-kpis</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-growth-kpis"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-growth-kpis"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-growth-kpis"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-growth-kpis"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/defi-growth-kpis</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-growth-kpis"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-growth-kpis"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-growth-kpis"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-growth-kpis"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/defi-growth-kpis</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-growth-kpis"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-growth-kpis"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-growth-kpis"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-growth-kpis"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/launchpad-scorecard</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/launchpad-scorecard"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/launchpad-scorecard"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/launchpad-scorecard"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/launchpad-scorecard"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/launchpad-scorecard</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/launchpad-scorecard"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/launchpad-scorecard"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/launchpad-scorecard"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/launchpad-scorecard"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/launchpad-scorecard</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/launchpad-scorecard"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/launchpad-scorecard"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/launchpad-scorecard"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/launchpad-scorecard"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/pre-tge-demand-gen-growth-operators</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/pre-tge-demand-gen-growth-operators"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/pre-tge-demand-gen-growth-operators"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/pre-tge-demand-gen-growth-operators"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/pre-tge-demand-gen-growth-operators"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/pre-tge-demand-gen-growth-operators</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/pre-tge-demand-gen-growth-operators"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/pre-tge-demand-gen-growth-operators"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/pre-tge-demand-gen-growth-operators"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/pre-tge-demand-gen-growth-operators"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/pre-tge-demand-gen-growth-operators</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/pre-tge-demand-gen-growth-operators"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/pre-tge-demand-gen-growth-operators"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/pre-tge-demand-gen-growth-operators"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/pre-tge-demand-gen-growth-operators"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/brev-launch-deep-dive</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/brev-launch-deep-dive"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/brev-launch-deep-dive"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/brev-launch-deep-dive"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/brev-launch-deep-dive"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/brev-launch-deep-dive</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/brev-launch-deep-dive"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/brev-launch-deep-dive"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/brev-launch-deep-dive"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/brev-launch-deep-dive"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/brev-launch-deep-dive</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/brev-launch-deep-dive"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/brev-launch-deep-dive"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/brev-launch-deep-dive"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/brev-launch-deep-dive"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/case-study-defi-avici</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/case-study-defi-avici"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/estudo-de-caso-defi-avici"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/estudio-de-caso-defi-avici"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/case-study-defi-avici"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/estudo-de-caso-defi-avici</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/case-study-defi-avici"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/estudo-de-caso-defi-avici"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/estudio-de-caso-defi-avici"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/case-study-defi-avici"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/estudio-de-caso-defi-avici</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/case-study-defi-avici"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/estudo-de-caso-defi-avici"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/estudio-de-caso-defi-avici"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/case-study-defi-avici"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/defi-token-launch-mistakes</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-token-launch-mistakes"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-token-launch-mistakes"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-token-launch-mistakes"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-token-launch-mistakes"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/defi-token-launch-mistakes</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-token-launch-mistakes"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-token-launch-mistakes"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-token-launch-mistakes"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-token-launch-mistakes"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/defi-token-launch-mistakes</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-token-launch-mistakes"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-token-launch-mistakes"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-token-launch-mistakes"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-token-launch-mistakes"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/defi-gtm-checklist</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-gtm-checklist"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-gtm-checklist"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-gtm-checklist"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-gtm-checklist"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/defi-gtm-checklist</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-gtm-checklist"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-gtm-checklist"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-gtm-checklist"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-gtm-checklist"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/defi-gtm-checklist</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-gtm-checklist"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-gtm-checklist"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-gtm-checklist"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-gtm-checklist"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/pre-launch-traction-defi</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/pre-launch-traction-defi"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/pre-launch-traction-defi"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/pre-launch-traction-defi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/pre-launch-traction-defi"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/pre-launch-traction-defi</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/pre-launch-traction-defi"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/pre-launch-traction-defi"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/pre-launch-traction-defi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/pre-launch-traction-defi"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/pre-launch-traction-defi</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/pre-launch-traction-defi"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/pre-launch-traction-defi"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/pre-launch-traction-defi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/pre-launch-traction-defi"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/publications/defi-launch-frameworks</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-launch-frameworks"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-launch-frameworks"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-launch-frameworks"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-launch-frameworks"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/br/artigos/defi-launch-frameworks</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-launch-frameworks"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-launch-frameworks"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-launch-frameworks"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-launch-frameworks"/>
+  </url>
+  <url>
+    <loc>https://mangabeira.net/es/articulos/defi-launch-frameworks</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mangabeira.net/publications/defi-launch-frameworks"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://mangabeira.net/br/artigos/defi-launch-frameworks"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://mangabeira.net/es/articulos/defi-launch-frameworks"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mangabeira.net/publications/defi-launch-frameworks"/>
+  </url>
+</urlset>

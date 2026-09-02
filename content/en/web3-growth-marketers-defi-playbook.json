@@ -1,0 +1,237 @@
+{
+ "id": "74189235-ab99-4b81-8a49-4e4f52793e89",
+ "page_id": "b44832df-ab14-4b39-aa5d-644afb718c9a",
+ "language": "en",
+ "title": "The Web3 Growth Marketer's Playbook for Scaling DeFi Protocols",
+ "meta_description": "A senior practitioner's playbook for DeFi growth marketing: 4-layer stack, on-chain attribution, metrics that matter, and a 90-day operating cadence.",
+ "content": "<p>A Web3 growth marketer in DeFi owns three things: distribution, attribution, and retention. The role sits between the founder's vision and the community manager's execution. You're the person responsible for turning protocol activity into measurable growth, using on-chain data as the ground truth, not GA4 sessions or Discord member counts.</p>\n\n<h2>What a Web3 Growth Marketer Actually Does (and What They Don't)</h2>\n\n<p>Most job descriptions get this role wrong. They list \"community growth\" and \"content strategy\" and \"partnership development\" in the same paragraph, which describes a generalist, not a growth marketer.</p>\n\n<p>The growth marketer's job is more specific: build and measure systems that move users through a protocol's activation and retention funnel. That means running acquisition experiments, mapping wallet cohorts to campaign sources, and flagging when retention curves start bending the wrong way.</p>\n\n<p>What it doesn't include: moderating Discord, writing all the tweets, or managing KOL relationships. Those tasks matter, but they belong to community and comms. When growth marketers absorb them, two things happen. The strategic work gets squeezed, and the KPIs blur into a mess of vanity metrics that no one can tie to protocol health.</p>\n\n<p>The clearest signal a protocol is mixing up these roles: they measure growth marketing performance by follower counts and Discord member growth. Both metrics are fine for brand tracking. Neither tells you whether the protocol is growing.</p>\n\n<h2>Why DeFi Marketing Breaks the Web2 Playbook</h2>\n\n<p>Here's the specific moment where the gap shows up.</p>\n\n<p>A growth marketer joins a post-PMF DeFi protocol from a SaaS background. First week, they set up UTM tracking, configure GA4 events, and build a conversion funnel from landing page to wallet connection. Clean setup. Standard playbook.</p>\n\n<p>Three months later, they still can't tell the founder where the last 200 depositors came from.</p>\n\n<p>The problem isn't the tracking setup. The problem is that the Web2 attribution model assumes a persistent identity (a cookie, a session, a logged-in user) that DeFi users don't provide. A wallet connection event fires, but the wallet address reveals nothing about the acquisition channel without a bridge.</p>\n\n<p><strong>The wallet is the identity. The wallet doesn't tell you the source.</strong></p>\n\n<p>This is the fundamental break. Web2 attribution models answer \"which campaign converted this user?\" DeFi attribution has to answer \"which wallet cohort came from which source, and how did those cohorts behave differently on-chain?\"</p>\n\n<p>Those are different questions. They require different tools, different thinking, and a different definition of what a \"conversion\" even is.</p>\n\n<img src=\"/media/web3-growth-marketers-defi-playbook-visual-02-web2-vs-web3-attribution.jpg\" alt=\"Web2 vs Web3 attribution flow: cookie-based identity vs. wallet-cohort attribution\" class=\"my-8 w-full rounded-lg\" loading=\"lazy\">\n\n<p>There are three other breaks worth naming. First, community channels work differently. Discord and Telegram traffic doesn't flow through a pixel. When you run a campaign that drives 500 people from a Twitter thread to a Discord channel, and 80 of them connect a wallet two weeks later, the attribution gap is almost impossible to close without deliberately designed tracking. I cover how to handle this in <a href=\"https://mangabeira.net/publications/web3-email-vs-discord-vs-telegram\">Why Your DeFi Protocol Picks the Wrong Community Channel</a>.</p>\n\n<p>Second, the token itself is a retention mechanic. Web2 growth marketers don't have this tool. Emission schedules, vesting cliffs, and governance rights all affect retention behavior in ways that have no Web2 equivalent. If you don't understand how your protocol's tokenomics affect user timelines, you can't design effective retention campaigns.</p>\n\n<p>Third, your competitors' metrics are public. Every wallet address is a public data trail. When Hyperliquid launched its points program and early data showed unusually high retention among spot traders, that was visible on Dune before their team published a single case study. Growth marketers who use on-chain forensics to track competitor behavior have an edge that doesn't exist in Web2.</p>\n\n<div class=\"my-6 p-4 bg-blue-50 dark:bg-blue-950 border-l-4 border-blue-500 rounded-r\">\n  <p class=\"font-semibold text-blue-900 dark:text-blue-100 mb-2\">Key Insight</p>\n  <p class=\"text-blue-800 dark:text-blue-200\">The Web2 playbook fails in DeFi because it assumes persistent user identity. On-chain, identity is a wallet address. A wallet address tells you what a user did, not where they came from. Building attribution backward from wallet behavior is the skill that separates effective DeFi growth marketers from everyone else.</p>\n</div>\n\n<h2>The 4-Layer DeFi Growth Stack</h2>\n\n<p>The role becomes manageable when you break it into four layers. Each layer has its own tools, metrics, and failure modes.</p>\n\n<img src=\"/media/web3-growth-marketers-defi-playbook-visual-01-4layer-stack.jpg\" alt=\"The 4-layer DeFi growth stack: Distribution, Attribution, Activation, Retention\" class=\"my-8 w-full rounded-lg\" loading=\"lazy\">\n\n<h3>Layer 1: Distribution</h3>\n\n<p>Distribution in DeFi is multi-channel by design. Your protocol exists on X, Discord, Telegram, and through ecosystem partnerships. Each channel attracts a different user segment.</p>\n\n<p>The mistake most growth marketers make early on: they treat all distribution channels as equivalent and spread effort evenly. On-chain data usually tells a different story. Cohort analysis consistently shows that different acquisition channels produce users with different activation and retention profiles.</p>\n\n<p>The practical task at this layer: identify which channels are producing wallets that actually use the protocol, not just wallets that connect once and disappear. That requires tying off-chain acquisition data to on-chain wallet behavior, which is Layer 2.</p>\n\n<p>For a concrete breakdown of how Discord, Telegram, and email compare as acquisition channels for DeFi protocols, I've mapped this out in detail here: <a href=\"https://mangabeira.net/publications/web3-email-vs-discord-vs-telegram\">Why Your DeFi Protocol Picks the Wrong Community Channel</a>.</p>\n\n<h3>Layer 2: Attribution</h3>\n\n<p>This is where the gap lives. Most DeFi growth marketers either skip attribution entirely (\"we can't track it on-chain\") or over-invest in tool research without closing the loop.</p>\n\n<p>The three methods that actually work, in order of cost-to-accuracy tradeoff:</p>\n\n<p>UTM-to-wallet bridges (Spindl, Cookie3, Addressable) are the fastest to set up. They connect off-chain campaign sources to wallet connection events. Accuracy depends on whether the user completes the connection in the same session. Across devices, the attribution breaks.</p>\n\n<p>Sign-In with Ethereum (SIWE) with custom event tracking (Formo is a widely used implementation) gives you cleaner data but requires more engineering lift. The connection between a signed message and an on-chain action is explicit, not inferred.</p>\n\n<p>Cohort-based on-chain forensics using Dune is the most labor-intensive but doesn't require any third-party integration. You build wallet cohorts based on on-chain behavior patterns, then work backward to infer acquisition sources by timing and transaction patterns. This is what I use when a client can't instrument their app but still needs an attribution read.</p>\n\n<p>A deeper breakdown of all three methods, with specific Dune queries and tool comparisons, is the next piece in this cluster: <a href=\"https://mangabeira.net/publications/defi-attribution-growth-marketer-roi-framework\">DeFi Attribution: A Growth Marketer's ROI Framework</a>.</p>\n\n<h3>Layer 3: Activation</h3>\n\n<p>Activation in DeFi means the first meaningful on-chain action. Not a wallet connection. Not an email signup. A deposit, a swap, a governance vote: whatever your protocol defines as a qualifying action.</p>\n\n<p>The activation window matters enormously. Hyperliquid's growth data (visible in public Dune dashboards) showed a sharp drop-off between users who made their first trade within 7 days and users who waited longer. The 7-day cohort retained at significantly higher rates. That pattern is consistent with how Hyperliquid structured its early onboarding incentives.</p>\n\n<p>The growth marketer's job at this layer is to shorten the time from first wallet connection to first qualifying action, and to track where that time is longest (which channels, which user segments, which time periods).</p>\n\n<h3>Layer 4: Retention</h3>\n\n<p>Retention past the airdrop window is the hardest problem in DeFi growth. It's also the one where growth marketers have the most untapped leverage.</p>\n\n<p>Most protocols focus retention work on Discord engagement and newsletter open rates. These are activity signals, not retention signals. The real retention metric is recurring on-chain activity: wallets that took a qualifying action in month one and returned in month two, three, and six.</p>\n\n<p>Ethena's data during its USDe growth phase showed something consistent with patterns I've seen across other stablecoin protocols: users who engaged with governance in their first 30 days had materially better retention than users who only interacted with yield mechanics. The engagement cadence, not the yield level, predicted whether users stayed.</p>\n\n<p>Retention past the airdrop window is a subject I'll cover in depth in the upcoming community-driven growth piece for this cluster. The short version: sustainable retention comes from building protocol stakeholders, not reward chasers.</p>\n\n<h2>Metrics That Actually Matter (and the Vanity Metrics to Drop)</h2>\n\n<p>A DeFi growth marketer tracks five things. Everything else is a supporting data point.</p>\n\n<img src=\"/media/web3-growth-marketers-defi-playbook-visual-04-signal-vs-vanity-metrics.jpg\" alt=\"Signal metrics vs. vanity metrics for DeFi growth marketing\" class=\"my-8 w-full rounded-lg\" loading=\"lazy\">\n\n<p><strong>What metrics matter for a DeFi growth marketer?</strong> The five metrics that drive decisions are: (1) qualified wallet acquisition rate by channel, (2) time-to-first-qualifying-action, (3) 30/60/90-day wallet retention by cohort, (4) cost per qualified wallet by campaign, and (5) TVL attribution by acquisition source. Discord member counts, Twitter follower growth, and total wallet connections are context metrics, useful for benchmarking but not for decisions.</p>\n\n<p>Here's why most DeFi teams track the wrong metrics. TVL is a composite of protocol health, market conditions, and user behavior. A protocol can grow TVL while losing users (whale concentration increases). It can lose TVL while growing users (market decline). If you're using TVL as your primary growth metric, you're managing a number that you don't fully control.</p>\n\n<p>Active wallets has a similar problem. \"Active\" is whatever your analytics platform defines it as, often a wallet that executed one transaction in the last 30 days. That definition includes a user who deposited $50, forgot about it, and never returned. It also includes a whale with $10M locked who executes a rebalancing transaction once a month. Both are \"active.\" Neither is the same growth signal.</p>\n\n<p>The metric I rely on most for early-stage protocol work is cohort retention rate: what percentage of wallets that took a qualifying action in week one returned and transacted again in weeks two through four. This metric is harder to move than TVL, but when it improves, the protocol is genuinely growing.</p>\n\n<p>For the full KPI stack with benchmark ranges for each metric, the foundational article I wrote for founders is still the best reference: <a href=\"https://mangabeira.net/publications/defi-growth-kpis\">From Vanity to Viability: Why DeFi Growth Needs a New KPI Stack</a>. The companion piece targeting practitioners specifically will add Dune-ready queries for each metric when it ships.</p>\n\n<div class=\"my-6 p-4 bg-yellow-50 dark:bg-yellow-950 border-l-4 border-yellow-500 rounded-r\">\n  <p class=\"font-semibold text-yellow-900 dark:text-yellow-100 mb-2\">Warning</p>\n  <p class=\"text-yellow-800 dark:text-yellow-200\">Airdrop campaigns inflate all five core metrics temporarily. Acquisition rate spikes. Retention craters. If you're reporting metrics during an active airdrop campaign without flagging the cohort separately, you're producing misleading data. Always segment airdrop-acquired wallets from organic acquisition in every cohort analysis.</p>\n</div>\n\n<p>Airdrop retention has a separate problem worth flagging here. Growth marketers often inherit the metric spike from an airdrop campaign without inheriting the strategy for what happens next. The users who came for the airdrop and the users who came for the protocol are different segments with different retention curves. Building a growth strategy that doesn't account for this split produces plans that fail at the 90-day mark.</p>\n\n<p>Redesigning your incentive model for retention after an airdrop window is a topic I'll tackle in the upcoming piece on sustainable incentive design for the growth marketer ICP.</p>\n\n<div class=\"my-10 p-6 bg-gradient-to-br from-slate-900 to-slate-800 rounded-lg border border-yellow-500/40 text-white\">\n  <h3 class=\"text-xl font-bold mb-3 text-white\">Running growth at a DeFi protocol?</h3>\n  <p class=\"mb-4 text-slate-200\">If you want a second set of eyes on your growth stack, I run a paid 6-pillar audit. It covers your distribution channels, attribution setup, activation funnel, retention mechanics, SEO, and PR. Fully async. No calls. Delivered in 72 hours to 5 days depending on tier.</p>\n  <a href=\"https://mangabeira.net/services/web3-growth-audit\" style=\"display:inline-block;background:#FFB800;color:#0A2540;padding:12px 24px;font-weight:700;border-radius:6px;text-decoration:none;\">Run a paid 6-pillar audit &rarr;</a>\n</div>\n\n<h2>Where AI Agents Fit Into the Growth Marketer's Stack (and Where They Don't)</h2>\n\n<p>The most credible use case I've seen for AI agents in DeFi growth marketing is reporting automation. Specifically: an agent that runs a scheduled Dune query, compares this week's wallet cohort retention numbers to last week's, identifies which cohorts are underperforming, and posts the flagged summary to a Slack channel before Monday standup.</p>\n\n<p>This isn't a pitch for an AI product. It's a description of what senior growth marketers at well-resourced protocols are already building with Claude Code or equivalent tooling. The agent doesn't make decisions. It surfaces anomalies that a human would catch anyway, but faster and at 2 AM when no one is watching dashboards.</p>\n\n<p>Where agents don't fit: creative judgment calls, community relationship work, and any context-dependent decision that requires knowing the protocol's history and stakeholder dynamics. Agents are fast at pattern recognition across structured data. They're unreliable at anything requiring nuanced human judgment about how a community will react.</p>\n\n<p>The full breakdown, including the specific Claude Code workflow I've built for protocol attribution monitoring, the prompt template, and where the agent breaks, is coming in a future piece in this cluster. If you're already testing this angle, that piece will be worth bookmarking.</p>\n\n<h2>The First 90 Days as a DeFi Growth Marketer</h2>\n\n<p>The first 90 days in a new DeFi growth role has a specific failure mode: you spend it learning the protocol deeply, meeting stakeholders, and building spreadsheets, but you don't move any metrics. Then you're managing expectations at the 90-day review instead of presenting results.</p>\n\n<p>The operating cadence that avoids this starts with a hard constraint: pick one metric to improve in the first 30 days, and make it visible.</p>\n\n<img src=\"/media/web3-growth-marketers-defi-playbook-visual-03-90day-cadence.jpg\" alt=\"The 90-day operating cadence for a DeFi growth marketer\" class=\"my-8 w-full rounded-lg\" loading=\"lazy\">\n\n<p><strong>Days 1-30: Map the current state.</strong> Pull the protocol's on-chain data into Dune. Build the four core cohort views: wallet acquisition by week, time-to-first-qualifying-action by source, 30-day retention by cohort, and TVL attribution breakdown. Don't add new campaigns yet. The goal is to know what's already working before you change anything.</p>\n\n<p>If the protocol has never built these views before, building them is your 30-day deliverable. A protocol with no baseline attribution data needs the diagnostic infrastructure before any growth strategy makes sense.</p>\n\n<p><strong>Days 31-60: Run one experiment.</strong> Choose the highest-leverage intervention you identified in days 1-30 and run a clean test. If time-to-first-qualifying-action is slow, run a structured onboarding sequence experiment. If acquisition is heavily concentrated in one channel, test a different distribution channel with a controlled budget. The experiment size doesn't matter. The discipline of shipping a clean test with a measurable hypothesis matters enormously.</p>\n\n<p>For a more detailed tactical breakdown of the first 30 days specifically for protocols approaching or coming out of TGE, the pre-launch traction playbook I wrote covers the startup sequence in detail: <a href=\"https://mangabeira.net/publications/defi-agency-vs-in-house-vs-consultant\">DeFi Agency vs In-House vs Consultant</a>. The operating principles translate directly to the growth marketer role even if you're post-launch.</p>\n\n<p><strong>Days 61-90: Systematize what works.</strong> The test from days 31-60 will produce a result. Document it, even if it failed. Build the result into a repeatable process. The growth marketer's compounding advantage over time isn't running more campaigns. It's having a better institutional memory about what the protocol's user base responds to.</p>\n\n<h2>When Growth Marketing Isn't Your Problem</h2>\n\n<p>This section is here because the most expensive mistake in DeFi growth marketing is optimizing the wrong variable.</p>\n\n<p>Sometimes the problem isn't growth marketing. Sometimes the problem is product-market fit, token mechanics, or a fundamental mismatch between what the protocol offers and what the market wants. When this is the underlying issue, improving your attribution setup and running better experiments won't fix it. It will just surface the problem faster, with better data.</p>\n\n<p>Three signals suggest a PMF or tokenomics problem rather than a growth marketing problem. Retention curves don't improve regardless of acquisition channel. Negative word-of-mouth shows up in on-chain wallet behavior (users withdrawing and not returning even after re-engagement campaigns). Governance participation rates stay structurally low rather than responding to campaigns.</p>\n\n<p><strong>Growth marketing compounds when the underlying protocol is solving a real problem. When it isn't, growth marketing accelerates the burn.</strong></p>\n\n<p>The protocol-side mistakes that create false growth plateaus (the kind that get attributed to poor marketing when the root cause is elsewhere) are covered in detail in <a href=\"https://mangabeira.net/publications/definitive-guide-web3-seo\">Web3 SEO: Proven Strategies to Rank Your Project in 2026</a>. If you're a growth marketer who suspects the issue is upstream of your team, that article is the diagnostic I'd send the founder.</p>\n\n<h2>Diagnose Your Stack Today: 7 Questions</h2>\n\n<p>Run through this before you add any new tool, campaign, or strategy. It takes under five minutes and consistently surfaces the highest-priority gap.</p>\n\n<div class=\"my-8 p-6 bg-muted/30 rounded-lg border border-border\">\n  <h3 class=\"text-xl font-bold mb-4\">DeFi Growth Stack Diagnostic</h3>\n  <p class=\"mb-4 text-muted-foreground\">Tap each question to see the diagnostic call.</p>\n  <details class=\"mb-3 border border-border rounded-lg overflow-hidden\">\n    <summary class=\"px-5 py-4 bg-muted cursor-pointer font-semibold hover:bg-muted/80 transition-colors\">\n      <span class=\"text-primary mr-2\">1.</span>Can I tell where my last 100 wallet connections came from, down to the source channel?\n    </summary>\n    <div class=\"px-5 py-4 bg-background border-t border-border\">\n      <p class=\"text-muted-foreground\"><strong class=\"text-foreground\">If no:</strong> attribution is your first problem, not distribution.</p>\n    </div>\n  </details>\n  <details class=\"mb-3 border border-border rounded-lg overflow-hidden\">\n    <summary class=\"px-5 py-4 bg-muted cursor-pointer font-semibold hover:bg-muted/80 transition-colors\">\n      <span class=\"text-primary mr-2\">2.</span>Do I have a Dune dashboard showing 30/60/90-day wallet retention by cohort?\n    </summary>\n    <div class=\"px-5 py-4 bg-background border-t border-border\">\n      <p class=\"text-muted-foreground\"><strong class=\"text-foreground\">If no:</strong> you're flying blind on retention.</p>\n    </div>\n  </details>\n  <details class=\"mb-3 border border-border rounded-lg overflow-hidden\">\n    <summary class=\"px-5 py-4 bg-muted cursor-pointer font-semibold hover:bg-muted/80 transition-colors\">\n      <span class=\"text-primary mr-2\">3.</span>Do I know the median time-to-first-qualifying-action for new wallets this month?\n    </summary>\n    <div class=\"px-5 py-4 bg-background border-t border-border\">\n      <p class=\"text-muted-foreground\"><strong class=\"text-foreground\">If no:</strong> your activation funnel has an invisible gap.</p>\n    </div>\n  </details>\n  <details class=\"mb-3 border border-border rounded-lg overflow-hidden\">\n    <summary class=\"px-5 py-4 bg-muted cursor-pointer font-semibold hover:bg-muted/80 transition-colors\">\n      <span class=\"text-primary mr-2\">4.</span>Have I segmented airdrop-acquired wallets from organic acquisition in my cohort data?\n    </summary>\n    <div class=\"px-5 py-4 bg-background border-t border-border\">\n      <p class=\"text-muted-foreground\"><strong class=\"text-foreground\">If no:</strong> your retention numbers are inflated.</p>\n    </div>\n  </details>\n  <details class=\"mb-3 border border-border rounded-lg overflow-hidden\">\n    <summary class=\"px-5 py-4 bg-muted cursor-pointer font-semibold hover:bg-muted/80 transition-colors\">\n      <span class=\"text-primary mr-2\">5.</span>Can I name the one experiment I'm running this week with a measurable hypothesis?\n    </summary>\n    <div class=\"px-5 py-4 bg-background border-t border-border\">\n      <p class=\"text-muted-foreground\"><strong class=\"text-foreground\">If no:</strong> you're in campaign mode, not growth mode.</p>\n    </div>\n  </details>\n  <details class=\"mb-3 border border-border rounded-lg overflow-hidden\">\n    <summary class=\"px-5 py-4 bg-muted cursor-pointer font-semibold hover:bg-muted/80 transition-colors\">\n      <span class=\"text-primary mr-2\">6.</span>Do I have a protocol-specific definition of \"activation\" that's agreed upon with the founder or product lead?\n    </summary>\n    <div class=\"px-5 py-4 bg-background border-t border-border\">\n      <p class=\"text-muted-foreground\"><strong class=\"text-foreground\">If no:</strong> you're optimizing for different outcomes than the team.</p>\n    </div>\n  </details>\n  <details class=\"mb-3 border border-border rounded-lg overflow-hidden\">\n    <summary class=\"px-5 py-4 bg-muted cursor-pointer font-semibold hover:bg-muted/80 transition-colors\">\n      <span class=\"text-primary mr-2\">7.</span>Have I checked whether the retention problem is upstream of growth marketing (PMF or tokenomics) or genuinely a distribution/activation issue?\n    </summary>\n    <div class=\"px-5 py-4 bg-background border-t border-border\">\n      <p class=\"text-muted-foreground\"><strong class=\"text-foreground\">If unclear:</strong> look at competitor retention curves on Dune before adding campaigns.</p>\n    </div>\n  </details>\n</div>\n<p>If you checked fewer than four, the gaps you found are more valuable than any new tactic you could add this week.</p>\n\n<h2>Frequently Asked Questions</h2>\n\n<h3>What does a Web3 growth marketer do in DeFi?</h3>\n<p>A Web3 growth marketer in DeFi builds and measures the systems that move users through a protocol's acquisition, activation, and retention funnel. The core work is on-chain: wallet cohort analysis, attribution modeling, and retention curve monitoring. Distribution work (campaigns, community, content) feeds these systems, but the growth marketer's primary accountability is measurable protocol growth, not content volume or social engagement.</p>\n\n<h3>How is DeFi marketing different from Web2 marketing?</h3>\n<p>DeFi marketing breaks the Web2 model on attribution. Web2 assumes a persistent user identity (cookie, session, login) that lets you connect an acquisition source to a conversion event. In DeFi, the identity is a wallet address, and wallet addresses don't carry acquisition source data. DeFi growth marketers have to build attribution backward from on-chain wallet behavior using UTM-to-wallet bridges, SIWE-based event tracking, or cohort-based forensics on Dune. The toolkit is different, the metrics are different, and the retention mechanic (token incentives) has no direct Web2 equivalent.</p>\n\n<h3>How do you measure DeFi marketing ROI?</h3>\n<p>DeFi marketing ROI is measured as cost per qualified wallet by acquisition channel. A \"qualified wallet\" is a wallet that took a defined first action (a deposit, a swap, a governance vote, matched to your protocol's activation event) and was acquired through a trackable campaign source. Divide campaign spend by the number of qualified wallets produced. Then track those wallets forward over 30, 60, and 90 days to assess whether the acquisition channel is producing users who retain. A channel that produces cheap wallets that churn in two weeks has poor ROI regardless of the cost-per-wallet number. The full framework for building this measurement system is covered in <a href=\"https://mangabeira.net/publications/defi-attribution-growth-marketer-roi-framework\">DeFi Attribution: A Growth Marketer's ROI Framework</a>.</p>\n\n<h3>Should DeFi protocols hire in-house or agency for growth marketing?</h3>\n<p>For most post-PMF protocols, the right answer is a senior in-house growth marketer who owns strategy and measurement, with an agency or consultant handling execution on specific channels (paid, content, community management). The agency model fails when the agency controls both strategy and data: you lose the attribution insights that compound over time. For the founder's perspective on the same decision, the existing article covers it in detail: <a href=\"https://mangabeira.net/publications/defi-agency-vs-in-house-vs-consultant\">DeFi Agency vs In-House vs Consultant</a>.</p>\n\n<h3>Can AI agents do DeFi growth marketing?</h3>\n<p>AI agents can handle the structured, data-processing parts of the job: running scheduled Dune queries, flagging wallet cohort anomalies, generating weekly attribution reports, and monitoring competitor on-chain activity. They can't replace the judgment work: deciding which experiments to run, reading community sentiment accurately, or knowing when a retention problem is actually a tokenomics problem. The practical wedge is reporting automation. Set up an agent to monitor your key dashboards and surface anomalies; spend your own time acting on the anomalies.</p>\n\n<h3>What analytics tools does a DeFi growth marketer actually use?</h3>\n<p>The baseline stack most senior DeFi growth marketers run in 2026: Dune Analytics for on-chain cohort analysis and custom dashboards, DeFiLlama for TVL benchmarking and competitive tracking, Nansen for wallet labeling and whale movement monitoring, and a UTM-to-wallet attribution tool (Spindl, Cookie3, or Addressable depending on the protocol's tech stack). GA4 stays for off-chain content performance.</p>\n\n<h2>What Comes Next</h2>\n\n<p>The SERP for DeFi growth marketing is full of vendor blogs and generic listicles. None of them take a position on what actually works at the protocol level.</p>\n\n<p>This playbook is the foundation. The cluster of pieces it anchors goes deeper on attribution (with real Dune queries), community-driven growth (without the airdrop dependency), and growth experiments (with on-chain results). If you're a growth marketer building these systems at your protocol right now, the next piece on DeFi attribution will be worth reading: <a href=\"https://mangabeira.net/publications/defi-attribution-growth-marketer-roi-framework\">DeFi Attribution: A Growth Marketer's ROI Framework</a>.</p>\n\n<div class=\"my-10 p-6 bg-gradient-to-br from-slate-900 to-slate-800 rounded-lg border border-yellow-500/40 text-white\">\n  <h3 class=\"text-xl font-bold mb-3 text-white\">Want a diagnostic on your current growth stack?</h3>\n  <p class=\"mb-4 text-slate-200\">I run a paid 6-pillar audit. It covers your distribution setup, attribution infrastructure, activation funnel, retention mechanics, SEO, and PR. Fully async. No calls required. Delivered in 72 hours to 5 days.</p>\n  <a href=\"https://mangabeira.net/services/web3-growth-audit\" style=\"display:inline-block;background:#FFB800;color:#0A2540;padding:12px 24px;font-weight:700;border-radius:6px;text-decoration:none;\">Run a paid 6-pillar audit &rarr;</a>\n</div>\n\n<h2>References</h2>\n\n<p><strong>Tools and platforms</strong></p>\n<p>1. DeFiLlama. Protocol TVL data and competitive benchmarks: <a href=\"https://defillama.com\" target=\"_blank\" rel=\"noopener\">defillama.com</a></p>\n<p>2. Dune Analytics. On-chain cohort analysis, wallet attribution, retention dashboards: <a href=\"https://dune.com\" target=\"_blank\" rel=\"noopener\">dune.com</a></p>\n<p>3. Spindl. UTM-to-wallet attribution platform: <a href=\"https://spindl.xyz\" target=\"_blank\" rel=\"noopener\">spindl.xyz</a></p>\n<p>4. Formo. Sign-In with Ethereum event tracking and DeFi conversion analytics: <a href=\"https://formo.so\" target=\"_blank\" rel=\"noopener\">formo.so</a></p>\n<p>5. Cookie3. Web3 attribution and wallet marketing analytics: <a href=\"https://cookie3.com\" target=\"_blank\" rel=\"noopener\">cookie3.com</a></p>\n<p>6. Addressable. On-chain attribution and growth analytics for Web3: <a href=\"https://addressable.xyz\" target=\"_blank\" rel=\"noopener\">addressable.xyz</a></p>\n<p>7. Nansen. Wallet labeling and on-chain intelligence: <a href=\"https://nansen.ai\" target=\"_blank\" rel=\"noopener\">nansen.ai</a></p>\n\n<p><strong>Protocol data referenced</strong></p>\n<p>8. Hyperliquid. Public Dune dashboards tracking perp DEX user retention cohorts (search Dune for \"Hyperliquid user retention\"): <a href=\"https://dune.com/search?q=hyperliquid+user+retention\" target=\"_blank\" rel=\"noopener\">dune.com/search?q=hyperliquid+user+retention</a></p>\n<p>9. Ethena. Public Dune dashboards tracking USDe wallet cohorts and governance participation: <a href=\"https://dune.com/search?q=ethena+user+cohorts\" target=\"_blank\" rel=\"noopener\">dune.com/search?q=ethena+user+cohorts</a></p>\n\n<h2>Related articles</h2>\n\n<div class=\"my-8 grid grid-cols-1 md:grid-cols-2 gap-4\">\n  <a href=\"https://mangabeira.net/publications/defi-attribution-growth-marketer-roi-framework\" class=\"block p-5 bg-muted/30 rounded-lg border border-border hover:border-yellow-500 transition-colors no-underline\">\n    <div class=\"font-bold text-base mb-2 text-foreground\">DeFi Attribution: A Growth Marketer's ROI Framework</div>\n    <p class=\"text-sm text-muted-foreground m-0\">The companion piece to this playbook. Three attribution methods with real Dune queries and a cost-per-qualified-wallet calculation framework.</p>\n  </a>\n  <a href=\"https://mangabeira.net/publications/web3-email-vs-discord-vs-telegram\" class=\"block p-5 bg-muted/30 rounded-lg border border-border hover:border-yellow-500 transition-colors no-underline\">\n    <div class=\"font-bold text-base mb-2 text-foreground\">Email vs Discord vs Telegram: The Web3 Community Channel Decision</div>\n    <p class=\"text-sm text-muted-foreground m-0\">Which acquisition channel produces wallets that actually retain. Compares the three dominant community channels for DeFi protocols in 2026.</p>\n  </a>\n  <a href=\"https://mangabeira.net/publications/definitive-guide-web3-seo\" class=\"block p-5 bg-muted/30 rounded-lg border border-border hover:border-yellow-500 transition-colors no-underline\">\n    <div class=\"font-bold text-base mb-2 text-foreground\">Web3 SEO: Proven Strategies to Rank Your Project in 2026</div>\n    <p class=\"text-sm text-muted-foreground m-0\">SEO is the underused distribution layer in DeFi growth. The full playbook for organic search visibility, AEO, and AI citations.</p>\n  </a>\n  <a href=\"https://mangabeira.net/publications/defi-growth-kpis\" class=\"block p-5 bg-muted/30 rounded-lg border border-border hover:border-yellow-500 transition-colors no-underline\">\n    <div class=\"font-bold text-base mb-2 text-foreground\">From Vanity to Viability: The DeFi KPI Stack</div>\n    <p class=\"text-sm text-muted-foreground m-0\">The founder-facing companion to this playbook. Benchmark ranges for every growth metric a DeFi protocol should track.</p>\n  </a>\n  <a href=\"https://mangabeira.net/publications/defi-agency-vs-in-house-vs-consultant\" class=\"block p-5 bg-muted/30 rounded-lg border border-border hover:border-yellow-500 transition-colors no-underline\">\n    <div class=\"font-bold text-base mb-2 text-foreground\">DeFi Agency vs In-House vs Consultant</div>\n    <p class=\"text-sm text-muted-foreground m-0\">The hiring decision matrix. When to bring growth in-house, when to retain an agency, when a consultant is the right move.</p>\n  </a>\n  <a href=\"https://mangabeira.net/publications/defi-user-acquisition-channels\" class=\"block p-5 bg-muted/30 rounded-lg border border-border hover:border-yellow-500 transition-colors no-underline\">\n    <div class=\"font-bold text-base mb-2 text-foreground\">DeFi User Acquisition Channels: Which Ones Actually Work</div>\n    <p class=\"text-sm text-muted-foreground m-0\">The channel-by-channel breakdown this playbook assumes you already know. Worth reading before you pick where to spend.</p>\n  </a>\n  <a href=\"https://mangabeira.net/publications/community-driven-growth-defi-evangelists\" class=\"block p-5 bg-muted/30 rounded-lg border border-border hover:border-yellow-500 transition-colors no-underline md:col-span-2\">\n    <div class=\"font-bold text-base mb-2 text-foreground\">Community-Driven Growth: Turning DeFi Users into Evangelists</div>\n    <p class=\"text-sm text-muted-foreground m-0\">The retention-and-referral layer this playbook's acquisition tactics feed into once a wallet becomes a real user.</p>\n  </a>\n</div>\n",
+ "created_at": "2026-08-06T13:05:20.751085+00:00",
+ "updated_at": "2026-08-06T13:05:20.751085+00:00",
+ "featured_image_alt": "The Web3 Growth Marketer's Playbook for Scaling DeFi Protocols - cover",
+ "slug": "web3-growth-marketers-defi-playbook",
+ "schema": {
+  "@graph": [
+   {
+    "@id": "https://mangabeira.net/publications/web3-growth-marketers-defi-playbook#article",
+    "@type": "Article",
+    "about": [
+     {
+      "name": "DeFi Marketing",
+      "@type": "Thing"
+     },
+     {
+      "name": "Web3 Growth Marketing",
+      "@type": "Thing"
+     },
+     {
+      "name": "On-Chain Attribution",
+      "@type": "Thing"
+     },
+     {
+      "name": "DeFi User Retention",
+      "@type": "Thing"
+     },
+     {
+      "name": "Growth Marketing",
+      "@type": "Thing"
+     }
+    ],
+    "image": "/media/web3-growth-marketers-defi-playbook-cover.jpg",
+    "author": {
+     "@id": "https://mangabeira.net/#person"
+    },
+    "headline": "The Web3 Growth Marketer's Playbook for Scaling DeFi Protocols",
+    "keywords": "web3 growth marketer defi, defi growth marketing playbook, web3 growth marketing, defi marketing for growth marketers, on-chain attribution, defi retention, wallet attribution, defi marketing metrics",
+    "mentions": [
+     {
+      "url": "https://ethena.fi",
+      "name": "Ethena",
+      "@type": "Organization"
+     },
+     {
+      "url": "https://hyperliquid.xyz",
+      "name": "Hyperliquid",
+      "@type": "Organization"
+     },
+     {
+      "url": "https://spindl.xyz",
+      "name": "Spindl",
+      "@type": "Organization"
+     },
+     {
+      "url": "https://formo.so",
+      "name": "Formo",
+      "@type": "Organization"
+     },
+     {
+      "url": "https://cookie3.com",
+      "name": "Cookie3",
+      "@type": "Organization"
+     },
+     {
+      "url": "https://defillama.com",
+      "name": "DeFiLlama",
+      "@type": "Organization"
+     },
+     {
+      "url": "https://dune.com",
+      "name": "Dune Analytics",
+      "@type": "Organization"
+     },
+     {
+      "url": "https://nansen.ai",
+      "name": "Nansen",
+      "@type": "Organization"
+     },
+     {
+      "url": "https://addressable.xyz",
+      "name": "Addressable",
+      "@type": "Organization"
+     }
+    ],
+    "publisher": {
+     "@id": "https://mangabeira.net/#organization"
+    },
+    "wordCount": 3000,
+    "inLanguage": "en-US",
+    "description": "A senior practitioner's playbook for DeFi growth marketing: 4-layer stack, on-chain attribution, metrics that matter, and a 90-day operating cadence.",
+    "dateModified": "2026-05-19T00:00:00+00:00",
+    "datePublished": "2026-05-19T00:00:00+00:00",
+    "articleSection": "Web3 Growth Marketing",
+    "mainEntityOfPage": {
+     "@id": "https://mangabeira.net/publications/web3-growth-marketers-defi-playbook"
+    }
+   },
+   {
+    "@id": "https://mangabeira.net/publications/web3-growth-marketers-defi-playbook#breadcrumb",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+     {
+      "item": "https://mangabeira.net",
+      "name": "Home",
+      "@type": "ListItem",
+      "position": 1
+     },
+     {
+      "item": "https://mangabeira.net/publications",
+      "name": "Publications",
+      "@type": "ListItem",
+      "position": 2
+     },
+     {
+      "item": "https://mangabeira.net/publications/web3-growth-marketers-defi-playbook",
+      "name": "Web3 Growth Marketing",
+      "@type": "ListItem",
+      "position": 3
+     }
+    ]
+   },
+   {
+    "@id": "https://mangabeira.net/publications/web3-growth-marketers-defi-playbook#faq",
+    "@type": "FAQPage",
+    "mainEntity": [
+     {
+      "name": "What does a Web3 growth marketer do in DeFi?",
+      "@type": "Question",
+      "acceptedAnswer": {
+       "text": "A Web3 growth marketer in DeFi builds and measures the systems that move users through a protocol's acquisition, activation, and retention funnel. The core work is on-chain: wallet cohort analysis, attribution modeling, and retention curve monitoring. Distribution work (campaigns, community, content) feeds these systems, but the growth marketer's primary accountability is measurable protocol growth, not content volume or social engagement.",
+       "@type": "Answer"
+      }
+     },
+     {
+      "name": "How is DeFi marketing different from Web2 marketing?",
+      "@type": "Question",
+      "acceptedAnswer": {
+       "text": "DeFi marketing breaks the Web2 model on attribution. Web2 assumes a persistent user identity (cookie, session, login) that lets you connect an acquisition source to a conversion event. In DeFi, the identity is a wallet address, and wallet addresses don't carry acquisition source data. DeFi growth marketers have to build attribution backward from on-chain wallet behavior using UTM-to-wallet bridges, SIWE-based event tracking, or cohort-based forensics on Dune.",
+       "@type": "Answer"
+      }
+     },
+     {
+      "name": "How do you measure DeFi marketing ROI?",
+      "@type": "Question",
+      "acceptedAnswer": {
+       "text": "DeFi marketing ROI is measured as cost per qualified wallet by acquisition channel. A qualified wallet is one that took a defined first action (deposit, swap, governance vote) and was acquired through a trackable campaign source. Divide campaign spend by the number of qualified wallets produced, then track those wallets forward over 30, 60, and 90 days to assess whether the acquisition channel is producing users who retain.",
+       "@type": "Answer"
+      }
+     },
+     {
+      "name": "Should DeFi protocols hire in-house or agency for growth marketing?",
+      "@type": "Question",
+      "acceptedAnswer": {
+       "text": "For most post-PMF protocols, the right answer is a senior in-house growth marketer who owns strategy and measurement, with an agency or consultant handling execution on specific channels. The agency model fails when the agency controls both strategy and data, because you lose the attribution insights that compound over time.",
+       "@type": "Answer"
+      }
+     },
+     {
+      "name": "Can AI agents do DeFi growth marketing?",
+      "@type": "Question",
+      "acceptedAnswer": {
+       "text": "AI agents can handle the structured, data-processing parts of DeFi growth marketing: running scheduled Dune queries, flagging wallet cohort anomalies, generating weekly attribution reports, and monitoring competitor on-chain activity. They can't replace the judgment work: deciding which experiments to run, reading community sentiment accurately, or knowing when a retention problem is actually a tokenomics problem. The practical use case is reporting automation.",
+       "@type": "Answer"
+      }
+     },
+     {
+      "name": "What analytics tools does a DeFi growth marketer actually use?",
+      "@type": "Question",
+      "acceptedAnswer": {
+       "text": "The baseline stack most senior DeFi growth marketers run in 2026 includes: Dune Analytics for on-chain cohort analysis and custom dashboards, DeFiLlama for TVL benchmarking and competitive tracking, Nansen for wallet labeling and whale movement monitoring, and a UTM-to-wallet attribution tool (Spindl, Cookie3, or Addressable depending on the protocol's tech stack). GA4 stays for off-chain content performance.",
+       "@type": "Answer"
+      }
+     }
+    ]
+   },
+   {
+    "@id": "https://mangabeira.net/#person",
+    "url": "https://mangabeira.net",
+    "name": "Gabriel Mangabeira",
+    "@type": "Person",
+    "image": "https://mangabeira.net/images/gabriel-professional-about.png",
+    "sameAs": [
+     "https://x.com/manga82",
+     "https://linkedin.com/in/mangabeira"
+    ],
+    "jobTitle": "Web3 Growth Marketing Consultant",
+    "knowsAbout": [
+     "DeFi Growth Marketing",
+     "On-Chain Attribution",
+     "Web3 Marketing",
+     "Tokenomics",
+     "DeFi User Retention",
+     "Wallet Cohort Analysis",
+     "Growth Marketing"
+    ],
+    "description": "Web3 growth consultant specializing in DeFi protocols post-PMF. Former growth lead at Binance LATAM. Expert in on-chain attribution, tokenomics-driven growth, and distribution systems."
+   },
+   {
+    "@id": "https://mangabeira.net/#organization",
+    "url": "https://mangabeira.net",
+    "logo": "https://mangabeira.net/images/swimming-icon.png",
+    "name": "Mangabeira.net",
+    "@type": "Organization",
+    "founder": {
+     "@id": "https://mangabeira.net/#person"
+    }
+   },
+   {
+    "@id": "https://mangabeira.net/publications/web3-growth-marketers-defi-playbook",
+    "url": "https://mangabeira.net/publications/web3-growth-marketers-defi-playbook",
+    "name": "The Web3 Growth Marketer's Playbook for Scaling DeFi Protocols",
+    "@type": "WebPage",
+    "author": {
+     "@id": "https://mangabeira.net/#person"
+    },
+    "isPartOf": {
+     "@id": "https://mangabeira.net"
+    },
+    "description": "A senior practitioner's playbook for DeFi growth marketing: 4-layer stack, on-chain attribution, metrics that matter, and a 90-day operating cadence.",
+    "dateModified": "2026-05-19T00:00:00+00:00",
+    "datePublished": "2026-05-19T00:00:00+00:00",
+    "primaryImageOfPage": {
+     "url": "/media/web3-growth-marketers-defi-playbook-cover.jpg",
+     "@type": "ImageObject"
+    }
+   }
+  ],
+  "@context": "https://schema.org"
+ }
+}

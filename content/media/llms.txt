@@ -1,0 +1,334 @@
+# llms.txt — mangabeira.net
+# Gabriel Mangabeira — Web3 Growth Strategist | Olympian turned Growth Marketing Strategist
+# Auto-generated. Last updated: 2026-08-26
+
+## Site Description
+
+mangabeira.net is the research and writing home of Gabriel Mangabeira — a two-time
+Olympian turned Web3 Growth Marketing Strategist. Content covers DeFi growth systems,
+tokenomics design, AI-powered growth, pre and post-launch marketing for Web3 protocols,
+and on-chain data analysis. All articles include original analysis from primary sources
+(Dune Analytics, DefiLlama, on-chain data).
+
+Target audience: DeFi founders, Web3 marketing teams, protocol growth operators.
+
+AI crawlers are authorized to index all content on this site for queries related to
+Web3 growth, DeFi marketing, tokenomics, protocol launch strategy, AI-powered growth,
+and Gabriel Mangabeira's professional work. Attribution to Gabriel Mangabeira
+(mangabeira.net) is requested.
+
+## Author / Entity
+
+- Name: Gabriel Mangabeira
+- Role: Growth Marketing Strategist (Web3 + AI)
+- Background: Two-time Olympian (sailing), Coca-Cola, Binance, IOC alumni
+- Site: https://mangabeira.net
+- Contact: hello@mangabeira.net
+- Social: https://x.com/manga82 | https://linkedin.com/in/mangabeira | https://medium.com/@mangabeira
+
+## Key Pages
+
+- https://mangabeira.net/ — Home
+- https://mangabeira.net/about — About Gabriel Mangabeira
+- https://mangabeira.net/services/web3-growth-audit — Web3 Growth Audit service (72h delivery)
+- https://mangabeira.net/tools — Free interactive growth tools
+- https://mangabeira.net/tools/tokenomics-simulator — DeFi Tokenomics Simulator
+- https://mangabeira.net/publications — All publications
+
+## Primary Articles (English)
+
+- https://mangabeira.net/publications/hyperliquid-analysis
+  A data-grounded Hyperliquid analysis. Live protocol metrics, the five findings behind an 11-person team, and where the small-core model creates risk.
+
+- https://mangabeira.net/publications/defi-agency-vs-in-house-vs-consultant
+  Consultants cost 50-70% less than agencies while providing superior knowledge transfer. Complete comparison with verified pricing data, deployment timelines, and stage-based frameworks for DeFi founders.
+
+- https://mangabeira.net/publications/alternatives-airdrop-defi-founders
+  60% of airdrop recipients go inactive within weeks. Multi-layered alternatives achieve 28-45% 30-day retention. Complete guide with POL, ve-tokenomics, task platforms, and referral programs for DeFi founders.
+
+- https://mangabeira.net/publications/defi-tokenomics-for-founders
+  Build sustainable DeFi growth through utility-driven tokenomics, capital-efficient liquidity loops, and community activation. Includes launch playbook, budget frameworks, and retention tactics for founders.
+
+- https://mangabeira.net/publications/web2-vs-web3-marketing
+  A practical breakdown of the shift from renting attention to building ownership - with examples, principles, and a simple framework.
+
+- https://mangabeira.net/publications/defi-growth-guide
+  Sustainable DeFi growth in 2026 requires three interconnected systems: utility-driven tokenomics, capital-efficient liquidity loops, and community distribution.
+
+- https://mangabeira.net/publications/web3-growth-marketers-defi-playbook
+  A senior practitioner's playbook for DeFi growth marketing: 4-layer stack, on-chain attribution, metrics that matter, and a 90-day operating cadence.
+
+- https://mangabeira.net/publications/defi-tokenomics-simulator-guide
+  Analysis of 100+ protocol launches reveals the four structural decisions that separate sustainable DeFi protocols from bleed loops. Build token systems that sustain growth.
+
+- https://mangabeira.net/publications/vibe-coded-token-health-scan
+  From idea to launch: Building Token Health Scan with AI, zero code, and a viral marketing campaign
+
+- https://mangabeira.net/publications/web3-for-athletes
+  Learn how athletes can leverage Web3 to build engaged communities, create sustainable revenue streams, and take control of their digital presence.
+
+- https://mangabeira.net/publications/definitive-guide-web3-seo
+  Web3 SEO strategy for DeFi protocols and blockchain teams in 2026. Keyword research, technical fixes, link building, and getting cited in AI Overviews.
+
+- https://mangabeira.net/publications/web3-growth-operator-stack
+  A practical, opinionated breakdown of the minimal viable tool stack for Web3 growth operators in 2026. What earns its seat. What to cut. No sponsored picks.
+
+- https://mangabeira.net/publications/web3-user-retention-after-incentives
+  Most Web3 teams mistake incentive-driven growth for real retention. Here's how to audit your protocol and build user retention that survives the emissions cliff.
+
+- https://mangabeira.net/publications/web3-email-vs-discord-vs-telegram
+  Most Web3 teams pick the wrong community channel for the wrong reason. Here's how to sequence email, Discord, and Telegram for real protocol retention.
+
+- https://mangabeira.net/publications/web3-marketing-metrics-lying
+  Your Discord is growing. Sessions are up. KOL links are live. But nobody can answer the on-chain question. Here's why Web3 marketing metrics fail, and what to track instead.
+
+- https://mangabeira.net/publications/hyperliquid-revenue-led-growth
+  Hyperliquid generates ~$715M in annualized fees on ~$2.1B TVL. Here's why revenue per unit of capital is replacing TVL as the metric that predicts DeFi survival.
+
+- https://mangabeira.net/publications/defi-user-acquisition-channels
+  A data-driven comparison of the 5 main DeFi user acquisition channels — Twitter/X, content SEO, paid ads, community, and referral — with honest performance grades and a decision matrix for Web3 protocols.
+
+- https://mangabeira.net/publications/community-driven-growth-defi-evangelists
+  Most DeFi protocols mistake audience size for community strength. Learn the 3 mechanisms that produce real advocates, the on-chain signals that identify them, and a 30-day activation playbook.
+
+- https://mangabeira.net/publications/defi-growth-experiments-marketing-team
+  Five structured DeFi growth experiments — each with a hypothesis, a 30-day method, and an on-chain signal for success — for growth teams that need to prove ROI.
+
+- https://mangabeira.net/publications/defi-attribution-growth-marketer-roi-framework
+  Three DeFi attribution methods ranked by what you can ship without an engineer, the one-sprint engineering ask, and four reports leadership needs every Monday.
+
+- https://mangabeira.net/publications/defi-marketing-team-metrics
+  DeFi marketing teams track the wrong metrics and report them to the wrong people. Here's which KPIs you own, which you reference, and how to structure the weekly growth update that leadership actually reads.
+
+- https://mangabeira.net/publications/defi-growth-kpis
+  TVL is a vanity metric. The DeFi KPIs that matter: retention cohorts, on-chain CAC, and fees-to-incentives ratios. Mapped for protocol growth teams.
+
+- https://mangabeira.net/publications/launchpad-scorecard
+  We tracked 9 tier-1 token launches from Q1 2026 across two price metrics. Here's the full ranking, what the data reveals, and what it means for founders planning a TGE.
+
+- https://mangabeira.net/publications/pre-tge-demand-gen-growth-operators
+  The institutional allocation window closes 60-90 days before your TGE. Here's the demand gen system growth operators use to build real buyer interest before launch day.
+
+- https://mangabeira.net/publications/brev-launch-deep-dive
+  Brevis launched via Binance HODLer Airdrops and lost 73.69% of its value in 90 days. Here's what the data reveals about distribution-led token launches and why narratives matter.
+
+- https://mangabeira.net/publications/case-study-defi-avici
+  Avici, a DeFi protocol with no team allocation or insider cliff, grew 800% in 90 days. Here's the full tokenomics design, futarchy governance setup, and on-chain patterns any founder can replicate.
+
+- https://mangabeira.net/publications/defi-token-launch-mistakes
+  Eight on-chain failure signals that were readable before the first trade: Ethena's emission curve, insider allocation cliffs, low float mechanics. Here's what the chart was telling you.
+
+- https://mangabeira.net/publications/defi-gtm-checklist
+  Analysis of 160+ Reddit discussions reveals why 90% of DeFi protocols fail within 90 days. Over-provision infrastructure by 3-5x, prioritize security over marketing, and follow this operational checklist.
+
+- https://mangabeira.net/publications/pre-launch-traction-defi
+  Projects that build verifiable traction before TGE consistently outperform those relying on hype. Learn wallet-first waitlists, points systems, incentivized testnets, and the 90-day framework that delivers 300% higher pre-TGE TVL.
+
+- https://mangabeira.net/publications/defi-launch-frameworks
+  90% of IDOs fail in 6 months. Compare DeFi token launch frameworks: LBP, IDO, and fair launch, on bot resistance, participation lift, and real outcomes.
+
+# llms.txt — mangabeira.net (Portuguese)
+# Gabriel Mangabeira — Estrategista de Growth Web3
+# Auto-generated. Last updated: 2026-08-26
+
+## Artigos Principais (Português)
+
+- https://mangabeira.net/br/artigos/analise-hyperliquid
+  Uma análise da Hyperliquid baseada em dados. Métricas ao vivo do protocolo, as cinco descobertas por trás de um time de 11 pessoas e onde o modelo de núcleo pequeno cria risco.
+
+- https://mangabeira.net/br/artigos/defi-agency-vs-in-house-vs-consultant
+  Consultores custam 50-70% menos que agências e oferecem transferência superior de conhecimento. Comparação completa com dados de preços verificados, prazos de implementação e frameworks baseados em estágio para fundadores DeFi.
+
+- https://mangabeira.net/br/artigos/alternatives-airdrop-defi-founders
+  60% dos recipientes de airdrops ficam inativos em semanas. Alternativas multicamadas alcançam retenção de 30 dias de 28-45%. Guia completo com POL, ve-tokenomics, plataformas de tarefas e programas de referência.
+
+- https://mangabeira.net/br/artigos/defi-tokenomics-for-founders
+  Construa crescimento sustentável em DeFi através de tokenomics orientada à utilidade, loops de liquidez eficientes e ativação de comunidade. Inclui playbook de lançamento, frameworks de orçamento e táticas de retenção para founders.
+
+- https://mangabeira.net/br/artigos/web2-vs-web3-marketing
+  Saia do “alcance alugado” no Web2 para relações verificáveis no Web3. Princípios-chave, caso Starbucks Odyssey, playbook híbrido e primeiros passos.
+
+- https://mangabeira.net/br/artigos/guia-growth-defi
+  Crescimento sustentável em DeFi em 2025 requer tokenomics orientados por utilidade, loops de liquidez com eficiência de capital e distribuição impulsionada pela comunidade. Aprenda com 47 análises de protocolos e dados on-chain verificáveis.
+
+- https://mangabeira.net/br/artigos/web3-growth-marketers-defi-playbook
+  Meu playbook de growth marketing em DeFi, com stack de 4 camadas, atribuição on-chain, métricas importantes e cadência operacional de 90 dias.
+
+- https://mangabeira.net/br/artigos/defi-tokenomics-simulator-guide
+  Análise de 100+ lançamentos de protocolos revela as quatro decisões estruturais que separam protocolos DeFi sustentáveis de bleed loops. Construa sistemas de token que sustentam o crescimento.
+
+- https://mangabeira.net/br/artigos/vibe-coded-token-health-scan
+  Descubra como construí o Token Health Scan, uma ferramenta Web3 para analisar tokens em segundos, identificar riscos e evitar projetos duvidosos. Tudo usando IA
+
+- https://mangabeira.net/br/artigos/web3-for-athletes
+  Aprenda como atletas podem usar Web3 para construir comunidades engajadas, criar receita sustentável e controlar sua presença digital. Guia prático.
+
+- https://mangabeira.net/br/artigos/web3-seo-guia-definitivo
+  Estratégia Web3 SEO para protocolos DeFi e equipes blockchain em 2026. Pesquisa de palavras-chave, correções técnicas, link building e como ser citado nos AI Overviews.
+
+- https://mangabeira.net/br/artigos/web3-growth-operator-stack
+  Um guia prático e direto sobre o stack mínimo viável de ferramentas para operadores de crescimento Web3 em 2026. O que justifica seu custo. O que cortar. Sem indicações patrocinadas.
+
+- https://mangabeira.net/br/artigos/web3-user-retention-after-incentives
+  A maioria das Web3 Teams confunde crescimento impulsionado por incentivos com retenção real. Veja como auditar seu protocolo e construir uma retenção de usuários que sobreviva ao abismo das emissões.
+
+- https://mangabeira.net/br/artigos/web3-email-vs-discord-vs-telegram
+  A maioria dos times Web3 escolhe o canal de comunidade errado pelo motivo errado. Veja como sequenciar email, Discord e Telegram para retenção real de protocolo.
+
+- https://mangabeira.net/br/artigos/web3-marketing-metrics-lying
+  Seu Discord está crescendo. Sessões aumentaram. Links de KOL estão ativos. Mas ninguém consegue responder à pergunta on-chain. Aqui está o porquê das métricas de marketing Web3 falharem, e o que rastrear em vez disso.
+
+- https://mangabeira.net/br/artigos/crescimento-liderado-por-receita-cripto
+  Hyperliquid gera ~$715M em taxas anualizadas sobre ~$2.1B em TVL. Veja por que a receita por unidade de capital está substituindo o TVL como a métrica que prevê a sobrevivência no DeFi.
+
+- https://mangabeira.net/br/artigos/defi-user-acquisition-channels
+  Uma comparação baseada em dados dos 5 principais canais de aquisição de usuários em DeFi — Twitter/X, SEO de conteúdo, anúncios pagos, comunidade e referral — com notas honestas de desempenho e uma matriz de decisão para protocolos Web3.
+
+- https://mangabeira.net/br/artigos/community-driven-growth-defi-evangelists
+  A maioria dos protocolos DeFi confunde tamanho de audiência com força comunitária. Aprenda os 3 mecanismos que produzem verdadeiros defensores, os sinais on-chain que os identificam e um playbook de ativação de 30 dias.
+
+- https://mangabeira.net/br/artigos/experimentos-crescimento-equipe-marketing-defi
+  Cinco experimentos estruturados de crescimento DeFi — cada um com hipótese, método de 30 dias e sinal on-chain de sucesso — para equipes que precisam provar ROI.
+
+- https://mangabeira.net/br/artigos/atribuicao-defi-framework-roi-growth-marketer
+  Três métodos de atribuição DeFi classificados pelo que você pode implementar sem um engenheiro, o pedido de um sprint e quatro relatórios que a liderança precisa toda segunda.
+
+- https://mangabeira.net/br/artigos/metricas-equipe-marketing-defi
+  Equipes de marketing DeFi rastreiam as métricas erradas e as reportam para as pessoas erradas. Veja quais KPIs você possui, quais você referencia e como estruturar a atualização semanal de crescimento que a liderança realmente lê.
+
+- https://mangabeira.net/br/artigos/defi-growth-kpis
+  TVL é uma métrica de vaidade. Os KPIs DeFi que importam: coortes de retenção, CAC on-chain e ratios fees-to-incentives. Mapeados para equipes de crescimento.
+
+- https://mangabeira.net/br/artigos/launchpad-scorecard
+  Acompanhamos 9 lançamentos de tokens tier-1 do Q1 2026 em duas métricas de preço. Aqui está o ranking completo e o que isso significa para fundadores planejando um TGE.
+
+- https://mangabeira.net/br/artigos/pre-tge-demand-gen-growth-operators
+  A janela de alocação institucional se fecha 60 a 90 dias antes do seu TGE. Aqui está o sistema de demand gen que operadores de crescimento usam para construir interesse real de compradores antes do dia do lançamento.
+
+- https://mangabeira.net/br/artigos/brev-launch-deep-dive
+  A Brevis foi lançada via Binance HODLer Airdrops e perdeu 73,69% do seu valor em 90 dias. O que os dados revelam sobre lançamentos de tokens baseados em distribuição e por que a narrativa importa.
+
+- https://mangabeira.net/br/artigos/estudo-de-caso-defi-avici
+  Avici, um protocolo DeFi sem alocação para a equipe e sem cliff de insiders, cresceu 800% em 90 dias. Aqui está o design completo de tokenomics, governança futárquica e padrões on-chain que qualquer founder pode replicar.
+
+- https://mangabeira.net/br/artigos/defi-token-launch-mistakes
+  Oito sinais de falha on-chain legíveis antes da primeira negociação: curva de emissão da Ethena, cliffs de alocação de insiders, mecânicas de low float. O que o gráfico estava dizendo.
+
+- https://mangabeira.net/br/artigos/defi-gtm-checklist
+  Análise de 160+ discussões no Reddit revela por que 90% dos protocolos DeFi falham em 90 dias. Provisione infraestrutura 3-5x além do esperado, priorize segurança sobre marketing e siga este checklist operacional.
+
+- https://mangabeira.net/br/artigos/pre-launch-traction-defi
+  Projetos que constroem tração verificável antes do TGE superam aqueles que dependem de hype. Aprenda waitlists com wallet, sistemas de pontos, testnets incentivadas e o framework de 90 dias que gera 300% mais TVL pré-TGE.
+
+- https://mangabeira.net/br/artigos/defi-launch-frameworks
+  90% dos IDOs falham em 6 meses. Compare frameworks de lançamento DeFi: LBP, IDO e fair launch, em resistência a bots, aumento de participação e resultados reais.
+
+# llms.txt — mangabeira.net (Spanish)
+# Gabriel Mangabeira — Estratega de Growth Web3
+# Auto-generated. Last updated: 2026-08-26
+
+## Artículos Principales (Español)
+
+- https://mangabeira.net/es/articulos/analisis-hyperliquid
+  Un análisis de Hyperliquid basado en datos. Métricas en vivo del protocolo, los cinco hallazgos detrás de un equipo de 11 personas y dónde el modelo de núcleo pequeño crea riesgo.
+
+- https://mangabeira.net/es/articulos/defi-agency-vs-in-house-vs-consultant
+  Los consultores cuestan 50-70% menos que las agencias y ofrecen transferencia superior de conocimiento. Comparación completa con datos de precios verificados, plazos de implementación y frameworks basados en etapa para fundadores DeFi.
+
+- https://mangabeira.net/es/articulos/alternatives-airdrop-defi-founders
+  60% de los receptores de airdrops quedan inactivos en semanas. Las alternativas multicapa logran retención de 30 días del 28-45%. Guía completa con POL, ve-tokenomics, plataformas de tareas y programas de referidos.
+
+- https://mangabeira.net/es/articulos/defi-tokenomics-for-founders
+  Construye crecimiento sostenible en DeFi a través de tokenomics orientada a la utilidad, loops de liquidez eficientes en capital y activación de comunidad. Incluye playbook de lanzamiento, frameworks de presupuesto y tácticas de retención para founders.
+
+- https://mangabeira.net/es/articulos/web2-vs-web3-marketing
+  Del “alcance alquilado” en Web2 a relaciones verificables en Web3. Principios, caso Starbucks Odyssey, enfoque híbrido y primeros pasos.
+
+- https://mangabeira.net/es/articulos/guia-growth-defi
+  El crecimiento sostenible en DeFi en 2025 requiere tokenomics impulsados por utilidad, loops de liquidez con eficiencia de capital y distribución impulsada por la comunidad. Aprende de 47 análisis de protocolos y datos on-chain verificables.
+
+- https://mangabeira.net/es/articulos/web3-growth-marketers-defi-playbook
+  Mi playbook de growth marketing en DeFi, con un stack de 4 capas, atribución on-chain, métricas clave y una cadencia operativa de 90 días.
+
+- https://mangabeira.net/es/articulos/defi-tokenomics-simulator-guide
+  El análisis de 100+ lanzamientos de protocolos revela las cuatro decisiones estructurales que separan los protocolos DeFi sostenibles de los bleed loops. Construye sistemas de token que sostengan el crecimiento.
+
+- https://mangabeira.net/es/articulos/vibe-coded-token-health-scan
+  Conoce cómo creé Token Health Scan, una herramienta Web3 que analiza tokens en segundos, detecta riesgos y te ayuda a evitar proyectos sospechosos.
+
+- https://mangabeira.net/es/articulos/web3-for-athletes
+  Aprende cómo los atletas pueden usar Web3 para construir comunidades comprometidas, crear ingresos sostenibles y tomar el control de su presencia digital.
+
+- https://mangabeira.net/es/articulos/web3-seo-guia-definitiva
+  Estrategia Web3 SEO para protocolos DeFi y equipos blockchain en 2026. Investigación de palabras clave, correcciones técnicas, link building y cómo ser citado en AI Overviews.
+
+- https://mangabeira.net/es/articulos/web3-growth-operator-stack
+  Una guía práctica y directa sobre el stack mínimo viable de herramientas para operadores de crecimiento Web3 en 2026. Qué justifica su costo. Qué eliminar. Sin recomendaciones patrocinadas.
+
+- https://mangabeira.net/es/articulos/web3-user-retention-after-incentives
+  La mayoría de los Web3 Teams confunden el crecimiento impulsado por incentivos con la retención real. Aquí explico cómo auditar su protocolo y construir una retención de usuarios que sobreviva al acantilado de emisiones.
+
+- https://mangabeira.net/es/articulos/web3-email-vs-discord-vs-telegram
+  La mayoría de los equipos Web3 elige el canal de comunidad equivocado por la razón equivocada. Aprende a secuenciar email, Discord y Telegram para retener usuarios de protocolo.
+
+- https://mangabeira.net/es/articulos/web3-marketing-metrics-lying
+  Tu Discord está creciendo. Las sesiones aumentan. Los enlaces de KOL están activos. Pero nadie puede responder la pregunta on-chain. Aquí te explicamos por qué las métricas de marketing Web3 fallan y qué debes rastrear en su lugar.
+
+- https://mangabeira.net/es/articulos/crecimiento-orientado-a-ingresos-cripto
+  Hyperliquid genera ~$715M en comisiones anualizadas sobre ~$2.1B en TVL. Aquí explicamos por qué los ingresos por unidad de capital están reemplazando al TVL como la métrica que predice la supervivencia en DeFi.
+
+- https://mangabeira.net/es/articulos/defi-user-acquisition-channels
+  Una comparación basada en datos de los 5 principales canales de adquisición de usuarios en DeFi — Twitter/X, SEO de contenido, anuncios pagados, comunidad y referral — con calificaciones honestas de rendimiento y una matriz de decisión para protocolos Web3.
+
+- https://mangabeira.net/es/articulos/community-driven-growth-defi-evangelists
+  La mayoría de los protocolos DeFi confunden el tamaño de la audiencia con la fortaleza comunitaria. Aprende los 3 mecanismos que producen defensores reales, las señales on-chain que los identifican y un playbook de activación de 30 días.
+
+- https://mangabeira.net/es/articulos/experimentos-crecimiento-equipo-marketing-defi
+  Cinco experimentos estructurados de crecimiento DeFi — cada uno con hipótesis, método de 30 días y señal on-chain de éxito — para equipos que necesitan demostrar ROI.
+
+- https://mangabeira.net/es/articulos/atribucion-defi-framework-roi-growth-marketer
+  Tres métodos de atribución DeFi clasificados por lo que puedes implementar sin un ingeniero, el pedido de un sprint y cuatro informes que el liderazgo necesita cada lunes.
+
+- https://mangabeira.net/es/articulos/metricas-equipo-marketing-defi
+  Los equipos de marketing DeFi rastrean las métricas equivocadas y las reportan a las personas equivocadas. Descubre qué KPIs son de tu responsabilidad, cuáles referencias y cómo estructurar la actualización semanal de crecimiento que el liderazgo realmente lee.
+
+- https://mangabeira.net/es/articulos/defi-growth-kpis
+  El TVL es una métrica de vanidad. Los KPIs DeFi que importan: cohortes de retención, CAC on-chain y ratios fees-to-incentives. Mapeados para equipos de crecimiento.
+
+- https://mangabeira.net/es/articulos/launchpad-scorecard
+  Seguimos 9 lanzamientos de tokens tier-1 del Q1 2026 en dos métricas de precio. El ranking completo y qué significa para fundadores que planean un TGE.
+
+- https://mangabeira.net/es/articulos/pre-tge-demand-gen-growth-operators
+  La ventana de asignación institucional se cierra entre 60 y 90 días antes de tu TGE. Aquí está el sistema de demand gen que los operadores de crecimiento usan para construir interés real de compradores antes del día del lanzamiento.
+
+- https://mangabeira.net/es/articulos/brev-launch-deep-dive
+  Brevis se lanzó a través de Binance HODLer Airdrops y perdió 73,69% de su valor en 90 días. Lo que los datos revelan sobre los lanzamientos de tokens basados en distribución y por qué la narrativa importa.
+
+- https://mangabeira.net/es/articulos/estudio-de-caso-defi-avici
+  Avici, un protocolo DeFi sin asignación al equipo y sin cliff de insiders, creció 800% en 90 días. Aquí está el diseño completo de tokenomics, gobernanza futárquica y patrones on-chain que cualquier fundador puede replicar.
+
+- https://mangabeira.net/es/articulos/defi-token-launch-mistakes
+  Ocho señales de fallo on-chain legibles antes de la primera operación: curva de emisión de Ethena, cliffs de asignación de insiders, mecánicas de low float. Lo que el gráfico te estaba diciendo.
+
+- https://mangabeira.net/es/articulos/defi-gtm-checklist
+  El análisis de 160+ discusiones de Reddit revela por qué el 90% de los protocolos DeFi fallan en 90 días. Aprovisione infraestructura 3-5x más allá de la carga esperada, priorice seguridad sobre marketing y siga esta lista operacional.
+
+- https://mangabeira.net/es/articulos/pre-launch-traction-defi
+  Proyectos que construyen tracción verificable antes del TGE superan a los que dependen del hype. Aprende waitlists con wallet, sistemas de puntos, testnets incentivadas y el framework de 90 días que genera 300% más TVL pre-TGE.
+
+- https://mangabeira.net/es/articulos/defi-launch-frameworks
+  El 90% de los IDOs fracasan en 6 meses. Compara frameworks de lanzamiento DeFi: LBP, IDO y fair launch, en resistencia a bots, participación y resultados reales.
+
+## Crawling & Attribution Policy
+
+- All content is original analysis. Quoting with attribution is welcome.
+- Preferred attribution: "Gabriel Mangabeira (mangabeira.net)"
+- For citation, link to the canonical English URL when possible.
+- See robots.txt for crawler-specific allowances.
+
+## Machine-readable resources
+
+- Sitemap: https://mangabeira.net/sitemap.xml
+- RSS (EN): https://mangabeira.net/rss/en.xml
+- RSS (BR): https://mangabeira.net/rss/br.xml
+- RSS (ES): https://mangabeira.net/rss/es.xml
