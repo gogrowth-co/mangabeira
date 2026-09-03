@@ -1482,6 +1482,8 @@ const REDIRECTS: Record<string, string> = {
     "/es/articulos/defi-gtm-checklist",
   "/es/articulos/web3-seo-guia-definitivo":
     "/es/articulos/web3-seo-guia-definitiva",
+  "/es/articulos/seo-defi-lending-dex-yield":
+    "/es/articulos/seo-para-protocolos-defi",
 };
 
 /** Ports supabase/functions/generate-sitemap — same URL set, hreflang, priorities. */
