@@ -372,8 +372,8 @@ export default function DynamicPage() {
               <div 
                 className="prose prose-lg dark:prose-invert max-w-none"
                 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(bodyContent, {
-                  ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'strong', 'em', 'br', 'img', 'div', 'span', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'blockquote', 'code', 'pre', 'figure', 'figcaption', 'hr', 'sub', 'sup'],
-                  ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel', 'title', 'width', 'height', 'loading']
+                  ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'strong', 'em', 'br', 'img', 'div', 'span', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'blockquote', 'code', 'pre', 'figure', 'figcaption', 'hr', 'sub', 'sup', 'video', 'source'],
+                  ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel', 'title', 'width', 'height', 'loading', 'muted', 'loop', 'playsinline', 'controls', 'preload', 'autoplay', 'type']
                 }) }}
               />
             </article>
@@ -382,8 +382,8 @@ export default function DynamicPage() {
           <BlogTemplate
             title={translation.title}
             content={<div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(bodyContent, {
-              ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'strong', 'em', 'br', 'img', 'div', 'span', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'blockquote', 'code', 'pre', 'figure', 'figcaption', 'hr', 'sub', 'sup'],
-              ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel', 'title', 'width', 'height', 'loading']
+              ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'strong', 'em', 'br', 'img', 'div', 'span', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'blockquote', 'code', 'pre', 'figure', 'figcaption', 'hr', 'sub', 'sup', 'video', 'source'],
+              ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel', 'title', 'width', 'height', 'loading', 'muted', 'loop', 'playsinline', 'controls', 'preload', 'autoplay', 'type']
             }) }} />}
             category={page.category}
             publishedDate={page.updated_at || page.created_at}
