@@ -1,0 +1,152 @@
+{
+  "id": "39a5c0df-765f-45be-b805-e59b90c29e5a",
+  "page_id": "299d0293-f2af-4b8a-81c2-e7f89e83970e",
+  "language": "br",
+  "title": "AEO/GEO para Web3: Ser Citado, Não Só Rankeado",
+  "meta_description": "Como ser citado nas AI Overviews como protocolo Web3? O problema real não é visibilidade. É ser citado com os números certos.",
+  "content": "<div class=\"article-content\">\n<p><strong>Como eu consigo ser citado nas AI Overviews do Google?</strong> Publique dados numéricos com timestamps, linke para dashboards ao vivo em vez de screenshots, e estruture as páginas para que um modelo não consiga interpretar errado o número que extrai.</p>\n\n<p>Essa é a parte mecânica. A parte difícil é o que acontece depois que você é citado.</p>\n\n<p>Você resolveu o problema de retrieval. Mas ainda não sabe se o número que a IA cita sobre seu protocolo é realmente verdadeiro.</p>\n\n<p>Este guia mostra como tornar números desatualizados mais difíceis de citar. Uma IA já superestimou o TVL de um protocolo em até 320% e apresentou isso como dado atual.</p>\n\n<p>Correções estruturais para dados desatualizados, schema para crawlers de IA que não executam JavaScript, e o que fazer sobre a lacuna de mensuração. Isso vai além da seção GEO do próprio <a href=\"https://mangabeira.net/publications/definitive-guide-web3-seo\">guia definitivo de SEO para Web3</a>, cobrindo o problema de precisão de citação por trás dela.</p>\n\n<h2>O Que AEO/GEO Realmente Significa para um Protocolo Web3</h2>\n\n<figure>\n<img src=\"https://mangabeira.net/media/web3-aeo-geo-concept-decay.jpg\" alt=\"Fotografia macro de uma linha de gráfico desenhada à mão em papel com textura, com um risco de tinta cruzando-a, brilho abstrato de dashboard ao fundo\" width=\"2048\" height=\"1152\" style=\"width:100%;height:auto;border-radius:8px;\">\n<figcaption>Decaimento de citação, em uma imagem: o ponto riscado é um número que estava correto quando foi publicado e ficou desatualizado desde então, enquanto a corrente (o brilho ao fundo) continua se movendo. IAs continuam servindo o número riscado como se fosse atual. Esse é o problema que este artigo resolve.</figcaption>\n</figure>\n\n<p>AEO (Answer Engine Optimization) e GEO (Generative Engine Optimization) são a prática de fazer com que o conteúdo apareça e seja citado dentro de respostas geradas por IA. Isso inclui as AI Overviews do Google, o modo de busca do ChatGPT, o Perplexity e a busca web do Claude.</p>\n\n<p>Isso importa mais para Web3 do que para a maioria dos setores. As perguntas que as pessoas fazem sobre cripto, como \"qual é o TVL da Lido\" ou \"Pendle é seguro\", são exatamente as perguntas numéricas e sensíveis ao tempo que esses modelos lidam pior.</p>\n\n<p>O SEO tradicional otimiza para uma posição no ranking. O AEO/GEO otimiza para extração.</p>\n\n<p>A questão é se um modelo de linguagem extrai uma frase, uma estatística ou uma afirmação da sua página ao gerar uma resposta. É se o modelo atribui essa afirmação a você, ou, pior, a apresenta como fato sem nenhum crédito.</p>\n\n<figure>\n<img src=\"https://mangabeira.net/media/web3-aeo-geo-brave-answer.png\" alt=\"Resposta de IA do Brave Search afirmando que a Lido tem um TVL atual de aproximadamente 38 bilhões de dólares, enquanto o resultado do DefiLlama logo abaixo mostra 23,06 bilhões\" width=\"2200\" height=\"1418\" style=\"width:100%;height:auto;border-radius:8px;\">\n<figcaption>Resposta de IA do Brave Search para \"what is lido finance current tvl\", capturada em 2 de setembro de 2026. A resposta apresenta $38-39B como dado atual. O resultado do DefiLlama logo abaixo mostra $23,06B. Essa é a lacuna de precisão de citação em um único print.</figcaption>\n</figure>\n\n<p>A mecânica se divide em duas camadas. <strong>Retrieval</strong> é se o crawler do modelo consegue encontrar e interpretar sua página. Isso depende de renderização no servidor, HTML limpo e não bloquear os bots que esses sistemas usam.</p>\n\n<p><strong>Qualidade de extração</strong> é se, uma vez que o modelo tem sua página, ele extrai o fato certo, com o contexto certo, no momento certo.</p>\n\n<p>A maioria dos conselhos de AEO para Web3 para na retrieval e trata ser extraído como a linha de chegada. Não é. Ser extraído com um número desatualizado é uma falha de distribuição disfarçada de vitória.</p>\n\n<p>Para um protocolo DeFi, as perguntas com mais chance de disparar uma AI Overview são numéricas: TVL, APY, supply, número de holders, receita de taxas. Esses também são os dados que mudam todos os dias, às vezes a cada hora. Um modelo que faz retrieval de uma página atualizada pela última vez em janeiro vai declarar esse número desatualizado com a mesma confiança de um número ao vivo.</p>\n\n<h2>Por Que \"Ser Citado\" e \"Ser Citado Corretamente\" São Problemas Diferentes em Cripto</h2>\n\n<p>A maior parte dos conselhos de AEO trata precisão como um problema de formatação: publique números limpos com datas, e o modelo vai acertar. Isso é incompleto para cripto.</p>\n\n<p>A evidência já está documentada na <a href=\"https://mangabeira.net/publications/definitive-guide-web3-seo\">seção GEO</a> do guia principal, que cobre o teste específico. Modelos de IA superestimaram o TVL da Pendle em 244-320% e o da Lido em 80-96%, apresentando esses dados como atuais.</p>\n\n<p>Não vou repetir esses dados aqui. O que importa neste artigo é o padrão que eles revelam.</p>\n\n<p><strong>A lacuna não está em se os modelos citam protocolos Web3. Está em se os números que eles citam ainda são verdadeiros.</strong></p>\n\n<p>Nem mesmo as agências que escrevem o melhor conteúdo de visibilidade em LLM para Web3 estão imunes. Um guia de 2026 amplamente citado afirma que \"a Lido tem $22,3B de TVL em janeiro de 2026.\" Esse número caiu para $17,8B quando foi checado contra os dados ao vivo.</p>\n\n<p>Um número estático, publicado uma vez, continua sendo citado muito depois de deixar de ser verdadeiro. Os modelos não têm como saber a diferença entre um fato e um fóssil.</p>\n\n<p>O mesmo guia é honesto sobre onde isso deixa os profissionais: <strong>\"Auditorias manuais continuam sendo as mais confiáveis para checar precisão.\"</strong> Não existe um sistema automatizado que verifique se um número citado por uma IA sobre seu protocolo ainda está correto. O setor trata dados on-chain como insumo de conteúdo, não como uma camada de verificação que checa o que os modelos dizem de volta.</p>\n\n<div class=\"my-6 p-4 bg-blue-50 dark:bg-blue-950 border-l-4 border-blue-500 rounded-r\">\n  <p class=\"font-semibold text-blue-900 dark:text-blue-100 mb-2\">Insight-chave</p>\n  <p class=\"text-blue-800 dark:text-blue-200\">Um número de TVL errado não é um vexame de marketing em DeFi. É um dado sobre o qual um usuário pode agir. Isso tira o problema do campo de estratégia de conteúdo e coloca em confiança e risco.</p>\n</div>\n\n<h2>As Correções Estruturais: Tornando a Desatualização Mais Difícil de Citar</h2>\n\n<p>Nenhuma das correções aqui é exótica. São as mesmas mudanças estruturais já implementadas na própria seção GEO deste site.</p>\n\n<figure>\n<img src=\"https://mangabeira.net/media/web3-aeo-geo-coingecko-tvl.png\" alt=\"Página da Lido DAO no CoinGecko mostrando um TVL ao vivo de 23,099 bilhões de dólares com a linha de TVL destacada\" width=\"2200\" height=\"2446\" style=\"width:100%;height:auto;border-radius:8px;\">\n<figcaption>Página da Lido no CoinGecko, capturada no mesmo minuto que a resposta de IA acima: um TVL ao vivo e verificável de $23,099B. Páginas estruturadas assim são as que os modelos conseguem verificar.</figcaption>\n</figure>\n\n<p><strong>Widgets ao vivo em vez de números estáticos.</strong> Um número digitado em um parágrafo fica congelado no momento em que é publicado. Um widget que puxa de uma API ou de um dashboard continua atualizado sem que ninguém edite a página.</p>\n\n<p>Se o seu TVL, preço ou APY aparece em uma página que um modelo pode citar, ele deveria vir de uma fonte ao vivo. Não dependa de um screenshot copiado da semana de lançamento.</p>\n\n<p><strong>Timestamps explícitos de \"em [data]\" em cada afirmação numérica.</strong> Isso dá ao leitor humano o contexto para julgar a atualidade, e dá ao modelo um sinal textual de que o número tem prazo de validade. Um número sem data associada parece permanentemente verdadeiro, exatamente o padrão de falha que gerou a superestimativa da Lido acima.</p>\n\n<p><strong>Links diretos para dashboards e APIs nas páginas com mais chance de serem citadas.</strong> Um modelo costuma escolher entre citar seu parágrafo estático ou seguir um link para um dashboard ao vivo. Dê a ele um link do DefiLlama ou do Dune, e é mais provável que ele busque dados atuais em vez da sua última edição.</p>\n\n<div class=\"my-6 p-4 bg-green-50 dark:bg-green-950 border-l-4 border-green-500 rounded-r\">\n  <p class=\"font-semibold text-green-900 dark:text-green-100 mb-2\">Boa prática</p>\n  <p class=\"text-green-800 dark:text-green-200\">Trate toda afirmação numérica em uma página de protocolo como uma data de validade, não como um fato. Se você não confiaria no número de um concorrente sem timestamp, não espere que um leitor confie no seu sem um.</p>\n</div>\n\n<h2>Schema e Densidade de Entidades Nomeadas para Crawlers de IA</h2>\n\n<p>Crawlers de IA não são o Googlebot. GPTBot, ClaudeBot e PerplexityBot não executam nenhum JavaScript. Se os dados-chave do seu protocolo são renderizados no cliente, por um app React que hidrata os dados depois do carregamento da página, esses bots veem uma casca vazia.</p>\n\n<p>O teste do próprio site em agosto de 2026 confirmou que seu Cloudflare Worker serve corretamente conteúdo pré-renderizado exatamente para esses bots. É essa correção que torna o resto deste conselho aplicável.</p>\n\n<p>Antes de investir em schema markup, confirme o básico. A resposta em HTML bruto para esses bots contém seus números de verdade, ou um spinner de carregamento e uma tag de script? A maioria dos sites de protocolos Web3 são single-page apps feitas para um navegador humano, e essa arquitetura é invisível para um bot que nunca executa JavaScript.</p>\n\n<p>Uma vez que a retrieval está sólida, a densidade de entidades importa. Nomeie seu protocolo, seu token e sua categoria de forma consistente ao longo da página. Não alterne entre \"Pendle\", \"o protocolo\" e um ticker sem ancorá-los juntos pelo menos uma vez.</p>\n\n<p>Use schema <code>Article</code> com campos claros de <code>datePublished</code> e <code>dateModified</code>. O schema FAQ é estruturado em torno das perguntas exatas que as pessoas fazem a uma IA. Ele dá aos sistemas de retrieval um par pergunta-resposta pronto, mais fácil de extrair do que um parágrafo perdido no meio do texto.</p>\n\n<div class=\"my-6 p-4 bg-yellow-50 dark:bg-yellow-950 border-l-4 border-yellow-500 rounded-r\">\n  <p class=\"font-semibold text-yellow-900 dark:text-yellow-100 mb-2\">Atenção</p>\n  <p class=\"text-yellow-800 dark:text-yellow-200\">Uma página pode rankear perfeitamente no Google e continuar invisível para crawlers de IA se os números só aparecem depois que o JavaScript do cliente é executado. Confira a resposta em HTML bruto, não a página renderizada.</p>\n</div>\n\n<h2>O Que Medir: Sendo Honesto Sobre a Lacuna</h2>\n\n<p>Aqui está a parte que a maioria do conteúdo de AEO pula porque não tem uma resposta limpa: <strong>ainda não existe um equivalente ao Google Search Console para rastreamento de citações por IA.</strong> Você não consegue puxar um relatório que mostre \"seu protocolo foi citado em 40 respostas do ChatGPT este mês, com estas consultas específicas.\"</p>\n\n<p>Essa infraestrutura não existe de forma confiável e verificada para a maioria das equipes. O que existe: checagens manuais pontuais, rodando as perguntas mais prováveis sobre seu protocolo no ChatGPT search, no Perplexity e na AI Overview do Google em uma cadência regular.</p>\n\n<p>Registre se os números batem com seus dashboards ao vivo. O GA4 pode mostrar um pico de sessões vindas de perplexity.ai ou chatgpt.com como uma proxy aproximada de tráfego de referência.</p>\n\n<p>Ferramentas de visibilidade em IA de terceiros, como a Profound, rastreiam se sua marca é mencionada nos prompts monitorados. Mas elas verificam contra a verdade que você mesmo configura, o que limita quanto você pode confiar no score de precisão para um número como TVL.</p>\n\n<div class=\"my-8 overflow-x-auto\">\n  <table class=\"w-full border-collapse\">\n    <thead>\n      <tr class=\"bg-muted\">\n        <th class=\"p-4 text-left font-semibold border-b-2 border-primary\">Método</th>\n        <th class=\"p-4 text-left font-semibold border-b-2 border-primary\">O que mostra</th>\n        <th class=\"p-4 text-left font-semibold border-b-2 border-primary\">Limitação</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr class=\"hover:bg-muted/50 transition-colors\">\n        <td class=\"p-4 border-b border-border font-medium\">Checagens manuais pontuais</td>\n        <td class=\"p-4 border-b border-border\">Se o ChatGPT, o Perplexity ou a AI Overview declaram o número correto agora</td>\n        <td class=\"p-4 border-b border-border\">Manual, não contínuo, sem histórico</td>\n      </tr>\n      <tr class=\"hover:bg-muted/50 transition-colors\">\n        <td class=\"p-4 border-b border-border font-medium\">Tráfego de referência do GA4</td>\n        <td class=\"p-4 border-b border-border\">Um pico de sessões vindas de perplexity.ai ou chatgpt.com</td>\n        <td class=\"p-4 border-b border-border\">Proxy aproximada, não diz nada sobre a precisão do que foi citado</td>\n      </tr>\n      <tr class=\"hover:bg-muted/50 transition-colors\">\n        <td class=\"p-4 border-b border-border font-medium\">Ferramentas de visibilidade de terceiros (ex: Profound)</td>\n        <td class=\"p-4 border-b border-border\">Se sua marca é mencionada nos prompts monitorados</td>\n        <td class=\"p-4 border-b border-border\">Verifica contra a verdade que você mesmo configura</td>\n      </tr>\n    </tbody>\n  </table>\n</div>\n\n<p>Nada disso substitui um sistema de mensuração real. Se uma ferramenta ou agência disser que consegue te dar um número preciso de citações com confiança total, desconfie da metodologia.</p>\n\n<p>AEO para protocolos Web3 ainda é mais uma disciplina do que um dashboard. Você faz o trabalho estrutural porque é direcionalmente correto, não porque consegue provar o ROI linha por linha.</p>\n\n<p>Essa lacuna de mensuração não é só um problema de conteúdo. É um problema de growth ops que se conecta ao padrão mais amplo em <a href=\"https://mangabeira.net/publications/web3-marketing-metrics-lying\">por que as métricas de marketing Web3 mentem</a>.</p>\n\n<p>Equipes perseguem a métrica fácil de reportar em vez da que é realmente verdadeira. O rastreamento de citações por IA é a versão mais nova dessa armadilha, tão enganosa quanto qualquer número de vaidade do <a href=\"https://mangabeira.net/publications/web3-growth-marketers-defi-playbook\">playbook do growth marketer DeFi</a>.</p>\n\n<h2>Perguntas frequentes</h2>\n\n<h3>Como eu consigo ser citado nas AI Overviews do Google como protocolo Web3?</h3>\n\n<p>Garanta que os dados-chave (TVL, APY, supply, número de holders) apareçam no HTML bruto servido aos crawlers de IA, não só depois que o JavaScript do cliente carrega. Associe uma data a cada afirmação numérica, linke para dashboards ao vivo em vez de screenshots, e use schema FAQ e Article para que o modelo consiga extrair uma resposta limpa.</p>\n\n<h3>Qual é a diferença entre AEO e GEO?</h3>\n\n<p>São, em grande parte, a mesma disciplina vista por dois ângulos. O AEO foca em estruturar o conteúdo para responder perguntas específicas diretamente. O GEO foca na mecânica mais ampla de fazer o conteúdo ser buscado e citado por sistemas de IA generativa. Ambos exigem as mesmas correções: retrieval limpo, respostas diretas, dados verificáveis.</p>\n\n<h3>Por que a precisão de citação é um problema maior em Web3 do que em outros setores?</h3>\n\n<p>Na maioria dos setores, os fatos citados por IA são estáveis: a política de taxas de uma empresa, quem guarda os depósitos dela. Os fatos mais citados de cripto (TVL, APY, supply) são séries numéricas contínuas que mudam todos os dias. Um número preciso quando a página fonte foi escrita pode estar defasado em centenas de pontos percentuais quando um modelo o repete.</p>\n\n<h3>Dá para rastrear com que frequência o ChatGPT ou o Perplexity citam meu protocolo?</h3>\n\n<p>Não de forma confiável, ainda não. Não existe um equivalente ao Search Console para rastreamento de citações por IA. As opções mais próximas são checagens manuais pontuais, tráfego de referência do GA4 vindo de plataformas de IA, e ferramentas de visibilidade de terceiros que verificam contra a verdade que você mesmo fornece, e não uma fonte independente.</p>\n\n<h3>GPTBot, ClaudeBot e PerplexityBot renderizam JavaScript?</h3>\n\n<p>Não. Esses crawlers não executam nenhum JavaScript. Se os dados-chave do seu protocolo carregam no lado do cliente depois da renderização inicial da página, esses bots veem uma página vazia. Qualquer site construído como single-page app precisa de uma correção de renderização no servidor, como um worker de pré-renderização, ou esses bots não conseguem recuperar nada útil.</p>\n</div>",
+  "created_at": "2026-09-03T15:41:55.236562+00:00",
+  "updated_at": "2026-09-03T15:41:55.236562+00:00",
+  "featured_image_alt": "Late-night research desk lit only by a laptop screen showing abstract chat bubbles",
+  "slug": "aeo-geo-web3-citacao-nao-so-ranking",
+  "schema": [
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "AEO/GEO para Web3: Ser Citado, Não Só Rankeado",
+      "description": "Como ser citado nas AI Overviews como protocolo Web3? O problema real não é visibilidade. É ser citado com os números certos.",
+      "image": "https://mangabeira.net/media/web3-aeo-geo-cover.png",
+      "author": {
+        "url": "https://mangabeira.net",
+        "name": "Gabriel Mangabeira",
+        "@type": "Person",
+        "image": "https://mangabeira.net/images/gabriel-professional-about.png",
+        "sameAs": [
+          "https://x.com/manga82",
+          "https://linkedin.com/in/mangabeira"
+        ],
+        "jobTitle": "Web3 Growth Marketing Strategist",
+        "description": "Growth marketing expert specializing in Web3, DeFi, and tokenomics. Former growth lead at Binance and IOC."
+      },
+      "datePublished": "2026-09-03T15:41:55.236562+00:00",
+      "dateModified": "2026-09-03T15:41:55.236562+00:00",
+      "inLanguage": "pt-BR",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://mangabeira.net/br/artigos/aeo-geo-web3-citacao-nao-so-ranking"
+      },
+      "isPartOf": {
+        "@type": "WebPage",
+        "name": "The Definitive Guide to Web3 SEO",
+        "@id": "https://mangabeira.net/publications/definitive-guide-web3-seo"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Como eu consigo ser citado nas AI Overviews do Google como protocolo Web3?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Garanta que os dados-chave (TVL, APY, supply, número de holders) apareçam no HTML bruto servido aos crawlers de IA, não só depois que o JavaScript do cliente carrega. Associe uma data a cada afirmação numérica, linke para dashboards ao vivo em vez de screenshots, e use schema FAQ e Article para que o modelo consiga extrair uma resposta limpa."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Qual é a diferença entre AEO e GEO?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "São, em grande parte, a mesma disciplina vista por dois ângulos. O AEO foca em estruturar o conteúdo para responder perguntas específicas diretamente. O GEO foca na mecânica mais ampla de fazer o conteúdo ser buscado e citado por sistemas de IA generativa. Ambos exigem as mesmas correções: retrieval limpo, respostas diretas, dados verificáveis."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Por que a precisão de citação é um problema maior em Web3 do que em outros setores?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Na maioria dos setores, os fatos citados por IA são estáveis: a política de taxas de uma empresa, quem guarda os depósitos dela. Os fatos mais citados de cripto (TVL, APY, supply) são séries numéricas contínuas que mudam todos os dias. Um número preciso quando a página fonte foi escrita pode estar defasado em centenas de pontos percentuais quando um modelo o repete."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Dá para rastrear com que frequência o ChatGPT ou o Perplexity citam meu protocolo?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Não de forma confiável, ainda não. Não existe um equivalente ao Search Console para rastreamento de citações por IA. As opções mais próximas são checagens manuais pontuais, tráfego de referência do GA4 vindo de plataformas de IA, e ferramentas de visibilidade de terceiros que verificam contra a verdade que você mesmo fornece, e não uma fonte independente."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "GPTBot, ClaudeBot e PerplexityBot renderizam JavaScript?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Não. Esses crawlers não executam nenhum JavaScript. Se os dados-chave do seu protocolo carregam no lado do cliente depois da renderização inicial da página, esses bots veem uma página vazia. Qualquer site construído como single-page app precisa de uma correção de renderização no servidor, como um worker de pré-renderização, ou esses bots não conseguem recuperar nada útil."
+          }
+        }
+      ]
+    },
+    {
+      "url": "https://mangabeira.net",
+      "name": "Gabriel Mangabeira",
+      "@type": "Person",
+      "image": "https://mangabeira.net/images/gabriel-professional-about.png",
+      "sameAs": [
+        "https://x.com/manga82",
+        "https://linkedin.com/in/mangabeira"
+      ],
+      "@context": "https://schema.org",
+      "alumniOf": [
+        {
+          "name": "University of Florida",
+          "@type": "Organization"
+        },
+        {
+          "name": "Coca-Cola Company",
+          "@type": "Organization"
+        },
+        {
+          "name": "Binance",
+          "@type": "Organization"
+        },
+        {
+          "name": "International Olympic Committee",
+          "@type": "Organization"
+        }
+      ],
+      "jobTitle": "Web3 Growth Marketing Strategist",
+      "knowsAbout": [
+        "Web3 Marketing",
+        "Tokenomics",
+        "DeFi",
+        "NFT Strategy",
+        "Community Building",
+        "Growth Marketing",
+        "Sports Tokens",
+        "On-Chain Attribution",
+        "Token Utility Design",
+        "Liquidity Mining",
+        "Protocol Growth",
+        "Capital Efficiency"
+      ],
+      "description": "Growth marketing expert specializing in Web3, DeFi, and tokenomics. Former growth lead at Binance and IOC."
+    },
+    {
+      "url": "https://mangabeira.net",
+      "logo": "https://mangabeira.net/images/swimming-icon.png",
+      "name": "Mangabeira.net",
+      "@type": "Organization",
+      "sameAs": [
+        "https://x.com/manga82",
+        "https://linkedin.com/in/mangabeira"
+      ],
+      "founder": {
+        "name": "Gabriel Mangabeira",
+        "@type": "Person"
+      },
+      "@context": "https://schema.org",
+      "description": "Web3 growth marketing expertise and consulting for DeFi, NFT, and token projects"
+    }
+  ]
+}

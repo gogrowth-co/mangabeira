@@ -1,0 +1,152 @@
+{
+  "id": "1940a599-12cb-4894-a13c-950137a08481",
+  "page_id": "f5d19eb5-f692-4751-bd90-8ce1e86915b9",
+  "language": "en",
+  "title": "SEO for dApps: Making an Unindexable Product Findable",
+  "meta_description": "Most dApps can't be crawled by design. Here's how to treat the app and its marketing site as one indexation system, so search still finds you.",
+  "content": "<div class=\"article-content\">\n<p>Type a protocol's name into Google. The top result is the marketing site, never the app.</p>\n\n<p>That's not a fluke. Wallet gates and client-side rendering keep the product invisible to crawlers.</p>\n\n<p>You've polished the marketing copy. The app, the actual product, still ranks for nothing.</p>\n\n<p><strong>Treat the app and the marketing site as one indexation system, and both start ranking.</strong> Uniswap, Aave, and Curve already run this split.</p>\n\n<p>This piece covers what belongs on <code>app.*</code> versus <code>www.*</code>, wallet-gated content, and why pool and pair pages are the real entry point. It also covers the deep-link URL mess programmatic pages create.</p>\n\n<p>It's the app-frontend layer of the <a href=\"https://mangabeira.net/publications/definitive-guide-web3-seo\">definitive guide to Web3 SEO and AEO</a>. It doesn't cover the site-wide rendering pipeline. <a href=\"/publications/web3-technical-seo\">the Web3 Technical SEO piece</a>.</p>\n\n<h2>Why dApps are invisible to search by default</h2>\n\n<p><strong>A dApp is invisible to search by default because its core interface renders after a wallet connects, and search crawlers don't connect wallets.</strong></p>\n\n<p>Most dApp frontends are single-page apps. The initial HTML payload is a shell. Everything a user cares about loads after JavaScript executes, and often after a wallet signs a request.</p>\n\n<p>!<a href=\"/images/web3-seo-cluster/inline-seo-for-dapps.png\">The dApp indexation system: app vs www vs docs</a></p>\n\n<p>Googlebot doesn't hold a wallet or wait on a slow RPC call. It sees whatever renders in the disconnected state, and nothing past that. Web3 makes this worse in three ways:</p>\n\n<ul><li><strong>The wallet gate sits earlier than a typical auth wall</strong>, often on the app's landing view itself.</li>\n<li><strong>The data is the content.</strong> A pool's APY, a vault's TVL, a funding rate are exactly what search engines want, and exactly what's locked behind wallet-tied client-side fetches.</li>\n<li><strong>Teams don't separate the product from the pitch.</strong> The marketing site stays generic (\"the future of decentralized X\") because the team assumes the app will eventually be found. It won't be, without deliberate architecture.</li></ul>\n\n<div class=\"my-6 p-4 bg-blue-50 dark:bg-blue-950 border-l-4 border-blue-500 rounded-r\">\n  <p class=\"font-semibold text-blue-900 dark:text-blue-100 mb-2\">Key Insight</p>\n  <p class=\"text-blue-800 dark:text-blue-200\">The dApp shell will never rank. <strong>The job isn't to make the app indexable, it's to make specific slices of its data indexable somewhere the crawler can actually reach.</strong></p>\n</div>\n\n<h2>The app/marketing split: what belongs where, and how authority flows</h2>\n\n<p>Every protocol with real traction ends up running two properties: <code>app.project.xyz</code> (the product) and <code>www.project.xyz</code> (the marketing site). Treating them as one indexation system means being explicit about which owns what.</p>\n\n<p><strong><code>www.*</code> should own:</strong> the homepage and positioning, feature pages for someone who hasn't connected a wallet, and docs and blog content. It also owns any programmatic pages surfacing product data for logged-out users.</p>\n\n<p><strong><code>app.*</code> should own:</strong> the transacting interface, anything requiring a wallet to be meaningful, and real-time state too fast-moving to index.</p>\n\n<p>The mistake most teams make is putting everything on <code>app.*</code>, or leaving <code>www.*</code> with nothing but adjectives, assuming the app will speak for itself. Both leave the marketing site with nothing specific enough to rank for a real query.</p>\n\n<p>Uniswap runs marketing and docs on <code>uniswap.org</code>, with the swap interface on <code>app.uniswap.org</code>. Aave does the same: <code>aave.com</code> carries positioning and governance content, while the transacting interface sits at <code>app.aave.com</code>.</p>\n\n<p>Curve keeps its main site at <code>curve.fi</code> with the app UI reachable through its own paths. Structural observations, not ranking claims.</p>\n\n<p><strong>Authority flows from <code>www.*</code> to <code>app.*</code> through internal linking and, more importantly, backlinks that land on the marketing site.</strong> That's the property people write about and cite. A generic homepage with nothing worth linking to leaves that authority on the table.</p>\n\n<div class=\"my-6 p-4 bg-yellow-50 dark:bg-yellow-950 border-l-4 border-yellow-500 rounded-r\">\n  <p class=\"font-semibold text-yellow-900 dark:text-yellow-100 mb-2\">Watch out for</p>\n  <p class=\"text-yellow-800 dark:text-yellow-200\">A subdomain split doesn't automatically share ranking signals the way subfolders would. Deliberate internal linking between `app.*` and `www.*` matters more, not less.</p>\n</div>\n\n<h2>Wallet-gated content: what crawlers actually see</h2>\n\n<figure>\n<img src=\"https://mangabeira.net/media/seo-for-dapps-wallet-gate.png\" alt=\"Aave's transaction history page without a wallet connected, showing only a please-connect-your-wallet prompt\" width=\"2200\" height=\"2308\" style=\"width:100%;height:auto;border-radius:8px;\">\n<figcaption>Aave's transaction-history view with no wallet connected, captured Sep 3, 2026. Everything behind the connect wall looks like this to a crawler: a prompt and nothing to index.</figcaption>\n</figure>\n\n<figure>\n<video src=\"https://mangabeira.net/media/seo-for-dapps-wallet-gate-loop.mp4\" width=\"720\" height=\"900\" muted loop playsinline controls preload=\"metadata\" style=\"width:100%;max-width:520px;height:auto;border-radius:8px;\"></video>\n<figcaption>The same dead end, happening: the gated route loading to its permanent connect-wallet state. Recorded Sep 2, 2026, 8-second loop.</figcaption>\n</figure>\n\n<p>The connect-wallet wall isn't the problem. Not knowing what's on either side of it is.</p>\n\n<p>Pull up the app in an incognito tab without connecting a wallet, and look at what renders. That's what Googlebot sees: for a lot of dApps, a connect-wallet button and nothing else. There's no reason for a crawler to associate the URL with any query.</p>\n\n<p><strong>The fix isn't unlocking the app for crawlers. It's pre-rendering the logged-out state with real content instead of a wall.</strong></p>\n\n<div class=\"my-8 p-6 bg-muted/30 rounded-lg border border-border\">\n  <h3 class=\"text-xl font-bold mb-4\">The pre-render fix, not the unlock fix</h3>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span><strong>Serve a meaningful default view before connection.</strong> A DEX can show pool composition, prices, and volume without a wallet. The wallet is only needed to transact, not to see the data.</span>\n  </label>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span><strong>Pre-render, don't just client-side render.</strong> The HTML reaching the crawler should already contain the content, not an empty shell waiting on a fetch.</span>\n  </label>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span><strong>Route crawler-relevant data to `www.*` when possible.</strong> If the app can't be restructured, mirror the key data points as static pages on the marketing site.</span>\n  </label>\n</div>\n\n<p>None of this compromises the wallet gate. Nobody is arguing the app should let an anonymous crawler execute a swap. The data describing what's available shouldn't be invisible until after connection, because that's exactly what people search for.</p>\n\n<h2>Programmatic surfaces: pool, pair, and vault pages as the real entry point</h2>\n\n<p>For most DeFi and DEX protocols, organic traffic doesn't arrive at the homepage. It arrives at a specific pool page, trading pair, or vault. That's what people actually type into Google: a token pair, a chain name, a yield figure.</p>\n\n<p><strong>These programmatic pages, one per pool, pair, vault, or market, are the dApp's real organic entry point</strong>, not the homepage. A protocol with 400 pools has 400 potential landing pages, each targeting a long-tail query few competitors are building for.</p>\n\n<p>Building these well means solving the duplicate-content problem any large programmatic page set runs into. Pages share a template and differ only in the data, risking a thin-content read.</p>\n\n<p>The mechanics of a duplicate-content-safe page set are covered in the DeFi protocol SEO piece in this cluster. <a href=\"/publications/defi-protocol-seo\">the DeFi Protocol SEO piece</a>.</p>\n\n<p>What matters here is simpler: <strong>decide early whether these pages live on <code>app.*</code> or <code>www.*</code></strong>, and pre-render them regardless of which wins. A pool page that only resolves after a wallet connects has zero chance of ranking for the query it was built for.</p>\n\n<div class=\"my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4\">\n  <div class=\"p-4 bg-muted/30 rounded-lg border border-border hover:border-primary transition-colors\">\n    <div class=\"text-3xl font-bold text-primary mb-2\">1</div>\n    <div class=\"text-sm text-muted-foreground\">Homepage or generic app shell</div>\n    <div class=\"text-xs text-muted-foreground mt-1\">Rarely a real search entry point</div>\n  </div>\n  <div class=\"p-4 bg-muted/30 rounded-lg border border-border hover:border-primary transition-colors\">\n    <div class=\"text-3xl font-bold text-primary mb-2\">N</div>\n    <div class=\"text-sm text-muted-foreground\">Pool / pair / vault pages</div>\n    <div class=\"text-xs text-muted-foreground mt-1\">One per market the protocol lists</div>\n  </div>\n  <div class=\"p-4 bg-muted/30 rounded-lg border border-border hover:border-primary transition-colors\">\n    <div class=\"text-3xl font-bold text-primary mb-2\">Pre-render</div>\n    <div class=\"text-sm text-muted-foreground\">Required for any of these to be crawlable</div>\n    <div class=\"text-xs text-muted-foreground mt-1\">Client-side only means zero indexation</div>\n  </div>\n  <div class=\"p-4 bg-muted/30 rounded-lg border border-border hover:border-primary transition-colors\">\n    <div class=\"text-3xl font-bold text-primary mb-2\">1 URL</div>\n    <div class=\"text-sm text-muted-foreground\">Per market, canonical</div>\n    <div class=\"text-xs text-muted-foreground mt-1\">Not one per parameter permutation</div>\n  </div>\n</div>\n\n<h2>Deep links into app state: canonical handling for parameter chaos</h2>\n\n<p>Deep-linkable app state is a feature for users and a canonicalization problem for search. A URL like <code>app.project.xyz/swap?chain=arbitrum&pool=usdc-eth&ref=abc123</code> lets someone share a specific setup. But the same content, the USDC/ETH pool on Arbitrum, becomes reachable through dozens of parameter permutations: chain order, referral tags, UTM parameters, sort states.</p>\n\n<p>Left alone, a crawler can split ranking signal across duplicates, or write off the whole cluster as low-value.</p>\n\n<p><strong>Three fixes cover most of this:</strong></p>\n\n<div class=\"my-8 p-6 bg-muted/30 rounded-lg border border-border\">\n  <h3 class=\"text-xl font-bold mb-4\">Canonicalizing deep-link chaos</h3>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span><strong>Canonical tags pointing at the clean URL.</strong> Every parameter variation should carry a `rel=canonical` pointing at the single, parameter-free version.</span>\n  </label>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span><strong>A consistent parameter order, or none, in the canonical version.</strong> Pick one and make every internal link point at it.</span>\n  </label>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span><strong>Strip tracking and referral parameters before they reach the canonical structure.</strong> They belong in redirect logic or analytics, not the URL a search engine treats as the page's identity.</span>\n  </label>\n</div>\n\n<p>This is one slice of a larger rendering and schema question. It belongs to the technical SEO side of this cluster, not the app-frontend piece. <a href=\"/publications/web3-technical-seo\">the Web3 Technical SEO piece</a>.</p>\n\n<h2>What to measure: which GSC segments actually reflect dApp discovery</h2>\n\n<p>Once the split is built and pages are pre-rendered, the question becomes whether it's working. GSC is the primary tool, and the trap is looking at the wrong segment.</p>\n\n<p>Aggregate clicks and impressions blend the homepage, blog, docs, and every pool page into one number, which won't say whether dApp discovery is working. Two segments matter more:</p>\n\n<div class=\"my-8 p-6 bg-muted/30 rounded-lg border border-border\">\n  <h3 class=\"text-xl font-bold mb-4\">The two GSC segments that actually tell you</h3>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span><strong>Filter GSC's Performance report by URL path prefix</strong>, isolating `/pools/`, `/vaults/`, or `/pairs/`, to see whether that strategy is generating discovery independent of blog or docs traffic.</span>\n  </label>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span><strong>Check the URL Inspection tool on a sample of programmatic pages directly.</strong> \"Crawled, currently indexed\" versus \"Discovered, currently not indexed\" is the fastest way to catch a pre-rendering failure before it becomes a traffic problem.</span>\n  </label>\n</div>\n\n<p>A protocol that only looks at homepage traffic will conclude the effort isn't working, when the real signal sits in a segment nobody filtered for.</p>\n\n<h2>The launch case: why this matters before TGE too</h2>\n\n<p>Everything above assumes a live protocol with existing pools. The same decisions, <code>app.*</code> versus <code>www.*</code>, pre-rendering the logged-out state, matter just as much pre-TGE. The only difference: a testnet interface and a waitlist instead of live pools.</p>\n\n<div class=\"my-6 p-4 bg-blue-50 dark:bg-blue-950 border-l-4 border-blue-500 rounded-r\">\n  <p class=\"font-semibold text-blue-900 dark:text-blue-100 mb-2\">Key Insight</p>\n  <p class=\"text-blue-800 dark:text-blue-200\">Getting the app/marketing split right before launch means the marketing site already carries the authority it needs the moment real pool pages go live.</p>\n</div>\n\n<h2>FAQ</h2>\n\n<h3>Can a dApp interface itself ever rank in Google?</h3>\n\n<p>Rarely, and it's not the right goal. The realistic target is the logged-out, pre-rendered surfaces around it: pool pages, market pages, and the marketing site.</p>\n\n<h3>Should the app and marketing site be on the same domain or separate subdomains?</h3>\n\n<p>Either works, but subdomains are more common, since teams can ship app updates without touching the marketing codebase. The trade-off: authority doesn't flow as freely between subdomains as subfolders, so internal linking has to be deliberate.</p>\n\n<h3>Why do wallet-gated pages hurt SEO specifically?</h3>\n\n<p>Search crawlers don't connect wallets. If the meaningful content, prices, rates, pool data, only appears post-connection, the crawler indexes an empty shell instead of the content someone actually searched for.</p>\n\n<h3>How many programmatic pool or pair pages is too many?</h3>\n\n<p>No fixed ceiling, but risk rises when page count outpaces real data. A pool with genuine volume and rate data reads as distinct content. A pool with near-zero activity and only a shared template reads as thin, duplicate content.</p>\n\n<h3>What's the first thing a team should check if dApp SEO isn't working?</h3>\n\n<p>Open the app in an incognito tab without connecting a wallet, and look at what renders. If it's a connect-wallet prompt and nothing else, that's what every crawler sees too, and it's the root cause behind most dApp discovery problems.</p>\n\n<h2>Where this leaves the discovery gap</h2>\n\n<p>A dApp doesn't need to become crawlable to be findable. It needs its team to stop treating the app and marketing site as separate problems. Positioning and programmatic data belong on <code>www.*</code>, the transacting interface on <code>app.*</code>, and pre-rendered logged-out views wherever real search queries are pointed.</p>\n\n<p><strong>Read the full framework this satellite sits inside.</strong> The <a href=\"https://mangabeira.net/publications/definitive-guide-web3-seo\">definitive guide to Web3 SEO and AEO</a> covers how this app-frontend layer fits alongside the technical stack and protocol-type content strategy.</p>\n\n<p>The 6-pillar audit covers the dApp pillar alongside Website, Social, Community, SEO, and PR. It's a scoped, async read on where a team's own discovery gap sits: <a href=\"https://mangabeira.net/services/web3-growth-audit\">Web3 Growth Audit</a>.</p>\n</div>",
+  "created_at": "2026-09-03T15:41:55.236562+00:00",
+  "updated_at": "2026-09-03T15:41:55.236562+00:00",
+  "featured_image_alt": "Padlock in darkness with warm light beyond, standing for a wallet-gated product",
+  "slug": "seo-for-dapps",
+  "schema": [
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "SEO for dApps: Making an Unindexable Product Findable",
+      "description": "Most dApps can't be crawled by design. Here's how to treat the app and its marketing site as one indexation system, so search still finds you.",
+      "image": "https://mangabeira.net/media/seo-for-dapps-cover.jpg",
+      "author": {
+        "url": "https://mangabeira.net",
+        "name": "Gabriel Mangabeira",
+        "@type": "Person",
+        "image": "https://mangabeira.net/images/gabriel-professional-about.png",
+        "sameAs": [
+          "https://x.com/manga82",
+          "https://linkedin.com/in/mangabeira"
+        ],
+        "jobTitle": "Web3 Growth Marketing Strategist",
+        "description": "Growth marketing expert specializing in Web3, DeFi, and tokenomics. Former growth lead at Binance and IOC."
+      },
+      "datePublished": "2026-09-03T15:41:55.236562+00:00",
+      "dateModified": "2026-09-03T15:41:55.236562+00:00",
+      "inLanguage": "en",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://mangabeira.net/publications/seo-for-dapps"
+      },
+      "isPartOf": {
+        "@type": "WebPage",
+        "name": "The Definitive Guide to Web3 SEO",
+        "@id": "https://mangabeira.net/publications/definitive-guide-web3-seo"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can a dApp interface itself ever rank in Google?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Rarely, and it's not the right goal. The realistic target is the logged-out, pre-rendered surfaces around it: pool pages, market pages, and the marketing site."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should the app and marketing site be on the same domain or separate subdomains?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Either works, but subdomains are more common, since teams can ship app updates without touching the marketing codebase. The trade-off: authority doesn't flow as freely between subdomains as subfolders, so internal linking has to be deliberate."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why do wallet-gated pages hurt SEO specifically?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Search crawlers don't connect wallets. If the meaningful content, prices, rates, pool data, only appears post-connection, the crawler indexes an empty shell instead of the content someone actually searched for."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many programmatic pool or pair pages is too many?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No fixed ceiling, but risk rises when page count outpaces real data. A pool with genuine volume and rate data reads as distinct content. A pool with near-zero activity and only a shared template reads as thin, duplicate content."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's the first thing a team should check if dApp SEO isn't working?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Open the app in an incognito tab without connecting a wallet, and look at what renders. If it's a connect-wallet prompt and nothing else, that's what every crawler sees too, and it's the root cause behind most dApp discovery problems."
+          }
+        }
+      ]
+    },
+    {
+      "url": "https://mangabeira.net",
+      "name": "Gabriel Mangabeira",
+      "@type": "Person",
+      "image": "https://mangabeira.net/images/gabriel-professional-about.png",
+      "sameAs": [
+        "https://x.com/manga82",
+        "https://linkedin.com/in/mangabeira"
+      ],
+      "@context": "https://schema.org",
+      "alumniOf": [
+        {
+          "name": "University of Florida",
+          "@type": "Organization"
+        },
+        {
+          "name": "Coca-Cola Company",
+          "@type": "Organization"
+        },
+        {
+          "name": "Binance",
+          "@type": "Organization"
+        },
+        {
+          "name": "International Olympic Committee",
+          "@type": "Organization"
+        }
+      ],
+      "jobTitle": "Web3 Growth Marketing Strategist",
+      "knowsAbout": [
+        "Web3 Marketing",
+        "Tokenomics",
+        "DeFi",
+        "NFT Strategy",
+        "Community Building",
+        "Growth Marketing",
+        "Sports Tokens",
+        "On-Chain Attribution",
+        "Token Utility Design",
+        "Liquidity Mining",
+        "Protocol Growth",
+        "Capital Efficiency"
+      ],
+      "description": "Growth marketing expert specializing in Web3, DeFi, and tokenomics. Former growth lead at Binance and IOC."
+    },
+    {
+      "url": "https://mangabeira.net",
+      "logo": "https://mangabeira.net/images/swimming-icon.png",
+      "name": "Mangabeira.net",
+      "@type": "Organization",
+      "sameAs": [
+        "https://x.com/manga82",
+        "https://linkedin.com/in/mangabeira"
+      ],
+      "founder": {
+        "name": "Gabriel Mangabeira",
+        "@type": "Person"
+      },
+      "@context": "https://schema.org",
+      "description": "Web3 growth marketing expertise and consulting for DeFi, NFT, and token projects"
+    }
+  ]
+}

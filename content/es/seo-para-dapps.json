@@ -1,0 +1,152 @@
+{
+  "id": "90524969-f3e1-4ca5-8e81-0f80872d7912",
+  "page_id": "f5d19eb5-f692-4751-bd90-8ce1e86915b9",
+  "language": "es",
+  "title": "SEO para dApps: Cómo Hacer Encontrable un Producto Inindexable",
+  "meta_description": "Las dApps no pueden rastrearse por diseño. Trata la app y el sitio de marketing como un solo sistema de indexación, para que la búsqueda te encuentre.",
+  "content": "<div class=\"article-content\">\n<p>Escribe el nombre de un protocolo en Google. El primer resultado es el sitio de marketing, nunca la app.</p>\n\n<p>No es casualidad. Los wallet gates y el renderizado del lado del cliente mantienen el producto invisible para los crawlers.</p>\n\n<p>Puliste el copy de marketing. La app, el producto real, sigue sin rankear para nada.</p>\n\n<p><strong>Trata la app y el sitio de marketing como un solo sistema de indexación, y ambos empiezan a rankear.</strong> Uniswap, Aave y Curve ya operan con esta división.</p>\n\n<p>Este texto cubre qué pertenece a <code>app.*</code> versus <code>www.*</code>, el contenido detrás de wallet gate, y por qué las páginas de pool y par son el verdadero punto de entrada. También cubre el desorden de URLs de deep link que crean las páginas programáticas.</p>\n\n<p>Es la capa de app-frontend de la <a href=\"https://mangabeira.net/publications/definitive-guide-web3-seo\">guía definitiva de SEO y AEO para Web3</a>. No cubre el pipeline de renderizado de todo el sitio. <a href=\"/publications/web3-technical-seo\">el texto de SEO Técnico para Web3</a>.</p>\n\n<h2>Por qué las dApps son invisibles para la búsqueda por defecto</h2>\n\n<p><strong>Una dApp es invisible para la búsqueda por defecto porque su interfaz principal se renderiza después de que se conecta una wallet, y los crawlers de búsqueda no conectan wallets.</strong></p>\n\n<p>La mayoría de los frontends de dApp son single-page apps. El payload de HTML inicial es una cáscara vacía. Todo lo que le importa al usuario carga después de que se ejecuta el JavaScript, y muchas veces después de que una wallet firma una solicitud.</p>\n\n<p>!<a href=\"/images/web3-seo-cluster/inline-seo-for-dapps.png\">El sistema de indexación de la dApp: app vs www vs docs</a></p>\n\n<p>Googlebot no sostiene una wallet ni espera una llamada RPC lenta. Ve lo que se renderiza en el estado desconectado, y nada más. Web3 empeora esto de tres formas:</p>\n\n<ul><li><strong>El wallet gate aparece antes que un muro de autenticación típico</strong>, muchas veces ya en la propia pantalla de entrada de la app.</li>\n<li><strong>El dato es el contenido.</strong> El APY de una pool, el TVL de un vault, una funding rate son exactamente lo que buscan los motores de búsqueda, y exactamente lo que queda encerrado detrás de llamadas del lado del cliente atadas a la wallet.</li>\n<li><strong>Los equipos no separan el producto del discurso de venta.</strong> El sitio de marketing se queda genérico (\"el futuro de X descentralizado\") porque el equipo asume que la app eventualmente será encontrada. No lo será, sin una arquitectura deliberada.</li></ul>\n\n<div class=\"my-6 p-4 bg-blue-50 dark:bg-blue-950 border-l-4 border-blue-500 rounded-r\">\n  <p class=\"font-semibold text-blue-900 dark:text-blue-100 mb-2\">Insight clave</p>\n  <p class=\"text-blue-800 dark:text-blue-200\">La cáscara de la dApp nunca va a rankear. <strong>La tarea no es hacer indexable la app, es hacer indexables partes específicas de sus datos en algún lugar que el crawler pueda alcanzar.</strong></p>\n</div>\n\n<h2>La división app/marketing: qué pertenece a cada lado, y cómo fluye la autoridad</h2>\n\n<p>Todo protocolo con tracción real termina operando dos propiedades: <code>app.proyecto.xyz</code> (el producto) y <code>www.proyecto.xyz</code> (el sitio de marketing). Tratarlas como un solo sistema de indexación significa ser explícito sobre quién es dueño de qué.</p>\n\n<p><strong>El <code>www.*</code> debe ser dueño de:</strong> la homepage y el posicionamiento, páginas de funciones para alguien que no conectó una wallet, y el contenido de docs y blog. También es dueño de cualquier página programática que muestre datos del producto para usuarios sin sesión.</p>\n\n<p><strong>El <code>app.*</code> debe ser dueño de:</strong> la interfaz de transacción, todo lo que solo tiene sentido con una wallet, y el estado en tiempo real demasiado rápido para indexar.</p>\n\n<p>El error que comete la mayoría de los equipos es poner todo en <code>app.*</code>, o dejar el <code>www.*</code> con nada más que adjetivos, asumiendo que la app va a hablar por sí sola. Ambos dejan al sitio de marketing sin nada lo bastante específico para rankear en una búsqueda real.</p>\n\n<p>Uniswap opera marketing y docs en <code>uniswap.org</code>, con la interfaz de swap en <code>app.uniswap.org</code>. Aave hace lo mismo: <code>aave.com</code> lleva el posicionamiento y el contenido de gobernanza, mientras que la interfaz de transacción está en <code>app.aave.com</code>.</p>\n\n<p>Curve mantiene su sitio principal en <code>curve.fi</code>, con la interfaz de la app accesible por sus propias rutas. Observaciones estructurales, no afirmaciones de ranking.</p>\n\n<p><strong>La autoridad fluye de <code>www.*</code> a <code>app.*</code> mediante enlaces internos y, más importante, backlinks que caen en el sitio de marketing.</strong> Esa es la propiedad sobre la que la gente escribe y a la que cita. Una homepage genérica, sin nada que valga la pena enlazar, deja esa autoridad sobre la mesa.</p>\n\n<div class=\"my-6 p-4 bg-yellow-50 dark:bg-yellow-950 border-l-4 border-yellow-500 rounded-r\">\n  <p class=\"font-semibold text-yellow-900 dark:text-yellow-100 mb-2\">Atención</p>\n  <p class=\"text-yellow-800 dark:text-yellow-200\">Una división en subdominios no comparte automáticamente las señales de ranking como lo harían las subcarpetas. Los enlaces internos deliberados entre `app.*` y `www.*` importan más, no menos.</p>\n</div>\n\n<h2>Contenido detrás de wallet gate: qué ven realmente los crawlers</h2>\n\n<figure>\n<img src=\"https://mangabeira.net/media/seo-for-dapps-wallet-gate.png\" alt=\"Página de historial de transacciones de Aave sin wallet conectada, mostrando solo un aviso para conectar la wallet\" width=\"2200\" height=\"2308\" style=\"width:100%;height:auto;border-radius:8px;\">\n<figcaption>Vista del historial de transacciones de Aave sin wallet conectada, capturada el 3 de septiembre de 2026. Todo lo que está detrás del muro de conexión se ve así para un crawler: un aviso y nada que indexar.</figcaption>\n</figure>\n\n<figure>\n<video src=\"https://mangabeira.net/media/seo-for-dapps-wallet-gate-loop.mp4\" width=\"720\" height=\"900\" muted loop playsinline controls preload=\"metadata\" style=\"width:100%;max-width:520px;height:auto;border-radius:8px;\"></video>\n<figcaption>El mismo callejón sin salida, en acción: la ruta bloqueada cargando hasta su estado permanente de \"conecta tu wallet\". Grabado el 2 de septiembre de 2026, loop de 8 segundos.</figcaption>\n</figure>\n\n<p>El muro de conectar wallet no es el problema. No saber qué hay a cada lado sí lo es.</p>\n\n<p>Abre la app en una pestaña de incógnito sin conectar una wallet, y mira qué se renderiza. Eso es lo que ve Googlebot: para muchas dApps, un botón de conectar wallet y nada más. No hay razón para que un crawler asocie esa URL con ninguna búsqueda.</p>\n\n<p><strong>La solución no es desbloquear la app para los crawlers. Es prerrenderizar el estado sin sesión con contenido real en lugar de un muro.</strong></p>\n\n<div class=\"my-8 p-6 bg-muted/30 rounded-lg border border-border\">\n  <h3 class=\"text-xl font-bold mb-4\">La solución de prerrenderizado, no la de desbloqueo</h3>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span><strong>Sirve una vista predeterminada con sentido antes de la conexión.</strong> Un DEX puede mostrar composición de pool, precios y volumen sin una wallet. La wallet solo hace falta para transaccionar, no para ver los datos.</span>\n  </label>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span><strong>Prerrenderiza, no solo renderices del lado del cliente.</strong> El HTML que llega al crawler ya debería contener el contenido, no una cáscara vacía esperando una llamada.</span>\n  </label>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span><strong>Dirige los datos relevantes para el crawler hacia `www.*` cuando sea posible.</strong> Si la app no se puede reestructurar, refleja los puntos de datos clave como páginas estáticas en el sitio de marketing.</span>\n  </label>\n</div>\n\n<p>Nada de esto compromete el wallet gate. Nadie está proponiendo que la app deje a un crawler anónimo ejecutar un swap. El dato que describe lo disponible no debería quedar invisible hasta después de la conexión, porque eso es exactamente lo que la gente busca.</p>\n\n<h2>Superficies programáticas: páginas de pool, par y vault como el verdadero punto de entrada</h2>\n\n<p>Para la mayoría de los protocolos DeFi y DEX, el tráfico orgánico no llega a la homepage. Llega a una página de pool específica, un par de trading o un vault. Eso es lo que la gente realmente escribe en Google: un par de tokens, el nombre de una chain, una cifra de rendimiento.</p>\n\n<p><strong>Estas páginas programáticas, una por pool, par, vault o mercado, son el verdadero punto de entrada orgánico de la dApp</strong>, no la homepage. Un protocolo con 400 pools tiene 400 páginas de destino potenciales, cada una apuntando a una búsqueda de cola larga que pocos competidores están construyendo.</p>\n\n<p>Construir esto bien significa resolver el problema de contenido duplicado que enfrenta cualquier conjunto grande de páginas programáticas. Las páginas comparten una plantilla y difieren solo en los datos, con riesgo de leerse como contenido superficial.</p>\n\n<p>La mecánica de un conjunto de páginas a prueba de contenido duplicado se cubre en el texto de SEO para protocolos DeFi de este clúster. <a href=\"/publications/defi-protocol-seo\">el texto de SEO para Protocolos DeFi</a>.</p>\n\n<p>Lo que importa aquí es más simple: <strong>decide temprano si estas páginas viven en <code>app.*</code> o <code>www.*</code></strong>, y prerrenderízalas sin importar cuál gane. Una página de pool que solo se resuelve después de conectar una wallet tiene cero posibilidades de rankear para la búsqueda para la que fue construida.</p>\n\n<div class=\"my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4\">\n  <div class=\"p-4 bg-muted/30 rounded-lg border border-border hover:border-primary transition-colors\">\n    <div class=\"text-3xl font-bold text-primary mb-2\">1</div>\n    <div class=\"text-sm text-muted-foreground\">Homepage o cáscara genérica de la app</div>\n    <div class=\"text-xs text-muted-foreground mt-1\">Casi nunca es un punto de entrada de búsqueda real</div>\n  </div>\n  <div class=\"p-4 bg-muted/30 rounded-lg border border-border hover:border-primary transition-colors\">\n    <div class=\"text-3xl font-bold text-primary mb-2\">N</div>\n    <div class=\"text-sm text-muted-foreground\">Páginas de pool / par / vault</div>\n    <div class=\"text-xs text-muted-foreground mt-1\">Una por cada mercado que lista el protocolo</div>\n  </div>\n  <div class=\"p-4 bg-muted/30 rounded-lg border border-border hover:border-primary transition-colors\">\n    <div class=\"text-3xl font-bold text-primary mb-2\">Prerrenderizado</div>\n    <div class=\"text-sm text-muted-foreground\">Necesario para que cualquiera de estas sea rastreable</div>\n    <div class=\"text-xs text-muted-foreground mt-1\">Solo del lado del cliente significa indexación cero</div>\n  </div>\n  <div class=\"p-4 bg-muted/30 rounded-lg border border-border hover:border-primary transition-colors\">\n    <div class=\"text-3xl font-bold text-primary mb-2\">1 URL</div>\n    <div class=\"text-sm text-muted-foreground\">Por mercado, canónica</div>\n    <div class=\"text-xs text-muted-foreground mt-1\">No una por permutación de parámetro</div>\n  </div>\n</div>\n\n<h2>Deep links al estado de la app: manejo canónico para el caos de parámetros</h2>\n\n<p>El estado de la app enlazable por deep link es una ventaja para los usuarios y un problema de canonicalización para la búsqueda. Una URL como <code>app.proyecto.xyz/swap?chain=arbitrum&pool=usdc-eth&ref=abc123</code> permite compartir una configuración específica. Pero el mismo contenido, la pool USDC/ETH en Arbitrum, se vuelve accesible a través de decenas de permutaciones de parámetros: orden de la chain, tags de referido, parámetros UTM, estados de orden.</p>\n\n<p>Sin control, un crawler puede dividir la señal de ranking entre duplicados, o descartar todo el clúster como de bajo valor.</p>\n\n<p><strong>Tres soluciones cubren la mayor parte de esto:</strong></p>\n\n<div class=\"my-8 p-6 bg-muted/30 rounded-lg border border-border\">\n  <h3 class=\"text-xl font-bold mb-4\">Canonicalizando el caos de deep links</h3>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span><strong>Etiquetas canónicas que apuntan a la URL limpia.</strong> Cada variación de parámetro debe llevar un `rel=canonical` que apunte a la versión única y sin parámetros.</span>\n  </label>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span><strong>Un orden de parámetros consistente, o ninguno, en la versión canónica.</strong> Elige uno y haz que cada enlace interno apunte hacia él.</span>\n  </label>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span><strong>Elimina los parámetros de seguimiento y referidos antes de que lleguen a la estructura canónica.</strong> Pertenecen a la lógica de redirección o a la analítica, no a la URL que el motor de búsqueda trata como la identidad de la página.</span>\n  </label>\n</div>\n\n<p>Esto es una parte de una cuestión más amplia de renderizado y schema. Pertenece al lado de SEO técnico de este clúster, no al texto de app-frontend. <a href=\"/publications/web3-technical-seo\">el texto de SEO Técnico para Web3</a>.</p>\n\n<h2>Qué medir: qué segmentos de GSC realmente reflejan el descubrimiento de la dApp</h2>\n\n<p>Una vez que la división está construida y las páginas prerrenderizadas, la pregunta es si está funcionando. GSC es la herramienta principal, y la trampa es mirar el segmento equivocado.</p>\n\n<p>Los clics e impresiones agregados mezclan la homepage, el blog, los docs y cada página de pool en un solo número, que no va a decir si el descubrimiento de la dApp está funcionando. Dos segmentos importan más:</p>\n\n<div class=\"my-8 p-6 bg-muted/30 rounded-lg border border-border\">\n  <h3 class=\"text-xl font-bold mb-4\">Los dos segmentos de GSC que realmente lo dicen</h3>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span><strong>Filtra el informe de Rendimiento de GSC por prefijo de ruta de URL</strong>, aislando `/pools/`, `/vaults/` o `/pairs/`, para ver si esa estrategia genera descubrimiento independiente del tráfico de blog o docs.</span>\n  </label>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span><strong>Revisa la herramienta de Inspección de URLs en una muestra de páginas programáticas directamente.</strong> \"Rastreada, indexada actualmente\" versus \"Descubierta, no indexada actualmente\" es la forma más rápida de detectar una falla de prerrenderizado antes de que se vuelva un problema de tráfico.</span>\n  </label>\n</div>\n\n<p>Un protocolo que solo mira el tráfico de la homepage va a concluir que el esfuerzo no funciona, cuando la señal real está en un segmento que nadie filtró.</p>\n\n<h2>El caso de lanzamiento: por qué esto importa también antes del TGE</h2>\n\n<p>Todo lo anterior asume un protocolo activo con pools existentes. Las mismas decisiones, <code>app.*</code> versus <code>www.*</code>, prerrenderizar el estado sin sesión, importan igual antes del TGE. La única diferencia: una interfaz de testnet y una lista de espera en lugar de pools activos.</p>\n\n<div class=\"my-6 p-4 bg-blue-50 dark:bg-blue-950 border-l-4 border-blue-500 rounded-r\">\n  <p class=\"font-semibold text-blue-900 dark:text-blue-100 mb-2\">Insight clave</p>\n  <p class=\"text-blue-800 dark:text-blue-200\">Acertar la división app/marketing antes del lanzamiento significa que el sitio de marketing ya carga la autoridad que necesita en el momento en que las páginas de pool reales salen al aire.</p>\n</div>\n\n<h2>Preguntas frecuentes</h2>\n\n<h3>¿La interfaz de una dApp puede rankear alguna vez en Google?</h3>\n\n<p>Rara vez, y no es el objetivo correcto. La meta realista son las superficies sin sesión y prerrenderizadas a su alrededor: páginas de pool, páginas de mercado y el sitio de marketing.</p>\n\n<h3>¿La app y el sitio de marketing deberían estar en el mismo dominio o en subdominios separados?</h3>\n\n<p>Ambos funcionan, pero los subdominios son más comunes, ya que los equipos pueden lanzar actualizaciones de la app sin tocar el código del sitio de marketing. La contrapartida: la autoridad no fluye tan libremente entre subdominios como entre subcarpetas, así que los enlaces internos tienen que ser deliberados.</p>\n\n<h3>¿Por qué las páginas detrás de wallet gate perjudican el SEO específicamente?</h3>\n\n<p>Los crawlers de búsqueda no conectan wallets. Si el contenido relevante, precios, tasas, datos de pool, solo aparece después de conectarse, el crawler indexa una cáscara vacía en lugar del contenido que alguien realmente buscó.</p>\n\n<h3>¿Cuántas páginas programáticas de pool o par son demasiadas?</h3>\n\n<p>No hay un tope fijo, pero el riesgo sube cuando el número de páginas supera al dato real. Una pool con volumen y datos de tasa genuinos se lee como contenido distinto. Una pool con actividad casi nula y solo una plantilla compartida se lee como contenido superficial y duplicado.</p>\n\n<h3>¿Qué debe revisar primero un equipo si el SEO de su dApp no está funcionando?</h3>\n\n<p>Abre la app en una pestaña de incógnito sin conectar una wallet, y mira qué se renderiza. Si es un aviso de conectar wallet y nada más, eso es lo que ve también cada crawler, y es la causa raíz detrás de la mayoría de los problemas de descubrimiento de dApps.</p>\n\n<h2>Dónde queda la brecha de descubrimiento</h2>\n\n<p>Una dApp no necesita volverse rastreable para ser encontrable. Necesita que su equipo deje de tratar la app y el sitio de marketing como problemas separados. El posicionamiento y los datos programáticos pertenecen a <code>www.*</code>, la interfaz de transacción a <code>app.*</code>, y las vistas sin sesión prerrenderizadas donde apuntan las búsquedas reales.</p>\n\n<p><strong>Lee el marco completo en el que se inserta este satélite.</strong> La <a href=\"https://mangabeira.net/publications/definitive-guide-web3-seo\">guía definitiva de SEO y AEO para Web3</a> cubre cómo esta capa de app-frontend encaja junto al stack técnico y la estrategia de contenido por tipo de protocolo.</p>\n\n<p>La auditoría de 6 pilares cubre el pilar de dApp junto con Sitio Web, Social, Comunidad, SEO y PR. Es una lectura asíncrona y acotada sobre dónde está la brecha de descubrimiento de tu equipo: <a href=\"https://mangabeira.net/services/web3-growth-audit\">Web3 Growth Audit</a>.</p>\n</div>",
+  "created_at": "2026-09-03T15:41:55.236562+00:00",
+  "updated_at": "2026-09-03T15:41:55.236562+00:00",
+  "featured_image_alt": "Padlock in darkness with warm light beyond, standing for a wallet-gated product",
+  "slug": "seo-para-dapps",
+  "schema": [
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "SEO para dApps: Cómo Hacer Encontrable un Producto Inindexable",
+      "description": "Las dApps no pueden rastrearse por diseño. Trata la app y el sitio de marketing como un solo sistema de indexación, para que la búsqueda te encuentre.",
+      "image": "https://mangabeira.net/media/seo-for-dapps-cover.jpg",
+      "author": {
+        "url": "https://mangabeira.net",
+        "name": "Gabriel Mangabeira",
+        "@type": "Person",
+        "image": "https://mangabeira.net/images/gabriel-professional-about.png",
+        "sameAs": [
+          "https://x.com/manga82",
+          "https://linkedin.com/in/mangabeira"
+        ],
+        "jobTitle": "Web3 Growth Marketing Strategist",
+        "description": "Growth marketing expert specializing in Web3, DeFi, and tokenomics. Former growth lead at Binance and IOC."
+      },
+      "datePublished": "2026-09-03T15:41:55.236562+00:00",
+      "dateModified": "2026-09-03T15:41:55.236562+00:00",
+      "inLanguage": "es",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://mangabeira.net/es/articulos/seo-para-dapps"
+      },
+      "isPartOf": {
+        "@type": "WebPage",
+        "name": "The Definitive Guide to Web3 SEO",
+        "@id": "https://mangabeira.net/publications/definitive-guide-web3-seo"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿La interfaz de una dApp puede rankear alguna vez en Google?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Rara vez, y no es el objetivo correcto. La meta realista son las superficies sin sesión y prerrenderizadas a su alrededor: páginas de pool, páginas de mercado y el sitio de marketing."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿La app y el sitio de marketing deberían estar en el mismo dominio o en subdominios separados?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ambos funcionan, pero los subdominios son más comunes, ya que los equipos pueden lanzar actualizaciones de la app sin tocar el código del sitio de marketing. La contrapartida: la autoridad no fluye tan libremente entre subdominios como entre subcarpetas, así que los enlaces internos tienen que ser deliberados."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Por qué las páginas detrás de wallet gate perjudican el SEO específicamente?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Los crawlers de búsqueda no conectan wallets. Si el contenido relevante, precios, tasas, datos de pool, solo aparece después de conectarse, el crawler indexa una cáscara vacía en lugar del contenido que alguien realmente buscó."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cuántas páginas programáticas de pool o par son demasiadas?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No hay un tope fijo, pero el riesgo sube cuando el número de páginas supera al dato real. Una pool con volumen y datos de tasa genuinos se lee como contenido distinto. Una pool con actividad casi nula y solo una plantilla compartida se lee como contenido superficial y duplicado."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué debe revisar primero un equipo si el SEO de su dApp no está funcionando?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Abre la app en una pestaña de incógnito sin conectar una wallet, y mira qué se renderiza. Si es un aviso de conectar wallet y nada más, eso es lo que ve también cada crawler, y es la causa raíz detrás de la mayoría de los problemas de descubrimiento de dApps."
+          }
+        }
+      ]
+    },
+    {
+      "url": "https://mangabeira.net",
+      "name": "Gabriel Mangabeira",
+      "@type": "Person",
+      "image": "https://mangabeira.net/images/gabriel-professional-about.png",
+      "sameAs": [
+        "https://x.com/manga82",
+        "https://linkedin.com/in/mangabeira"
+      ],
+      "@context": "https://schema.org",
+      "alumniOf": [
+        {
+          "name": "University of Florida",
+          "@type": "Organization"
+        },
+        {
+          "name": "Coca-Cola Company",
+          "@type": "Organization"
+        },
+        {
+          "name": "Binance",
+          "@type": "Organization"
+        },
+        {
+          "name": "International Olympic Committee",
+          "@type": "Organization"
+        }
+      ],
+      "jobTitle": "Web3 Growth Marketing Strategist",
+      "knowsAbout": [
+        "Web3 Marketing",
+        "Tokenomics",
+        "DeFi",
+        "NFT Strategy",
+        "Community Building",
+        "Growth Marketing",
+        "Sports Tokens",
+        "On-Chain Attribution",
+        "Token Utility Design",
+        "Liquidity Mining",
+        "Protocol Growth",
+        "Capital Efficiency"
+      ],
+      "description": "Growth marketing expert specializing in Web3, DeFi, and tokenomics. Former growth lead at Binance and IOC."
+    },
+    {
+      "url": "https://mangabeira.net",
+      "logo": "https://mangabeira.net/images/swimming-icon.png",
+      "name": "Mangabeira.net",
+      "@type": "Organization",
+      "sameAs": [
+        "https://x.com/manga82",
+        "https://linkedin.com/in/mangabeira"
+      ],
+      "founder": {
+        "name": "Gabriel Mangabeira",
+        "@type": "Person"
+      },
+      "@context": "https://schema.org",
+      "description": "Web3 growth marketing expertise and consulting for DeFi, NFT, and token projects"
+    }
+  ]
+}

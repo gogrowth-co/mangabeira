@@ -1,0 +1,152 @@
+{
+  "id": "782e04ce-e884-40c5-9262-1da52e3a61fd",
+  "page_id": "2c5d850f-d1a3-40bc-aa6a-876585cc4dee",
+  "language": "br",
+  "title": "Sinais de Confiança On-Chain: E-E-A-T para Sites Web3",
+  "meta_description": "Sinais de confiança on-chain transformam contratos auditados e prova de reservas em E-E-A-T rastreável para sites Web3. Veja o formato completo.",
+  "content": "<div class=\"article-content\">\n<p>A página de contratos implantados da Lido lista todo endereço auditado, rede e status, rastreável direto do próprio domínio. Quase nenhum outro protocolo formata sua prova on-chain assim.</p>\n\n<p>A maioria dos times Web3 tem a mesma prova, contratos auditados, endereços de tesouraria, reservas ao vivo, verificáveis criptograficamente, e ainda assim não recebe nenhum crédito de busca ou de IA por isso.</p>\n\n<p>Este artigo mostra o formato rastreável exato que transforma essa prova em sinais de E-E-A-T que motores de busca e modelos de IA conseguem encontrar, interpretar e citar.</p>\n\n<p>Ele cobre as cinco categorias de sinal que valem a pena publicar, e por que um número desatualizado prejudica mais a confiança do que um número ausente. Para a camada técnica sobre a qual isso se apoia, veja o <a href=\"https://mangabeira.net/publications/definitive-guide-web3-seo#geo-ai-overviews\">guia definitivo de SEO e AEO para Web3</a>.</p>\n\n<h2>O Que São Sinais de Confiança On-Chain</h2>\n\n<p>Um sinal de confiança on-chain é qualquer dado de blockchain publicamente verificável: um contrato auditado, um endereço de tesouraria, TVL ao vivo, prova de reservas. Só conta quando o protocolo expõe esse dado no próprio site, em um formato que buscadores e crawlers de IA conseguem ler diretamente.</p>\n\n<p>Nenhum usuário deveria precisar clicar até um block explorer para encontrar isso.</p>\n\n<p>!<a href=\"/images/web3-seo-cluster/inline-onchain-trust-signals.png\">Inventário de sinais de confiança on-chain e seu formato rastreável na página</a></p>\n\n<p>O sinal em si não é novo. Endereços de contrato sempre foram públicos.</p>\n\n<p>O que falta é a ponte: a maioria dos protocolos trata esse dado como algo que o usuário encontra no Etherscan ou no DefiLlama. Poucos tratam como algo que as próprias páginas do protocolo afirmam e estruturam.</p>\n\n<p>Se a prova existe só fora do site, ela não contribui em nada para como um crawler avalia o site.</p>\n\n<h2>Por Que E-E-A-T É Mais Difícil Para Sites Cripto</h2>\n\n<p>As diretrizes padrão de E-E-A-T, bios de autor, credenciais, assinaturas, foram escritas para blogs e sites de notícia. Protocolos podem provar afirmações de forma criptográfica em vez disso.</p>\n\n<p>O Google classifica a maior parte do conteúdo cripto como Your Money or Your Life. Páginas YMYL enfrentam uma barra de confiança mais alta porque uma resposta ruim pode custar dinheiro a alguém. Essa barra já é alta para sites de finanças, e mais alta ainda para Web3.</p>\n\n<p>Três problemas estruturais agravam isso:</p>\n\n<p><strong>Times anônimos são normais.</strong> Boa parte dos protocolos legítimos opera com fundadores pseudônimos. Sinais padrão de E-E-A-T, fotos de autor, perfis de LinkedIn, assinaturas nominais, simplesmente não existem para mostrar. Um buscador treinado em padrões da Web2 enxerga uma ausência onde um site fintech mostraria um time credenciado.</p>\n\n<p><strong>A categoria é adjacente a golpes por volume.</strong> Rug pulls, tokens com volume manipulado e auditorias falsas disputam o mesmo espaço de busca que protocolos reais. Os modelos do Google precisam separar sinal de ruído numa categoria em que boa parte do conteúdo é deliberadamente enganosa.</p>\n\n<p><strong>As afirmações costumam ser autodeclaradas.</strong> \"Auditado pela [empresa]\" e \"US$ X em TVL\" são declarações que o próprio projeto faz sobre si mesmo. Nada obriga um crawler a acreditar nelas, e nada na maioria das páginas prova isso.</p>\n\n<p>Dados on-chain verificáveis são o contrapeso para os três problemas. Um time pseudônimo ainda pode publicar um endereço de contrato que qualquer um pode inspecionar. Um relatório de auditoria real pode ser linkado direto em vez de apenas alegado.</p>\n\n<p>Um número de TVL pode apontar para a query que o gerou em vez de ficar solto em um parágrafo. Nada disso exige revelar identidade. Exige tornar as afirmações do site verificáveis.</p>\n\n<div class=\"my-6 p-4 bg-blue-50 dark:bg-blue-950 border-l-4 border-blue-500 rounded-r\">\n  <p class=\"font-semibold text-blue-900 dark:text-blue-100 mb-2\">Insight-chave</p>\n  <p class=\"text-blue-800 dark:text-blue-200\">Para um site cripto, Experiência não é uma bio. É um endereço de contrato que resolve, um relatório de auditoria que abre, e um número que bate com a chain agora.</p>\n</div>\n\n<h2>O Inventário de Sinais: O Que Publicar e Como Formatar</h2>\n\n<figure>\n<img src=\"https://mangabeira.net/media/onchain-trust-signals-contracts.png\" alt=\"Página de documentação de contratos implantados da Lido listando versão do protocolo, rede, status e todos os endereços de contratos principais com proxy e implementação\" width=\"2200\" height=\"1706\" style=\"width:100%;height:auto;border-radius:8px;\">\n<figcaption>Página de contratos implantados da Lido, capturada em 3 de setembro de 2026: versão, rede, status e todo endereço rastreável no próprio domínio do protocolo. Este é o formato prescrito no inventário de sinais, ao vivo.</figcaption>\n</figure>\n\n<p>Cinco categorias de prova on-chain carregam peso de confiança real. Cada uma exige o mesmo tratamento: um link direto, um timestamp explícito, e dados estruturados em vez de prosa simples.</p>\n\n<div class=\"my-8 overflow-x-auto\">\n  <table class=\"w-full border-collapse\">\n    <thead>\n      <tr class=\"bg-muted\">\n        <th class=\"p-4 text-left font-semibold border-b-2 border-primary\">Sinal</th>\n        <th class=\"p-4 text-left font-semibold border-b-2 border-primary\">Onde costuma ficar</th>\n        <th class=\"p-4 text-left font-semibold border-b-2 border-primary\">Formato rastreável</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr class=\"hover:bg-muted/50 transition-colors\">\n        <td class=\"p-4 border-b border-border\">Endereços de contrato</td>\n        <td class=\"p-4 border-b border-border\">Docs, às vezes enterrados no meio da página</td>\n        <td class=\"p-4 border-b border-border\">Página dedicada de endereços, links diretos para explorers (Etherscan, Solscan), copiar-com-um-clique, uma linha por chain</td>\n      </tr>\n      <tr class=\"hover:bg-muted/50 transition-colors\">\n        <td class=\"p-4 border-b border-border\">Relatórios de auditoria</td>\n        <td class=\"p-4 border-b border-border\">Link de PDF, muitas vezes fora do domínio, no site da empresa auditora</td>\n        <td class=\"p-4 border-b border-border\">Hospedado ou incorporado no próprio domínio, empresa nomeada, data da auditoria, escopo, link direto ao PDF de origem</td>\n      </tr>\n      <tr class=\"hover:bg-muted/50 transition-colors\">\n        <td class=\"p-4 border-b border-border\">Prova de reservas</td>\n        <td class=\"p-4 border-b border-border\">Só em dashboard de terceiros</td>\n        <td class=\"p-4 border-b border-border\">Resumo no próprio site, fonte da query ou atestação linkada, atualizado em uma cadência declarada</td>\n      </tr>\n      <tr class=\"hover:bg-muted/50 transition-colors\">\n        <td class=\"p-4 border-b border-border\">Métricas do protocolo ao vivo (TVL, holders, volume)</td>\n        <td class=\"p-4 border-b border-border\">DefiLlama, Dune, CoinGecko</td>\n        <td class=\"p-4 border-b border-border\">Número na página com timestamp de \"última atualização\", linkado ao dashboard ou query exata</td>\n      </tr>\n      <tr class=\"hover:bg-muted/50 transition-colors\">\n        <td class=\"p-4 border-b border-border\">Atestações do time</td>\n        <td class=\"p-4 border-b border-border\">Mensagens assinadas em Discord ou threads no X</td>\n        <td class=\"p-4 border-b border-border\">Página de verificação linkando a mensagem assinada e sua wallet, sem exigir revelação de identidade</td>\n      </tr>\n    </tbody>\n  </table>\n</div>\n\n<p>O padrão em todas as cinco categorias: não basta alegar, linke a coisa que prova, e diga quando foi checado pela última vez. Esse último ponto importa mais do que a maioria dos times trata.</p>\n\n<h2>O Problema da Decadência de Precisão</h2>\n\n<p>Um número ao vivo que nunca é atualizado vira um passivo. TVL, preço e contagem de holders mudam a cada hora. Uma página de protocolo mostrando o TVL do trimestre passado como se fosse atual não é um detalhe desatualizado, é uma alegação que já não bate com a chain.</p>\n\n<p>Isso não é hipotético. Rodei um teste ao vivo cruzando a precisão de citação de modelos de IA com o estado real on-chain para Pendle e Lido. Os modelos estavam superestimando o TVL atual por margens amplas, enquanto datavam com confiança seus próprios números como recentes.</p>\n\n<p>A metodologia completa e os números estão na <a href=\"https://mangabeira.net/publications/definitive-guide-web3-seo#geo-ai-overviews\">análise de precisão de citação de IA</a> <a href=\"/publications/web3-aeo-geo\">no artigo de AEO/GEO para Web3</a>. O padrão se manteve mesmo para protocolos conhecidos e bem documentados. Se o próprio material de referência decai, um número desatualizado no seu site é pior, não melhor.</p>\n\n<div class=\"my-6 p-4 bg-yellow-50 dark:bg-yellow-950 border-l-4 border-yellow-500 rounded-r\">\n  <p class=\"font-semibold text-yellow-900 dark:text-yellow-100 mb-2\">Atenção</p>\n  <p class=\"text-yellow-800 dark:text-yellow-200\">Um número de TVL desatualizado não é neutro. É um anti-sinal de confiança. Uma página alegando um número que a chain já superou soa como página sem manutenção ou deliberadamente enganosa. Um crawler comparando sua alegação com uma fonte ao vivo não tem como saber qual é o caso.</p>\n</div>\n\n<p>A correção é estrutural, não editorial. Toda cifra ao vivo precisa de um timestamp visível de \"válido em\" e uma cadência de atualização declarada, mesmo que essa cadência seja manual.</p>\n\n<p>Dados estruturados e marcação explícita de timestamp também fazem um trabalho real aqui. Detalhes de implementação estão no artigo de SEO técnico do site <a href=\"/publications/web3-technical-seo\">o artigo de SEO técnico para Web3</a>.</p>\n\n<p>O princípio por trás disso: um número sem data é um número que ninguém consegue verificar.</p>\n\n<h2>Confiança Fora da Página: O Grafo de Citações Que Ninguém Comenta</h2>\n\n<p>E-E-A-T não para no seu próprio domínio. Para um protocolo, o grafo de citações fora da página é diferente do que um negócio típico constrói. Em vez de menções na imprensa e backlinks, os sinais de autoridade equivalentes são estruturais.</p>\n\n<p>O DefiLlama rastreia o seu TVL. Um block explorer mostra o seu contrato como verificado.</p>\n\n<p>O site da própria empresa auditora lista o seu relatório. O CoinGecko traz o seu token com o endereço de contrato correspondente.</p>\n\n<p>Isso não são backlinks no sentido tradicional de SEO. São confirmações independentes de que as alegações do seu site batem com o que um terceiro, sem incentivo para inflar seus números, também mostra.</p>\n\n<p>Um protocolo listado no DefiLlama, verificado no Etherscan e indexado no próprio site do auditor tem três fontes independentes concordando entre si. Essa consistência é o sinal de verdade, não qualquer listagem isolada.</p>\n\n<p>Diferente de uma menção na imprensa Web2, nada disso depende do julgamento de um editor. Ou o tracker do DefiLlama mostra seu número, ou não mostra.</p>\n\n<p>Ou o Etherscan mostra seu contrato como verificado, ou não mostra. Não existe camada editorial para cortejar, e nenhuma para burlar.</p>\n\n<p>Essa é a ordem que funciona, agregadores primeiro, depois imprensa:</p>\n\n<div class=\"my-8 p-6 bg-muted/30 rounded-lg border border-border\">\n  <h3 class=\"text-xl font-bold mb-4\">A ordem prática</h3>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span>Fique listado corretamente nos agregadores que a sua categoria realmente usa (DefiLlama, o explorer da chain relevante, CoinGecko ou CoinMarketCap).</span>\n  </label>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span>Confirme que os endereços de contrato batem exatamente em todas as fontes.</span>\n  </label>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span>Só então invista em imprensa ou backlinks.</span>\n  </label>\n</div>\n\n<p>Corrigir uma divergência entre o que o seu site alega e o que um agregador mostra corrige mais déficit de confiança do que qualquer menção na imprensa jamais vai corrigir.</p>\n\n<p>Prova verificável também é um argumento de marca, não só de ranqueamento. Como um protocolo apresenta sua credibilidade molda a confiança com usuários e parceiros. Molda a confiança com um crawler da mesma forma, um artigo complementar neste cluster.</p>\n\n<h2>O Que Isso Realmente Te Rende</h2>\n\n<p>Sinais de confiança on-chain não são um fator de ranqueamento confirmado pelo Google. Ninguém, nem mesmo o Google, publicou um algoritmo de ranqueamento com um input chamado \"verificação on-chain\".</p>\n\n<p>Trate qualquer alegação de que dados de contrato estruturados movem sua posição no SERP diretamente com ceticismo real. Aplique a mesma dúvida que aplicaria a um token sem distribuição real.</p>\n\n<p>O que a evidência de fato sustenta é mais restrito, e ainda assim valioso:</p>\n\n<div class=\"my-8 p-6 bg-muted/30 rounded-lg border border-border\">\n  <h3 class=\"text-xl font-bold mb-4\">O que a prova on-chain estruturada realmente rende</h3>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span><strong>Consistência de verificação.</strong> Quando suas alegações na página batem com o que uma fonte pública independente mostra, você elimina o maior motivo para um revisor sinalizar conteúdo YMYL como baixa confiança: alegações que não se sustentam quando checadas.</span>\n  </label>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span><strong>Sobrevivência YMYL.</strong> As diretrizes de qualidade de avaliadores do Google pesam muito a confiança para conteúdo adjacente a finanças. Uma página que linka suas alegações a prova verificável dá menos motivo para um revisor rebaixá-la, especialmente contra o ruído adjacente a golpes dessa categoria.</span>\n  </label>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span><strong>Elegibilidade de citação por IA.</strong> Modelos que puxam respostas ao vivo favorecem conteúdo que declara fatos com datas e fontes anexadas. Um número com timestamp e link é mais fácil de extrair e confiar do que o mesmo número solto em um parágrafo.</span>\n  </label>\n</div>\n\n<p>Nenhuma dessas coisas é garantia. São as condições que tornam a confiança possível de conquistar numa categoria em que ela é incomumente difícil de conquistar por padrão.</p>\n\n<h2>FAQ</h2>\n\n<h3>O que são sinais de confiança on-chain em SEO?</h3>\n\n<p>Sinais de confiança on-chain são dados de blockchain publicamente verificáveis: endereços de contrato, relatórios de auditoria, prova de reservas, métricas do protocolo ao vivo. Um site só recebe crédito por eles ao apresentar esses dados em formato rastreável no próprio domínio, não deixando isso num block explorer ou dashboard de terceiros.</p>\n\n<h3>Dados on-chain melhoram o ranqueamento no Google para sites cripto?</h3>\n\n<p>Não existe um fator de ranqueamento on-chain confirmado. O que dados on-chain estruturados e verificáveis fazem é tornar as alegações verificáveis, que é a qualidade subjacente que as diretrizes de YMYL e E-E-A-T do Google já tentam medir. Trate isso como infraestrutura de confiança, não como um atalho de ranqueamento.</p>\n\n<h3>Como times Web3 anônimos constroem E-E-A-T sem doxar os fundadores?</h3>\n\n<p>Publique o que é verificável sem identidade: endereços de contrato, atestações de wallet assinadas, relatórios de auditoria e dados do protocolo ao vivo com timestamps. Nada disso exige um nome ou uma foto. A prova se sustenta em criptografia, não em credenciais.</p>\n\n<h3>Por que um número de TVL desatualizado prejudica mais a confiança do que não mostrar nenhum?</h3>\n\n<p>Um número ausente é uma omissão. Um número errado é uma alegação falsa que uma fonte ao vivo pode contradizer em segundos. Assim que uma cifra fica visivelmente desatualizada, ela sinaliza que a página não tem manutenção, o que enfraquece todas as outras alegações nela também.</p>\n\n<h3>Qual é o primeiro passo mais simples para adicionar sinais de confiança on-chain a um site de protocolo?</h3>\n\n<p>Construa uma página dedicada listando endereços de contrato verificados por chain, linkados direto ao block explorer relevante. Adicione um link ao relatório de auditoria hospedado no próprio domínio, com o nome da empresa e a data da auditoria declarados. Essa única página cobre os dois sinais de maior impacto antes de mexer em qualquer outra coisa.</p>\n\n<h2>Para Onde Isso Vai a Seguir</h2>\n\n<p>Sinais de confiança on-chain são a alavanca mais original deste cluster porque quase ninguém nos resultados de busca de \"SEO cripto\" conecta E-E-A-T a dados verificáveis. A maioria das orientações ainda trata métricas on-chain como um input de conteúdo, algo a publicar para que modelos te citem.</p>\n\n<p>Raramente é tratado como prova que sustenta o que a página já alega. Essa lacuna é a oportunidade.</p>\n\n<p>Comece pela página de endereços e pelo relatório de auditoria. Adicione timestamps a toda métrica ao vivo depois disso.</p>\n\n<p>Se a configuração técnica do seu site nem sequer está colocando esses sinais na frente dos crawlers, comece por aí. O <a href=\"https://mangabeira.net/publications/definitive-guide-web3-seo\">guia definitivo de SEO e AEO para Web3</a> cobre toda a stack sobre a qual este satélite se apoia.</p>\n\n<div class=\"my-8 p-6 bg-navy rounded-lg text-white\">\n  <p class=\"text-xl font-semibold mb-2\">Quanto da sua prova on-chain um crawler consegue realmente ver?</p>\n  <p class=\"text-gray-300 mb-4\">Essa lacuna é a primeira coisa que eu audito. Meu Web3 Growth Audit cobre o inventário de sinais de confiança deste artigo, checado contra as suas páginas ao vivo.</p>\n  <a href=\"https://mangabeira.net/services/web3-growth-audit\" class=\"inline-block px-5 py-2.5 bg-gradient-cta text-white font-semibold rounded-lg hover:brightness-110 transition-all\">Conheça o Web3 Growth Audit →</a>\n</div>\n</div>",
+  "created_at": "2026-09-03T15:41:55.236562+00:00",
+  "updated_at": "2026-09-03T15:41:55.236562+00:00",
+  "featured_image_alt": "Hardware wallet standing beside a stamp on a dark desk, physical proof objects",
+  "slug": "sinais-confianca-onchain-eeat-web3",
+  "schema": [
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Sinais de Confiança On-Chain: E-E-A-T para Sites Web3",
+      "description": "Sinais de confiança on-chain transformam contratos auditados e prova de reservas em E-E-A-T rastreável para sites Web3. Veja o formato completo.",
+      "image": "https://mangabeira.net/media/onchain-trust-signals-cover.jpg",
+      "author": {
+        "url": "https://mangabeira.net",
+        "name": "Gabriel Mangabeira",
+        "@type": "Person",
+        "image": "https://mangabeira.net/images/gabriel-professional-about.png",
+        "sameAs": [
+          "https://x.com/manga82",
+          "https://linkedin.com/in/mangabeira"
+        ],
+        "jobTitle": "Web3 Growth Marketing Strategist",
+        "description": "Growth marketing expert specializing in Web3, DeFi, and tokenomics. Former growth lead at Binance and IOC."
+      },
+      "datePublished": "2026-09-03T15:41:55.236562+00:00",
+      "dateModified": "2026-09-03T15:41:55.236562+00:00",
+      "inLanguage": "pt-BR",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://mangabeira.net/br/artigos/sinais-confianca-onchain-eeat-web3"
+      },
+      "isPartOf": {
+        "@type": "WebPage",
+        "name": "The Definitive Guide to Web3 SEO",
+        "@id": "https://mangabeira.net/publications/definitive-guide-web3-seo"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "O que são sinais de confiança on-chain em SEO?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sinais de confiança on-chain são dados de blockchain publicamente verificáveis: endereços de contrato, relatórios de auditoria, prova de reservas, métricas do protocolo ao vivo. Um site só recebe crédito por eles ao apresentar esses dados em formato rastreável no próprio domínio, não deixando isso num block explorer ou dashboard de terceiros."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Dados on-chain melhoram o ranqueamento no Google para sites cripto?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Não existe um fator de ranqueamento on-chain confirmado. O que dados on-chain estruturados e verificáveis fazem é tornar as alegações verificáveis, que é a qualidade subjacente que as diretrizes de YMYL e E-E-A-T do Google já tentam medir. Trate isso como infraestrutura de confiança, não como um atalho de ranqueamento."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Como times Web3 anônimos constroem E-E-A-T sem doxar os fundadores?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Publique o que é verificável sem identidade: endereços de contrato, atestações de wallet assinadas, relatórios de auditoria e dados do protocolo ao vivo com timestamps. Nada disso exige um nome ou uma foto. A prova se sustenta em criptografia, não em credenciais."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Por que um número de TVL desatualizado prejudica mais a confiança do que não mostrar nenhum?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Um número ausente é uma omissão. Um número errado é uma alegação falsa que uma fonte ao vivo pode contradizer em segundos. Assim que uma cifra fica visivelmente desatualizada, ela sinaliza que a página não tem manutenção, o que enfraquece todas as outras alegações nela também."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Qual é o primeiro passo mais simples para adicionar sinais de confiança on-chain a um site de protocolo?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Construa uma página dedicada listando endereços de contrato verificados por chain, linkados direto ao block explorer relevante. Adicione um link ao relatório de auditoria hospedado no próprio domínio, com o nome da empresa e a data da auditoria declarados. Essa única página cobre os dois sinais de maior impacto antes de mexer em qualquer outra coisa."
+          }
+        }
+      ]
+    },
+    {
+      "url": "https://mangabeira.net",
+      "name": "Gabriel Mangabeira",
+      "@type": "Person",
+      "image": "https://mangabeira.net/images/gabriel-professional-about.png",
+      "sameAs": [
+        "https://x.com/manga82",
+        "https://linkedin.com/in/mangabeira"
+      ],
+      "@context": "https://schema.org",
+      "alumniOf": [
+        {
+          "name": "University of Florida",
+          "@type": "Organization"
+        },
+        {
+          "name": "Coca-Cola Company",
+          "@type": "Organization"
+        },
+        {
+          "name": "Binance",
+          "@type": "Organization"
+        },
+        {
+          "name": "International Olympic Committee",
+          "@type": "Organization"
+        }
+      ],
+      "jobTitle": "Web3 Growth Marketing Strategist",
+      "knowsAbout": [
+        "Web3 Marketing",
+        "Tokenomics",
+        "DeFi",
+        "NFT Strategy",
+        "Community Building",
+        "Growth Marketing",
+        "Sports Tokens",
+        "On-Chain Attribution",
+        "Token Utility Design",
+        "Liquidity Mining",
+        "Protocol Growth",
+        "Capital Efficiency"
+      ],
+      "description": "Growth marketing expert specializing in Web3, DeFi, and tokenomics. Former growth lead at Binance and IOC."
+    },
+    {
+      "url": "https://mangabeira.net",
+      "logo": "https://mangabeira.net/images/swimming-icon.png",
+      "name": "Mangabeira.net",
+      "@type": "Organization",
+      "sameAs": [
+        "https://x.com/manga82",
+        "https://linkedin.com/in/mangabeira"
+      ],
+      "founder": {
+        "name": "Gabriel Mangabeira",
+        "@type": "Person"
+      },
+      "@context": "https://schema.org",
+      "description": "Web3 growth marketing expertise and consulting for DeFi, NFT, and token projects"
+    }
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "id": "5554e991-4a3d-46a0-a110-12963b26c6f0",
+  "page_id": "5b1233a8-0ee4-4af5-8628-9b82de92bc86",
+  "language": "en",
+  "title": "Web3 Technical SEO: What Breaks on Crypto Sites and How I Fix It",
+  "meta_description": "Web3 technical SEO from real incidents: a loadEnv() bug that hid 87 pages, a Cloudflare Worker built for AI crawlers, and a Content-Signal declaration.",
+  "content": "<div class=\"article-content\">\n**METADATA**\nTITLE: Web3 Technical SEO: What Breaks on Crypto Sites and How I Fix It\nSEO TITLE: Web3 Technical SEO: What Breaks on Crypto Sites and How I Fix It\nMETA DESCRIPTION: Web3 technical SEO from real incidents: a loadEnv() bug that hid 87 pages, a Cloudflare Worker built for AI crawlers, and a Content-Signal declaration.\nPRIMARY KEYWORD: web3 technical seo\nSECONDARY KEYWORDS: crypto site technical seo, javascript seo web3, web3 site crawlability, schema markup crypto, ai crawler rendering\nTARGET ICP: ICP 2 (Web3 Growth Operator), ICP 1 (Web3 Founder), ICP 5 (Web2 to Web3 Transitioner)\nWORD COUNT TARGET: 1,900 words\nFUNNEL TIER: Mid-Funnel (Cluster satellite)\nSUBCATEGORY: Web3 Growth / Technical SEO\nCLUSTER: Web3 SEO & AEO (satellite of definitive-guide-web3-seo)\n\n---\n\n\n\n<article>\n\n<div class=\"my-8 p-6 bg-muted/30 rounded-lg border border-border\">\n  <h3 class=\"font-bold mb-4 text-lg\">In this article</h3>\n  <nav class=\"grid gap-2 md:grid-cols-2\">\n    <a href=\"#what-is-web3-technical-seo\" class=\"text-primary hover:underline text-sm\">What Web3 Technical SEO Means</a>\n    <a href=\"#the-rendering-problem\" class=\"text-primary hover:underline text-sm\">The Rendering Problem</a>\n    <a href=\"#site-architecture\" class=\"text-primary hover:underline text-sm\">Site Architecture and Split Authority</a>\n    <a href=\"#schema-for-web3\" class=\"text-primary hover:underline text-sm\">Schema for Web3 Content</a>\n    <a href=\"#crawl-and-index-control\" class=\"text-primary hover:underline text-sm\">Crawl and Index Control</a>\n    <a href=\"#performance-wallet-frontends\" class=\"text-primary hover:underline text-sm\">Performance on Wallet-Heavy Frontends</a>\n    <a href=\"#faq\" class=\"text-primary hover:underline text-sm\">FAQ</a>\n  </nav>\n</div>\n\n<p>I found a bug on my own site that hid 87 of 108 pages from search engines. The site looked normal in a browser the entire time.</p>\n\n<p>You've probably shipped something that looks fine and still gets ignored by crawlers.</p>\n\n<p>This piece walks through that fix, plus four more failures pulled straight from mangabeira.net's live stack, not a generic audit.</p>\n\n<p>You'll get the rendering bug, the AI-crawler allowlist, and the schema rules that keep live data from going stale. <a href=\"https://mangabeira.net/publications/definitive-guide-web3-seo\" class=\"text-primary hover:underline\">My guide to web3 SEO</a> covers the rest of the cluster.</p>\n\n<h2 id=\"what-is-web3-technical-seo\">What Web3 Technical SEO Means</h2>\n\n<p><strong>Web3 technical SEO makes a crypto site's content readable, indexable, and citable by search engines and AI crawlers.</strong> Most Web3 frontends are client-side apps with wallet connections and live on-chain data. Standard SEO tooling was never built for that.</p>\n\n<p>Four things matter most. Whether crawlers can render your pages. Whether your content lives in one place, or scatters across a marketing site, an app, and a docs subdomain.</p>\n\n<p>Whether your data carries machine-readable markup. And whether you've told crawlers, AI ones included, what they're allowed to do with what they find.</p>\n\n<p>Standard technical SEO assumes a static site with a handful of crawlers to think about. Web3 adds three pressures: client-side rendering, live data that changes by the block, and AI crawlers that behave nothing like Googlebot.</p>\n\n<p><img src=\"/images/web3-seo-cluster/inline-web3-technical-seo.png\" alt=\"What Googlebot renders vs what AI crawlers see on a JS-heavy Web3 site\" style=\"width:100%\"/></p>\n\n<h2 id=\"the-rendering-problem\">The Rendering Problem: What Googlebot Sees vs. What AI Crawlers See</h2>\n\n<p>Googlebot renders JavaScript. It queues your page, executes the JS, and indexes what it sees. That's slower than static HTML, but it works.</p>\n\n<p>GPTBot and ClaudeBot don't. <strong>They fetch raw HTML and execute zero JavaScript.</strong></p>\n\n<p>If your content only exists after a client-side render, these crawlers see an empty shell. That's true no matter how good the page looks in a browser.</p>\n\n<p>I found this exact failure on my own site on 2026-08-02. I was auditing a claim from a LinkedIn post about a different project's rendering bug. The audit turned into a mirror.</p>\n\n<p>mangabeira.net runs a Cloudflare Worker that serves rendered snapshots to known crawlers, including Googlebot, GPTBot, ClaudeBot, and PerplexityBot. It fires when a request sends an <code>Accept: text/html</code> header. Tested against all 108 sitemap URLs, every route passed: correct titles, canonicals, and full JSON-LD.</p>\n\n<p>The response header confirmed it: <code>x-render-source: cf-worker-snapshot</code>.</p>\n\n<div class=\"my-6 p-4 bg-yellow-50 dark:bg-yellow-950 border-l-4 border-yellow-500 rounded-r\">\n  <p class=\"font-semibold text-yellow-900 dark:text-yellow-100 mb-2\">Where the actual bug was hiding</p>\n  <p class=\"text-yellow-800 dark:text-yellow-200\">The Worker was masking a defect in the origin build. <code>vite.config.ts</code> never called <code>loadEnv()</code>, so the Node-side prerender script read <code>process.env.VITE_SUPABASE_URL</code>, always <code>undefined</code> at build time. The Supabase fetch silently failed, the article list came back empty, and 87 of 108 sitemap routes fell back to the homepage shell at origin. The build passed green the whole time, quietly producing an incomplete site on every deploy.</p>\n</div>\n\n<p>A browser check will never catch that. The bug stayed invisible because the Worker intercepted crawler traffic before it reached the broken build. The broken build remained the system's single point of failure.</p>\n\n<p>If the Worker misconfigured, or a new crawler UA slipped past its allowlist, that crawler would hit the broken build. It would see a homepage with the wrong title on 87 different URLs.</p>\n\n<p>The fix, shipped 2026-08-05, was two lines. I merged <code>loadEnv(mode, process.cwd(), \"\")</code> into <code>process.env</code> before the Vite plugins array builds. I verified it with a fresh clone: prerender count went from 20 of 108 pages to 108 of 108.</p>\n\n<p><strong>A mitigation layer is not the same thing as a fix.</strong> The Worker was correct engineering. But it let a real defect survive undetected for months, because it never failed loudly.</p>\n\n<p>If your site is a single-page app, check two things. Does your prerender step run against production environment variables? And does your fallback layer, if you have one, fail loudly when the origin it protects breaks?</p>\n\n<h2 id=\"site-architecture\">Site Architecture: Marketing Site, App, and Docs Subdomain</h2>\n\n<p>Most Web3 projects split into at least three surfaces: a marketing site (<code>project.xyz</code>), an application (<code>app.project.xyz</code>), and documentation (<code>docs.project.xyz</code>). Search engines treat subdomains as related but distinct properties, so link authority, relevance, and crawl budget all divide across three crawl graphs instead of one.</p>\n\n<p>I see this pattern constantly in protocol audits. One subdomain ends up ranking instead of the one a team actually wants to win.</p>\n\n<p>Merging subdomains isn't always the fix. That's a large infrastructure decision with real tradeoffs.</p>\n\n<p>The real fix is an explicit choice. Decide which subdomain should rank for which query, cross-link deliberately, and point canonical tags at the surface you want to win.</p>\n\n<div class=\"my-6 p-4 bg-yellow-50 dark:bg-yellow-950 border-l-4 border-yellow-500 rounded-r\">\n  <p class=\"font-semibold text-yellow-900 dark:text-yellow-100 mb-2\">Watch Out For</p>\n  <p class=\"text-yellow-800 dark:text-yellow-200\">A docs subdomain often outranks the marketing site for the exact terms marketing wanted to own, because docs pages are static and text-dense while the marketing site is a heavier client-side app. That split needs to be a deliberate choice, not an accident.</p>\n</div>\n\n<p>The app frontend itself, behind the wallet-connect flow, is a different problem: gated content, dynamic per-address routes, session-dependent state. I don't cover that depth here on purpose. It deserves its own resource.</p>\n\n<h2 id=\"schema-for-web3\">Schema for Web3: Structuring Content and Live Data</h2>\n\n<p>Schema markup (JSON-LD) tells search engines and AI systems what a page is, not just what it says. Three types cover most of what matters: <code>Article</code> for editorial content, <code>FAQPage</code> for Q&A sections, and <code>Organization</code> for the entity behind the site.</p>\n\n<p>This article carries all three. The FAQ below is marked up as <code>FAQPage</code> schema, not just a styled list.</p>\n\n<p>The part specific to Web3 is live data. A page showing a token's price, TVL, or holder count is only accurate for a moment.</p>\n\n<p>Without a timestamp, a crawler or an AI model has no way to know if the numbers are current. They could be six months stale.</p>\n\n<p>Two rules fix that. Mark every data-driven page with a visible \"last updated\" date near the content, not buried in a footer. Update <code>dateModified</code> every time the underlying data changes, not just when you edit the surrounding copy.</p>\n\n<div class=\"my-6 p-4 bg-blue-50 dark:bg-blue-950 border-l-4 border-blue-500 rounded-r\">\n  <p class=\"font-semibold text-blue-900 dark:text-blue-100 mb-2\">Key Insight</p>\n  <p class=\"text-blue-800 dark:text-blue-200\">To a machine, a token-data page with no freshness signal is the same as a page with no date at all. Freshness has to be declared, not assumed.</p>\n</div>\n\n<h2 id=\"crawl-and-index-control\">Crawl and Index Control: robots.txt, AI-Bot Allowlists, and Content-Signal</h2>\n\n<figure>\n<img src=\"https://mangabeira.net/media/web3-technical-seo-robots.png\" alt=\"mangabeira.net's live robots.txt showing a Content-Signal declaration and an explicit allowlist for AI crawlers including GPTBot and ClaudeBot\" width=\"2200\" height=\"1812\" style=\"width:100%;height:auto;border-radius:8px;\">\n<figcaption>This site's own robots.txt, captured Sep 3, 2026: the Content-Signal declaration and the explicit AI-bot allowlist this section describes, live in production.</figcaption>\n</figure>\n\n<p>Robots.txt does two jobs. It tells crawlers what they can access. Increasingly, it also tells AI crawlers what they're allowed to do with what they find.</p>\n\n<p>Most projects get the first job wrong by accident. They inherit a template that blocks staging paths, and catches <code>/docs</code> or <code>/whitepaper</code> along with it. Check yours against your actual live routes, and don't assume it's correct just because it shipped with the framework.</p>\n\n<p>The second job is newer, and most sites haven't touched it. On 2026-08-31, I added <code>Content-Signal: search=yes, ai-input=yes, ai-train=yes</code> to mangabeira.net's robots.txt under <code>User-agent: *</code>, using the emerging <a href=\"https://contentsignals.org\" target=\"_blank\" rel=\"noopener\">contentsignals.org</a> standard.</p>\n\n<p><code>ai-train=yes</code> was a deliberate, non-default choice. It opens the site fully to AI training, on top of AI input and search indexing. That decision should follow your own citation strategy, not get made by omission.</p>\n\n<p>Two things I checked and skipped, because \"do less\" is sometimes the right call. Link response headers for an agent-facing resource: none exist yet. DNS-AID records: those require DNSSEC, which the zone lacks.</p>\n\n<p>Infrastructure for a standard nobody reads isn't technical SEO. It's noise that looks like diligence.</p>\n\n<table class=\"w-full border-collapse my-8\">\n  <thead>\n    <tr class=\"bg-muted\">\n      <th class=\"p-4 text-left font-semibold border-b-2 border-primary\">Robots.txt element</th>\n      <th class=\"p-4 text-left font-semibold border-b-2 border-primary\">What it controls</th>\n      <th class=\"p-4 text-left font-semibold border-b-2 border-primary\">Common Web3 mistake</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr class=\"hover:bg-muted/50 transition-colors\">\n      <td class=\"p-4 border-b border-border\"><code>Disallow</code> rules</td>\n      <td class=\"p-4 border-b border-border\">Which paths crawlers may fetch at all</td>\n      <td class=\"p-4 border-b border-border\">Inherited template blocks <code>/docs</code> or <code>/whitepaper</code> by accident</td>\n    </tr>\n    <tr class=\"hover:bg-muted/50 transition-colors\">\n      <td class=\"p-4 border-b border-border\">Named AI bot rules (GPTBot, ClaudeBot, PerplexityBot)</td>\n      <td class=\"p-4 border-b border-border\">Whether AI crawlers can fetch the site at all</td>\n      <td class=\"p-4 border-b border-border\">Blocked without review, killing AI-answer citation before it starts</td>\n    </tr>\n    <tr class=\"hover:bg-muted/50 transition-colors\">\n      <td class=\"p-4 border-b border-border\"><code>Content-Signal</code></td>\n      <td class=\"p-4 border-b border-border\">What crawlers may do with fetched content (search, AI input, AI training)</td>\n      <td class=\"p-4 border-b border-border\">Not declared at all, leaving usage preferences implicit</td>\n    </tr>\n  </tbody>\n</table>\n\n<h2 id=\"performance-wallet-frontends\">Performance on Wallet-Heavy Frontends</h2>\n\n<p>Core Web Vitals are a Google ranking signal. Wallet connect flows hurt all three. Heavy JavaScript bundles for wallet SDKs slow largest contentful paint.</p>\n\n<p>Connect modals without reserved layout space cause layout shift. Wallet event handlers on the main thread block interaction to next paint. I don't go deep into fixing that here, since it's a dApp-frontend problem more than a site-wide one.</p>\n\n<p>Here's the site-wide framing. If your marketing pages share a JavaScript bundle with your app, wallet SDK weight taxes pages that never touch a wallet. The fix is below.</p>\n\n<div class=\"my-6 p-4 bg-green-50 dark:bg-green-950 border-l-4 border-green-500 rounded-r\">\n  <p class=\"font-semibold text-green-900 dark:text-green-100 mb-2\">Best Practice</p>\n  <p class=\"text-green-800 dark:text-green-200\">Split the bundle so marketing and content pages load without wallet dependencies. A crawler waiting on code it doesn't need is a technical SEO fix, not just a performance one.</p>\n</div>\n\n<h2 id=\"faq\">FAQ</h2>\n\n<h3>What is web3 technical SEO?</h3>\n<p>Web3 technical SEO makes a crypto site's content readable and indexable by search engines and AI crawlers. It accounts for client-side rendering, split subdomains, live on-chain data that needs freshness signals, and explicit crawler permissions through robots.txt and Content-Signal declarations.</p>\n\n<h3>Why don't AI crawlers see the same page Googlebot sees?</h3>\n<p>Googlebot executes JavaScript before indexing a page. GPTBot, ClaudeBot, and most other AI crawlers fetch raw HTML and run no JavaScript. A client-side app can look complete in a browser and still be empty to these crawlers, unless content exists in the initial response.</p>\n\n<h3>Do I need a Cloudflare Worker to fix AI crawler rendering?</h3>\n<p>A Worker that serves pre-rendered snapshots to known crawlers is one working pattern, and it's what mangabeira.net runs. But it's a mitigation layer, not a substitute for a build that prerenders correctly at the origin. Treat it as defense in depth, not the primary fix, or a build defect can go undetected for months.</p>\n\n<h3>What's the difference between web3 technical SEO and SEO for dApps?</h3>\n<p>Web3 technical SEO covers the site-wide stack: rendering, subdomain architecture, schema, crawl control, and performance. SEO for dApps is narrower: the application interface itself, wallet-gated content, dynamic per-address routes, and app-subdomain indexing, which needs its own dedicated treatment.</p>\n\n<h3>Should I open my robots.txt to AI crawlers?</h3>\n<p>That depends on your citation strategy, but leaving it undeclared is worse. If you want your project cited in AI-generated answers, GPTBot, ClaudeBot, and PerplexityBot need explicit access. A Content-Signal declaration (search=yes, ai-input=yes, ai-train=yes, or a narrower combination) makes your preference explicit instead of leaving it to each crawler's default behavior.</p>\n\n<div class=\"my-12 rounded-xl overflow-hidden border-l-4 border-amber-400 bg-slate-900 shadow-xl not-prose\">\n  <div class=\"p-8 md:p-12\">\n    <p class=\"text-sky-400 font-bold text-xs tracking-widest uppercase mb-4\">Analyst in the Arena · Gabriel Mangabeira</p>\n    <p class=\"text-white font-bold text-2xl md:text-3xl leading-tight mb-4 max-w-2xl\">Get your protocol's <span class=\"text-amber-400\">technical SEO</span> audited before it costs you rankings</p>\n    <div class=\"my-8 p-6 bg-navy rounded-lg text-white\">\n  <p class=\"text-xl font-semibold mb-2\">Not sure what a crawler actually receives from your site?</p>\n  <p class=\"text-gray-300 mb-4\">That's the first thing I test. My Web3 Growth Audit covers rendering, crawl control, and the schema fixes from this article, run against your live stack.</p>\n  <a href=\"https://mangabeira.net/services/web3-growth-audit\" class=\"inline-block px-5 py-2.5 bg-gradient-cta text-white font-semibold rounded-lg hover:brightness-110 transition-all\">Learn About the Web3 Growth Audit →</a>\n</div>\n\n<p>That's the real lesson: Web3 technical SEO isn't a checklist you clear once. It's a set of assumptions, about env vars, about which crawlers execute JavaScript, about what your robots.txt says. Those assumptions need re-verifying every time the stack changes underneath them.</p>\n\n<p>For the deeper cluster context, the <a href=\"https://mangabeira.net/publications/definitive-guide-web3-seo\" class=\"text-primary hover:underline\">full web3 SEO guide</a> connects this piece back to keyword research, link building, and getting cited in AI Overviews.</p>\n\n</article>\n\n---\n</div>",
+  "created_at": "2026-09-03T15:41:55.236562+00:00",
+  "updated_at": "2026-09-03T15:41:55.236562+00:00",
+  "featured_image_alt": "Unplugged cable on a dark desk with blurred screens behind, standing for a broken crawler connection",
+  "slug": "web3-technical-seo",
+  "schema": [
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Web3 Technical SEO: What Breaks on Crypto Sites and How I Fix It",
+      "description": "Web3 technical SEO from real incidents: a loadEnv() bug that hid 87 pages, a Cloudflare Worker built for AI crawlers, and a Content-Signal declaration.",
+      "image": "https://mangabeira.net/media/web3-technical-seo-cover.jpg",
+      "author": {
+        "url": "https://mangabeira.net",
+        "name": "Gabriel Mangabeira",
+        "@type": "Person",
+        "image": "https://mangabeira.net/images/gabriel-professional-about.png",
+        "sameAs": [
+          "https://x.com/manga82",
+          "https://linkedin.com/in/mangabeira"
+        ],
+        "jobTitle": "Web3 Growth Marketing Strategist",
+        "description": "Growth marketing expert specializing in Web3, DeFi, and tokenomics. Former growth lead at Binance and IOC."
+      },
+      "datePublished": "2026-09-03T15:41:55.236562+00:00",
+      "dateModified": "2026-09-03T15:41:55.236562+00:00",
+      "inLanguage": "en",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://mangabeira.net/publications/web3-technical-seo"
+      },
+      "isPartOf": {
+        "@type": "WebPage",
+        "name": "The Definitive Guide to Web3 SEO",
+        "@id": "https://mangabeira.net/publications/definitive-guide-web3-seo"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is web3 technical SEO?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Web3 technical SEO makes a crypto site's content readable and indexable by search engines and AI crawlers. It accounts for client-side rendering, split subdomains, live on-chain data that needs freshness signals, and explicit crawler permissions through robots.txt and Content-Signal declarations."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why don't AI crawlers see the same page Googlebot sees?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Googlebot executes JavaScript before indexing a page. GPTBot, ClaudeBot, and most other AI crawlers fetch raw HTML and run no JavaScript. A client-side app can look complete in a browser and still be empty to these crawlers, unless content exists in the initial response."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need a Cloudflare Worker to fix AI crawler rendering?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A Worker that serves pre-rendered snapshots to known crawlers is one working pattern, and it's what mangabeira.net runs. But it's a mitigation layer, not a substitute for a build that prerenders correctly at the origin. Treat it as defense in depth, not the primary fix, or a build defect can go undetected for months."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's the difference between web3 technical SEO and SEO for dApps?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Web3 technical SEO covers the site-wide stack: rendering, subdomain architecture, schema, crawl control, and performance. SEO for dApps is narrower: the application interface itself, wallet-gated content, dynamic per-address routes, and app-subdomain indexing, which needs its own dedicated treatment."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I open my robots.txt to AI crawlers?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "That depends on your citation strategy, but leaving it undeclared is worse. If you want your project cited in AI-generated answers, GPTBot, ClaudeBot, and PerplexityBot need explicit access. A Content-Signal declaration (search=yes, ai-input=yes, ai-train=yes, or a narrower combination) makes your preference explicit instead of leaving it to each crawler's default behavior."
+          }
+        }
+      ]
+    },
+    {
+      "url": "https://mangabeira.net",
+      "name": "Gabriel Mangabeira",
+      "@type": "Person",
+      "image": "https://mangabeira.net/images/gabriel-professional-about.png",
+      "sameAs": [
+        "https://x.com/manga82",
+        "https://linkedin.com/in/mangabeira"
+      ],
+      "@context": "https://schema.org",
+      "alumniOf": [
+        {
+          "name": "University of Florida",
+          "@type": "Organization"
+        },
+        {
+          "name": "Coca-Cola Company",
+          "@type": "Organization"
+        },
+        {
+          "name": "Binance",
+          "@type": "Organization"
+        },
+        {
+          "name": "International Olympic Committee",
+          "@type": "Organization"
+        }
+      ],
+      "jobTitle": "Web3 Growth Marketing Strategist",
+      "knowsAbout": [
+        "Web3 Marketing",
+        "Tokenomics",
+        "DeFi",
+        "NFT Strategy",
+        "Community Building",
+        "Growth Marketing",
+        "Sports Tokens",
+        "On-Chain Attribution",
+        "Token Utility Design",
+        "Liquidity Mining",
+        "Protocol Growth",
+        "Capital Efficiency"
+      ],
+      "description": "Growth marketing expert specializing in Web3, DeFi, and tokenomics. Former growth lead at Binance and IOC."
+    },
+    {
+      "url": "https://mangabeira.net",
+      "logo": "https://mangabeira.net/images/swimming-icon.png",
+      "name": "Mangabeira.net",
+      "@type": "Organization",
+      "sameAs": [
+        "https://x.com/manga82",
+        "https://linkedin.com/in/mangabeira"
+      ],
+      "founder": {
+        "name": "Gabriel Mangabeira",
+        "@type": "Person"
+      },
+      "@context": "https://schema.org",
+      "description": "Web3 growth marketing expertise and consulting for DeFi, NFT, and token projects"
+    }
+  ]
+}
