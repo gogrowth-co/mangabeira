@@ -80,7 +80,7 @@ const SEO = ({ locale, path = '/' }: SEOProps) => {
       "sameAs": [
         "https://x.com/manga82",
         "https://linkedin.com/in/mangabeira",
-        "https://medium.com/@mangabeira"
+        "https://medium.com/@gmangabeira"
       ],
       "contactPoint": {
         "@type": "ContactPoint",
@@ -109,7 +109,7 @@ const SEO = ({ locale, path = '/' }: SEOProps) => {
       "sameAs": [
         "https://x.com/manga82",
         "https://linkedin.com/in/mangabeira",
-        "https://medium.com/@mangabeira"
+        "https://medium.com/@gmangabeira"
       ],
       "knowsAbout": [
         "Growth Marketing",

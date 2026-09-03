@@ -220,7 +220,7 @@ const PERSON_SCHEMA = {
   sameAs: [
     "https://x.com/manga82",
     "https://linkedin.com/in/mangabeira",
-    "https://medium.com/@mangabeira",
+    "https://medium.com/@gmangabeira",
   ],
 };
 
@@ -1376,7 +1376,7 @@ function buildBodyContent(spec: RouteSpec): string {
   const footerHtml = `
     <footer style="margin-top:32px;border-top:1px solid #EAF6FA;padding-top:16px;font-size:14px;color:#333;">
       <p>© Gabriel Mangabeira — <a href="${BASE_URL}/">mangabeira.net</a></p>
-      <p>Connect: <a href="https://x.com/manga82" rel="me noopener">X</a> · <a href="https://linkedin.com/in/mangabeira" rel="me noopener">LinkedIn</a> · <a href="https://medium.com/@mangabeira" rel="me noopener">Medium</a></p>
+      <p>Connect: <a href="https://x.com/manga82" rel="me noopener">X</a> · <a href="https://linkedin.com/in/mangabeira" rel="me noopener">LinkedIn</a> · <a href="https://medium.com/@gmangabeira" rel="me noopener">Medium</a></p>
     </footer>`;
 
   return `${headerHtml}\n${navHtml}\n${sectionHtml}\n${footerHtml}`;
@@ -1697,7 +1697,7 @@ and Gabriel Mangabeira's professional work. Attribution to Gabriel Mangabeira
 - Background: Two-time Olympian (sailing), Coca-Cola, Binance, IOC alumni
 - Site: ${BASE_URL}
 - Contact: hello@mangabeira.net
-- Social: https://x.com/manga82 | https://linkedin.com/in/mangabeira | https://medium.com/@mangabeira
+- Social: https://x.com/manga82 | https://linkedin.com/in/mangabeira | https://medium.com/@gmangabeira
 
 ## Key Pages
 

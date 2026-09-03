@@ -60,7 +60,7 @@ export default function About() {
                 "https://pt.wikipedia.org/wiki/Gabriel_Mangabeira",
                 "https://linkedin.com/in/mangabeira",
                 "https://x.com/manga82",
-                "https://medium.com/@mangabeira",
+                "https://medium.com/@gmangabeira",
               ],
             },
           ],
