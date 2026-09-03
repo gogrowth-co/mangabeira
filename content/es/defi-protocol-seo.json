@@ -1,0 +1,152 @@
+{
+  "id": "0b6951a3-5ef1-4cdf-b8d0-fab2dc98adae",
+  "page_id": "58906078-e360-4806-a6b3-a403d928ee56",
+  "language": "es",
+  "title": "SEO para protocolos DeFi: qué funciona en lending, DEX y yield",
+  "meta_description": "El SEO genérico para DeFi ignora el tipo de protocolo. Esto es lo que funciona en lending, DEX y yield, con soluciones técnicas reales.",
+  "content": "<div class=\"article-content\">\n<p>Busca \"defi seo\" ahora mismo. Todos los resultados principales tienen el mismo discurso de agencia: Victoria Olsina, lengreo.com, naturallinks.net, embarque.io, garitboothe.com.</p>\n\n<p>Cinco empresas, un solo guion idéntico: contrátanos para posicionar tu protocolo. Ninguna escribe desde dentro de las restricciones reales de un protocolo específico.</p>\n\n<p>Tienes delante una página de tasas, una página de par o una página de vault que no posiciona. Los consejos genéricos no te dicen qué palanca mover.</p>\n\n<p>Esto desglosa lo que realmente funciona, por tipo de protocolo, con soluciones técnicas reales, no discursos de agencia. Capturas de pantalla de páginas de protocolos activos respaldan cada afirmación.</p>\n\n<p>Primero lending, DEX y yield. Después el piso técnico que comparten los tres, y la capa de citación por IA que crece rápido. Para el marco más amplio en el que se basa esto, consulta la <a href=\"https://mangabeira.net/publications/definitive-guide-web3-seo\">guía completa de SEO y AEO para Web3</a>.</p>\n\n<h2>Por qué el consejo genérico de \"SEO para Web3\" falla a nivel de tipo de protocolo</h2>\n\n<p>La mayoría del contenido de SEO para Web3 se detiene en la categoría: usa schema markup, construye backlinks, publica con constancia. Cierto, pero inútil para la ejecución.</p>\n\n<p>No le dice al marketer de un protocolo de lending si debe indexar cada página de tasa individual. No le dice a un DEX si sus páginas de pares son un activo o un pasivo de contenido duplicado.</p>\n\n<p>Los protocolos de lending, DEX y yield generan un tipo de página distinto a escala, y cada tipo de página tiene un modo de fallo distinto.</p>\n\n<div class=\"my-8 overflow-x-auto\">\n  <table class=\"w-full border-collapse\">\n    <thead>\n      <tr class=\"bg-muted\">\n        <th class=\"p-4 text-left font-semibold border-b-2 border-primary\">Tipo de protocolo</th>\n        <th class=\"p-4 text-left font-semibold border-b-2 border-primary\">Página generada a escala</th>\n        <th class=\"p-4 text-left font-semibold border-b-2 border-primary\">Problema central de SEO</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr class=\"hover:bg-muted/50 transition-colors\">\n        <td class=\"p-4 border-b border-border font-medium\">Lending</td>\n        <td class=\"p-4 border-b border-border\">Páginas de tasas, una por activo</td>\n        <td class=\"p-4 border-b border-border\">Frescura de datos en tiempo real y schema</td>\n      </tr>\n      <tr class=\"hover:bg-muted/50 transition-colors\">\n        <td class=\"p-4 border-b border-border font-medium\">DEX</td>\n        <td class=\"p-4 border-b border-border\">Páginas de pares, una por par de trading</td>\n        <td class=\"p-4 border-b border-border\">Contenido duplicado a escala</td>\n      </tr>\n      <tr class=\"hover:bg-muted/50 transition-colors\">\n        <td class=\"p-4 border-b border-border font-medium\">Yield / vault</td>\n        <td class=\"p-4 border-b border-border\">Páginas de vault, una por estrategia</td>\n        <td class=\"p-4 border-b border-border\">Diferenciación frente a competidores casi idénticos</td>\n      </tr>\n    </tbody>\n  </table>\n</div>\n\n<div class=\"my-6 p-4 bg-blue-50 dark:bg-blue-950 border-l-4 border-blue-500 rounded-r\">\n  <p class=\"font-semibold text-blue-900 dark:text-blue-100 mb-2\">Insight clave</p>\n  <p class=\"text-blue-800 dark:text-blue-200\">Las páginas de pares de un DEX son un problema de SEO programático. Las páginas de tasas de un protocolo de lending son un problema de schema con datos en tiempo real. La página de un yield vault es un problema de diferenciación. Misma categoría, tres trabajos distintos.</p>\n</div>\n\n<p>Tratar a los tres de la misma forma produce el mismo resultado genérico. Las páginas existen pero nunca posicionan, porque la solución que habría funcionado nunca se aplicó.</p>\n\n<h2>SEO para protocolos de lending: páginas de tasas, schema de datos en tiempo real, captura de búsquedas comparativas</h2>\n\n<p>Los protocolos de lending como Aave y Compound Finance generan páginas alrededor de un número en movimiento: la tasa de depósito y préstamo actual para cada activo. Ese número cambia varias veces al día. La mayoría de los sitios de protocolos de lending tratan estas páginas como contenido estático, y ese es el primer error.</p>\n\n<figure>\n<img src=\"https://mangabeira.net/media/defi-protocol-seo-aave-rates.png\" alt=\"Tabla de mercados en vivo de Aave mostrando el APY de depósito por activo, con la columna Supply APY resaltada y sin marca de tiempo visible en la página\" width=\"2200\" height=\"1450\" style=\"width:100%;height:auto;border-radius:8px;\">\n<figcaption>Página de mercados de Aave, capturada el 3 de septiembre de 2026. Tasas de depósito en vivo en cada fila de activo, y ninguna marca de \"actualizado el\" en toda la página. Esa es la brecha de señal de frescura de la que trata esta sección.</figcaption>\n</figure>\n\n<p><strong>Las páginas de tasas necesitan declarar su propia frescura.</strong> \"APY de depósito de USDC: 4.2%\" sin marca de tiempo no le dice nada a los buscadores sobre si la cifra está actualizada.</p>\n\n<p>Agrega un marcador explícito de \"actualizado el [fecha/hora]\" y estructura la tasa como una propiedad de schema sensible al tiempo, como <code>dataFeedUpdate</code> o similar. Un número que parece obsoleto se trata como contenido poco confiable, no solo como desactualizado.</p>\n\n<p><strong>Las búsquedas comparativas son el tráfico de mayor intención que un protocolo de lending puede capturar.</strong> Búsquedas como \"Aave vs Compound APY\" muestran a un usuario decidiendo activamente dónde depositar.</p>\n\n<p>La mayoría de los protocolos no construye una página para esto, dejando la búsqueda en manos de agregadores externos a los que no les importa qué protocolo gana.</p>\n\n<p><strong>Extrae los datos de tasas desde una API en vivo o un dashboard público de Dune en lugar de escribirlos a mano.</strong> Esto mantiene la página precisa sin actualizaciones manuales, y te da algo a lo que enlazar. Esa es una señal que los crawlers de IA premian al verificar si una afirmación es comprobable.</p>\n\n<div class=\"my-6 p-4 bg-green-50 dark:bg-green-950 border-l-4 border-green-500 rounded-r\">\n  <p class=\"font-semibold text-green-900 dark:text-green-100 mb-2\">Buena práctica</p>\n  <p class=\"text-green-800 dark:text-green-200\">Marca con fecha y hora cada afirmación numérica en una página de tasas. Casi ningún competidor lo hace, y apoya directamente la señal de precisión que los motores de IA ahora revisan.</p>\n</div>\n\n<h2>SEO para DEX: páginas de pares programáticas, la trampa del contenido duplicado, schema de pools de liquidez</h2>\n\n<p>Los DEX estilo Uniswap generan una página por cada par de trading. A escala, eso son miles de URLs casi idénticas: ETH/USDC, ETH/USDT, ETH/DAI, cada una con la misma plantilla y el mismo texto genérico con solo el símbolo del token cambiado.</p>\n\n<p>Esto es un problema de SEO programático con un modo de fallo real: <strong>contenido duplicado a escala.</strong> Si un DEX autogenera 3,000 páginas de pares a partir de las mismas 200 palabras de plantilla, los buscadores ven miles de páginas que casi no dicen nada único. La mayoría nunca se indexa, y las que sí lo hacen posicionan mal.</p>\n\n<figure>\n<img src=\"https://mangabeira.net/media/defi-protocol-seo-gecko-pairs.png\" alt=\"Lista de pools de Ethereum en GeckoTerminal mostrando filas consecutivas casi idénticas de pares WETH, con la columna de nombre del pool resaltada\" width=\"2200\" height=\"1828\" style=\"width:100%;height:auto;border-radius:8px;\">\n<figcaption>Lista de pools de Ethereum en GeckoTerminal, capturada el 3 de septiembre de 2026. Fila tras fila de pares WETH casi idénticos. Cada uno de estos es una página en algún lugar compitiendo por indexarse con la misma plantilla.</figcaption>\n</figure>\n\n<p>La solución no es tener menos páginas. Es tener páginas más diferenciadas.</p>\n\n<ul><li><strong>Incorpora datos específicos del par que ninguna otra página de par tiene</strong>: profundidad de liquidez, volumen de 24 horas, volatilidad histórica.</li>\n<li><strong>Usa <code>Product</code> o un schema de pool de liquidez personalizado</strong>, no solo el marcado genérico de <code>WebPage</code>, para que los crawlers puedan leer el estado real del pool.</li>\n<li><strong>Consolida los pares de baja liquidez.</strong> Un par con $200 de liquidez y cero volumen en 90 días no vale la pena indexarlo. Márcalo como noindex o integralo en una vista de \"todos los pares\".</li>\n<li><strong>Escribe texto introductorio único solo para los pares de alto volumen.</strong> Prioriza los primeros 50-100 por volumen, donde el retorno justifica el esfuerzo.</li></ul>\n\n<div class=\"my-6 p-4 bg-yellow-50 dark:bg-yellow-950 border-l-4 border-yellow-500 rounded-r\">\n  <p class=\"font-semibold text-yellow-900 dark:text-yellow-100 mb-2\">Atención</p>\n  <p class=\"text-yellow-800 dark:text-yellow-200\">Indexar automáticamente cada par que tu contrato puede generar es la forma en que un DEX termina con un reporte de Search Console lleno de páginas \"rastreadas, no indexadas\". Esa es una señal directa de que el contenido no fue lo bastante diferenciado como para ganarse un lugar en el índice.</p>\n</div>\n\n<h2>SEO para protocolos de yield y vault: diferenciarse cuando 50 protocolos describen la misma estrategia</h2>\n\n<figure>\n<img src=\"https://mangabeira.net/media/defi-protocol-seo-yearn-vaults.png\" alt=\"Lista de vaults de Yearn mostrando vaults consecutivos con el mismo diseño y etiquetas, que solo difieren en el número de APY, con tres filas casi idénticas resaltadas\" width=\"2200\" height=\"1508\" style=\"width:100%;height:auto;border-radius:8px;\">\n<figcaption>Lista de vaults de Yearn, capturada el 3 de septiembre de 2026. Misma plantilla, mismas etiquetas, un número distinto por fila. Este es el problema de diferenciación que toda página de vault tiene que superar.</figcaption>\n</figure>\n\n<p>Este es el más difícil de los tres. La página de vault de un agregador de yield para \"ETH-USDC LP auto-compounder\" describe una estrategia que docenas de competidores también ofrecen. El lenguaje es casi idéntico: \"maximiza tu yield\", \"auto-compone tus recompensas\", \"configúralo y olvídalo\".</p>\n\n<p>Cuando 50 protocolos usan las mismas tres frases, los buscadores no tienen señal para diferenciarlos, y tampoco los lectores. El protocolo que gana no es el que tiene el mejor texto de estrategia. Es el que tiene la especificidad más verificable.</p>\n\n<p><strong>Lidera con lo que realmente es distinto, no con la descripción de la estrategia.</strong> Todo vault tiene el mismo discurso genérico. Lo único es la estructura de comisiones, los contratos específicos con los que interactúa, el historial de auditorías y el APY histórico real, no uno proyectado.</p>\n\n<p><strong>Nombra los protocolos subyacentes por los que pasa el vault.</strong> Si un vault auto-compone una posición de LP de Curve, di Curve por su nombre, y enlázalo.</p>\n\n<p>La densidad de entidades nombradas es una de las formas más claras en que los motores de IA distinguen una página real y con base técnica de una plantilla. Eso significa referenciar protocolos específicos como Aave, Uniswap, Compound y Curve, además de herramientas como Dune y DefiLlama.</p>\n\n<p><strong>Publica la auditoría y el perfil de riesgo del vault en la misma página, no enterrados en la documentación.</strong> Esto es tanto una señal de confianza para los usuarios como una señal de diferenciación para el buscador, ya que la mayoría de las páginas de vault competidoras se lo saltan.</p>\n\n<p><strong>El APY histórico vence al APY proyectado como activo de posicionamiento.</strong> Una página que muestra 90 días de retornos realizados de verdad es contenido citable. Un APY proyectado sin historial es texto de marketing, y los buscadores cada vez más lo tratan así.</p>\n\n<div class=\"my-6 p-4 bg-blue-50 dark:bg-blue-950 border-l-4 border-blue-500 rounded-r\">\n  <p class=\"font-semibold text-blue-900 dark:text-blue-100 mb-2\">Insight clave</p>\n  <p class=\"text-blue-800 dark:text-blue-200\">El vault que gana no es el que tiene el mejor texto de estrategia. Es el que tiene la especificidad más verificable: protocolos nombrados, auditorías publicadas, retornos históricos.</p>\n</div>\n\n<h2>El piso técnico compartido entre los tres</h2>\n\n<p>El tipo de protocolo determina la estrategia de contenido. Pero lending, DEX y yield comparten el mismo piso técnico, y si ese piso está roto, ninguna de las soluciones a nivel de contenido anteriores importa.</p>\n\n<figure>\n<img src=\"https://mangabeira.net/media/defi-protocol-seo-concept-foundation.jpg\" alt=\"Fotografía macro de una lupa apoyada contra una página en blanco sobre un escritorio oscuro, con brillo de servidor de fondo, anotada: lo que recibe el crawler es una página en blanco mientras el sitio se renderiza bien en el navegador\" width=\"2048\" height=\"1152\" style=\"width:100%;height:auto;border-radius:8px;\">\n<figcaption>El modo de fallo compartido, hecho visible: el sitio se renderiza bien en tu navegador mientras el crawler recibe una página en blanco. Cada solución de esta sección existe para cerrar esa brecha.</figcaption>\n</figure>\n\n<figure>\n<video src=\"https://mangabeira.net/media/defi-protocol-seo-blank-page-loop.mp4\" width=\"1440\" height=\"900\" muted loop playsinline controls preload=\"metadata\" style=\"width:100%;height:auto;border-radius:8px;\"></video>\n<figcaption>Lo mismo, en vivo: app.aave.com cargando con JavaScript activado (izquierda) y el blanco permanente que recibe un crawler sin JS en la misma URL (derecha). Grabado el 2 de septiembre de 2026, loop de 8 segundos.</figcaption>\n</figure>\n\n<p>El fallo más común es invisible desde el navegador: <strong>el sitio se renderiza bien para un humano pero no muestra nada a un crawler.</strong> Encontré y corregí exactamente este bug en mi propio sitio en agosto de 2026. Una mala configuración de build de una sola línea ocultó silenciosamente la mayor parte del sitio a los crawlers, mientras todo se veía normal en el navegador.</p>\n\n<p>El incidente completo y el pipeline de renderizado que lo previene pertenecen al lado técnico de este cluster; una pieza complementaria del cluster cubre ese lado en profundidad. Lo que importa aquí es detectar el mismo tipo de problema en un sitio DeFi específicamente.</p>\n\n<p>Tres verificaciones que lo logran:</p>\n\n<div class=\"my-8 p-6 bg-muted/30 rounded-lg border border-border\">\n  <h3 class=\"text-xl font-bold mb-4\">Tres verificaciones que lo detectan</h3>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span><strong>Solicita tus propias páginas de tasas, pares o vault como lo haría un crawler</strong>, sin ejecución de JavaScript, y confirma que los datos reales están en el HTML crudo.</span>\n  </label>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span><strong>Confirma que robots.txt permita explícitamente a los crawlers de IA</strong> (GPTBot, ClaudeBot, PerplexityBot) además de Googlebot. Un disallow general escrito para un bot puede excluir silenciosamente a los demás.</span>\n  </label>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span><strong>Verifica que tus listados en CMC y CoinGecko enlacen de vuelta a tu sitio y documentación.</strong> Son de los backlinks de mayor autoridad que un protocolo DeFi puede obtener, y la mayoría de los protocolos los deja incompletos.</span>\n  </label>\n</div>\n\n<h2>La capa GEO: por qué la precisión importa tanto como la citación para los datos de protocolos</h2>\n\n<p>Que un motor de IA te cite es solo la mitad del problema. La otra mitad es si lo citado es correcto, y para los protocolos DeFi eso es medible.</p>\n\n<p>En una prueba realizada el 2 de agosto de 2026, los principales modelos de IA sobreestimaron el TVL de Pendle entre un 244% y un 320%. Sobreestimaron el TVL de Lido entre un 80% y un 96% respecto a las cifras reales del momento.</p>\n\n<p>Incluso una guía respetada de 2026 sobre visibilidad de LLM para Web3 citó \"Lido tiene $22.3B de TVL a enero de 2026\". Esa cifra ya se había desviado del número real para cuando se leyó. El propio material de referencia se degrada.</p>\n\n<p>TVL, APY, supply y conteo de holders son series numéricas continuas. Un número preciso hoy queda obsoleto en días, y ni el modelo ni la mayoría del contenido fuente marcan esa degradación. La solución práctica es la misma para protocolos de lending, DEX y yield por igual:</p>\n\n<div class=\"my-8 p-6 bg-muted/30 rounded-lg border border-border\">\n  <h3 class=\"text-xl font-bold mb-4\">La solución práctica, sin importar el tipo de protocolo</h3>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span>Reemplaza las cifras estáticas de TVL y APY con widgets que se actualizan en vivo desde una API, no texto escrito a mano.</span>\n  </label>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span>Coloca una marca de tiempo explícita de \"actualizado el [fecha]\" en cada afirmación numérica, especialmente las más propensas a ser citadas o extraídas.</span>\n  </label>\n\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span>Enlaza directamente a un dashboard público (un dashboard de Dune, una página de DefiLlama) para que un modelo o un lector que verifique la afirmación tenga dónde comprobarla.</span>\n  </label>\n</div>\n\n<p>Este es el mismo problema de precisión que se aborda con más profundidad en la <a href=\"https://mangabeira.net/publications/definitive-guide-web3-seo\">sección GEO de la guía de SEO y AEO para Web3</a>. Recorre el marco completo para lograr que te citen con precisión, no solo que te citen.</p>\n\n<h2>Preguntas frecuentes</h2>\n\n<h3>¿Qué es el SEO para DeFi?</h3>\n\n<p>El SEO para DeFi es la optimización para buscadores enfocada en protocolos de finanzas descentralizadas, cubriendo las señales técnicas, de contenido y de confianza específicas de plataformas de lending, DEX y protocolos de yield. Se diferencia del SEO genérico porque los sitios DeFi generan páginas alrededor de datos vivos y en degradación, como tasas y TVL, no descripciones de producto estáticas.</p>\n\n<h3>¿Por qué el consejo genérico de SEO para DeFi no funciona para mi protocolo?</h3>\n\n<p>El consejo genérico trata a todos los protocolos DeFi como una sola categoría. Las páginas de tasas de un protocolo de lending, las páginas de pares de un DEX y las páginas de vault de un protocolo de yield fallan por razones distintas: datos desactualizados, contenido duplicado a escala y falta de diferenciación. La solución tiene que coincidir con el modo de fallo.</p>\n\n<h3>¿Cómo debería manejar un DEX miles de páginas de pares de trading?</h3>\n\n<p>No indexes cada par que un contrato inteligente pueda generar. Prioriza páginas únicas y ricas en datos para los pares de alto volumen, usa schema de pool de liquidez, y marca como noindex o consolida los pares de baja liquidez sin demanda real de búsqueda.</p>\n\n<h3>¿Cómo se diferencian los protocolos de yield cuando todos los vaults suenan igual?</h3>\n\n<p>Deja de liderar con la descripción de la estrategia, ya que todos los competidores usan el mismo lenguaje. Lidera con lo específico: estructura de comisiones, protocolos subyacentes nombrados, historial de auditorías y APY histórico real. Esto es verificable y no puede copiarlo una página con plantilla.</p>\n\n<h3>¿Por qué importa la precisión de la IA específicamente para el SEO de DeFi?</h3>\n\n<p>Los datos más citados de DeFi, TVL, APY y cifras de supply, son series numéricas continuas que se degradan rápido. Una prueba en agosto de 2026 encontró que los principales modelos de IA sobreestimaban el TVL de protocolos en porcentajes de tres cifras. Marcar con fecha las afirmaciones y enlazar a dashboards en vivo es la solución práctica.</p>\n\n<h2>Qué vigilar a continuación</h2>\n\n<p>El patrón entre el SEO de lending, DEX y yield es el mismo debajo de las diferencias. Los protocolos que ganan publican datos verificables, actuales y estructuralmente sólidos, no el mejor texto de estrategia.</p>\n\n<p>Eso se acumula. Un protocolo que hace esto bien en el primer mes sigue acumulando posiciones y citaciones mientras los competidores publican el mismo discurso con plantilla que usa todo el mundo.</p>\n\n<p>Si tu protocolo ya pasó el lanzamiento y no estás seguro de si tus páginas de tasas, pares o vault son realmente rastreables y citables, vale la pena revisarlo. La <a href=\"https://mangabeira.net/services/web3-growth-audit\">auditoría de crecimiento Web3</a> está diseñada para revelar exactamente eso.</p>\n\n<p>---</p>\n</div>",
+  "created_at": "2026-09-03T14:36:00.634136+00:00",
+  "updated_at": "2026-09-03T14:36:00.634136+00:00",
+  "featured_image_alt": "Late-night analyst desk with three monitors showing abstract data glows standing for lending, DEX, and yield protocols",
+  "slug": "seo-defi-lending-dex-yield",
+  "schema": [
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "SEO para protocolos DeFi: qué funciona en lending, DEX y yield",
+      "description": "El SEO genérico para DeFi ignora el tipo de protocolo. Esto es lo que funciona en lending, DEX y yield, con soluciones técnicas reales.",
+      "image": "https://mangabeira.net/media/defi-protocol-seo-cover.jpg",
+      "author": {
+        "url": "https://mangabeira.net",
+        "name": "Gabriel Mangabeira",
+        "@type": "Person",
+        "image": "https://mangabeira.net/images/gabriel-professional-about.png",
+        "sameAs": [
+          "https://x.com/manga82",
+          "https://linkedin.com/in/mangabeira"
+        ],
+        "jobTitle": "Web3 Growth Marketing Strategist",
+        "description": "Growth marketing expert specializing in Web3, DeFi, and tokenomics. Former growth lead at Binance and IOC."
+      },
+      "datePublished": "2026-09-03T14:36:00.634136+00:00",
+      "dateModified": "2026-09-03T14:36:00.634136+00:00",
+      "inLanguage": "es",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://mangabeira.net/es/articulos/seo-defi-lending-dex-yield"
+      },
+      "isPartOf": {
+        "@type": "WebPage",
+        "name": "The Definitive Guide to Web3 SEO",
+        "@id": "https://mangabeira.net/publications/definitive-guide-web3-seo"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Qué es el SEO para DeFi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "El SEO para DeFi es la optimización para buscadores enfocada en protocolos de finanzas descentralizadas, cubriendo las señales técnicas, de contenido y de confianza específicas de plataformas de lending, DEX y protocolos de yield. Se diferencia del SEO genérico porque los sitios DeFi generan páginas alrededor de datos vivos y en degradación, como tasas y TVL, no descripciones de producto estáticas."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Por qué el consejo genérico de SEO para DeFi no funciona para mi protocolo?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "El consejo genérico trata a todos los protocolos DeFi como una sola categoría. Las páginas de tasas de un protocolo de lending, las páginas de pares de un DEX y las páginas de vault de un protocolo de yield fallan por razones distintas: datos desactualizados, contenido duplicado a escala y falta de diferenciación. La solución tiene que coincidir con el modo de fallo."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cómo debería manejar un DEX miles de páginas de pares de trading?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No indexes cada par que un contrato inteligente pueda generar. Prioriza páginas únicas y ricas en datos para los pares de alto volumen, usa schema de pool de liquidez, y marca como noindex o consolida los pares de baja liquidez sin demanda real de búsqueda."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cómo se diferencian los protocolos de yield cuando todos los vaults suenan igual?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deja de liderar con la descripción de la estrategia, ya que todos los competidores usan el mismo lenguaje. Lidera con lo específico: estructura de comisiones, protocolos subyacentes nombrados, historial de auditorías y APY histórico real. Esto es verificable y no puede copiarlo una página con plantilla."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Por qué importa la precisión de la IA específicamente para el SEO de DeFi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Los datos más citados de DeFi, TVL, APY y cifras de supply, son series numéricas continuas que se degradan rápido. Una prueba en agosto de 2026 encontró que los principales modelos de IA sobreestimaban el TVL de protocolos en porcentajes de tres cifras. Marcar con fecha las afirmaciones y enlazar a dashboards en vivo es la solución práctica."
+          }
+        }
+      ]
+    },
+    {
+      "url": "https://mangabeira.net",
+      "name": "Gabriel Mangabeira",
+      "@type": "Person",
+      "image": "https://mangabeira.net/images/gabriel-professional-about.png",
+      "sameAs": [
+        "https://x.com/manga82",
+        "https://linkedin.com/in/mangabeira"
+      ],
+      "@context": "https://schema.org",
+      "alumniOf": [
+        {
+          "name": "University of Florida",
+          "@type": "Organization"
+        },
+        {
+          "name": "Coca-Cola Company",
+          "@type": "Organization"
+        },
+        {
+          "name": "Binance",
+          "@type": "Organization"
+        },
+        {
+          "name": "International Olympic Committee",
+          "@type": "Organization"
+        }
+      ],
+      "jobTitle": "Web3 Growth Marketing Strategist",
+      "knowsAbout": [
+        "Web3 Marketing",
+        "Tokenomics",
+        "DeFi",
+        "NFT Strategy",
+        "Community Building",
+        "Growth Marketing",
+        "Sports Tokens",
+        "On-Chain Attribution",
+        "Token Utility Design",
+        "Liquidity Mining",
+        "Protocol Growth",
+        "Capital Efficiency"
+      ],
+      "description": "Growth marketing expert specializing in Web3, DeFi, and tokenomics. Former growth lead at Binance and IOC."
+    },
+    {
+      "url": "https://mangabeira.net",
+      "logo": "https://mangabeira.net/images/swimming-icon.png",
+      "name": "Mangabeira.net",
+      "@type": "Organization",
+      "sameAs": [
+        "https://x.com/manga82",
+        "https://linkedin.com/in/mangabeira"
+      ],
+      "founder": {
+        "name": "Gabriel Mangabeira",
+        "@type": "Person"
+      },
+      "@context": "https://schema.org",
+      "description": "Web3 growth marketing expertise and consulting for DeFi, NFT, and token projects"
+    }
+  ]
+}
