@@ -1,0 +1,287 @@
+{
+  "id": "3bb468b1-aa19-4e91-8edd-3691fe84c72b",
+  "page_id": "1ef181c0-7aba-450e-bb51-0165eeef19a9",
+  "language": "es",
+  "title": "Cómo Diseñar Tokenomics que Impulsen el Crecimiento del Protocolo",
+  "meta_description": "El análisis de 100+ lanzamientos de protocolos revela las cuatro decisiones estructurales que separan los protocolos DeFi sostenibles de los bleed loops. Construye sistemas de token que sostengan el crecimiento.",
+  "content": "<p><strong>El 85% de los lanzamientos de tokens DeFi en 2025 cotizaron por debajo de su valor de TGE.</strong> El retorno mediano fue de <strong>-71%</strong>. Los productos no eran todos malos. Los sistemas de token sí lo eran. El análisis de 100+ lanzamientos de protocolos revela un patrón consistente: los fallos se remontan a cuatro decisiones de diseño tomadas antes de que cualquier usuario conectara su cartera.</p><p>Los mercados cambiaron cómo leen los tokenomics. Un FDV alto señala el ego del fundador. Los cronogramas de vesting complejos señalan baja confianza en el producto. La utilidad solo de gobernanza señala un equipo sin ideas. Estas no son lecturas subjetivas. Son las conclusiones a las que llegaron 100+ inversores después de ver los mismos fallos estructurales repetirse a lo largo de 2024 y 2025.</p><p>Este análisis cubre las cuatro decisiones que determinan si un protocolo construye un flywheel de crecimiento sostenible o sangra su tesorería persiguiendo yields que no puede sostener. Cada decisión está fundamentada en datos de protocolos activos y en los eventos de gobernanza que validaron estos patrones a finales de 2025.</p><h3>⚡ Resumen Ejecutivo</h3><ul><li><p><strong>El 85% de los lanzamientos de tokens de 2025</strong> cotizaron por debajo del TGE. Retorno mediano: -71%. Son fallos de diseño, no condiciones de mercado.</p></li><li><p>El mercado migró del Tokenomics 1.0 (basado en emisiones) al 3.0 (basado en ingresos). Eso es la expectativa base ahora, no un diferenciador.</p></li><li><p><strong>Cuatro decisiones estructurales</strong> determinan la sostenibilidad del protocolo: modelo de emisión, asignación comunitaria, diseño de vesting y equilibrio utilidad-sink.</p></li><li><p>Señales de alerta que los inversores monitorizan: FDV alto, float bajo, asignaciones de VC superiores al 30%, utilidad solo de gobernanza y unlocks en cliff.</p></li><li><p>Usa el <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" class=\"text-primary underline hover:underline font-semibold\" href=\"/es/herramientas/simulador-tokenomics\">Simulador de Tokenomics DeFi</a> para modelar las cuatro variables antes del TGE.</p></li></ul><h2>Los Datos sobre Lanzamientos de Tokens en 2025</h2><p>Los números no dejan margen de duda. El análisis comunitario de los lanzamientos DeFi de 2025 muestra <strong>el 85% de los nuevos tokens cotizando por debajo del precio de TGE</strong>, con retornos medianos de -71%. La respuesta de la comunidad en X y Reddit fue consistente: \"brutal\", \"fallo estructural\", \"los mismos errores, otra vez\".</p><p>Lo que llama la atención es que los fallos no fueron aleatorios. Se agruparon en torno a un conjunto reconocible de decisiones de diseño. FDV alto con float circulante bajo. Asignaciones de VC que concentraron las salidas de insiders en cliffs de 6 y 12 meses. Cronogramas de emisión construidos para rondas de captación, no para crecimiento sostenible. Tokens que gobernaban posts en foros en lugar de parámetros del protocolo.</p><h3>Del Tokenomics 1.0 al 3.0: Lo que el Mercado Exige Hoy</h3><p>La evolución a lo largo de 2025 fue rápida. El Q1 trajo un movimiento de \"vuelta a los básicos\". Los modelos de supply fijo ganaron terreno. La distribución de ingresos mediante recompras se convirtió en el mínimo esperado. En el Q3, surgieron mecanismos de emisión dinámica con IA. En el Q4, los Tradable Vesting Schedules y las Initial Weighted Offerings representaban la vanguardia del diseño de alineación.</p><p>El mercado lo etiquetó como \"Tokenomics 3.0\". Modelos de ingresos sostenibles. Integración regulatoria. Mecánicas deflacionarias vinculadas a comisiones reales. Esto ya no es una tendencia. Es la expectativa base para protocolos que lancen en 2026.</p><p>La señal más fuerte llegó el 28 de diciembre de 2025, cuando el fee switch de Uniswap entró en vigor tras la votación comunitaria del 19 al 26 de diciembre. El mercado reclasificó el UNI de inmediato. Los analistas dejaron de aplicar modelos de token de gobernanza. Comenzaron a aplicar ratios P/G. Esa única activación demostró lo que el mercado venía señalando todo el año: <strong>los tokens con ingresos cotizan de forma diferente</strong>.</p><p>⚠️ Alerta de Patrón</p><p><strong>El 85% de los lanzamientos DeFi de 2025 cotizaron por debajo del TGE. Retorno mediano: -71%.</strong> El denominador común no es mal timing ni bear market. Son sistemas de token diseñados para captación, no para utilidad. Monad ($MON) lanzó con un FDV de $2,6B y entregó -7,6% vs. ICO. Plasma ($XPL) no tenía cap de supply con el 80% bloqueado. Berachain ($BERA) ejecutó emisiones sin límite. Los tres aparecieron en \"listas de señales de alerta\" de la comunidad semanas después del lanzamiento.</p><p><strong>Monad ($MON)</strong> lanzó con una valoración totalmente diluida de $2,6B. El mercado no tenía hacia dónde ir salvo caer. El feedback de la comunidad fue directo: \"tokenomics movidos por el ego que eliminaron cualquier upside realista\". El TVL post-lanzamiento alcanzó los $185M, con un rendimiento inferior al de competidores con parámetros de lanzamiento más conservadores.</p><p><strong>Plasma ($XPL)</strong> recibió críticas continuas por supply ilimitado con el 80% bloqueado en el TGE. Los analistas comunitarios lo categorizaron como riesgo de dilución estructural de inmediato. Sin hard cap, no hay prima de escasez que modelar.</p><p><strong>Berachain ($BERA)</strong> ejecutó mecánicas basadas en emisiones con supply ilimitado. La recepción de la comunidad fue dura. \"Fallo estructural\" fue la etiqueta consistente en los hilos de análisis post-lanzamiento.</p><h2>Las Cuatro Decisiones que Determinan la Sostenibilidad del Token</h2><p>Estas no son las únicas decisiones en el diseño de tokens. Pero son las que se componen. Falla cualquiera de ellas y las demás no pueden compensar. Acierta las cuatro y el sistema crea momentum en lugar de luchar contra sí mismo.</p><h3>Decisión 1: Modelo de Emisión</h3><p>Las emisiones son alquiler de demanda, no creación de demanda. Esa distinción importa. Un protocolo puede pagar a usuarios en tokens recién emitidos para que participen. Pero cuando las emisiones se desaceleran o se detienen, esa demanda desaparece. Los protocolos que generan ingresos ganan demanda. Los protocolos que emiten tokens solo la alquilan.</p><p>Tres arquetipos de emisión dominan el diseño DeFi. El decaimiento exponencial (estilo halving de Bitcoin) reduce las recompensas de forma predecible con el tiempo. El decaimiento lineal por tramos (usado por Curve y Pendle) reduce las emisiones en intervalos fijos. El supply fijo sin emisiones continuas obliga al protocolo a ganar mediante comisiones en lugar de imprimir mediante inflación.</p><p>El benchmark más citado por los analistas de tokenomics es el cronograma basado en épocas de Curve: aproximadamente <strong>15,9% de reducción anual, hardcoded</strong>. No controlado por gobernanza. No sujeto a la discreción del fundador. Predecible por diseño.</p><p>💡 Insight Clave</p><p>Las emisiones crean demanda temporal. Los ingresos crean demanda duradera. Los protocolos que pagan a los stakers en tokens recién emitidos están quemando runway. Los protocolos que pagan a los stakers en comisiones ganadas están construyendo equity. El mercado descuenta esa diferencia en múltiplos, no en basis points.</p><p>La orientación práctica de los datos de 2025: diseña para un <strong>horizonte de emisión de 5 a 10 años</strong>. Mantén las emisiones del año uno en el 25% del supply total como máximo. Usa cronogramas de decaimiento que reduzcan de forma predecible. Los modelos front-loaded crean expectativas de yield que el protocolo no puede sostener. Cuando el yield cae, los usuarios se van. Cuando los usuarios se van, el TVL cae. La espiral gira en una sola dirección.</p><h3>Decisión 2: Asignación Comunitaria vs. Insider</h3><p>El benchmark de 2025 cambió. Por encima del 50% para comunidad y ecosistema es ahora el suelo, no el techo. Los protocolos que lo trataron como opcional pagaron el precio en sentimiento comunitario y rendimiento de precio post-TGE.</p><p>El contraste entre modelos de asignación exitosos y fallidos fue enorme en 2025. Sentient ($SENT) asignó <strong>el 65% a la comunidad</strong>, limitó las emisiones al 2% y bloqueó permanentemente las recompensas no utilizadas. Edge-X documentó $202M en ingresos antes del lanzamiento. MetaDAO retornó +472-1.065% vs. precio de ICO, atribuido directamente al bajo FDV y los mecanismos de reembolso integrados.</p><p>Protocolo Asignación Comunitaria Rendimiento Post-TGE Señal de la Comunidad Sentient ($SENT) 65% Positivo \"Community-first\" Edge-X Alta + $202M pre-ingresos Bullish \"Fair launch vibes\" MetaDAO ($AVICI) Alta + FDV bajo +472–1.065% vs ICO \"Innovación estructural\" Monad ($MON) Baja / pesada en VC -7,6% vs ICO \"Movida por el ego\" Berachain ($BERA) Baja / basada en emisiones Por debajo del TGE \"Fallo estructural\"</p><p>La lectura del inversor, articulada claramente por Simon Dedic (@sjdedic) tras 100+ inversiones: \"Los tokenomics revelan el ego del fundador mediante FDV alto\". Los grandes productos pueden sobrevivir a malos tokenomics. Los malos tokenomics casi nunca sobreviven sin grandes productos.</p><h3>Decisión 3: Diseño de Vesting</h3><p>Los cliff sorpresa son la queja más consistente en las discusiones de tokenomics de 2025. No las emisiones. No la gobernanza. Los eventos de cliff. Grandes cantidades de supply volviéndose líquidas en una fecha predecible, creando una ventana de venta contra la que participantes sofisticados operan meses antes.</p><p>Cuando Initia ($INIT) y Kaito ($KAITO) lanzaron con el 76-82% del supply bloqueado y eventos de cliff próximos visibles en el calendario de desbloqueo, el análisis comunitario modeló la sangría de inmediato. \"Dilución continua\", \"desactualizado ante los cambios de IA\", \"dolor pospuesto\". El rendimiento de precio siguió la previsión.</p><p>El modelo de lock de 4 años de Curve sigue siendo el benchmark citado para la alineación a largo plazo. Cuando la mitad de tus stakeholders está comprometida durante cuatro años, la gobernanza es sustantiva en lugar de especulativa.</p><p>✅ Mejores Prácticas</p><p>Los protocolos con vesting mínimo de 6 meses registran <strong>un 42% menos de dump de tokens en el primer año</strong>. El modelo de lock de 4 años de Curve es el benchmark de alineación para DeFi. El Q4 2025 introdujo los Tradable Vesting Schedules (TVS), que permiten flexibilidad sin sacrificar el compromiso de lock.</p><p>El framework práctico: cliff mínimo de 12 meses más 24 meses de vesting lineal (36 meses en total) para todas las asignaciones internas. Publica el calendario de desbloqueo antes del TGE, no después. Los cronogramas transparentes no evitan el impacto en el precio de los eventos de cliff. Evitan la destrucción de confianza que viene con las sorpresas.</p><h3>Decisión 4: Utilidad del Token y Diseño de Sink</h3><p>Los tokens que solo votan en posts de foros son \"ampliamente ridiculizados como sin valor\" por los participantes del mercado de 2025. El token debe gobernar parámetros reales del protocolo. No sentimiento. No estética. Comisiones. Emisiones. Desembolso de la tesorería.</p><p>El fee switch de Uniswap ilustra el delta de valoración con precisión. Antes de la activación: UNI era un instrumento de gobernanza con utilidad limitada. Después de la activación (28 de diciembre de 2025): UNI se convirtió en un activo generador de yield con métricas comparables a P/G.</p><p>Hyperliquid ($HYPE) generó <strong>$874M en ingresos</strong>, destinó el 12-15% a quemas deflacionarias y se convirtió en el ejemplo \"elite\" más citado de diseño sostenible de token.</p><p>🚨 Crítico</p><p>Un token solo de gobernanza sin control sobre parámetros del protocolo no es un token de gobernanza. Es un certificado de participación. Los mercados descuentan esa diferencia. La distancia entre un token que controla comisiones y uno que controla votos en foros es la distancia entre Hyperliquid y la mayoría del 85% que falló.</p><p>Dos métricas para seguir en cuanto tu token esté activo. Velocidad del token: el rango saludable es <strong>4-7x</strong> al año. Tasa de lock: <strong>los mejores protocolos mantienen el 45-60%</strong> del supply circulante bloqueado. Cuando más de la mitad del supply está bloqueado, los tenedores de tokens son stakeholders, no especuladores.</p><h2>Señales de Alerta que Indican Fallo Estructural antes del TGE</h2><p>El análisis de 100+ lanzamientos de protocolos entre 2024-2025 aísla las decisiones de diseño que consistentemente preceden al bajo rendimiento. Estos no son casos aislados. Son patrones recurrentes, frecuentemente visibles en el whitepaper antes de que ocurra cualquier trading.</p><h3>🚩 Señales de Alerta: Cribado de Diseño Pre-TGE</h3><p>1. FDV Alto, Float Bajo</p><p>Supply circulante por debajo del 10% del supply total en el TGE descuenta la perfección en el lanzamiento y elimina el upside para nuevos compradores. El mercado modela la dilución de inmediato. El lanzamiento con FDV de $2,6B de Monad es el caso de referencia de 2025. El análisis comunitario lo llamó \"sin espacio para upside desde el día uno\".</p><p>2. Supply Ilimitado</p><p>Sin hard cap, la prima de escasez desaparece. Los inversores no pueden modelar un techo de supply. Plasma ($XPL) y Berachain ($BERA) fueron citados en \"listas de señales de alerta\" de la comunidad específicamente por esto. El hard cap no garantiza el éxito. Su ausencia garantiza el escepticismo.</p><p>3. Asignación de VC Superior al 30%</p><p>Las grandes asignaciones internas crean presión de venta estructural en las fechas de cliff. Los VCs invierten para salir. Si su asignación combinada supera el 30%, la matemática del supply en los eventos de cliff es visible para todos los participantes informados. Los compradores de la comunidad se enfrentan a un viento en contra conocido.</p><p>4. Emisiones Sin Ingresos del Protocolo</p><p>El yield pagado en tokens recién emitidos agota la demanda en lugar de construirla. Cuando las emisiones se desaceleran, los usuarios que llegaron por el yield se van. El protocolo se queda con menos TVL y menos usuarios que antes de la campaña de emisión. La preventa de Solstice ($SLX) falló con un 23% de llenado. La comunidad culpó a la alta valoración y al gran unlock en el TGE combinados con ningún ingreso demostrado.</p><p>5. TGE Antes de la Utilidad en Mainnet</p><p>Lanzar un token antes de que el producto funcione es crear especulación sin ancla de retención. Cuando el producto finalmente lanza, los compradores iniciales ya han descontado el hype. Los fallos de comunicación del TEN durante el lanzamiento llevaron a un resultado de \"fallo grave\", con la frustración centrada en la diferencia entre el lanzamiento del token y la entrega real de utilidad.</p><p>6. Utilidad del Token Solo de Gobernanza</p><p>La gobernanza que no controla nada real no es gobernanza. Un token que permite votar en temas de posts de blog o colores de UI no tiene utilidad. El token debe controlar comisiones, emisiones, tesorería o parámetros de riesgo. La activación del fee switch de Uniswap demostró la diferencia de valoración: de instrumento de gobernanza a análogo de equity generador de yield.</p><p>7. Cliff Unlocks a 12 Meses del TGE</p><p>Cualquier evento grande de unlock visible en el calendario se convierte en un objetivo de trading. Initia ($INIT) y Kaito ($KAITO) lanzaron con el 76-82% bloqueado y cliffs próximos. El análisis comunitario modeló la sangría antes de que ocurriera. El rendimiento real del precio siguió la previsión. Los compradores minoristas absorben el impacto.</p><p>8. Vesting Corto (Menos de 6 Meses) para Equipo o Inversores</p><p>Según el análisis de Delphi Digital de 2025: \"Los cronogramas de vesting complejos frecuentemente muestran baja confianza en el producto en lugar de alineación\". Los períodos de vesting muy cortos sugieren que los fundadores no están lo suficientemente confiados en su propio producto para permanecer bloqueados durante un ciclo estándar.</p><p>9. Distribución Pesada en Airdrop, Ligera en Compromiso</p><p>Los airdrops desbloqueados atraen capital mercenario que sale de inmediato. Contrasta con Hylo ($HYLO), que vinculó las asignaciones al compromiso real, probó el diseño a través de crashes y documentó $107M de TVL con 0 liquidaciones.</p><p>10. Vesting Excesivamente Complejo Sin Justificación</p><p>La complejidad en el diseño de vesting señala una de dos cosas: el equipo está intentando ocultar algo, o no sabe qué está optimizando. Los inversores sofisticados leen el vesting complejo como baja confianza. El resultado es menos confianza, menos convicción y menos comportamiento orgánico de tenencia.</p><h2>Modelando Tres Escenarios Comunes para Fundadores</h2><p>Las cuatro decisiones anteriores no operan de forma aislada. La tasa de emisión se compone con el diseño de vesting. La asignación comunitaria multiplica la participación en la gobernanza. El respaldo de ingresos transforma completamente cómo el mercado valora el token. Los escenarios a continuación ilustran cómo estas interacciones se desarrollan en la práctica.</p><h3>Simulador de Tokenomics DeFi</h3><p>Modela cronogramas de emisión, curvas de dilución y escenarios de vesting antes del lanzamiento de tu token. Herramienta gratuita, sin necesidad de registro.</p><p><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" class=\"text-primary underline inline-flex items-center px-6 py-3 bg-[#FFB800] text-[#0A2540] font-bold rounded-lg hover:bg-[#e6a600] transition-colors whitespace-nowrap\" href=\"/es/herramientas/simulador-tokenomics\"> Ejecutar Simulación →</a></p><h3>Escenario 1: Protocolo Pre-Ingresos, Lanzamiento Community-First</h3><p>Perfil: Sin ingresos aún. Equipo pequeño con fuerte señal comunitaria. Runway de 18 meses. Base de usuarios pre-TGE comprometida vía Discord, Farcaster y X.</p><p>La tentación en esta posición es valorar el token contra el potencial futuro. FDV alto, float bajo, supply circulante pequeño en el lanzamiento. El mercado ha demostrado que eso termina mal. En cambio, los datos apuntan al modelo de Sentient: asignar el 65% a la comunidad, limitar las emisiones al 2%, bloquear permanentemente las recompensas no utilizadas.</p><p>Lo que el Simulador de Tokenomics DeFi revela en este escenario: tasa de inflación en el Mes 6 (el primer test crítico de la paciencia de la comunidad), porcentaje de dilución en el Mes 12 (la primera ventana de cliff de insiders) y concentración de gobernanza mientras la asignación comunitaria inicial se compone. Esos son los números a testear antes de que el whitepaper sea finalizado.</p><p>💡 Insight Clave</p><p>Los protocolos pre-ingresos que sobreasignan a la comunidad sobreviven más tiempo. Edge-X documentó $202M en ingresos pre-lanzamiento a través de campañas transparentes de la comunidad antes de tocar las mecánicas del token. Los ingresos llegaron primero. El TGE los siguió.</p><h3>Escenario 2: Protocolo Post-Ingresos, Lanzamiento de Real Yield</h3><p>Perfil: $500K o más en ingresos mensuales. Product-market fit demostrado. Preparándose para el TGE con interés institucional. El protocolo gana. La pregunta es cómo hacer esa ganancia visible para los tenedores de token.</p><p>Es aquí donde los casos de Uniswap e Hyperliquid convergen. Ambos conectaron la tenencia de token a la participación en los ingresos. El fee switch de Uniswap (votado del 19 al 26 de diciembre, activado el 28 de diciembre de 2025) cambió cómo los analistas modelaban el UNI: de instrumento de gobernanza a análogo de equity. Los $874M de ingresos anuales de Hyperliquid fluyendo hacia el 12-15% de quemas deflacionarias cambiaron el $HYPE de \"token de gobernanza\" a \"activo generador de yield\".</p><p>✅ Mejores Prácticas</p><p>Los ingresos cambian el modelo mental del mercado sobre un token. Aster ($ASTER) vio el TVL post-TGE aumentar un 95%, atribuido directamente a la mecánica de yield basada en ingresos. El mercado estaba esperando que el protocolo ganara la valoración de su token.</p><h3>Escenario 3: Tokenomics Sobre-Diseñados, Camino de Recuperación</h3><p>Perfil: Ya lanzado. FDV alto, 15% de supply circulante, cliff de VC de 6 meses acercándose. Token solo de gobernanza. Sentimiento de la comunidad deteriorándose.</p><p>El caso de gobernanza de Aave de diciembre de 2025 es instructivo. El DAO rechazó una propuesta de grant del equipo principal (votación del 22 al 26 de diciembre). Stani Kulechov publicó una nueva estrategia de pivote \"RWA y Consumer\" el 2 de enero de 2026. El mercado respondió a la transparencia como una señal. El rechazo de gobernanza más el pivote honesto construyó más confianza de la que la aprobación más el silencio habría construido.</p><p>Palancas de recuperación, ordenadas por viabilidad y velocidad: primero, activar utilidad conectando el token a la distribución de comisiones. Segundo, ejecutar un programa de recompra comunitaria. Tercero, proponer la extensión de lock-ups de equipo e inversores. Cuarto, publicar transparencia total: calendario de desbloqueo, modelo de dilución, proyección de emisiones.</p><p>⚠️ Advertencia de Recuperación</p><p>La recuperación requiere acción de gobernanza, no solo comunicación. La transparencia es un requisito previo, no un sustituto. El pivote de Aave del 2 de enero de 2026 funcionó porque combinó el reconocimiento con una nueva dirección estratégica. La secuencia importa.</p><h2>Lo que Tres Votos Importantes de Gobernanza Señalan para 2026</h2><p>Tres eventos de gobernanza entre octubre de 2025 y enero de 2026 revelan cómo los mercados de token están madurando. Estos no son estudios de caso lejanos. Son registros de gobernanza verificados con fechas, resultados de votación y respuestas de mercado documentadas.</p><h3>Uniswap: Fee Switch y la Reclasificación P/G</h3><p>Propuesta en el foro publicada el 10 de noviembre de 2025. Período de votación: 19 al 26 de diciembre. Implementación: 28 de diciembre. El resultado fue inmediato. Los analistas comenzaron a aplicar ratios precio-beneficio en lugar de múltiplos de token de gobernanza. La relación del token con los ingresos del protocolo cambió, y el mercado descontó el cambio en días.</p><p>La señal para los fundadores de 2026: el respaldo de ingresos transforma la clasificación de mercado de un token, no solo su yield. La reclasificación no es gradual. Ocurre en la activación.</p><h3>Aave: Conflicto de Marca y el Dividendo de la Transparencia</h3><p>BGD Labs propuso cambios a la estructura de gobernanza de la marca Aave (17 de diciembre de 2025). Snapshot del 22 al 26 de diciembre. Participación récord de la comunidad. Rechazo. Stani Kulechov publicó una nueva dirección estratégica el 2 de enero de 2026. El mercado lo leyó como fortaleza. Un equipo fundador que responde al rechazo con transparencia demuestra que la descentralización es real, no performativa.</p><p>La señal: el rechazo de gobernanza más el pivote transparente construye más confianza que la aprobación más el silencio.</p><h3>Curve: Rechazo del Grant del Equipo Principal</h3><p>Michael Egorov publicó una propuesta de grant de 17,45M CRV para Swiss Stake AG el 14 de diciembre de 2025. Votación del 18 al 23 de diciembre. El bloque Convex y Yearn rechazó. Una propuesta del fundador del protocolo, rechazada. Eso es madurez de gobernanza: los holders concentrados aplicando escrutinio fiscal al equipo que construyó el protocolo. Sin privilegios especiales, ni siquiera para los fundadores.</p><h2>Preguntas Frecuentes</h2><p>¿Cuál es el error más común de tokenomics en 2025?</p><p>FDV alto combinado con float bajo y asignaciones pesadas a VCs. Los mercados descuentan la dilución futura de inmediato. <strong>El 85% de los lanzamientos de 2025 tomaron esa decisión estructural</strong> y cotizaron por debajo del TGE como resultado. Retorno mediano: -71%. Monad con $2,6B de FDV es el caso de referencia. Los analistas comunitarios señalaron el resultado antes del lanzamiento. El rendimiento real coincidió con la previsión.</p><p>¿Cómo calcular la dilución de token de mi protocolo?</p><p>Dilución = (nuevos tokens emitidos ÷ supply circulante actual) × 100. Un protocolo con el 10% circulando en el TGE en vesting lineal estándar de 4 años verá aproximadamente <strong>un 30-40% de dilución en el Mes 12</strong>. El efecto compuesto es lo que la mayoría de los fundadores no percibe. Usa el <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" class=\"text-primary underline hover:underline\" href=\"/es/herramientas/simulador-tokenomics\">Simulador de Tokenomics DeFi</a> para modelar tu cronograma específico.</p><p>¿Qué porcentaje de tokens debe ir a la comunidad?</p><p>El benchmark de 2025 es <strong>por encima del 50% para comunidad y ecosistema</strong>. Sentient ($SENT) con el 65% es la referencia actual. Ese no es un techo. AlignerZ y MetaDAO ejecutaron asignaciones comunitarias más altas y tuvieron la recepción post-TGE más fuerte de 2025.</p><p>¿Es viable un token solo de gobernanza en 2026?</p><p>No. Los tokens solo de gobernanza sin control sobre comisiones, emisiones o tesorería son categorizados como sin valor. La activación del fee switch de Uniswap en diciembre de 2025 es la validación más clara: mismo producto, misma estructura de gobernanza, valoración de mercado completamente diferente cuando los ingresos fueron conectados al token.</p><p>¿Qué es el cambio hacia el real yield y por qué importa?</p><p>El real yield significa recompensas pagadas en activos derivados de ingresos como ETH, USDC o comisiones, en lugar de tokens recién emitidos. Hyperliquid ganó $874M en ingresos y retornó el 12-15% en quemas deflacionarias. Aster vio el TVL aumentar un 95% con yields basados en ingresos. <strong>Los protocolos que generan y distribuyen ingresos cotizan en múltiplos diferentes</strong>, no solo en precios diferentes.</p><p>¿Cuánto debe durar el vesting de equipo e inversores?</p><p>Mínimo <strong>cliff de 12 meses más 24 meses de vesting lineal</strong>, totalizando 36 meses. Los cronogramas más cortos señalan baja confianza en el producto. El lock de 4 años de Curve sigue siendo el benchmark. Los Tradable Vesting Schedules (TVS), introducidos en el Q4 2025, ofrecen flexibilidad sin sacrificar el compromiso.</p><p>¿Cuál es el objetivo de velocidad del token para protocolos DeFi?</p><p><strong>4-7x al año</strong> (volumen de trading anual dividido por el market cap). Por debajo de 4x sugiere especulación o falta de liquidez. Por encima de 7x sugiere uso en modo pago sin incentivo de retención. Ambos extremos necesitan atención.</p><p>¿Cómo cambió el fee switch de Uniswap la valoración del token en 2025?</p><p>Votado del 19 al 26 de diciembre de 2025, activado el 28 de diciembre. Los analistas dejaron de aplicar frameworks de gobernanza y comenzaron a aplicar modelos de P/G. UNI fue reclasificado de \"instrumento de gobernanza\" a un activo análogo al equity. El producto no cambió. La relación del token con los ingresos del protocolo sí.</p><p>¿Qué innovaciones en tokenomics están ganando terreno en 2026?</p><p>Cinco mecánicas ganaron una tracción fuerte en el Q4 2025 y principios de 2026: Tradable Vesting Schedules (TVS), dynamic mint-burn (dMdB), modelos ve(3,3), Initial Weighted Offerings (IWO) y ajustes de emisión dinámica con IA. Todas priorizan la alineación y la sostenibilidad sobre la extracción.</p><p>¿Cuándo debo usar el Simulador de Tokenomics DeFi?</p><p>Antes de finalizar cualquier parámetro del token. Modela la dilución en el Mes 6, 12 y 24. Haz un stress test del cronograma de emisión frente a la asignación comunitaria. El simulador revela efectos compuestos que las hojas de cálculo normalmente pasan por alto: la interacción entre el ritmo de emisión, el timing del cliff y la concentración de gobernanza.</p><h2>Checklist de Auditoría de Tokenomics para Fundadores DeFi</h2><p>Úsalo para identificar brechas antes del TGE. Donde tengas ítems sin marcar, tienes decisiones por tomar. Empieza con supply y emisión. Se compone con todo lo demás.</p><h3>📋 Supply y Emisión</h3><p>Hard cap de supply definido, o mecanismo de emisión dinámica con circuit breakers Cronograma de emisión que funciona por un mínimo de 5 a 10 años Emisiones del año uno iguales o por debajo del 25% del supply total Tasa de emisión modelada frente a proyecciones de crecimiento de ingresos (no solo matemática de supply)</p><h3>📋 Asignación</h3><p>Asignación para comunidad y ecosistema igual o superior al 50% del supply total Asignación de VC e inversores igual o inferior al 25% Asignación del equipo igual o inferior al 15%, con vesting mínimo de 36 meses Asignación de la tesorería gobernada por votación on-chain del DAO, no por discreción del fundador</p><h3>📋 Vesting</h3><p>Todo vesting de insider con mínimo de cliff de 12 meses más desbloqueo lineal Ningún evento de cliff en los primeros 6 meses después del TGE Calendario completo de desbloqueo publicado antes del TGE Tradable Vesting Schedule (TVS) evaluado como opción de flexibilidad</p><h3>📋 Utilidad del Token</h3><p>El token controla parámetros reales del protocolo: comisiones, emisiones o gobernanza de la tesorería Mecanismos sink en vigor: recompras, quemas o bloqueos temporales Objetivo de velocidad del token definido y monitorizado (meta: 4-7x al año) Objetivo de tasa de lock definido y monitorizado (meta: 45-60% del circulante bloqueado)</p><h3>📋 Gobernanza</h3><p>Gobernanza on-chain activa antes del TGE, no solo votación en foro Umbral de participación en gobernanza definido por encima del 15% para votos válidos Ninguna entidad única controla más del 30% del poder de voto en el lanzamiento</p><h2>Modela tus Tokenomics Antes del TGE</h2><p>Las variables anteriores no existen de forma aislada. La tasa de emisión se compone con el diseño de vesting. La asignación comunitaria multiplica la participación en la gobernanza. El respaldo de ingresos transforma completamente cómo el mercado valora el token.</p><p>La tasa de fracaso del 85% de 2025 no fue aleatoria. Era predecible. La mayoría de esos protocolos tenían señales de alerta visibles en la documentación de tokenomics antes de que cualquier usuario participara. Los datos estaban ahí. El modelado no.</p><p>Modelar estas interacciones antes del TGE es la diferencia entre un sistema de crecimiento y una espiral de caída. El simulador revela los efectos compuestos que la matemática en hojas de cálculo pasa por alto: qué ocurre con la dilución, la concentración de gobernanza y los incentivos del holder cuando la tasa de emisión, el timing del cliff y la asignación comunitaria interactúan a lo largo de 24 meses.</p><h3>Simulador de Tokenomics DeFi</h3><p>Modela cronogramas de emisión, curvas de dilución y escenarios de vesting antes del lanzamiento de tu token. Gratuito. Sin registro. Listo en 2 minutos.</p><p><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" class=\"text-primary underline inline-flex items-center px-6 py-3 bg-[#FFB800] text-[#0A2540] font-bold rounded-lg hover:bg-[#e6a600] transition-colors whitespace-nowrap\" href=\"/es/herramientas/simulador-tokenomics\"> Ejecutar Simulación →</a></p><h3>📚 Lectura Relacionada</h3><p><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" class=\"text-primary underline block p-4 bg-background rounded-lg border border-border hover:border-primary transition-colors\" href=\"/es/articulos/guia-crecimiento-defi\">La Guía del Fundador Web3 para el Crecimiento DeFi</a></p><p><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" class=\"text-primary underline block p-4 bg-background rounded-lg border border-border hover:border-primary transition-colors\" href=\"/es/articulos/guia-crecimiento-defi\">Tokenomics, loops de liquidez y mecánicas comunitarias que impulsan la tracción sostenible de protocolo.</a></p><p><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" class=\"text-primary underline block p-4 bg-background rounded-lg border border-border hover:border-primary transition-colors\" href=\"/es/articulos/agencia-vs-equipo-interno-defi\">Agencia DeFi vs. Equipo Interno de Growth</a></p><p><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" class=\"text-primary underline block p-4 bg-background rounded-lg border border-border hover:border-primary transition-colors\" href=\"/es/articulos/agencia-vs-equipo-interno-defi\">Cuándo contratar externamente vs. construir capacidad interna. Datos de 50+ protocolos.</a></p><p><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" class=\"text-primary underline block p-4 bg-background rounded-lg border border-border hover:border-primary transition-colors\" href=\"/es/articulos/guia-atribucion-on-chain\">Atribución On-Chain: Mide el ROI de Marketing Web3</a></p><p><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" class=\"text-primary underline block p-4 bg-background rounded-lg border border-border hover:border-primary transition-colors\" href=\"/es/articulos/guia-atribucion-on-chain\">Conecta la actividad de cartera a los canales de marketing. El framework de medición para equipos DeFi.</a></p>\n\n<h3>Lectura Relacionada</h3>\n<div class=\"grid grid-cols-1 md:grid-cols-2 gap-4 my-6\">\n            <a href=\"https://mangabeira.net/publications/defi-tokenomics-for-founders\" class=\"block p-4 bg-gray-50 rounded-lg border border-gray-200 hover:border-aqua hover:shadow-md transition-all\">\n                <p class=\"font-semibold text-navy mb-2\">Cómo los Fundadores DeFi Pueden Diseñar Tokenomics Que Realmente Impulsan el Crecimiento</p>\n                <p class=\"text-sm text-gray-600\">La capa de estrategia detrás de la mecánica: qué debe lograr la tokenomics antes de tocar una hoja de cálculo.</p>\n                <span class=\"text-aqua text-sm font-medium mt-2 inline-block\">Leer la Guía de Estrategia →</span>\n            </a>\n            <a href=\"https://mangabeira.net/publications/alternatives-airdrop-defi-founders\" class=\"block p-4 bg-gray-50 rounded-lg border border-gray-200 hover:border-aqua hover:shadow-md transition-all\">\n                <p class=\"font-semibold text-navy mb-2\">Alternativas al Airdrop para Fundadores DeFi</p>\n                <p class=\"text-sm text-gray-600\">Frameworks de crecimiento sostenible que no dependen de una distribución única de tokens.</p>\n                <span class=\"text-aqua text-sm font-medium mt-2 inline-block\">Leer el Framework →</span>\n            </a>\n            <a href=\"https://mangabeira.net/publications/defi-agency-vs-in-house-vs-consultant\" class=\"block p-4 bg-gray-50 rounded-lg border border-gray-200 hover:border-aqua hover:shadow-md transition-all\">\n                <p class=\"font-semibold text-navy mb-2\">Agencia DeFi vs Equipo Interno vs Consultor</p>\n                <p class=\"text-sm text-gray-600\">Cuándo contratar externamente vs construir capacidad interna de growth, una vez definido tu modelo de tokenomics.</p>\n                <span class=\"text-aqua text-sm font-medium mt-2 inline-block\">Leer la Guía de Decisión →</span>\n            </a>\n            <a href=\"https://mangabeira.net/publications/defi-growth-guide\" class=\"block p-4 bg-gray-50 rounded-lg border border-gray-200 hover:border-aqua hover:shadow-md transition-all\">\n                <p class=\"font-semibold text-navy mb-2\">Guía de Crecimiento DeFi para Fundadores Web3</p>\n                <p class=\"text-sm text-gray-600\">Tokenomics, loops de liquidez y mecánicas de comunidad que sostienen la tracción del protocolo — el complemento en etapa de lanzamiento de esta guía.</p>\n                <span class=\"text-aqua text-sm font-medium mt-2 inline-block\">Leer la Guía Principal →</span>\n            </a>\n        </div>",
+  "created_at": "2026-08-06T13:03:06.444387+00:00",
+  "updated_at": "2026-08-06T13:03:06.444387+00:00",
+  "featured_image_alt": null,
+  "slug": "como-disenar-tokenomics-crecimiento-protocolo",
+  "schema": [
+    {
+      "@type": "Article",
+      "image": "https://mangabeira.net/images/defi-tokenomics-for-founders-og.jpg",
+      "author": {
+        "url": "https://mangabeira.net",
+        "name": "Gabriel Mangabeira",
+        "@type": "Person",
+        "image": "https://mangabeira.net/images/gabriel-professional-about.png",
+        "sameAs": [
+          "https://x.com/manga82",
+          "https://linkedin.com/in/mangabeira"
+        ],
+        "jobTitle": "Estratega de Marketing de Crecimiento Web3",
+        "description": "Experto en marketing de crecimiento especializado en Web3, DeFi y tokenomics. Ex-líder de crecimiento en Binance y COI."
+      },
+      "@context": "https://schema.org",
+      "headline": "Cómo Diseñar Tokenomics que Impulsen el Crecimiento del Protocolo",
+      "keywords": [
+        "DeFi tokenomics para fundadores",
+        "diseño token 2025",
+        "modelo tokenomics",
+        "lanzamiento token DeFi",
+        "simulador tokenomics",
+        "cronograma emisión token",
+        "calendario vesting DeFi",
+        "utilidad token",
+        "tokenomics sostenible",
+        "asignación comunidad",
+        "velocidad token",
+        "ratio lock token",
+        "real yield DeFi",
+        "token gobernanza",
+        "fee switch",
+        "fee switch Uniswap",
+        "tokenomics Hyperliquid",
+        "crecimiento protocolo DeFi",
+        "fundadores Web3",
+        "bleed loop"
+      ],
+      "publisher": {
+        "logo": {
+          "url": "https://mangabeira.net/images/swimming-icon.png",
+          "@type": "ImageObject"
+        },
+        "name": "Mangabeira.net",
+        "@type": "Organization"
+      },
+      "wordCount": 4000,
+      "inLanguage": "es",
+      "articleBody": "El 85% de los lanzamientos de tokens DeFi de 2025 cotizaron por debajo de su valoración TGE. El retorno medio fue del -71%. Los productos no eran todos malos. Los sistemas de tokens sí. El análisis de 100+ lanzamientos de protocolos revela un patrón consistente: los fracasos se remontan a cuatro decisiones de diseño tomadas antes de que cualquier usuario conectara su billetera.",
+      "description": "El análisis de 100+ lanzamientos de protocolos revela las cuatro decisiones estructurales que separan los protocolos DeFi sostenibles de los bleed loops. Construye sistemas de token que sostengan el crecimiento.",
+      "dateModified": "2026-03-03",
+      "datePublished": "2026-03-03",
+      "articleSection": "DeFi",
+      "mainEntityOfPage": {
+        "@id": "https://mangabeira.net/es/articulos/como-disenar-tokenomics-crecimiento-protocolo",
+        "@type": "WebPage"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@context": "https://schema.org",
+      "mainEntity": [
+        {
+          "name": "¿Cuál es el error de tokenomics más común en 2025?",
+          "@type": "Question",
+          "acceptedAnswer": {
+            "text": "FDV alto combinado con float bajo y asignaciones con mucho peso de VCs. Los mercados descuentan la dilución futura de inmediato. El 85% de los lanzamientos de 2025 tomaron esta decisión estructural y cotizaron por debajo del TGE como resultado, con retornos medianos de -71%. Monad con $2.6B de FDV es el caso de referencia.",
+            "@type": "Answer"
+          }
+        },
+        {
+          "name": "¿Cómo calculo la dilución de tokens para mi protocolo?",
+          "@type": "Question",
+          "acceptedAnswer": {
+            "text": "Dilución = (nuevos tokens emitidos dividido entre oferta circulante actual) x 100. Un protocolo con 10% circulante en TGE con vesting lineal estándar de 4 años verá aproximadamente 30-40% de dilución para el Mes 12. Usa el Simulador de Tokenomics DeFi en mangabeira.net/es/herramientas/simulador-tokenomics para modelar tu cronograma específico.",
+            "@type": "Answer"
+          }
+        },
+        {
+          "name": "¿Qué porcentaje de tokens debe ir a la comunidad?",
+          "@type": "Question",
+          "acceptedAnswer": {
+            "text": "El benchmark de 2025 es por encima del 50% para comunidad y ecosistema. Sentient ($SENT) al 65% es la referencia de mejores prácticas actual. AlignerZ y MetaDAO ejecutaron asignaciones comunitarias más altas y tuvieron la mejor recepción post-TGE de 2025.",
+            "@type": "Answer"
+          }
+        },
+        {
+          "name": "¿Es viable un token de solo gobernanza en 2026?",
+          "@type": "Question",
+          "acceptedAnswer": {
+            "text": "No. Los tokens de solo gobernanza sin control sobre comisiones, emisiones o tesorería son categorizados como sin valor por los participantes del mercado 2025-2026. La activación del fee switch de Uniswap en diciembre 2025 es la validación más clara: mismo producto, misma estructura de gobernanza, valoración de mercado completamente diferente una vez que los ingresos se conectaron al token.",
+            "@type": "Answer"
+          }
+        },
+        {
+          "name": "¿Qué es el cambio al real yield y por qué importa?",
+          "@type": "Question",
+          "acceptedAnswer": {
+            "text": "Real yield significa recompensas pagadas en activos derivados de ingresos como ETH, USDC o comisiones — no tokens recién acuñados. Hyperliquid generó $874M en ingresos y retornó 12-15% en quemas deflacionarias. Aster vio su TVL aumentar 95% con yields basados en ingresos. Los protocolos que generan y distribuyen ingresos cotizan con múltiplos fundamentalmente diferentes.",
+            "@type": "Answer"
+          }
+        },
+        {
+          "name": "¿Cuánto tiempo debe durar el vesting del equipo e inversores?",
+          "@type": "Question",
+          "acceptedAnswer": {
+            "text": "Mínimo 12 meses de cliff más 24 meses de vesting lineal — 36 meses en total. Períodos más cortos señalan baja confianza en la viabilidad del producto a largo plazo. El lock de 4 años de Curve sigue siendo el benchmark de alineación. Los Tradable Vesting Schedules (TVS), introducidos en Q4 2025, ofrecen flexibilidad sin sacrificar compromiso.",
+            "@type": "Answer"
+          }
+        },
+        {
+          "name": "¿Cuál es el objetivo de velocidad del token para protocolos DeFi?",
+          "@type": "Question",
+          "acceptedAnswer": {
+            "text": "4-7x por año (volumen de trading anual dividido entre capitalización de mercado). Por debajo de 4x sugiere especulación o falta de liquidez. Por encima de 7x sugiere uso en modo de pagos sin incentivo de retención. Ambos extremos requieren atención.",
+            "@type": "Answer"
+          }
+        },
+        {
+          "name": "¿Cómo cambió el fee switch de Uniswap la valoración del token en 2025?",
+          "@type": "Question",
+          "acceptedAnswer": {
+            "text": "Votado del 19-26 de diciembre de 2025, activado el 28 de diciembre. Los analistas dejaron de aplicar marcos de tokens de gobernanza y comenzaron a aplicar modelos P/E. UNI fue reclasificado de instrumento de gobernanza a análogo de equity. El producto no cambió. La relación del token con los ingresos del protocolo sí.",
+            "@type": "Answer"
+          }
+        },
+        {
+          "name": "¿Qué innovaciones de tokenomics están ganando tracción en 2026?",
+          "@type": "Question",
+          "acceptedAnswer": {
+            "text": "Cinco mecánicas ganaron fuerte tracción en Q4 2025 y principios de 2026: Tradable Vesting Schedules (TVS), dynamic mint-burn (dMdB), modelos ve(3,3), Initial Weighted Offerings (IWO) y ajustes de emisión dinámica impulsados por IA. Todos priorizan alineación y sostenibilidad sobre extracción.",
+            "@type": "Answer"
+          }
+        },
+        {
+          "name": "¿Cuándo debo usar el Simulador de Tokenomics DeFi?",
+          "@type": "Question",
+          "acceptedAnswer": {
+            "text": "Antes de finalizar cualquier parámetro del token. Modela la dilución en los Meses 6, 12 y 24. Prueba de estrés tu cronograma de emisión frente a la asignación comunitaria. El simulador revela efectos compuestos que los modelos de hoja de cálculo típicamente pierden — particularmente la interacción entre el ritmo de emisión, el timing del cliff y la concentración de gobernanza en 24 meses.",
+            "@type": "Answer"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@context": "https://schema.org",
+      "itemListElement": [
+        {
+          "item": "https://mangabeira.net/es",
+          "name": "Inicio",
+          "@type": "ListItem",
+          "position": 1
+        },
+        {
+          "item": "https://mangabeira.net/es/articulos",
+          "name": "Artículos",
+          "@type": "ListItem",
+          "position": 2
+        },
+        {
+          "item": "https://mangabeira.net/es/articulos/como-disenar-tokenomics-crecimiento-protocolo",
+          "name": "DeFi Tokenomics para Fundadores",
+          "@type": "ListItem",
+          "position": 3
+        }
+      ]
+    },
+    {
+      "url": "https://mangabeira.net",
+      "name": "Gabriel Mangabeira",
+      "@type": "Person",
+      "image": "https://mangabeira.net/images/gabriel-professional-about.png",
+      "sameAs": [
+        "https://x.com/manga82",
+        "https://linkedin.com/in/mangabeira"
+      ],
+      "@context": "https://schema.org",
+      "alumniOf": [
+        {
+          "name": "University of Florida",
+          "@type": "Organization"
+        },
+        {
+          "name": "Coca-Cola Company",
+          "@type": "Organization"
+        },
+        {
+          "name": "Binance",
+          "@type": "Organization"
+        },
+        {
+          "name": "Comité Olímpico Internacional",
+          "@type": "Organization"
+        }
+      ],
+      "jobTitle": "Estratega de Marketing de Crecimiento Web3",
+      "knowsAbout": [
+        "Marketing Web3",
+        "Estrategia Crecimiento DeFi",
+        "Diseño Tokenomics",
+        "Estrategia Lanzamiento Token",
+        "Diseño Cronograma Emisión",
+        "Diseño Calendarios Vesting",
+        "Diseño Utilidad Token",
+        "Estrategia Asignación Comunidad",
+        "Velocidad Token",
+        "Ratio Lock Token",
+        "Real Yield DeFi",
+        "Mecanismos Gobernanza",
+        "Modelos Ingresos Protocolo",
+        "Analítica DeFi",
+        "Atribución On-Chain"
+      ],
+      "description": "Experto en marketing de crecimiento especializado en Web3, DeFi y tokenomics. Ex-líder de crecimiento en Binance y COI."
+    },
+    {
+      "url": "https://mangabeira.net",
+      "logo": "https://mangabeira.net/images/swimming-icon.png",
+      "name": "Mangabeira.net",
+      "@type": "Organization",
+      "sameAs": [
+        "https://x.com/manga82",
+        "https://linkedin.com/in/mangabeira"
+      ],
+      "founder": {
+        "name": "Gabriel Mangabeira",
+        "@type": "Person"
+      },
+      "@context": "https://schema.org",
+      "description": "Expertise y consultoría en marketing de crecimiento Web3 para proyectos DeFi, NFT y tokens"
+    },
+    {
+      "name": "Cómo Diseñar Tokenomics que Impulsen el Crecimiento del Protocolo",
+      "step": [
+        {
+          "name": "Diseña Tu Modelo de Emisión",
+          "text": "Elige un modelo de decaimiento a largo plazo con duración de 5-10 años. Las emisiones frontales crean expectativas de yield insostenibles. Mantén las emisiones del Año 1 por debajo del 25% del suministro total. El cronograma basado en épocas de Curve — aproximadamente 15.9% de reducción anual, codificado — es el benchmark más citado para diseño de emisión predecible y resistente a la gobernanza.",
+          "@type": "HowToStep",
+          "position": 1
+        },
+        {
+          "name": "Establece la Asignación Comunitaria Por Encima del 50%",
+          "text": "Asigna al menos el 50% del suministro total a comunidad y ecosistema. Mantén la asignación de VCs e inversores por debajo del 25%. La concentración interna por encima del 30% crea presión de venta estructural en los eventos de cliff. Sentient ($SENT) con 65% de asignación comunitaria es la referencia de mejores prácticas de 2025.",
+          "@type": "HowToStep",
+          "position": 2
+        },
+        {
+          "name": "Diseña el Vesting para Alineación No para Apariencia",
+          "text": "Establece mínimo 12 meses de cliff más 24 meses de vesting lineal para todos los insiders — 36 meses en total. Publica el calendario de desbloqueos públicamente antes del TGE. Los períodos cortos de vesting señalan baja confianza en el producto a inversores sofisticados. Los protocolos con vesting mínimo de 6 meses ven 42% menos dumping de tokens en el primer año.",
+          "@type": "HowToStep",
+          "position": 3
+        },
+        {
+          "name": "Incorpora la Utilidad del Token en las Mecánicas del Protocolo",
+          "text": "Conecta el token a parámetros reales del protocolo: cobro de comisiones, control de emisiones o gobernanza de tesorería. Los tokens de solo gobernanza sin utilidad operacional consistentemente tienen rendimiento inferior. Agrega mecanismos sink (recompras, quemas o locks) y mantén la velocidad del token en el rango anual de 4-7x. Apunta a 45-60% del suministro circulante bloqueado en cualquier momento.",
+          "@type": "HowToStep",
+          "position": 4
+        },
+        {
+          "name": "Modela Todas las Variables Antes del TGE con el Simulador",
+          "text": "Usa el Simulador de Tokenomics DeFi en mangabeira.net/es/herramientas/simulador-tokenomics para modelar la dilución en los Meses 6, 12 y 24. Prueba de estrés el cronograma de emisión frente a la asignación comunitaria. El simulador revela efectos compuestos que las hojas de cálculo no capturan: la interacción entre el ritmo de emisión, el timing del cliff y la concentración de gobernanza en 24 meses.",
+          "@type": "HowToStep",
+          "position": 5
+        }
+      ],
+      "@type": "HowTo",
+      "image": "https://mangabeira.net/images/defi-tokenomics-for-founders-og.jpg",
+      "@context": "https://schema.org",
+      "totalTime": "P1Y",
+      "description": "Las cuatro decisiones estructurales que determinan si un protocolo DeFi crea un volante de crecimiento sostenible o un bucle de sangrado: modelo de emisión, asignación comunitaria, diseño de vesting y balance utilidad-sink del token."
+    }
+  ]
+}
