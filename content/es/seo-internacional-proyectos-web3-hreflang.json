@@ -1,0 +1,152 @@
+{
+  "id": "eef554f5-2dc5-4d9f-9219-4272bf1caaa7",
+  "page_id": "4b98542e-b17d-4c3a-a2ec-ae65fcdf36ad",
+  "language": "es",
+  "title": "SEO Internacional para Proyectos Web3: Mi Registro de Implementación de Hreflang",
+  "meta_description": "El SEO internacional para proyectos web3 empieza eligiendo idiomas por demanda real, no por traducción vanidosa. Así implementé hreflang en EN/PT-BR/ES.",
+  "content": "<div class=\"article-content\">\n**METADATA**\nTITLE: SEO Internacional para Proyectos Web3: Mi Registro de Implementación de Hreflang\nSEO TITLE: SEO Internacional para Proyectos Web3: Mi Registro de Implementación de Hreflang\nMETA DESCRIPTION: El SEO internacional para proyectos web3 empieza eligiendo idiomas por demanda real, no por traducción vanidosa. Así implementé hreflang en EN/PT-BR/ES.\nPRIMARY KEYWORD: seo internacional web3\nSECONDARY KEYWORDS: seo multilingüe cripto, hreflang cripto, contenido cripto multilingüe, investigación de palabras clave cripto localizada\nTARGET ICP: ICP 1 (Web3 Founder), ICP 2 (Web3 Growth Operator), ICP 5 (Web2 to Web3 Transitioner)\nWORD COUNT TARGET: 1,950 words\nFUNNEL TIER: Mid-Funnel (Cluster satellite)\nSUBCATEGORY: Web3 Growth / International SEO\nCLUSTER: Web3 SEO & AEO (satellite of definitive-guide-web3-seo)\n\n---\n\n\n\n<article>\n\n<div class=\"my-8 p-6 bg-muted/30 rounded-lg border border-border\">\n  <h3 class=\"font-bold mb-4 text-lg\">En este artículo</h3>\n  <nav class=\"grid gap-2 md:grid-cols-2\">\n    <a href=\"#multilingual-by-default\" class=\"text-primary hover:underline text-sm\">Por Qué la Demanda Web3 Es Multilingüe</a>\n    <a href=\"#which-languages-earn-a-version\" class=\"text-primary hover:underline text-sm\">Qué Idiomas Merecen una Versión</a>\n    <a href=\"#hreflang-in-production\" class=\"text-primary hover:underline text-sm\">hreflang en Producción</a>\n    <a href=\"#localized-keyword-intent\" class=\"text-primary hover:underline text-sm\">Intención de Búsqueda Localizada</a>\n    <a href=\"#what-i-dont-localize\" class=\"text-primary hover:underline text-sm\">Lo Que No Localizo</a>\n    <a href=\"#what-to-measure\" class=\"text-primary hover:underline text-sm\">Qué Medir</a>\n    <a href=\"#faq\" class=\"text-primary hover:underline text-sm\">FAQ</a>\n  </nav>\n</div>\n\n<p>Mi implementación de hreflang para tres versiones de idioma de este sitio salió en vivo esta semana. Abajo está el marcado exacto corriendo en producción ahora mismo, sacado directo del código fuente de la página, no de una maqueta.</p>\n\n<p>Estás sopesando la misma decisión que tomé yo: traducir el sitio o saltarte ese paso y quedarte solo en inglés.</p>\n\n<p>Este es el criterio que usé para decidir, más las etiquetas que realmente publiqué. No es un caso de estudio de seis meses con gráfico de resultados.</p>\n\n<p>Voy a cubrir qué idiomas realmente merecen una versión, cómo se comporta hreflang en un stack cargado de JavaScript, y qué medir una vez que está en vivo. <a href=\"https://mangabeira.net/publications/definitive-guide-web3-seo\" class=\"text-primary hover:underline\">Mi guía de SEO para web3</a> cubre el resto del clúster.</p>\n\n<h2 id=\"multilingual-by-default\">Por Qué la Demanda de Búsqueda Web3 Es Multilingüe por Defecto</h2>\n\n<figure>\n<img src=\"https://mangabeira.net/media/international-seo-web3-language-trio.jpg\" alt=\"El mismo artículo de mangabeira.net en vivo en inglés, portugués de Brasil y español, mostrado lado a lado en móvil con títulos, autoría y slugs localizados\" width=\"1400\" height=\"2556\" style=\"width:100%;height:auto;border-radius:8px;\">\n<figcaption>Un artículo, tres idiomas, en vivo: la misma pieza en este sitio en EN, PT-BR y ES, capturada el 3 de septiembre de 2026. Títulos, descripciones, autoría y slugs localizados, no un espejo traducido por máquina.</figcaption>\n</figure>\n\n<p><strong>La demanda de búsqueda web3 es multilingüe porque la propia adopción cripto es multilingüe, y el contenido solo en inglés queda fuera de la mayor parte de ella por defecto, no por decisión.</strong></p>\n\n<p>El Global Crypto Adoption Index 2025 de Chainalysis ubica a India en primer lugar, por tercer año consecutivo. Estados Unidos queda en segundo.</p>\n\n<p>Pakistán, Vietnam y Brasil completan el top cinco. El valor de las transacciones on-chain de América Latina creció 63% interanual en ese mismo informe, una de las tasas más rápidas de cualquier región analizada.</p>\n\n<p>Ninguno de esos cinco mercados opera principalmente en búsquedas de idioma inglés. Un protocolo que publica contenido solo en inglés no está ignorando una audiencia de nicho. Está ignorando la mayor parte de su propia demanda direccionable.</p>\n\n<p>Nigeria ocupa el sexto lugar en el mismo índice, extendiendo el mismo patrón hacia África. La adopción se concentra en LATAM, Sur de Asia, Sudeste Asiático y África, no en mercados anglófonos.</p>\n\n<div class=\"my-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4\">\n  <div class=\"p-4 bg-muted/30 rounded-lg border border-border hover:border-primary transition-colors\">\n    <div class=\"text-3xl font-bold text-primary mb-2\">#1</div>\n    <div class=\"text-sm text-muted-foreground\">India, adopción global de cripto</div>\n    <div class=\"text-xs text-muted-foreground mt-1\">Índice Chainalysis 2025</div>\n  </div>\n  <div class=\"p-4 bg-muted/30 rounded-lg border border-border hover:border-primary transition-colors\">\n    <div class=\"text-3xl font-bold text-primary mb-2\">#5</div>\n    <div class=\"text-sm text-muted-foreground\">Brasil, adopción global de cripto</div>\n    <div class=\"text-xs text-muted-foreground mt-1\">Índice Chainalysis 2025</div>\n  </div>\n  <div class=\"p-4 bg-muted/30 rounded-lg border border-border hover:border-primary transition-colors\">\n    <div class=\"text-3xl font-bold text-primary mb-2\">+63%</div>\n    <div class=\"text-sm text-muted-foreground\">Valor on-chain de América Latina, interanual</div>\n    <div class=\"text-xs text-muted-foreground mt-1\">Índice Chainalysis 2025</div>\n  </div>\n  <div class=\"p-4 bg-muted/30 rounded-lg border border-border hover:border-primary transition-colors\">\n    <div class=\"text-3xl font-bold text-primary mb-2\">3</div>\n    <div class=\"text-sm text-muted-foreground\">Mercados no anglófonos en el top 5</div>\n    <div class=\"text-xs text-muted-foreground mt-1\">Pakistán, Vietnam, Brasil</div>\n  </div>\n</div>\n\n<p>Ese es el argumento para volverse multilingüe en general. Todavía no dice nada sobre qué idiomas, y ahí es donde la mayoría de los proyectos adivina.</p>\n\n<h2 id=\"which-languages-earn-a-version\">Qué Idiomas Realmente Merecen una Versión del Sitio</h2>\n\n<p><strong>Un idioma merece una versión del sitio cuando la demanda de búsqueda y una presencia real y sostenible apuntan hacia él.</strong> Que la adopción se vea grande en un gráfico no basta por sí sola.</p>\n\n<p>Uso tres preguntas antes de agregar un idioma, no una sola.</p>\n\n<div class=\"my-8 overflow-x-auto\">\n  <table class=\"w-full border-collapse\">\n    <thead>\n      <tr class=\"bg-muted\">\n        <th class=\"p-4 text-left font-semibold border-b-2 border-primary\">Señal</th>\n        <th class=\"p-4 text-left font-semibold border-b-2 border-primary\">Pregunta a hacer</th>\n        <th class=\"p-4 text-left font-semibold border-b-2 border-primary\">Qué descarta</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr class=\"hover:bg-muted/50 transition-colors\">\n        <td class=\"p-4 border-b border-border font-medium\">Demanda de búsqueda</td>\n        <td class=\"p-4 border-b border-border\">¿Existe volumen de palabras clave en ese idioma para tus temas reales?</td>\n        <td class=\"p-4 border-b border-border\">Un mercado con alta adopción pero volumen de búsqueda cero para tu nicho</td>\n      </tr>\n      <tr class=\"hover:bg-muted/50 transition-colors\">\n        <td class=\"p-4 border-b border-border font-medium\">Ubicación de la comunidad</td>\n        <td class=\"p-4 border-b border-border\">¿Tu audiencia está activa en ese idioma, no solo presente en las estadísticas?</td>\n        <td class=\"p-4 border-b border-border\">Traducir para un mercado en el que todavía no operas de verdad</td>\n      </tr>\n      <tr class=\"hover:bg-muted/50 transition-colors\">\n        <td class=\"p-4 border-b border-border font-medium\">Presencia sostenible</td>\n        <td class=\"p-4 border-b border-border\">¿Tú o tu equipo tienen una conexión real y verificable con ese mercado?</td>\n        <td class=\"p-4 border-b border-border\">Traducción vanidosa que nadie mantiene actualizada después del lanzamiento</td>\n      </tr>\n    </tbody>\n  </table>\n</div>\n\n<p>Así fue como se dio en mi propio sitio. Elegí pt-BR porque estoy basado en Florianópolis, Brasil, y Brasil está en el puesto #5 del mismo índice de Chainalysis de arriba.</p>\n\n<p>Elegí es porque una sola versión cubre a la vez un territorio amplio de LATAM hispanohablante. Me salté el hindi y el urdu, aunque India y Pakistán superen a Brasil en ese índice.</p>\n\n<p>Todavía no tengo equipo ni presencia de comunidad en ninguno de los dos mercados. Traducir a un idioma que no puedo mantener no es SEO internacional. Es traducción vanidosa con pasos extra.</p>\n\n<div class=\"my-6 p-4 bg-blue-50 dark:bg-blue-950 border-l-4 border-blue-500 rounded-r\">\n  <p class=\"font-semibold text-blue-900 dark:text-blue-100 mb-2\">Insight clave</p>\n  <p class=\"text-blue-800 dark:text-blue-200\">La prueba para elegir mercado no es \"dónde está la mayor oportunidad\". Es \"dónde tengo demanda de búsqueda y una presencia real que la respalde\". El ranking de adopción por sí solo no responde ninguna de las dos partes.</p>\n</div>\n\n<h2 id=\"hreflang-in-production\">hreflang en un Sitio Cripto: Lo Que Realmente Va a Producción</h2>\n\n<figure>\n<img src=\"https://mangabeira.net/media/international-seo-web3-hreflang-map.png\" alt=\"Las etiquetas hreflang activas en el código fuente de una página de artículo de mangabeira.net: alternativas en, pt-BR, es y x-default, cada una apuntando a un slug localizado\" width=\"2200\" height=\"974\" style=\"width:100%;height:auto;border-radius:8px;\">\n<figcaption>El clúster hreflang real del código fuente de este sitio, capturado el 3 de septiembre de 2026: cuatro alternativas, cada una apuntando a un slug localizado, generadas por el build a partir de un único mapa de slugs. Esta es la configuración que recorre el resto de esta sección.</figcaption>\n</figure>\n\n<p><strong>Las etiquetas hreflang le dicen a los motores de búsqueda qué URL servir para qué idioma y región.</strong> En mangabeira.net, cada artículo lleva cuatro: inglés, portugués para Brasil, español y un respaldo x-default que apunta al inglés.</p>\n\n<p>Este es el patrón exacto, sacado del head renderizado de un artículo en vivo:</p>\n\n<pre class=\"my-6 p-4 bg-muted rounded-lg overflow-x-auto text-sm\"><code>&lt;link rel=\"alternate\" hreflang=\"en\" href=\"https://mangabeira.net/publications/[slug]\" /&gt;\n&lt;link rel=\"alternate\" hreflang=\"pt-BR\" href=\"https://mangabeira.net/br/artigos/[slug-pt]\" /&gt;\n&lt;link rel=\"alternate\" hreflang=\"es\" href=\"https://mangabeira.net/es/articulos/[slug-es]\" /&gt;\n&lt;link rel=\"alternate\" hreflang=\"x-default\" href=\"https://mangabeira.net/publications/[slug]\" /&gt;</code></pre>\n\n<p>Cuatro etiquetas, una por idioma más el respaldo. Cada una de las tres URL de idioma lleva las cuatro etiquetas, apuntando a sí misma y a las otras dos.</p>\n\n<div class=\"my-6 p-4 bg-yellow-50 dark:bg-yellow-950 border-l-4 border-yellow-500 rounded-r\">\n  <p class=\"font-semibold text-yellow-900 dark:text-yellow-100 mb-2\">Atención</p>\n  <p class=\"text-yellow-800 dark:text-yellow-200\">Las etiquetas por sí solas no ayudan si el rastreador no puede renderizar la página detrás de ellas. Eso es un problema de renderizado, no de traducción. <a href=\"#\" class=\"underline\"><a href=\"https://mangabeira.net/publications/web3-technical-seo\">SEO Técnico para Web3</a></a> lo cubre en detalle.</p>\n</div>\n\n<div class=\"my-6 p-4 bg-green-50 dark:bg-green-950 border-l-4 border-green-500 rounded-r\">\n  <p class=\"font-semibold text-green-900 dark:text-green-100 mb-2\">Buena práctica</p>\n  <p class=\"text-green-800 dark:text-green-200\">Cada alternativa necesita un enlace de retorno, incluyendo la autorreferencia. <a href=\"https://developers.google.com/search/docs/specialty/international/localized-versions\" target=\"_blank\" rel=\"noopener\">La propia documentación de Google sobre versiones localizadas</a> lo dice sin rodeos: falta un enlace de retorno, y Google puede descartar todo el conjunto para esa URL, no solo registrar una advertencia.</p>\n</div>\n\n<p>Esa regla de reciprocidad es el motivo por el que genero las cuatro etiquetas a partir de una sola lista fuente por artículo, nunca editando a mano tres archivos separados.</p>\n\n<p>Cada URL de idioma también lleva su propia etiqueta canonical autorreferenciada. Canonical y hreflang hacen trabajos distintos.</p>\n\n<p>Canonical dice \"esta URL exacta es la versión a indexar\". hreflang dice \"aquí están las demás opciones del conjunto a considerar\". Confundir ambas es una fuente común precisamente de los errores que castiga la regla de reciprocidad.</p>\n\n<h2 id=\"localized-keyword-intent\">Más Allá de la Traducción: Intención de Búsqueda Localizada</h2>\n\n<p><strong>Una página traducida y una página localizada no son el mismo activo.</strong> La traducción cambia las palabras. La localización cambia qué pregunta responde la página.</p>\n\n<p>Toma una guía de impuestos cripto. La traducción literal al español de \"how to file crypto taxes\" suena forzada y no coincide con casi nada que la gente realmente escribe.</p>\n\n<p>En México, la gente busca en torno a <em>cómo declarar criptomonedas ante el SAT</em>, ligado al proceso de declaración de su propia autoridad fiscal. Es un tipo de búsqueda distinto, no solo un idioma distinto.</p>\n\n<p>El contenido de on-ramp tiene el mismo problema. \"Cómo comprar [token] con efectivo\" necesita instrucciones distintas por país, porque el medio de pago local que la gente realmente usa no es el mismo en todos lados.</p>\n\n<div class=\"my-8 overflow-x-auto\">\n  <table class=\"w-full border-collapse\">\n    <thead>\n      <tr class=\"bg-muted\">\n        <th class=\"p-4 text-left font-semibold border-b-2 border-primary\">Tema</th>\n        <th class=\"p-4 text-left font-semibold border-b-2 border-primary\">Versión traducida</th>\n        <th class=\"p-4 text-left font-semibold border-b-2 border-primary\">Versión localizada</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr class=\"hover:bg-muted/50 transition-colors\">\n        <td class=\"p-4 border-b border-border font-medium\">Guía de impuestos cripto</td>\n        <td class=\"p-4 border-b border-border\">Traducción palabra por palabra de la página en inglés</td>\n        <td class=\"p-4 border-b border-border\">Construida alrededor del proceso de declaración y los términos del país</td>\n      </tr>\n      <tr class=\"hover:bg-muted/50 transition-colors\">\n        <td class=\"p-4 border-b border-border font-medium\">Guía de on-ramp</td>\n        <td class=\"p-4 border-b border-border\">Mismos pasos, idioma distinto</td>\n        <td class=\"p-4 border-b border-border\">Construida alrededor del medio de pago que ese mercado realmente usa</td>\n      </tr>\n    </tbody>\n  </table>\n</div>\n\n<p>Una página traducida sale más rápido. Una página localizada es la que realmente posiciona para lo que la gente de ese país escribe.</p>\n\n<h2 id=\"what-i-dont-localize\">Lo Que No Localizo: Docs, la App y Páginas Programáticas</h2>\n\n<p><strong>El contenido editorial y las páginas de marketing se traducen en mangabeira.net. Docs, la interfaz de la app y las páginas programáticas, en general, no.</strong></p>\n\n<figure>\n<img src=\"https://mangabeira.net/media/international-seo-web3-localize-map.png\" alt=\"Un mapa de decisión con dos zonas: Traducir (artículos editoriales, páginas de marketing) en un recuadro con borde celeste y una marca de verificación, versus No Traducir (docs, interfaz de app/dApp, páginas programáticas) en un recuadro gris apagado con una equis, cada elemento con su motivo en una línea\" width=\"2200\" height=\"1900\" style=\"width:100%;height:auto;border-radius:8px;\">\n<figcaption>La división por tipo de contenido detrás del alcance de localización de mangabeira.net: editorial y marketing se traducen, docs/app/páginas programáticas no, con el motivo de cada decisión.</figcaption>\n</figure>\n\n<p>Docs atiende a una sola audiencia: builders leyendo referencias de API. Esa audiencia lee documentación técnica en inglés por convención. Mantener tres versiones de un sitio de docs que cambia cada semana es un impuesto de mantenimiento que todavía no he visto compensar.</p>\n\n<p>La interfaz de la dApp es un problema de localización aparte: pantallas con wallet conectada, rutas por dirección, estado dependiente de sesión. <a href=\"#\" class=\"underline\"><a href=\"https://mangabeira.net/publications/seo-for-dapps\">SEO para dApps</a></a> cubre esa superficie por su cuenta.</p>\n\n<p>Las páginas programáticas de pools y pares, generadas a escala a partir de datos en vivo, son un tercer caso. <a href=\"#\" class=\"underline\"><a href=\"https://mangabeira.net/publications/defi-protocol-seo\">SEO para Protocolos DeFi</a></a> cubre qué hacer con ellas.</p>\n\n<div class=\"my-6 p-4 bg-yellow-50 dark:bg-yellow-950 border-l-4 border-yellow-500 rounded-r\">\n  <p class=\"font-semibold text-yellow-900 dark:text-yellow-100 mb-2\">Atención</p>\n  <p class=\"text-yellow-800 dark:text-yellow-200\">Traducir todo por defecto multiplica el mantenimiento sin multiplicar el tráfico calificado. Define el alcance de la decisión por tipo de contenido, no por sitio.</p>\n</div>\n\n<h2 id=\"what-to-measure\">Qué Medir Una Vez que el Contenido Multilingüe Está en Vivo</h2>\n\n<p><strong>Segmenta Search Console por país y ruta de página por idioma, no solo impresiones agregadas.</strong> Los números agregados esconden si una versión de idioma está funcionando o no.</p>\n\n<div class=\"my-8 p-6 bg-muted/30 rounded-lg border border-border\">\n  <h3 class=\"text-xl font-bold mb-4\">Checklist de Medición de SEO Internacional</h3>\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span>Segmentar el rendimiento en GSC por ruta de página y por idioma (/br/, /es/, raíz)</span>\n  </label>\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span>Revisar el filtro de País de GSC contra el idioma esperado para cada ruta</span>\n  </label>\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span>Confirmar que cada alternativa hreflang devuelve 200, no un redireccionamiento al locale equivocado</span>\n  </label>\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span>Verificar la reciprocidad: cada versión enlaza de vuelta a todas las demás, incluyéndose a sí misma</span>\n  </label>\n  <label class=\"flex items-start gap-3 mb-3 cursor-pointer hover:bg-muted/50 p-2 rounded transition-colors\">\n    <input type=\"checkbox\" class=\"mt-1 h-5 w-5 rounded border-border text-primary focus:ring-primary\">\n    <span>Revisar el conjunto completo cada trimestre, no solo en el lanzamiento</span>\n  </label>\n</div>\n\n<p>Esa revisión de reciprocidad es la que más importa: sáltatela, y la regla del enlace de retorno mencionada arriba entra en juego para todo el conjunto, no solo para el enlace faltante.</p>\n\n<p>Los segmentos de apariencia en búsqueda también importan, no solo los clics. Que una versión de idioma aparezca en un AI Overview o en un resultado enriquecido es una señal distinta de la posición en el ranking. GSC lo reporta por URL.</p>\n\n<p>El stack de hreflang reconstruido detrás de mis versiones BR y ES tiene días, al momento de escribir esto. No es tiempo suficiente para reclamar un resultado.</p>\n\n<p>Lo que puedo mostrar es la configuración, todavía no un gráfico. Voy a revisitar esta pieza en cuanto haya historial real de GSC que segmentar.</p>\n\n<h2 id=\"faq\">FAQ</h2>\n\n<h3>¿Qué es el SEO internacional para proyectos web3?</h3>\n<p>El SEO internacional para proyectos web3 significa construir versiones de un sitio cripto específicas por idioma y región, respaldadas por marcado hreflang. Los idiomas se eligen por demanda de búsqueda y presencia real de comunidad, no traduciendo todo por defecto.</p>\n\n<h3>¿A qué idiomas debería traducir primero un proyecto web3?</h3>\n<p>A los que pasen tres pruebas. Demanda de búsqueda real para tus temas específicos, una audiencia realmente activa en ese idioma, y un equipo capaz de mantener el contenido después del lanzamiento. Rankings de adopción como el índice de Chainalysis ayudan a identificar candidatos, pero no responden ninguna de las tres pruebas por sí solos.</p>\n\n<h3>¿Funciona hreflang en un sitio web3 cargado de JavaScript?</h3>\n<p>Las etiquetas hreflang en sí funcionan igual sin importar el stack. El riesgo es que un sitio renderizado del lado del cliente esconda esas etiquetas, y el contenido detrás de ellas, de rastreadores que no ejecutan JavaScript. Eso es un problema de renderizado, separado del marcado hreflang en sí.</p>\n\n<h3>¿Cuál es la diferencia entre traducir una página y localizarla?</h3>\n<p>La traducción cambia las palabras de una página. La localización cambia qué pregunta responde la página. Se construye alrededor de cómo busca realmente la gente en ese país: sus términos fiscales, sus medios de pago, su proceso regulatorio.</p>\n\n<h3>¿Cuánto tiempo toma ver resultados de una nueva versión de idioma?</h3>\n<p>El suficiente para que días o semanas no sean una prueba justa. Las nuevas versiones de idioma necesitan una ventana real de rastreo e indexación antes de que los datos de Search Console signifiquen algo. Los resultados también dependen de si el idioma pasó las pruebas de demanda y presencia desde el principio.</p>\n\n<div class=\"my-12 rounded-xl overflow-hidden border-l-4 border-amber-400 bg-slate-900 shadow-xl not-prose\">\n  <div class=\"p-8 md:p-12\">\n    <p class=\"text-sky-400 font-bold text-xs tracking-widest uppercase mb-4\">Analyst in the Arena · Gabriel Mangabeira</p>\n    <p class=\"text-white font-bold text-2xl md:text-3xl leading-tight mb-4 max-w-2xl\">Descubre si el <span class=\"text-amber-400\">SEO internacional</span> de tu protocolo te está costando demanda de búsqueda real</p>\n    <div class=\"my-8 p-6 bg-navy rounded-lg text-white\">\n  <p class=\"text-xl font-semibold mb-2\">¿Estás pensando en una segunda versión de idioma para tu sitio?</p>\n  <p class=\"text-gray-300 mb-4\">Yo construí y medí exactamente esta configuración. Mi Web3 Growth Audit cubre la selección de mercado y la revisión de hreflang de este artículo, aplicadas a tu proyecto.</p>\n  <a href=\"https://mangabeira.net/services/web3-growth-audit\" class=\"inline-block px-5 py-2.5 bg-gradient-cta text-white font-semibold rounded-lg hover:brightness-110 transition-all\">Conoce el Web3 Growth Audit →</a>\n</div>\n\n<p>Para el contexto más amplio del clúster, la <a href=\"https://mangabeira.net/publications/definitive-guide-web3-seo\" class=\"text-primary hover:underline\">guía completa de SEO web3</a> conecta esta pieza de vuelta con la investigación de palabras clave, el SEO técnico y cómo lograr que te citen en AI Overviews.</p>\n\n</article>\n\n---\n</div>",
+  "created_at": "2026-09-03T18:06:32.797081+00:00",
+  "updated_at": "2026-09-03T18:06:32.797081+00:00",
+  "featured_image_alt": "Three translucent versions of one printed page fanned on a dark desk under warm side light",
+  "slug": "seo-internacional-proyectos-web3-hreflang",
+  "schema": [
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "SEO Internacional para Proyectos Web3: Mi Registro de Implementación de Hreflang",
+      "description": "El SEO internacional para proyectos web3 empieza eligiendo idiomas por demanda real, no por traducción vanidosa. Así implementé hreflang en EN/PT-BR/ES.",
+      "image": "https://mangabeira.net/media/international-seo-web3-cover.jpg",
+      "author": {
+        "url": "https://mangabeira.net",
+        "name": "Gabriel Mangabeira",
+        "@type": "Person",
+        "image": "https://mangabeira.net/images/gabriel-professional-about.png",
+        "sameAs": [
+          "https://x.com/manga82",
+          "https://linkedin.com/in/mangabeira"
+        ],
+        "jobTitle": "Web3 Growth Marketing Strategist",
+        "description": "Growth marketing expert specializing in Web3, DeFi, and tokenomics. Former growth lead at Binance and IOC."
+      },
+      "datePublished": "2026-09-03T18:06:32.797081+00:00",
+      "dateModified": "2026-09-03T18:06:32.797081+00:00",
+      "inLanguage": "es",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://mangabeira.net/es/articulos/seo-internacional-proyectos-web3-hreflang"
+      },
+      "isPartOf": {
+        "@type": "WebPage",
+        "name": "The Definitive Guide to Web3 SEO",
+        "@id": "https://mangabeira.net/publications/definitive-guide-web3-seo"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Qué es el SEO internacional para proyectos web3?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "El SEO internacional para proyectos web3 significa construir versiones de un sitio cripto específicas por idioma y región, respaldadas por marcado hreflang. Los idiomas se eligen por demanda de búsqueda y presencia real de comunidad, no traduciendo todo por defecto."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿A qué idiomas debería traducir primero un proyecto web3?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A los que pasen tres pruebas. Demanda de búsqueda real para tus temas específicos, una audiencia realmente activa en ese idioma, y un equipo capaz de mantener el contenido después del lanzamiento. Rankings de adopción como el índice de Chainalysis ayudan a identificar candidatos, pero no responden ninguna de las tres pruebas por sí solos."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Funciona hreflang en un sitio web3 cargado de JavaScript?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Las etiquetas hreflang en sí funcionan igual sin importar el stack. El riesgo es que un sitio renderizado del lado del cliente esconda esas etiquetas, y el contenido detrás de ellas, de rastreadores que no ejecutan JavaScript. Eso es un problema de renderizado, separado del marcado hreflang en sí."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cuál es la diferencia entre traducir una página y localizarla?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La traducción cambia las palabras de una página. La localización cambia qué pregunta responde la página. Se construye alrededor de cómo busca realmente la gente en ese país: sus términos fiscales, sus medios de pago, su proceso regulatorio."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cuánto tiempo toma ver resultados de una nueva versión de idioma?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "El suficiente para que días o semanas no sean una prueba justa. Las nuevas versiones de idioma necesitan una ventana real de rastreo e indexación antes de que los datos de Search Console signifiquen algo. Los resultados también dependen de si el idioma pasó las pruebas de demanda y presencia desde el principio."
+          }
+        }
+      ]
+    },
+    {
+      "url": "https://mangabeira.net",
+      "name": "Gabriel Mangabeira",
+      "@type": "Person",
+      "image": "https://mangabeira.net/images/gabriel-professional-about.png",
+      "sameAs": [
+        "https://x.com/manga82",
+        "https://linkedin.com/in/mangabeira"
+      ],
+      "@context": "https://schema.org",
+      "alumniOf": [
+        {
+          "name": "University of Florida",
+          "@type": "Organization"
+        },
+        {
+          "name": "Coca-Cola Company",
+          "@type": "Organization"
+        },
+        {
+          "name": "Binance",
+          "@type": "Organization"
+        },
+        {
+          "name": "International Olympic Committee",
+          "@type": "Organization"
+        }
+      ],
+      "jobTitle": "Web3 Growth Marketing Strategist",
+      "knowsAbout": [
+        "Web3 Marketing",
+        "Tokenomics",
+        "DeFi",
+        "NFT Strategy",
+        "Community Building",
+        "Growth Marketing",
+        "Sports Tokens",
+        "On-Chain Attribution",
+        "Token Utility Design",
+        "Liquidity Mining",
+        "Protocol Growth",
+        "Capital Efficiency"
+      ],
+      "description": "Growth marketing expert specializing in Web3, DeFi, and tokenomics. Former growth lead at Binance and IOC."
+    },
+    {
+      "url": "https://mangabeira.net",
+      "logo": "https://mangabeira.net/images/swimming-icon.png",
+      "name": "Mangabeira.net",
+      "@type": "Organization",
+      "sameAs": [
+        "https://x.com/manga82",
+        "https://linkedin.com/in/mangabeira"
+      ],
+      "founder": {
+        "name": "Gabriel Mangabeira",
+        "@type": "Person"
+      },
+      "@context": "https://schema.org",
+      "description": "Web3 growth marketing expertise and consulting for DeFi, NFT, and token projects"
+    }
+  ]
+}
