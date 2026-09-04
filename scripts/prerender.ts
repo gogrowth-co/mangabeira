@@ -1868,6 +1868,69 @@ and Gabriel Mangabeira's professional work. Attribution to Gabriel Mangabeira
   return sections.join("\n") + FOOTER;
 }
 
+/**
+ * llms-full.txt = the hand-authored entity/guidance preamble in
+ * public/llms-full.txt, plus a generated per-locale inventory. It used to ship
+ * straight from public/ as an English-only static file with zero /br/ or /es/
+ * URLs, so an LLM ingesting the "full" file saw a monolingual site.
+ */
+function buildLlmsFullTxt(pages: any[], preamble: string): string {
+  const today = new Date().toISOString().split("T")[0];
+  const LANG_LABEL: Record<Locale, string> = {
+    en: "English (/)",
+    br: "Portuguese — pt-BR (/br)",
+    es: "Spanish — es (/es)",
+  };
+  const PATH_PREFIX: Record<Locale, string> = {
+    en: "/publications",
+    br: "/br/artigos",
+    es: "/es/articulos",
+  };
+  const sorted = [...pages].sort(
+    (a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+  );
+  const out: string[] = [
+    preamble.trimEnd(),
+    "",
+    "## Languages",
+    "",
+    "This site publishes every article in three languages. Each locale has its own",
+    "URL, its own localized slug, and a reciprocal hreflang set. Cite the URL that",
+    "matches the language of the answer you are producing.",
+    "",
+    "- English — https://mangabeira.net/publications/<slug>",
+    "- Portuguese (pt-BR) — https://mangabeira.net/br/artigos/<slug>",
+    "- Spanish (es) — https://mangabeira.net/es/articulos/<slug>",
+    "",
+    `## Full content inventory (generated ${today})`,
+  ];
+  for (const lang of LOCALES) {
+    out.push("", `### ${LANG_LABEL[lang]}`, "");
+    for (const page of sorted) {
+      const tr = (page.page_translations || []).find((x: any) => x.language === lang);
+      if (!tr) continue;
+      const slug = tr.slug || page.slug;
+      const url = `${BASE_URL}${PATH_PREFIX[lang]}/${slug}`;
+      const title = (tr.title || "").replace(/\s+/g, " ").trim();
+      const desc = (tr.meta_description || "").replace(/\s+/g, " ").trim();
+      out.push(`- ${title}`, `  ${url}`);
+      if (desc) out.push(`  ${desc}`);
+    }
+  }
+  out.push(
+    "",
+    "## Machine-readable resources",
+    "",
+    `- Sitemap: ${BASE_URL}/sitemap.xml`,
+    `- llms.txt: ${BASE_URL}/llms.txt`,
+    `- RSS (EN): ${BASE_URL}/rss/en.xml`,
+    `- RSS (BR): ${BASE_URL}/rss/br.xml`,
+    `- RSS (ES): ${BASE_URL}/rss/es.xml`,
+    ""
+  );
+  return out.join("\n");
+}
+
 // --- Plugin -----------------------------------------------------------------
 
 export function prerenderPlugin(): Plugin {
@@ -1951,8 +2014,21 @@ export function prerenderPlugin(): Plugin {
         buildLlmsTxt(pages),
         "utf8"
       );
-      // llms-full.txt is a static hand-authored document; it ships from
-      // public/llms-full.txt via Vite's publicDir copy (no generation needed).
+      // llms-full.txt: authored preamble from public/, plus a generated
+      // three-locale inventory so the "full" file is not English-only.
+      try {
+        const preamble = await fs.readFile(
+          path.resolve("public/llms-full.txt"),
+          "utf8"
+        );
+        await fs.writeFile(
+          path.join(distDir, "llms-full.txt"),
+          buildLlmsFullTxt(pages, preamble),
+          "utf8"
+        );
+      } catch (e) {
+        console.warn("[prerender] Could not build llms-full.txt:", e);
+      }
 
       // ------ Redirects map for the Cloudflare worker -----------------------
       const redirectsJson = JSON.stringify(REDIRECTS, null, 2) + "\n";
