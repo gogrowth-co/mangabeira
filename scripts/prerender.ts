@@ -284,8 +284,11 @@ function staticRoutes(
       outPath,
       locale,
       canonical: `${BASE_URL}/${outPath}`.replace(/\/$/, "") || `${BASE_URL}/`,
+      // Slash-less, so the en/x-default hreflang matches the canonical and the
+      // sitemap <loc> byte for byte. hreflang reciprocity is string-exact:
+      // BASE_URL/ vs BASE_URL made the home cluster the only non-reciprocal set.
       alternates: {
-        en: `${BASE_URL}/`,
+        en: BASE_URL,
         "pt-BR": `${BASE_URL}/br`,
         es: `${BASE_URL}/es`,
       },
