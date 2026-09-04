@@ -60,6 +60,36 @@ async function loadDict(locale: Locale): Promise<Dict> {
 const t = (locale: Locale, section: string, key: string, fallback = "") =>
   dicts[locale]?.[section]?.[key] || fallback;
 
+// Audit landing copy lives in its own CSV (key,en,pt-br,es) because the React
+// page loads it at runtime via src/lib/auditTranslations.ts. The snapshot reads
+// the same file so bots get the audit page in the locale they asked for,
+// instead of the English component tree at all three routes.
+type AuditDict = Record<string, Record<string, string>>;
+const auditDict: AuditDict = {};
+
+async function loadAuditDict(): Promise<void> {
+  const raw = await fs.readFile(
+    path.resolve("public/translations", "audit.csv"),
+    "utf8"
+  );
+  const parsed = Papa.parse<{ key: string; en: string; "pt-br": string; es: string }>(
+    raw,
+    { header: true, skipEmptyLines: true }
+  );
+  for (const row of parsed.data) {
+    if (!row.key) continue;
+    auditDict[row.key] = {
+      en: row.en ?? "",
+      br: row["pt-br"] ?? "",
+      es: row.es ?? "",
+    };
+  }
+}
+
+/** Audit copy for a locale, falling back to English when a cell is blank. */
+const ta = (locale: Locale, key: string, fallback = ""): string =>
+  auditDict[key]?.[locale] || auditDict[key]?.en || fallback;
+
 // --- htmlLang helper --------------------------------------------------------
 
 const htmlLangFor = (locale: Locale) =>
@@ -242,7 +272,9 @@ const WEBSITE_SCHEMA = {
   publisher: { "@type": "Person", name: "Gabriel Mangabeira", url: BASE_URL },
 };
 
-function staticRoutes(): RouteSpec[] {
+function staticRoutes(
+  sysBodies: Record<string, Record<Locale, string>> = {}
+): RouteSpec[] {
   const routes: RouteSpec[] = [];
 
   // Home (3 locales)
@@ -308,6 +340,7 @@ function staticRoutes(): RouteSpec[] {
         description: t(locale, "meta", "page_description"),
         kind: p.base === "about" ? "about" : "privacy",
         schemas: p.base === "about" ? [PERSON_SCHEMA] : undefined,
+        bodyExtra: { content: sysBodies[p.base]?.[locale] || "" },
       });
     }
   }
@@ -441,6 +474,33 @@ function rewriteFeaturedImage(url: string | null | undefined): string | null {
   if (!/supabase\.co\/storage\//.test(url)) return url;
   const name = url.split("/").pop();
   return name ? `${BASE_URL}/media/${name}` : url;
+}
+
+/**
+ * System pages (privacy, about) are excluded from fetchPublishedPages by the
+ * is_system_page filter, so their translated body never reached the snapshot —
+ * bots saw a heading and the meta description only. Load them directly from the
+ * content store, keyed by base slug then locale.
+ */
+async function fetchSystemPageBodies(): Promise<Record<string, Record<Locale, string>>> {
+  const rawPages: any[] = await readJson(path.join(CONTENT_DIR, "pages.json"));
+  const sysById = new Map<string, string>();
+  for (const p of rawPages) {
+    if (p.is_system_page && p.status === "published") sysById.set(p.id, p.slug);
+  }
+  const out: Record<string, Record<Locale, string>> = {};
+  for (const locale of LOCALES) {
+    const dir = path.join(CONTENT_DIR, locale);
+    for (const file of await fs.readdir(dir)) {
+      if (!file.endsWith(".json")) continue;
+      const tr = await readJson(path.join(dir, file));
+      const base = sysById.get(tr.page_id);
+      if (!base) continue;
+      out[base] ??= { en: "", br: "", es: "" };
+      out[base][locale] = tr.content || "";
+    }
+  }
+  return out;
 }
 
 async function fetchPublishedPages(): Promise<any[]> {
@@ -1051,106 +1111,129 @@ function buildSectionContent(spec: RouteSpec): string {
       break;
     }
     case "audit": {
-      // English-only, verbatim from the live components — Web3GrowthAudit.tsx mounts
-      // this same tree at /services, /br/servicos, and /es/servicios with no
-      // per-locale copy, so the snapshot must match what every locale actually renders.
-      const painPoints = ["Reddit chaos", "Discord noise", "Fragmented on-chain data", "Unstructured dashboards", "Gut-based decisions"];
-      const findings = [
-        { category: "Wallet Cohort Analysis", insight: "30% of your 'active' wallets churn after one interaction — inflating retention.", fix: "Segment paths, improve onboarding, activate silent lurkers." },
-        { category: "Discord → Funnel Leak", insight: "Your highest-intent questions happen 1am–4am UTC — but no replies.", fix: "Async answers library + timezone coverage." },
-        { category: "Token Visibility Gap", insight: "78% of new users never discover your token page due to Reddit thread structure.", fix: "Restructure entry points + sentiment touchpoints." },
-      ];
-      const included = [
-        { title: "Reddit Sentiment & Community Health Check", description: "See what your users actually think — unfiltered." },
-        { title: "Wallet Cohort Quality Scan", description: "Identify real participants vs tourists." },
-        { title: "On-Chain Visibility Score", description: "See how discoverable you really are." },
-        { title: "Cross-Platform Funnel Map", description: "Understand how people move Discord → Web → Wallet → Action." },
-        { title: "Token/Engagement Feedback Loop", description: "See how holdings, utility, and communication interact." },
-        { title: "90-Day Growth Plan", description: "Clear actions. No guesswork." },
-      ];
-      const credentials = ["10+ years in growth across Web2 + Web3", "Operator experience with Binance, L1 ecosystems & major Web3 startups", "Combines qualitative + quantitative insights", "Designed for founders, growth leads & community teams", "Olympic-level discipline applied to analysis"];
+      // Locale-aware, driven by public/translations/audit.csv — the same file the
+      // React page loads at runtime. Before this the snapshot hardcoded English
+      // copy from an older version of the page and served it at all three locale
+      // routes, so bots got an English sales body under /br/ and /es/.
+      const L = spec.locale;
+      const h2 = (txt: string) =>
+        `<h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">${escapeHtml(txt)}</h2>`;
+      const li = (txt: string) => `<li>${escapeHtml(txt)}</li>`;
 
-      const painHtml = painPoints.map((p) => `<li>${escapeHtml(p)}</li>`).join("\n        ");
-      const findingsHtml = findings
-        .map(
-          (f) =>
-            `<li><strong>${escapeHtml(f.category)}:</strong> "${escapeHtml(f.insight)}" <em>→ Fix: ${escapeHtml(f.fix)}</em></li>`
-        )
+      const proofHtml = [1, 2, 3]
+        .map((n) => {
+          const title = ta(L, `audit.proof.card${n}.title`);
+          if (!title) return "";
+          const ctx = ta(L, `audit.proof.card${n}.context`);
+          const res = ta(L, `audit.proof.card${n}.result`);
+          return `<li><strong>${escapeHtml(title)}</strong>${ctx ? ` ${escapeHtml(ctx)}` : ""}${res ? ` — ${escapeHtml(res)}` : ""}</li>`;
+        })
+        .filter(Boolean)
         .join("\n        ");
-      const includedHtml = included
-        .map((f) => `<li><strong>${escapeHtml(f.title)}</strong> — ${escapeHtml(f.description)}</li>`)
+
+      const stepsHtml = [1, 2, 3]
+        .map((n) => {
+          const title = ta(L, `audit.process.step${n}.title`);
+          if (!title) return "";
+          const day = ta(L, `audit.process.step${n}.day`);
+          const sub = ta(L, `audit.process.step${n}.subtitle`);
+          const items = [1, 2, 3, 4, 5]
+            .map((i) => ta(L, `audit.process.step${n}.item${i}`))
+            .filter(Boolean)
+            .map(li)
+            .join("\n            ");
+          const footer = ta(L, `audit.process.step${n}.footer`);
+          return `<li><strong>${escapeHtml(day)}: ${escapeHtml(title)}</strong>${sub ? ` — ${escapeHtml(sub)}` : ""}
+          ${items ? `<ul>\n            ${items}\n          </ul>` : ""}
+          ${footer ? `<p>${escapeHtml(footer)}</p>` : ""}</li>`;
+        })
+        .filter(Boolean)
         .join("\n        ");
-      const credentialsHtml = credentials.map((c) => `<li>${escapeHtml(c)}</li>`).join("\n        ");
-      const pricingHtml = AUDIT_PRICING
-        .map(
-          (tier) => `<div style="border:1px solid #EAF6FA;border-radius:8px;padding:16px;margin:0 0 12px;">
-          <h3 style="font-family:Poppins,sans-serif;font-size:20px;margin:0 0 4px;">${escapeHtml(tier.name)}${tier.badge ? ` — ${escapeHtml(tier.badge)}` : ""}</h3>
-          <p style="font-size:28px;font-weight:700;margin:0 0 4px;color:#0A2540;">${escapeHtml(tier.price)}</p>
-          <p style="margin:0 0 8px;">${escapeHtml(tier.description)}</p>
-          <ul>
-            ${tier.features.map((f) => `<li>${escapeHtml(f)}</li>`).join("\n            ")}
-          </ul>
-        </div>`
-        )
+
+      const featuresHtml = [1, 2, 3, 4, 5, 6]
+        .map((n) => {
+          const title = ta(L, `audit.features.item${n}.title`);
+          if (!title) return "";
+          const desc = ta(L, `audit.features.item${n}.description`);
+          return `<li><strong>${escapeHtml(title)}</strong>${desc ? ` — ${escapeHtml(desc)}` : ""}</li>`;
+        })
+        .filter(Boolean)
         .join("\n        ");
-      const faqHtml = AUDIT_FAQS
-        .map(
-          (f) => `<div style="margin:0 0 12px;">
-          <h3 style="font-family:Poppins,sans-serif;font-size:18px;margin:0 0 4px;">${escapeHtml(f.q)}</h3>
-          <p style="margin:0;">${escapeHtml(f.a)}</p>
-        </div>`
-        )
+
+      const pricingHtml = [1, 2, 3]
+        .map((n) => {
+          const name = ta(L, `audit.pricing.tier${n}.name`);
+          if (!name) return "";
+          const price = ta(L, `audit.pricing.tier${n}.price`);
+          const badge = ta(L, `audit.pricing.tier${n}.badge`);
+          const ideal = ta(L, `audit.pricing.tier${n}.ideal`);
+          const feats = [1, 2, 3, 4, 5]
+            .map((i) => ta(L, `audit.pricing.tier${n}.feature${i}`))
+            .filter(Boolean)
+            .map(li)
+            .join("\n            ");
+          return `<div style="border:1px solid #EAF6FA;border-radius:8px;padding:16px;margin:0 0 12px;">
+          <h3 style="font-family:Poppins,sans-serif;font-size:20px;margin:0 0 4px;">${escapeHtml(name)}${badge ? ` — ${escapeHtml(badge)}` : ""}</h3>
+          <p style="font-size:28px;font-weight:700;margin:0 0 4px;color:#0A2540;">${escapeHtml(price)}</p>
+          ${ideal ? `<p style="margin:0 0 8px;">${escapeHtml(ideal)}</p>` : ""}
+          ${feats ? `<ul>\n            ${feats}\n          </ul>` : ""}
+        </div>`;
+        })
+        .filter(Boolean)
+        .join("\n      ");
+
+      const faqHtml = [1, 2, 3, 4, 5]
+        .map((n) => {
+          const q = ta(L, `audit.faq.q${n}.question`);
+          if (!q) return "";
+          const a = ta(L, `audit.faq.q${n}.answer`);
+          return `<li><strong>${escapeHtml(q)}</strong><br />${escapeHtml(a)}</li>`;
+        })
+        .filter(Boolean)
         .join("\n        ");
+
+      const trust = [1, 2, 3]
+        .map((n) => ta(L, `audit.final.trust${n}`))
+        .filter(Boolean)
+        .join(" · ");
 
       sectionHtml = `
     <section>
-      <p style="margin:0 0 8px;font-size:14px;color:#555;">Trusted by operators across Binance, EigenLayer, L1 ecosystems, Token Health Scan.</p>
-      <p style="font-size:18px;">Stop guessing why growth feels unpredictable. Get a cross-channel Web3 audit that reveals your blind spots across Reddit, Discord, on-chain, website, and your dApp — analyzed by a growth operator with 10+ years of experience.</p>
+      <p><strong>${escapeHtml(ta(L, "audit.hero.eyebrow"))}</strong></p>
+      ${h2(ta(L, "audit.hero.headline"))}
+      <p>${escapeHtml(ta(L, "audit.hero.subheadline"))}</p>
+      <p>${escapeHtml(ta(L, "audit.hero.trust.label"))} ${escapeHtml(ta(L, "audit.hero.trust.logos"))}</p>
 
-      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">If your growth feels chaotic, it's not your fault.</h2>
-      <p>Most Web3 teams operate blind because insights are scattered across:</p>
+      ${h2(ta(L, "audit.proof.title"))}
       <ul>
-        ${painHtml}
+        ${proofHtml}
       </ul>
-      <p>This audit pulls everything together into one clear, actionable picture — so you know exactly where momentum is leaking and how to fix it.</p>
+      <p><em>${escapeHtml(ta(L, "audit.proof.caption"))}</em></p>
 
-      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">Sample Findings From Real Audits</h2>
-      <ul>
-        ${findingsHtml}
-      </ul>
-
-      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">How It Works</h2>
-      <p>Clear. Visual. 72 hours.</p>
+      ${h2(ta(L, "audit.process.title"))}
+      <p>${escapeHtml(ta(L, "audit.process.subtitle"))}</p>
       <ol>
-        <li><strong>Day 1: Deep Data Scan</strong> — Reddit sentiment &amp; discussion clusters, Discord behaviors &amp; engagement loops, website &amp; dApp funnel paths, on-chain activity &amp; wallet cohorts, social footprint, SEO, PR narratives.</li>
-        <li><strong>Day 2: Insights That Actually Matter</strong> — what's driving or blocking growth, where users fall off, what levers work, what patterns are hidden beneath the surface.</li>
-        <li><strong>Day 3: Your Action Roadmap</strong> — what to fix, why it matters, how to fix it, what to do first, what NOT to waste time on.</li>
+        ${stepsHtml}
       </ol>
 
-      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">What's Included</h2>
-      <p>A complete Web3 Growth Audit — delivered via Notion + Loom walkthrough.</p>
+      ${h2(ta(L, "audit.features.title"))}
       <ul>
-        ${includedHtml}
+        ${featuresHtml}
       </ul>
 
-      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">Why Web3 Teams Choose This Over Internal Reviews</h2>
-      <ul>
-        ${credentialsHtml}
-      </ul>
-
-      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">Pricing — Choose How Deep You Want to Go</h2>
+      ${h2(ta(L, "audit.pricing.title"))}
+      <p>${escapeHtml(ta(L, "audit.pricing.subtitle"))}</p>
       ${pricingHtml}
-      <p><em>I take 5 audit clients per month for quality.</em></p>
+      <p><em>${escapeHtml(ta(L, "audit.pricing.guarantee"))}</em></p>
 
-      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">The Guarantee</h2>
-      <p>If I don't find at least 3 meaningful, actionable insights, I refund the entire audit fee. No risk. No excuses. Just clarity.</p>
+      ${h2(ta(L, "audit.faq.title"))}
+      <ul>
+        ${faqHtml}
+      </ul>
 
-      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">FAQ</h2>
-      ${faqHtml}
-
-      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">Ready to stop guessing and start scaling?</h2>
-      <p>Get a real diagnosis of your Web3 growth engine — backed by data and operator experience.</p>
-      <p>Delivered in 72 hours · Clear insights · Zero-risk guarantee</p>
+      ${h2(ta(L, "audit.final.title"))}
+      <p>${escapeHtml(ta(L, "audit.final.subtext"))}</p>
+      ${trust ? `<p>${escapeHtml(trust)}</p>` : ""}
     </section>`;
       break;
     }
@@ -1185,13 +1268,26 @@ function buildSectionContent(spec: RouteSpec): string {
     </section>`;
       break;
     }
-    case "privacy":
-      sectionHtml = `
+    case "privacy": {
+      // The translated policy lives in the content store; before this it never
+      // reached the snapshot, so bots saw a heading and nothing else.
+      const policy = sanitizePublicationHtml(spec.bodyExtra?.content || "");
+      const heading =
+        spec.locale === "br" ? "Política de Privacidade" : spec.locale === "es" ? "Política de Privacidad" : "Privacy Policy";
+      // The stored policy carries its own <h1>; only fall back to a heading +
+      // description when the content store has nothing for this locale.
+      sectionHtml = policy
+        ? `
     <section>
-      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">${spec.locale === "br" ? "Política de Privacidade" : spec.locale === "es" ? "Política de Privacidad" : "Privacy Policy"}</h2>
+      ${policy}
+    </section>`
+        : `
+    <section>
+      <h2 style="font-family:Poppins,sans-serif;font-size:24px;margin:24px 0 8px;">${heading}</h2>
       <p>${escapeHtml(spec.description)}</p>
     </section>`;
       break;
+    }
     case "home":
     default: {
       // Mirrors the live homepage section-by-section (hero, stats, about,
@@ -1795,9 +1891,16 @@ export function prerenderPlugin(): Plugin {
         }
       }
 
+      try {
+        await loadAuditDict();
+      } catch (e) {
+        console.warn("[prerender] Could not load audit.csv:", e);
+      }
+
+      const sysBodies = await fetchSystemPageBodies();
       const pages = await fetchPublishedPages();
       const routes = [
-        ...staticRoutes(),
+        ...staticRoutes(sysBodies),
         ...hubRoutes(pages),
         ...publicationRoutes(pages),
       ];
