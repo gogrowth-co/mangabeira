@@ -10,7 +10,19 @@ const Footer = () => {
     const localizedSlug = getSystemPageSlug(baseSlug, locale);
     return locale === 'en' ? `/${localizedSlug}` : `/${locale}/${localizedSlug}`;
   };
-  
+
+  const hubUrl = locale === 'br'
+    ? '/br/artigos/web3-seo-guia-definitivo'
+    : locale === 'es'
+    ? '/es/articulos/web3-seo-guia-definitiva'
+    : '/publications/definitive-guide-web3-seo';
+
+  const hubLinkText = locale === 'br'
+    ? 'Guia Completo de SEO Web3'
+    : locale === 'es'
+    ? 'Guía Completa de SEO Web3'
+    : 'The Definitive Guide to Web3 SEO';
+
   const socialLinks = [
     {
       name: "LinkedIn",
@@ -23,7 +35,7 @@ const Footer = () => {
       url: "https://x.com/manga82",
     },
     {
-      name: "Medium",
+      name: "GitHub",
       icon: Github,
       url: "https://github.com/gmangabeira",
     },
@@ -36,12 +48,19 @@ const Footer = () => {
           {/* Copyright and Privacy Policy */}
           <div className="text-sm text-muted-foreground text-center md:text-left max-w-2xl">
             <div>{t('footer', 'copyright_text', locale)} <a href="https://lovable.dev" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">{t('footer', 'copyright_lovable', locale)}</a></div>
-            <div className="mt-1">
-              <a 
-                href={getSystemPageUrl('privacy-policy')} 
+            <div className="mt-1 flex flex-wrap justify-center md:justify-start items-center gap-x-2 gap-y-1">
+              <a
+                href={getSystemPageUrl('privacy-policy')}
                 className="text-muted-foreground hover:text-primary transition-colors underline"
               >
                 {t('footer', 'privacy_policy', locale)}
+              </a>
+              <span className="text-muted-foreground opacity-50">·</span>
+              <a
+                href={hubUrl}
+                className="text-muted-foreground hover:text-primary transition-colors underline"
+              >
+                {hubLinkText}
               </a>
             </div>
             <div className="mt-2 text-xs opacity-75">

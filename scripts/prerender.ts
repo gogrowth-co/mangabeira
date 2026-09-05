@@ -926,6 +926,7 @@ const NAV_BY_LOCALE: Record<Locale, { label: string; items: { href: string; text
     items: [
       { href: "/about", text: "About Gabriel" },
       { href: "/publications", text: "Publications" },
+      { href: "/publications/definitive-guide-web3-seo", text: "Web3 SEO Guide" },
       { href: "/tools", text: "Tools" },
       { href: "/tools/tokenomics-simulator", text: "Tokenomics Simulator" },
       { href: "/services/web3-growth-audit", text: "Web3 Growth Audit" },
@@ -937,6 +938,7 @@ const NAV_BY_LOCALE: Record<Locale, { label: string; items: { href: string; text
     items: [
       { href: "/br/sobre", text: "Sobre Gabriel" },
       { href: "/br/artigos", text: "Publicações" },
+      { href: "/br/artigos/web3-seo-guia-definitivo", text: "Guia de SEO Web3" },
       { href: "/br/ferramentas", text: "Ferramentas" },
       { href: "/br/ferramentas/simulador-tokenomics", text: "Simulador de Tokenomics" },
       { href: "/br/servicos/web3-auditoria-de-growth", text: "Auditoria de Growth Web3" },
@@ -948,6 +950,7 @@ const NAV_BY_LOCALE: Record<Locale, { label: string; items: { href: string; text
     items: [
       { href: "/es/acerca-de", text: "Acerca de Gabriel" },
       { href: "/es/articulos", text: "Publicaciones" },
+      { href: "/es/articulos/web3-seo-guia-definitiva", text: "Guía de SEO Web3" },
       { href: "/es/herramientas", text: "Herramientas" },
       { href: "/es/herramientas/simulador-tokenomics", text: "Simulador de Tokenomics" },
       { href: "/es/servicios/web3-auditoria-de-growth", text: "Auditoría de Growth Web3" },
