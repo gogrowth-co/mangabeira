@@ -1,22 +1,25 @@
 // Generate tailwind.safelist.json from the classes ACTUALLY used in published
-// CMS content (Supabase `pages.page_translations.content` stores raw HTML with
-// Tailwind classes, rendered at runtime by src/pages/DynamicPage.tsx).
+// CMS content. Source of truth as of the 2026-09-01 "Lovable divorce" cutover
+// is the git-tracked content/ tree (content/pages.json + content/<lang>/*.json
+// + the content/page_translations.json mirror), rendered at runtime by
+// src/pages/DynamicPage.tsx. Supabase is retired; this script no longer reads
+// it (rewritten 2026-09-06 after the safelist was found stale since 2026-08-12,
+// silently missing every class used in content published after the cutover).
 //
-// Why: the old tailwind.config.ts safelist used 5 broad regex patterns that
-// expanded to ~96k rules / 8 MB of CSS, render-blocking on every page
-// (mobile PSI 40, FCP 10.5s on the ad landing page). This script replaces the
-// regexes with an explicit allowlist harvested from real content, so purge is
-// safe for the ~111 published article routes.
+// Why safelisting at all: the old tailwind.config.ts safelist used 5 broad
+// regex patterns that expanded to ~96k rules / 8 MB of CSS, render-blocking on
+// every page (mobile PSI 40, FCP 10.5s on the ad landing page). This script
+// replaces the regexes with an explicit allowlist harvested from real content,
+// so purge stays safe across every published article route.
 //
 // Usage: node scripts/generate-safelist.mjs
-//  - Reads VITE_SUPABASE_URL / VITE_SUPABASE_PUBLISHABLE_KEY from .env (same
-//    vars the prerender plugin uses).
-//  - Fetches ALL pages (published or not, system or not) in every language so
-//    drafts that later go live are already covered.
+//  - Reads every translation's `content` field directly from content/<lang>/*.json
+//    (falls back to content/page_translations.json for anything not mirrored
+//    to a per-file layout, though today those two sources should agree).
 //  - Extracts every token from class="..." attributes, plus classes referenced
 //    in <style> blocks, and merges with the committed file (grow-only: a
-//    network hiccup or deleted page can never shrink the safelist).
-//  - SAFETY: refuses to write if the fetch fails or returns < 10 pages.
+//    deleted or edited page can never shrink the safelist).
+//  - SAFETY: refuses to write if fewer than 10 translation files are found.
 //
 // Run this and rebuild whenever new CMS content uses classes that look
 // unstyled. The committed tailwind.safelist.json is the build input; builds
@@ -24,23 +27,10 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { createClient } from "@supabase/supabase-js";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const OUT = path.join(root, "tailwind.safelist.json");
-
-// Minimal .env loader (no dotenv dep in scripts context).
-async function loadEnv() {
-  const env = { ...process.env };
-  try {
-    const raw = await fs.readFile(path.join(root, ".env"), "utf8");
-    for (const line of raw.split("\n")) {
-      const m = line.match(/^([A-Z_][A-Z0-9_]*)=(.*)$/);
-      if (m && !(m[1] in env)) env[m[1]] = m[2].replace(/^["']|["']$/g, "");
-    }
-  } catch {}
-  return env;
-}
+const CONTENT_DIR = path.join(root, "content");
 
 function extractClasses(html, sink) {
   if (!html) return;
@@ -57,36 +47,59 @@ function extractClasses(html, sink) {
   }
 }
 
-const env = await loadEnv();
-const url = env.VITE_SUPABASE_URL || env.SUPABASE_URL;
-const key =
-  env.VITE_SUPABASE_PUBLISHABLE_KEY ||
-  env.SUPABASE_ANON_KEY ||
-  env.SUPABASE_PUBLISHABLE_KEY;
-if (!url || !key) {
-  console.error("[safelist] Missing Supabase env vars; aborting (kept existing file).");
-  process.exit(1);
-}
-
-const supabase = createClient(url, key);
-const { data, error } = await supabase
-  .from("pages")
-  .select("slug, status, page_translations(language, content)");
-if (error || !data || data.length < 10) {
-  console.error(
-    `[safelist] Fetch failed or suspiciously small (${data?.length ?? 0} pages):`,
-    error?.message ?? "no error"
-  );
-  process.exit(1);
+async function loadContentFiles() {
+  const files = [];
+  const langDirs = ["en", "br", "es"];
+  for (const lang of langDirs) {
+    const dir = path.join(CONTENT_DIR, lang);
+    let entries;
+    try {
+      entries = await fs.readdir(dir);
+    } catch {
+      continue;
+    }
+    for (const name of entries) {
+      if (!name.endsWith(".json")) continue;
+      files.push(path.join(dir, name));
+    }
+  }
+  return files;
 }
 
 const classes = new Set();
 let translations = 0;
-for (const page of data) {
-  for (const tr of page.page_translations || []) {
-    extractClasses(tr.content, classes);
+
+const contentFiles = await loadContentFiles();
+for (const file of contentFiles) {
+  try {
+    const raw = JSON.parse(await fs.readFile(file, "utf8"));
+    extractClasses(raw.content, classes);
     translations++;
+  } catch (e) {
+    console.error(`[safelist] Skipping unreadable file ${path.relative(root, file)}: ${e.message}`);
   }
+}
+
+// Also sweep the flat page_translations.json mirror, in case a translation
+// exists there that hasn't (yet) been split into a per-language file, or vice
+// versa — grow-only, so covering both sources can only help.
+try {
+  const pt = JSON.parse(await fs.readFile(path.join(CONTENT_DIR, "page_translations.json"), "utf8"));
+  for (const rec of pt) {
+    if (rec && typeof rec === "object" && rec.content) {
+      extractClasses(rec.content, classes);
+      translations++;
+    }
+  }
+} catch (e) {
+  console.error(`[safelist] Could not read page_translations.json mirror: ${e.message}`);
+}
+
+if (translations < 10) {
+  console.error(
+    `[safelist] Suspiciously small translation count (${translations}); aborting (kept existing file).`
+  );
+  process.exit(1);
 }
 
 // Also harvest the article template shipped in public/ (authors copy from it).
@@ -121,5 +134,5 @@ const list = [...classes].filter((c) => /[-:[\]/.]/.test(c) || /^(flex|grid|bloc
 
 await fs.writeFile(OUT, JSON.stringify(list, null, 1) + "\n");
 console.log(
-  `[safelist] Wrote ${list.length} classes from ${data.length} pages / ${translations} translations -> ${path.relative(root, OUT)}`
+  `[safelist] Wrote ${list.length} classes from ${translations} translations (${contentFiles.length} per-language files) -> ${path.relative(root, OUT)}`
 );
