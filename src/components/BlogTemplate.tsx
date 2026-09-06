@@ -3,6 +3,42 @@ import DOMPurify from 'dompurify';
 import authorAvatar from "@/assets/gabriel-profile.png";
 import { Locale } from '@/lib/translations';
 
+// Kept in sync with the identical constants in src/pages/DynamicPage.tsx --
+// see the comment there for why 'nav'/'section'/'article'/'input'/SVG matter.
+// Dead code for the DynamicPage->BlogTemplate call path today (DynamicPage
+// pre-sanitizes and passes a ReactNode, so the `typeof content === 'string'`
+// branches below never run for it), but kept correct for any caller that
+// passes a raw HTML string directly.
+const CONTENT_ALLOWED_TAGS_FULL = [
+  'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'strong', 'em', 'br',
+  'img', 'div', 'span', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'blockquote', 'code',
+  'pre', 'figure', 'figcaption', 'header', 'footer', 'nav', 'aside', 'main', 'section',
+  'article', 'input',
+  'svg', 'g', 'circle', 'rect', 'line', 'polyline', 'polygon', 'path', 'text', 'tspan',
+  'defs', 'marker', 'ellipse',
+];
+const CONTENT_ALLOWED_ATTR_FULL = [
+  'href', 'src', 'alt', 'class', 'id', 'target', 'rel', 'title', 'style', 'data-*',
+  'width', 'height', 'checked', 'disabled', 'type',
+  'viewBox', 'xmlns', 'fill', 'stroke', 'stroke-width', 'stroke-linecap', 'stroke-linejoin',
+  'd', 'cx', 'cy', 'r', 'x', 'y', 'x1', 'y1', 'x2', 'y2', 'points', 'transform',
+  'font-size', 'font-family', 'font-weight', 'text-anchor', 'opacity',
+];
+const CONTENT_ALLOWED_TAGS_PROSE = [
+  'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'strong', 'em', 'br',
+  'img', 'div', 'span', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'blockquote', 'code',
+  'pre', 'section', 'article', 'figure', 'figcaption', 'nav', 'input',
+  'svg', 'g', 'circle', 'rect', 'line', 'polyline', 'polygon', 'path', 'text', 'tspan',
+  'defs', 'marker', 'ellipse',
+];
+const CONTENT_ALLOWED_ATTR_PROSE = [
+  'href', 'src', 'alt', 'class', 'id', 'target', 'rel', 'title', 'width', 'height',
+  'checked', 'disabled', 'type',
+  'viewBox', 'xmlns', 'fill', 'stroke', 'stroke-width', 'stroke-linecap', 'stroke-linejoin',
+  'd', 'cx', 'cy', 'r', 'x', 'y', 'x1', 'y1', 'x2', 'y2', 'points', 'transform',
+  'font-size', 'font-family', 'font-weight', 'text-anchor', 'opacity',
+];
+
 interface BlogTemplateProps {
   title: string;
   content: string | ReactNode;
@@ -116,8 +152,8 @@ const BlogTemplate = ({
               {typeof content === 'string' ? (
                 <div dangerouslySetInnerHTML={{ 
                   __html: DOMPurify.sanitize(content, {
-                    ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'strong', 'em', 'br', 'img', 'div', 'span', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'blockquote', 'code', 'pre', 'section', 'article', 'figure', 'figcaption', 'header', 'footer', 'nav', 'aside', 'main'],
-                    ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel', 'title', 'style', 'data-*']
+                    ALLOWED_TAGS: CONTENT_ALLOWED_TAGS_FULL,
+                    ALLOWED_ATTR: CONTENT_ALLOWED_ATTR_FULL
                   })
                 }} />
               ) : (
@@ -129,8 +165,8 @@ const BlogTemplate = ({
               {typeof content === 'string' ? (
                 <div dangerouslySetInnerHTML={{ 
                   __html: DOMPurify.sanitize(content, {
-                    ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'strong', 'em', 'br', 'img', 'div', 'span', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'blockquote', 'code', 'pre', 'section', 'article', 'figure', 'figcaption'],
-                    ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel', 'title']
+                    ALLOWED_TAGS: CONTENT_ALLOWED_TAGS_PROSE,
+                    ALLOWED_ATTR: CONTENT_ALLOWED_ATTR_PROSE
                   })
                 }} />
               ) : (

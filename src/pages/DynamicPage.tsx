@@ -17,6 +17,42 @@ import web2Web3MarketingImage from '@/assets/web2-vs-web3-cover.png';
 import tokenHealthScanImage from '@/assets/token-health-scan-build-cover.png';
 import web3SeoGuideImage from '@/assets/web3-seo-cover.png';
 
+// DOMPurify allowlist for CMS article body content (dangerouslySetInnerHTML).
+// Kept as a single shared constant so the two sanitize() call sites below
+// (system-page path and BlogTemplate path) can never drift apart again --
+// they silently diverged from BlogTemplate.tsx's own (more permissive, but
+// dead-code-for-this-flow) allowlist for months. Missing 'nav' here is what
+// caused the Web3 SEO hub's "In this article" TOC box to render as an
+// unstyled wall of links: DOMPurify strips any tag not in ALLOWED_TAGS by
+// unwrapping it (keeping children, dropping the tag), so the whole
+// `<nav class="grid gap-2 md:grid-cols-2">` wrapper vanished, found via
+// direct DOM inspection 2026-09-06 (article-lint / JSON-source checks never
+// catch this class of bug, since they read the pre-sanitize source).
+// 'section', 'article', and 'input' (checkbox-only, see ALLOWED_ATTR) are
+// real, currently-used content patterns found by scanning content/**/*.json
+// that were also silently being stripped. The SVG element set is added
+// proactively for the inline diagram work the design-review pass
+// recommended (_ops/design-review-web3-seo-hub-2026-09-06.md) -- GEO-crawlable
+// hand-authored SVG, never a flattened raster image of a diagram.
+const CONTENT_ALLOWED_TAGS = [
+  'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'strong', 'em', 'br',
+  'img', 'div', 'span', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'blockquote', 'code',
+  'pre', 'figure', 'figcaption', 'hr', 'sub', 'sup', 'video', 'source',
+  'nav', 'section', 'article', 'input',
+  // SVG primitives for hand-authored, crawlable diagrams (never raster-image a diagram).
+  'svg', 'g', 'circle', 'rect', 'line', 'polyline', 'polygon', 'path', 'text', 'tspan',
+  'defs', 'marker', 'ellipse',
+];
+const CONTENT_ALLOWED_ATTR = [
+  'href', 'src', 'alt', 'class', 'id', 'target', 'rel', 'title', 'width', 'height',
+  'loading', 'muted', 'loop', 'playsinline', 'controls', 'preload', 'autoplay', 'type',
+  'checked', 'disabled',
+  // SVG attributes.
+  'viewBox', 'xmlns', 'fill', 'stroke', 'stroke-width', 'stroke-linecap', 'stroke-linejoin',
+  'd', 'cx', 'cy', 'r', 'x', 'y', 'x1', 'y1', 'x2', 'y2', 'points', 'transform',
+  'font-size', 'font-family', 'font-weight', 'text-anchor', 'opacity',
+];
+
 // Map of publication slugs to their hero images (fallback for existing publications)
 // New publications uploaded via admin will use Supabase Storage URLs from the database
 const heroImageMap: Record<string, string> = {
@@ -372,8 +408,8 @@ export default function DynamicPage() {
               <div 
                 className="prose prose-lg dark:prose-invert max-w-none"
                 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(bodyContent, {
-                  ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'strong', 'em', 'br', 'img', 'div', 'span', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'blockquote', 'code', 'pre', 'figure', 'figcaption', 'hr', 'sub', 'sup', 'video', 'source'],
-                  ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel', 'title', 'width', 'height', 'loading', 'muted', 'loop', 'playsinline', 'controls', 'preload', 'autoplay', 'type']
+                  ALLOWED_TAGS: CONTENT_ALLOWED_TAGS,
+                  ALLOWED_ATTR: CONTENT_ALLOWED_ATTR
                 }) }}
               />
             </article>
@@ -382,8 +418,8 @@ export default function DynamicPage() {
           <BlogTemplate
             title={translation.title}
             content={<div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(bodyContent, {
-              ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'strong', 'em', 'br', 'img', 'div', 'span', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'blockquote', 'code', 'pre', 'figure', 'figcaption', 'hr', 'sub', 'sup', 'video', 'source'],
-              ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel', 'title', 'width', 'height', 'loading', 'muted', 'loop', 'playsinline', 'controls', 'preload', 'autoplay', 'type']
+              ALLOWED_TAGS: CONTENT_ALLOWED_TAGS,
+              ALLOWED_ATTR: CONTENT_ALLOWED_ATTR
             }) }} />}
             category={page.category}
             publishedDate={page.updated_at || page.created_at}
