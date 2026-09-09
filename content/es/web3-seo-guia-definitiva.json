@@ -355,8 +355,7 @@
               "sameAs": "https://tryprofound.com"
             },
             "url": "https://university.tryprofound.com/diplomas/344379c2-41f7-4829-a136-1d38e90837fe",
-            "dateCreated": "2026-09-04",
-            "validUntil": "2028-09-04"
+            "dateCreated": "2026-09-04"
           }
         ]
       },
@@ -379,11 +378,8 @@
       {
         "@id": "https://mangabeira.net/es/articulos/web3-seo-guia-definitiva",
         "url": "https://mangabeira.net/es/articulos/web3-seo-guia-definitiva",
-        "name": "SEO Web3: La Guía Completa 2026 para Posicionar Protocolos y Ser Citado por IA",
+        "name": "20 Estrategias de SEO Web3 para 2026: Posicionando Protocolos y Siendo Citado por IA",
         "@type": "WebPage",
-        "isPartOf": {
-          "@id": "https://mangabeira.net/#organization"
-        },
         "breadcrumb": {
           "@id": "https://mangabeira.net/es/articulos/web3-seo-guia-definitiva#breadcrumbs"
         },
