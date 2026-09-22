@@ -1,10 +1,15 @@
 import { Check } from "lucide-react";
+import { beginCheckout, trackLP } from "@/lib/checkout-tracking";
+
+/** Identifies this page in GA4, matching the /lp/web3-growth-audit-v2 convention. */
+const LP_ID = "web3-growth-audit";
 
 const PricingSection = () => {
   const tiers = [
     {
       name: "Starter",
       price: "$197",
+      priceValue: 197,
       description: "For early teams needing fast clarity.",
       badge: undefined,
       features: [
@@ -20,6 +25,7 @@ const PricingSection = () => {
     {
       name: "Pro",
       price: "$497",
+      priceValue: 497,
       description: "For teams who want clarity and a plan.",
       badge: "Best for 90% of teams",
       features: [
@@ -36,6 +42,7 @@ const PricingSection = () => {
     {
       name: "Elite",
       price: "$997",
+      priceValue: 997,
       description: "For funded teams or major launches.",
       badge: undefined,
       features: [
@@ -50,6 +57,21 @@ const PricingSection = () => {
       paymentUrl: "https://buy.stripe.com/00w6oG8vCbvD0UUcL92ZO04",
     },
   ];
+
+  const handleSelect = (tier: (typeof tiers)[number]) => {
+    const tierId = tier.name.toLowerCase();
+    trackLP(LP_ID, "lp_cta_click", {
+      tier: tierId,
+      label: tier.cta,
+      price: tier.priceValue,
+      destination: tier.paymentUrl,
+    });
+    // Standard GA4 ecommerce event — value/currency are built-in GA4
+    // parameters, so revenue reporting and the checkout funnel work without
+    // registering a custom dimension or metric.
+    beginCheckout(tierId, tier.priceValue);
+    window.open(tier.paymentUrl, "_blank");
+  };
 
   return (
     <section id="pricing" className="py-20 lg:py-28 bg-gradient-to-br from-[hsl(var(--navy-deep))] to-[#0D3251]">
@@ -111,7 +133,7 @@ const PricingSection = () => {
                     ? 'bg-gradient-cta hover:shadow-button-hover text-white shadow-md'
                     : 'border-2 border-primary text-primary hover:bg-primary hover:text-white'
                 }`}
-                onClick={() => window.open(tier.paymentUrl, '_blank')}
+                onClick={() => handleSelect(tier)}
               >
                 {tier.cta}
               </button>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import "@/styles/audit-landing-v2.css";
-import { beginCheckout } from "@/lib/checkout-tracking";
+import { beginCheckout, trackLP } from "@/lib/checkout-tracking";
 
 import imgSwimmer from "@/assets/audit-v2/swimmer-butterfly.webp";
 import imgHeadshot from "@/assets/audit-v2/gabriel-headshot.webp";
@@ -50,36 +50,9 @@ declare global {
   }
 }
 
-/**
- * Every parameter any lp_ event can send. GTM's dataLayer model *persists* keys
- * between pushes, so without clearing these an event inherits whatever the
- * previous one set — a CTA click would arrive carrying the last scroll depth and
- * section heading. Each push therefore blanks the full set before applying its
- * own params, so every event reports only what actually belongs to it.
- */
-const EVENT_PARAM_KEYS = [
-  "percent", "tier", "price", "label", "destination", "launch_pricing", "anchor",
-  "faq_index", "faq_question", "section_id", "section_index", "section_heading",
-  "seconds", "currency",
-] as const;
-
-/**
- * Push a custom event to the GTM dataLayer.
- *
- * GA4 on this site is loaded *inside* GTM (window.gtag is undefined), so there
- * is no way to send GA4 events straight from code. Every event below needs a
- * matching GTM trigger + GA4 event tag to reach GA4. All names share the `lp_`
- * prefix so one regex trigger (`^lp_`) forwards the whole set.
- */
-const track = (event: string, params: Record<string, string | number | boolean> = {}) => {
-  if (typeof window === "undefined") return;
-  window.dataLayer = window.dataLayer || [];
-  const cleared: Record<string, undefined> = {};
-  EVENT_PARAM_KEYS.forEach((key) => {
-    cleared[key] = undefined;
-  });
-  window.dataLayer.push({ event, lp_id: LP_ID, ...cleared, ...params });
-};
+/** Thin wrapper binding the shared tracker to this page's LP_ID. */
+const track = (event: string, params: Record<string, string | number | boolean> = {}) =>
+  trackLP(LP_ID, event, params);
 
 const AuditLandingV2 = () => {
   const [openFaq, setOpenFaq] = useState(0);

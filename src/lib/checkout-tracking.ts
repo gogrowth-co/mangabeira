@@ -29,6 +29,41 @@ const dataLayer = (): Record<string, unknown>[] | null => {
   return window.dataLayer;
 };
 
+/**
+ * Every parameter any lp_ event can send. GTM's dataLayer model *persists*
+ * keys between pushes, so without clearing these an event inherits whatever
+ * the previous one set — a CTA click would arrive carrying the last scroll
+ * depth and section heading. Each push blanks the full set before applying
+ * its own params, so every event reports only what actually belongs to it.
+ */
+const LP_EVENT_PARAM_KEYS = [
+  "percent", "tier", "price", "label", "destination", "launch_pricing", "anchor",
+  "faq_index", "faq_question", "section_id", "section_index", "section_heading",
+  "seconds", "currency",
+] as const;
+
+/**
+ * Push a custom event to the GTM dataLayer, shared by every landing page that
+ * sells the audit. GA4 on this site is loaded *inside* GTM (window.gtag is
+ * undefined), so there is no way to send GA4 events straight from code —
+ * every event pushed here needs a matching GTM trigger + GA4 event tag to
+ * reach GA4. All names share the `lp_` prefix so one regex trigger (`^lp_`)
+ * forwards the whole set.
+ */
+export const trackLP = (
+  lpId: string,
+  event: string,
+  params: Record<string, string | number | boolean> = {}
+) => {
+  const dl = dataLayer();
+  if (!dl) return;
+  const cleared: Record<string, undefined> = {};
+  LP_EVENT_PARAM_KEYS.forEach((key) => {
+    cleared[key] = undefined;
+  });
+  dl.push({ event, lp_id: lpId, ...cleared, ...params });
+};
+
 /** Fired when the buyer leaves for Stripe. */
 export const beginCheckout = (tier: string, price: number) => {
   const dl = dataLayer();
