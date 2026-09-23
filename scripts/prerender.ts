@@ -112,7 +112,9 @@ interface RouteSpec {
   /** Optional JSON-LD blocks; each must be an object or array. */
   schemas?: unknown[];
   /** Page kind — drives the body content template. */
-  kind?: "home" | "about" | "privacy" | "publications-hub" | "tools-hub" | "tokenomics" | "audit" | "publication";
+  kind?: "home" | "about" | "privacy" | "publications-hub" | "tools-hub" | "tokenomics" | "audit" | "audit-lp" | "publication";
+  /** Ad landing pages must stay out of search while still unfurling correctly. */
+  noindex?: boolean;
   /** Extra context for body templates (publication body, etc.). */
   bodyExtra?: Record<string, string>;
   /** Article dates (publications only) — surfaced in JSON-LD + visible byline. */
@@ -449,6 +451,25 @@ function staticRoutes(
       schemas: auditSchemas(`${BASE_URL}/${audit[locale]}`),
     });
   }
+
+  // --- Ad landing pages (/lp/*) --------------------------------------------
+  // Paid-traffic routes that ship noindex so they never compete with
+  // /services/web3-growth-audit in search. They still need a per-route file:
+  // LinkedIn, X, Slack and Discord unfurlers are all matched as bots, and
+  // without one they receive dist/index.html — so every share of a paid
+  // landing page rendered the HOMEPAGE card. Confirmed broken 2026-08-25,
+  // still broken 2026-09-23 (Googlebot returned the homepage title).
+  routes.push({
+    outPath: "lp/web3-growth-audit-v2",
+    locale: "en",
+    canonical: `${BASE_URL}/lp/web3-growth-audit-v2`,
+    alternates: {},
+    title: "Web3 Growth Audit | Find where your growth system is breaking",
+    description:
+      "A 72-hour async diagnosis of where your Web3 growth system is breaking, across six connected surfaces. Every finding arrives with the evidence behind it.",
+    kind: "audit-lp",
+    noindex: true,
+  });
 
   return routes;
 }
@@ -897,7 +918,7 @@ function buildHead(spec: RouteSpec): string {
   return `<title>${escapeHtml(spec.title)}</title>
     <meta name="title" content="${escapeHtml(spec.title)}" />
     <meta name="description" content="${escapeHtml(spec.description)}" />
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="robots" content="${spec.noindex ? "noindex, nofollow" : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"}" />
     <link rel="canonical" href="${spec.canonical}" />
     ${altLinks}
     <meta property="og:type" content="${ogType}" />
@@ -1114,6 +1135,45 @@ function buildSectionContent(spec: RouteSpec): string {
         proseHtml(C.aboutHeading, C.aboutParagraphs) +
         stepsHtml(C.howHeading, C.howItems) +
         faqHtml(C.faqHeading, C.faqs);
+      break;
+    }
+    case "audit-lp": {
+      // Ad landing page body. English-only: /lp/* has no localized variants.
+      // This exists so unfurlers and crawlers get the page's own copy instead
+      // of the homepage; the page itself stays noindex.
+      const surfaces: [string, string][] = [
+        ["Website", "Positioning, narrative clarity, conversion paths and the promise you make before anyone connects a wallet."],
+        ["dApp", "First-session activation, wallet-connect friction, and whether the product delivers what acquisition promised."],
+        ["Social", "What your feed actually teaches a stranger, and whether attention converts into a next step or dead-ends."],
+        ["Community", "Discord and Telegram as a funnel stage: who arrives, what they ask, and where onboarding silently fails."],
+        ["Search & AEO", "The demand already looking for what you built, and whether ChatGPT, Perplexity and Google's AI answers name you."],
+        ["Paid & PR", "Where spend and coverage land, and whether the traffic they buy meets a surface built to receive it."],
+      ];
+      const surfacesHtml = surfaces
+        .map(([n, d]) => `<li><strong>${escapeHtml(n)}</strong> — ${escapeHtml(d)}</li>`)
+        .join("\n        ");
+      sectionHtml = `
+    <section>
+      <h2>Find where your Web3 growth system is breaking, in 72 hours.</h2>
+      <p>${escapeHtml(spec.description)}</p>
+      <h3>The six surfaces</h3>
+      <ul>
+        ${surfacesHtml}
+      </ul>
+      <h3>What lands in your workspace</h3>
+      <ul>
+        <li><strong>Miro evidence board</strong> — every surface inspected, captured and connected.</li>
+        <li><strong>Loom walkthrough</strong> — how each conclusion was reached, so your team can argue with it.</li>
+        <li><strong>Private cloneable skills</strong> — built against your protocol's context, so you can rerun the checks.</li>
+        <li><strong>Notion operating report</strong> — assignable, commentable, closeable.</li>
+      </ul>
+      <h3>Pricing</h3>
+      <p><strong>Starter, $97</strong> — know what is wrong. Six-surface audit and synthesis, evidence-backed findings, Miro board, Loom walkthrough, private skills, Notion report.</p>
+      <p><strong>Pro, $397</strong> — know what to fix first. Everything in Starter plus prioritised findings, an experiment backlog, a Growth Sprint board and a 30-day execution calendar.</p>
+      <p>Delivered in 72 hours, async, no calls. At least 3 meaningful, actionable insights or a full refund within 7 days.</p>
+      <p>Built for post-TGE DeFi, DePIN, stablecoin, wallet, dApp, exchange, DeFAI and RWA teams with initial distribution already in motion.</p>
+      <p><a href="${spec.canonical}">Open the full landing page</a></p>
+    </section>`;
       break;
     }
     case "audit": {
