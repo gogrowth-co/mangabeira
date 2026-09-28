@@ -70,7 +70,12 @@ const PricingSection = () => {
     // parameters, so revenue reporting and the checkout funnel work without
     // registering a custom dimension or metric.
     beginCheckout(tierId, tier.priceValue);
-    window.open(tier.paymentUrl, "_blank");
+    // Same-tab navigation: purchase tracking stashes tier/price in
+    // sessionStorage on click and reads it back on the Stripe success
+    // redirect. sessionStorage does not carry over to a new tab, so a
+    // target="_blank"/window.open here would silently break every
+    // `purchase` event GA4 receives from this page.
+    window.location.href = tier.paymentUrl;
   };
 
   return (
