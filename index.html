@@ -1,6 +1,19 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Before GTM: any host that is not the production site (Cloudflare
+         preview URLs, mangabeira.pages.dev, mangabeira.lovable.app, Google's
+         gtm-msr tag-test host) is marked traffic_type=internal, so the GA4
+         "Internal Traffic" data filter drops it. Production is untouched. -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      (function () {
+        var h = window.location.hostname;
+        if (h !== 'mangabeira.net' && h !== 'www.mangabeira.net') {
+          (function () { window.dataLayer.push(arguments); })('set', { traffic_type: 'internal' });
+        }
+      })();
+    </script>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
