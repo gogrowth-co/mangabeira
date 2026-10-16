@@ -792,5 +792,26 @@
     "read_time": "9 min",
     "is_system_page": false,
     "preserve_styles": false
+  },
+  {
+    "id": "4d38e296-db5e-4a00-a9d3-21f4b5c7a3dd",
+    "slug": "aave-growth-audit",
+    "category": "Arena: Weekly Protocol Audits",
+    "status": "published",
+    "created_at": "2026-10-16T13:56:25.058Z",
+    "updated_at": "2026-10-16T13:56:25.058Z",
+    "featured_image": "https://mangabeira.net/media/aave-growth-audit-cover.png",
+    "author_name": "Gabriel Mangabeira",
+    "reading_time": null,
+    "tags": [
+      "DeFi",
+      "growth audit",
+      "Aave",
+      "analytics"
+    ],
+    "view_count": 0,
+    "read_time": "8 min",
+    "is_system_page": false,
+    "preserve_styles": false
   }
 ]
