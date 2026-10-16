@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Evidence has distinct limits</title>
+  <desc id="desc">Table comparing on-chain events, analytics models and identity links by what each supports and cannot prove.</desc>
+  <rect width="1200" height="675" fill="#ffffff"/>
+  <text x="72" y="104" font-family="Arial,sans-serif" font-size="52" font-weight="700" fill="#0A2540">Evidence has distinct limits</text>
+  <rect x="72" y="144" width="1056" height="48" rx="6" fill="#0A2540"/>
+  <text x="88" y="176" font-family="Arial,sans-serif" font-size="22" font-weight="700" fill="#ffffff">SIGNAL</text>
+  <text x="296" y="176" font-family="Arial,sans-serif" font-size="22" font-weight="700" fill="#ffffff">SUPPORTS</text>
+  <text x="696" y="176" font-family="Arial,sans-serif" font-size="22" font-weight="700" fill="#ffffff">CANNOT PROVE</text>
+  <rect x="72" y="200" width="1056" height="112" fill="#f4f7fa"/><rect x="72" y="200" width="10" height="112" fill="#1FB6FF"/>
+  <rect x="72" y="312" width="1056" height="112" fill="#f4f7fa"/>
+  <rect x="72" y="424" width="1056" height="112" fill="#f4f7fa"/>
+  <path d="M280 192V536 M680 192V536 M72 312H1128 M72 424H1128" stroke="#c5d4df" stroke-width="2"/>
+  <text x="88" y="240" font-family="Arial,sans-serif" font-size="42" font-weight="700" fill="#0A2540"><tspan x="88" dy="0">On-chain</tspan><tspan x="88" dy="48">event</tspan></text>
+  <text x="296" y="250" font-family="Arial,sans-serif" font-size="42" fill="#0A2540">
+    <tspan x="296" dy="0">A qualifying</tspan><tspan x="296" dy="48">protocol action</tspan>
+  </text>
+  <text x="696" y="250" font-family="Arial,sans-serif" font-size="42" fill="#0A2540">
+    <tspan x="696" dy="0">Which channel</tspan><tspan x="696" dy="48">caused it</tspan>
+  </text>
+  <text x="88" y="360" font-family="Arial,sans-serif" font-size="42" font-weight="700" fill="#0A2540"><tspan x="88" dy="0">Analytics</tspan><tspan x="88" dy="48">model</tspan></text>
+  <text x="296" y="362" font-family="Arial,sans-serif" font-size="42" fill="#0A2540">
+    <tspan x="296" dy="0">Credit under</tspan><tspan x="296" dy="48">model rules</tspan>
+  </text>
+  <text x="696" y="376" font-family="Arial,sans-serif" font-size="42" fill="#0A2540">Causal impact</text>
+  <text x="88" y="472" font-family="Arial,sans-serif" font-size="42" font-weight="700" fill="#0A2540"><tspan x="88" dy="0">Identity</tspan><tspan x="88" dy="48">link</tspan></text>
+  <text x="296" y="474" font-family="Arial,sans-serif" font-size="42" fill="#0A2540">
+    <tspan x="296" dy="0">A documented</tspan><tspan x="296" dy="48">touchpoint match</tspan>
+  </text>
+  <text x="696" y="480" font-family="Arial,sans-serif" font-size="42" fill="#0A2540">
+    Who the person is
+  </text>
+  <text x="72" y="608" font-family="Arial,sans-serif" font-size="22" fill="#334155">Sources: Dune Query Engine; Google Analytics attribution documentation.</text>
+</svg>

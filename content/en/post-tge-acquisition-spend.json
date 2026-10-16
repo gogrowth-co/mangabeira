@@ -1,0 +1,83 @@
+{
+  "id": "f23aab1e-2d8d-45cf-b571-3b97985e1575",
+  "page_id": "2001976a-791f-43aa-845d-781f5c8e8b38",
+  "language": "en",
+  "title": "After TGE, should DeFi keep funding user acquisition?",
+  "meta_description": "A post-TGE guide to measuring meaningful actions, repeat use and attribution before deciding whether to continue, pause or redirect DeFi acquisition spend.",
+  "content": "<meta property=\"cover-style\" content=\"brand-designed-editorial\">\n<figure data-visual-type=\"illustrative\"><img width=\"1200\" height=\"675\" src=\"https://mangabeira.net/media/post-tge-acquisition-spend-inline-path.png\" alt=\"A conceptual path from a first DeFi protocol action to repeat use for a defined acquisition cohort.\"><figcaption>AI-generated conceptual illustration. No performance data is implied.</figcaption></figure><meta property=\"og:image\" content=\"/root/workspaces/mangabeira/packages/post-tge-acquisition-spend/assets/post-tge-acquisition-spend-capa.png\">\n<h2>Introduction: when to keep funding acquisition after TGE</h2><p>Keep funding acquisition only when a defined cohort reaches a meaningful protocol action, returns within a stated observation window, and does so at a cost the team accepts. If one of those links is missing, pause expansion or redirect the test. A token generation event changes the context, but it does not prove product demand.</p><p>A launch can bring attention, liquidity and wallet activity at once. Those signals describe different things. A useful budget decision starts with the protocol behavior it aims to create, then traces what can be connected to the acquisition source. If the data cannot connect those points, report the gap instead of treating activity as proof. This guide sets out a simple evidence path for founders and growth leads.</p><h2>Primary evidence: define the cohort before measuring it</h2><p>Write down who entered the acquisition cohort, when they entered, and which campaign or touchpoint is being evaluated. Use a stable rule. It could be wallets exposed to a campaign, accounts that completed signup, or users linked to a referral code. State the rule and its limits. If a wallet cannot be tied to a channel touchpoint, channel attribution is incomplete.</p><p>Next define the first meaningful action. Choose an event that shows the user experienced the protocol’s intended value. For a lending app, that might be a completed deposit or borrow, subject to the product’s own definition. A wallet connection, token transfer or page visit may be a step in the journey, but none should be silently substituted for product use. Record the event name, chain, contract or data source, and any exclusions. Dune’s query documentation describes how analysts can run and inspect queries over on-chain datasets. It supports reproducible analysis, but the analyst still has to validate the table, event decoding and query logic for the protocol being studied.</p><figure data-visual-type=\"diagram\"><img width=\"1200\" height=\"675\" src=\"https://mangabeira.net/media/post-tge-acquisition-spend-en-decision-flow.svg\" alt=\"Flow showing a DeFi acquisition cohort moving from a defined action to repeat use, attribution checks and a budget decision\"><figcaption>This flow connects a defined cohort and protocol action to repeat use, attribution limits and a budget choice. Source: Dune Query Engine documentation.</figcaption></figure><h3>Measure repeat use with an explicit window</h3><p>A first action indicates activation. Repeat use asks whether the same cohort completed another qualifying action during a stated period. Pick the observation window before reading the result, based on how often the protocol’s value should recur. A weekly trading product and an infrequent governance tool do not share a natural cadence.</p><p>Show the cohort size, eligible users, repeat-action rule, observation dates and missing coverage. Do not call the result retention if the event history is incomplete or user identity changes across addresses. Wallets are addresses, not automatically people. A user may control several wallets, and one address can be shared or automated. The measure therefore describes the cohort under the stated identity rule. It does not reveal more than that. If repeat use cannot be observed, report it as unknown and keep the spend decision provisional.</p><h3>Separate on-chain behavior from channel credit</h3><p>On-chain data can show protocol events under a defined query. Analytics systems can assign credit to channels under a selected attribution model. These records answer different questions. Google Analytics explains that attribution models distribute credit across touchpoints according to model rules. That allocation is not proof that a channel caused the event.</p><p>Keep the views side by side. The on-chain panel can report qualifying actions and repeat behavior. The channel panel can report the selected model, date range and credited conversions. Add a third status for links between them: verified, partial or unknown. When a user’s channel touchpoint cannot be linked to a wallet or account under a lawful, documented method, do not join the records by guesswork. The honest answer may be that the campaign generated measurable visits while protocol adoption remains unattributed.</p><figure data-visual-type=\"chart\"><img width=\"1200\" height=\"675\" src=\"https://mangabeira.net/media/post-tge-acquisition-spend-en-evidence-table.svg\" alt=\"Table comparing what on-chain events, analytics models and identity links can and cannot prove\"><figcaption>A side-by-side view of what protocol events, model credit and identity links can support, and what each cannot prove. Sources: Dune and Google Analytics documentation.</figcaption></figure><h2>Patterns and common mistakes that distort the decision</h2><p>Wallet totals can rise because one person uses several addresses, bots interact, or an incentive attracts one-time activity. TVL can change with asset prices, deposits, withdrawals and market conditions. Token movement can reflect transfers or trading rather than use of the protocol. Each measure can still be useful, but only for the question it actually answers.</p><p>A second shortcut is comparing cohorts with different exposure periods or rules. Align the start date, eligibility criteria and observation window before comparing. A third is treating a campaign-level correlation as causal lift. Without a credible comparison or identification method, say the result is associated with the campaign, not caused by it. Avoid a composite score that hides these differences. A short table with separate definitions is more useful than one blended “growth” number.</p><h2>Strategic interpretation: continue, pause or redirect spend</h2><p>Continue when the cohort meets the protocol-defined meaningful-action and repeat-use tests, the acquisition cost falls within a threshold the team set in advance, and the result is sufficiently attributable for the decision at hand. The threshold is a management choice, not a universal benchmark. Document who chose it and why.</p><p>Pause expansion when a required event is uninstrumented, the observation window is not complete, or the cohort cannot be distinguished from other traffic. A pause can mean holding new spend while preserving the test and fixing measurement. Redirect when the current source produces low-quality actions under the same cohort rules but another hypothesis can be tested. Do not keep spending simply because a dashboard is busy.</p><p>Use the related launch, retention and acquisition guides below to compare adjacent growth questions.</p><figure data-visual-type=\"diagram\"><img width=\"1200\" height=\"675\" src=\"https://mangabeira.net/media/post-tge-acquisition-spend-en-decision-worksheet.svg\" alt=\"Decision worksheet for continuing, pausing, redirecting or investigating post-TGE acquisition spend\"><figcaption>Use a consistent cohort, event and observation window before choosing to continue, pause, redirect or investigate. No universal numeric threshold is assumed.</figcaption></figure><p>Set the decision rule before the next campaign launches. Write down the acceptable acquisition cost, the event that counts as meaningful use, and the observation window. If those definitions change after the result is visible, preserve the old rule and explain the revision. This protects the team from moving its own standard to fit a preferred outcome.</p><h2>Growth framework: a post-TGE acquisition decision record</h2><p>Preserve the query version and event definition used for every cohort. If the contract or event changes, record the date and split the comparison. Otherwise, the team may mistake a measurement change for a behavior change. Note whether incentives were active during the observation window and whether every acquisition source used the same eligibility rule. These controls do not prove that a campaign caused repeat use. They make the observation easier to reproduce and show where the conclusion may fail. Keep a separate count for records whose identity could not be linked. Excluding them without disclosure can make the measured cohort look more complete than it is.</p><p>I would rather leave a gap visible than claim a return the data cannot support.</p><p>Use the related <a href=\"https://mangabeira.net/publications/defi-launch-frameworks\">protocol launch guide</a>, <a href=\"https://mangabeira.net/publications/web3-user-retention-after-incentives\">user retention guide</a> and <a href=\"https://mangabeira.net/publications/defi-user-acquisition-channels\">acquisition channel overview</a> for adjacent questions.</p><figure data-visual-type=\"chart\"><img width=\"1200\" height=\"675\" src=\"https://mangabeira.net/media/post-tge-acquisition-spend-en-evidence-chart.svg\" alt=\"Three current and four retired Google Analytics attribution models, counted from documentation.\"><figcaption>Source: Google Analytics attribution documentation. Model availability is not proof of campaign causation.</figcaption></figure>\n<h2>FAQ</h2><h3>What counts as a meaningful action after TGE?</h3><p>A protocol-defined event that reflects the value a user came to experience. Wallet connection or a token transfer alone may not qualify.</p><h3>How long should a protocol measure repeat use?</h3><p>Choose a period that matches how often the protocol value should recur. State it before reading the result.</p><h3>Can wallet growth prove a campaign worked?</h3><p>No. Wallet totals count addresses and do not establish unique people, repeat use or channel causation.</p><h3>When should a protocol pause acquisition spend?</h3><p>Pause expansion when key events are untracked, the observation window is incomplete or cohort linkage is unknown.</p><h2>Closing: set the rule before the next campaign</h2><p>The next useful signal is whether the same event and cohort rules still hold through the next observation window. If your team needs an outside review of its acquisition measurement, I can help identify the evidence gaps and decisions it supports.</p><div class=\"my-8 p-6 bg-primary/10 border border-primary rounded-lg\"><p class=\"font-bold text-lg mb-2\">Need a clearer view of your protocol’s growth gaps?</p><p class=\"text-muted-foreground mb-4\">I assess evidence across six growth dimensions and provide concrete actions for your team.</p><a href=\"https://mangabeira.net/services/web3-growth-audit\" class=\"inline-block px-5 py-2.5 bg-gradient-cta text-white font-semibold rounded-lg hover:brightness-110 transition-all\">Run the Growth Audit →</a></div><figure data-visual-type=\"screenshot\"><img width=\"1200\" height=\"675\" src=\"https://mangabeira.net/media/post-tge-acquisition-spend-dune-capture.png\" alt=\"Dune Query Engine overview page showing documented query-engine features\"><figcaption>Screenshot: Dune documentation, accessed 2026-10-15. <a href=\"https://docs.dune.com/query-engine/overview\">Open the official source</a>.</figcaption></figure><div class=\"my-8 overflow-x-auto\"><table><thead><tr><th>Question</th><th>Evidence to inspect</th><th>What it supports</th></tr></thead><tbody><tr><td>Who entered the cohort?</td><td>Protocol-defined acquisition cohort</td><td>Membership under the stated rule</td></tr><tr><td>What counts as a first action?</td><td>A protocol-defined event or transaction</td><td>Observed product behavior</td></tr><tr><td>Did users return?</td><td>Repeat event in a stated observation window</td><td>Repeat behavior, not channel causation</td></tr></tbody></table></div><h3>References</h3><ul><li><a href=\"https://docs.dune.com/query-engine/overview\">Dune query engine documentation</a>, checked 2026-10-15.</li><li><a href=\"https://support.google.com/analytics/answer/12958241?hl=en\">Google Analytics attribution documentation</a>, checked 2026-10-15.</li></ul>",
+  "created_at": "2026-10-16T11:56:45.710Z",
+  "updated_at": "2026-10-16T11:56:45.710Z",
+  "featured_image_alt": "Post-TGE DeFi acquisition decision shown as a navy and gold network funnel.",
+  "slug": "post-tge-acquisition-spend",
+  "schema": {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "After TGE, should DeFi keep funding user acquisition?",
+    "description": "A post-TGE guide to measuring meaningful actions, repeat use and attribution before you continue, pause or redirect DeFi user acquisition spend.",
+    "author": {
+      "@type": "Person",
+      "name": "Gabriel Mangabeira"
+    },
+    "mainEntityOfPage": "https://mangabeira.net/publications/post-tge-acquisition-spend",
+    "inLanguage": "en",
+    "datePublished": "2026-10-15",
+    "dateModified": "2026-10-16T11:56:45.710Z",
+    "image": "assets/post-tge-acquisition-spend-capa.png",
+    "wordCount": 1342,
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "After TGE, should DeFi keep funding user acquisition?",
+        "description": "A post-TGE guide to measuring meaningful actions, repeat use and attribution before you continue, pause or redirect DeFi user acquisition spend.",
+        "author": {
+          "@type": "Person",
+          "name": "Gabriel Mangabeira"
+        },
+        "mainEntityOfPage": "https://mangabeira.net/publications/post-tge-acquisition-spend",
+        "inLanguage": "en",
+        "datePublished": "2026-10-15",
+        "dateModified": "2026-10-16T11:56:45.710Z",
+        "image": "assets/post-tge-acquisition-spend-capa.png",
+        "wordCount": 1342
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What counts as a meaningful action after TGE?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A protocol-defined event that reflects the value a user came to experience. Wallet connection or a token transfer alone may not qualify."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How long should a protocol measure repeat use?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Choose a period that matches how often the protocol value should recur. State it before reading the result."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can wallet growth prove a campaign worked?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Wallet totals count addresses and do not establish unique people, repeat use or channel causation."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "When should a protocol pause acquisition spend?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Pause expansion when key events are untracked, the observation window is incomplete or cohort linkage is unknown."
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

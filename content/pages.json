@@ -729,5 +729,26 @@
     "read_time": "8 min",
     "is_system_page": false,
     "preserve_styles": false
+  },
+  {
+    "id": "2001976a-791f-43aa-845d-781f5c8e8b38",
+    "slug": "post-tge-acquisition-spend",
+    "category": "Arena: Weekly Protocol Audits",
+    "status": "published",
+    "created_at": "2026-10-16T11:56:45.710Z",
+    "updated_at": "2026-10-16T11:56:45.710Z",
+    "featured_image": "https://mangabeira.net/media/post-tge-acquisition-spend-capa.png",
+    "author_name": "Gabriel Mangabeira",
+    "reading_time": null,
+    "tags": [
+      "Web3 growth",
+      "DeFi",
+      "Analytics"
+    ],
+    "view_count": 0,
+    "is_featured": false,
+    "read_time": "8 min",
+    "is_system_page": false,
+    "preserve_styles": false
   }
 ]
