@@ -750,5 +750,26 @@
     "read_time": "8 min",
     "is_system_page": false,
     "preserve_styles": false
+  },
+  {
+    "id": "475d4139-595a-4eb9-97e0-64d8cf9bdf8d",
+    "slug": "explain-web3-marketing-roi",
+    "category": "Arena: Weekly Protocol Audits",
+    "status": "published",
+    "created_at": "2026-10-16T11:59:40.550Z",
+    "updated_at": "2026-10-16T11:59:40.550Z",
+    "featured_image": "https://mangabeira.net/media/explain-web3-marketing-roi-capa.png",
+    "author_name": "Gabriel Mangabeira",
+    "reading_time": null,
+    "tags": [
+      "Web3 growth",
+      "DeFi",
+      "Analytics"
+    ],
+    "view_count": 0,
+    "is_featured": false,
+    "read_time": "8 min",
+    "is_system_page": false,
+    "preserve_styles": false
   }
 ]
