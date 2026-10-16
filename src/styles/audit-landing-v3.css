@@ -1,0 +1,119 @@
+/* Web3 Growth Audit landing page (v3 test route: /lp/web3-growth-audit-v3).
+   Ported from the Claude Design prototype. All layout lives in inline styles on
+   the elements themselves; this file only carries what inline styles cannot
+   express: the base reset, link colours, and :hover / :active states.
+   Everything is scoped under .w3v3 so it cannot leak into the rest of the site. */
+
+.w3v3, .w3v3 * { box-sizing: border-box; }
+
+.w3v3 {
+  background: #FFFFFF;
+  color: #0A2540;
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.w3v3 a { color: #0A2540; text-decoration: underline; text-underline-offset: 3px; }
+.w3v3 a:hover { color: #FF7A3D; }
+
+/* Generated from the prototype's style-hover / style-active attributes. */
+.w3v3 .hv1:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(255,184,0,0.40); }
+.w3v3 .hv2:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(255,184,0,0.40); }
+.w3v3 .ac3:active { transform:scale(0.97); }
+.w3v3 .hv4:hover { background:#FFFFFF; color:#0A2540; }
+.w3v3 .hv5:hover { filter:grayscale(0); opacity:1; }
+.w3v3 .hv6:hover { filter:grayscale(0); opacity:1; }
+.w3v3 .hv7:hover { filter:grayscale(0); opacity:1; }
+.w3v3 .hv8:hover { filter:grayscale(0); opacity:1; }
+.w3v3 .hv9:hover { transform:translateY(-4px); border-color:rgba(255,122,61,0.30); box-shadow:0 8px 30px rgba(10,37,64,0.12); }
+.w3v3 .hv10:hover { transform:translateY(-4px); border-color:rgba(255,122,61,0.30); box-shadow:0 8px 30px rgba(10,37,64,0.12); }
+.w3v3 .hv11:hover { transform:translateY(-4px); border-color:rgba(255,122,61,0.30); box-shadow:0 8px 30px rgba(10,37,64,0.12); }
+.w3v3 .hv12:hover { transform:translateY(-4px); border-color:rgba(255,122,61,0.30); box-shadow:0 8px 30px rgba(10,37,64,0.12); }
+.w3v3 .hv13:hover { transform:translateY(-4px); border-color:rgba(255,122,61,0.30); box-shadow:0 8px 30px rgba(10,37,64,0.12); }
+.w3v3 .hv14:hover { transform:translateY(-4px); border-color:rgba(255,122,61,0.30); box-shadow:0 8px 30px rgba(10,37,64,0.12); }
+.w3v3 .hv15:hover { transform:translateY(-4px); border-color:rgba(255,122,61,0.30); box-shadow:0 8px 30px rgba(10,37,64,0.12); }
+.w3v3 .hv16:hover { transform:translateY(-4px); border-color:rgba(255,122,61,0.30); box-shadow:0 8px 30px rgba(10,37,64,0.12); }
+.w3v3 .hv17:hover { transform:translateY(-4px); border-color:rgba(255,122,61,0.30); box-shadow:0 8px 30px rgba(10,37,64,0.12); }
+.w3v3 .hv18:hover { transform:translateY(-4px); border-color:rgba(255,122,61,0.30); box-shadow:0 8px 30px rgba(10,37,64,0.12); }
+.w3v3 .hv19:hover { transform:translateY(-2px); box-shadow:0 6px 12px rgba(255,140,26,0.30); }
+.w3v3 .hv20:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(255,184,0,0.40); }
+.w3v3 .hv21:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(255,184,0,0.40); }
+
+/* The prototype ships no media queries, so every multi-column grid stayed
+   multi-column down to 390px: cards collapsed to ~100px wide and the pricing
+   row pushed 20px past the viewport. Stack them below the tablet breakpoint.
+   Layout above 720px is untouched and still matches the design exactly. */
+@media (max-width: 720px) {
+  .w3v3 .stackable-grid { grid-template-columns: 1fr !important; }
+}
+
+/* --- Seam line: six surfaces, five handoffs -------------------------------
+   The rail is continuous under each surface and physically stops at every
+   handoff. The shape carries the argument, so weight sits on the empty space
+   rather than on the nodes. Zero radii throughout, to keep it distinct from
+   the rounded card grid below it. Horizontal >=768px, vertical below. */
+
+.w3v3 .w3v3-sr {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+.w3v3 .w3v3-seam { margin: 0 0 40px; padding: 32px 0; }
+.w3v3 .seam-track { display: flex; align-items: flex-start; }
+
+.w3v3 .seam-surface { flex: 1 1 0; min-width: 0; }
+.w3v3 .seam-rail { position: relative; height: 24px; }
+.w3v3 .seam-rail::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 11px;
+  height: 2px; background: #E6EAF0;
+}
+.w3v3 .seam-node {
+  position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+  width: 8px; height: 8px; border-radius: 50%; background: #0A2540; z-index: 2;
+}
+.w3v3 .seam-label {
+  margin-top: 8px; min-height: 20px;
+  font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px;
+  letter-spacing: 1.5px; text-transform: uppercase; color: #4B5A69;
+  text-align: center; line-height: 1.4;
+}
+
+/* No rail line inside a joint. The break is real, not styled. */
+.w3v3 .seam-joint {
+  flex: 0 0 56px; height: 24px;
+  display: flex; align-items: center; justify-content: center;
+}
+.w3v3 .seam-mark-v { display: none; }
+
+.w3v3 .seam-caption {
+  margin: 24px auto 0; max-width: 60ch;
+  font-family: 'Inter', system-ui, sans-serif; font-size: 15px; line-height: 1.6;
+  color: #4B5A69; text-align: center;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .w3v3 .seam-joint { flex-basis: 32px; }
+  /* Tightened so "Search & AEO" stays on one line; min-height keeps the row
+     even if a longer label is ever added. */
+  .w3v3 .seam-label { font-size: 11px; letter-spacing: 0.4px; min-height: 34px; }
+}
+
+/* Vertical rail. No fixed widths, so nothing can overflow at any phone size. */
+@media (max-width: 767px) {
+  .w3v3 .w3v3-seam { padding: 24px 0; margin-bottom: 32px; }
+  .w3v3 .seam-track { flex-direction: column; align-items: stretch; }
+  .w3v3 .seam-surface { display: flex; align-items: center; min-height: 40px; }
+  .w3v3 .seam-rail { flex: 0 0 32px; width: 32px; height: 40px; }
+  .w3v3 .seam-rail::before {
+    left: 15px; right: auto; top: 0; bottom: 0; width: 2px; height: auto;
+  }
+  .w3v3 .seam-node { top: 50%; left: 16px; transform: translate(-50%,-50%); }
+  .w3v3 .seam-label {
+    margin-top: 0; min-height: 0; flex: 1 1 auto;
+    padding-left: 16px; text-align: left; font-size: 13px; letter-spacing: 1.2px;
+  }
+  .w3v3 .seam-joint { flex: 0 0 auto; width: 32px; height: 24px; justify-content: flex-start; padding-left: 4px; }
+  .w3v3 .seam-mark-h { display: none; }
+  .w3v3 .seam-mark-v { display: block; }
+  .w3v3 .seam-caption { margin-top: 20px; text-align: left; font-size: 15px; }
+}

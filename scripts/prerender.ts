@@ -1,4 +1,4 @@
-// prerender v3.0 — static divorce: all content comes from the in-repo
+// prerender v3.1 — /lp v2 + v3 ad landing pages; v3.0 static divorce: all content comes from the in-repo
 // `content/` store; no Supabase anywhere in the build.
 /**
  * Build-time prerender plugin.
@@ -459,17 +459,35 @@ function staticRoutes(
   // without one they receive dist/index.html — so every share of a paid
   // landing page rendered the HOMEPAGE card. Confirmed broken 2026-08-25,
   // still broken 2026-09-23 (Googlebot returned the homepage title).
-  routes.push({
-    outPath: "lp/web3-growth-audit-v2",
-    locale: "en",
-    canonical: `${BASE_URL}/lp/web3-growth-audit-v2`,
-    alternates: {},
-    title: "Web3 Growth Audit | Find where your growth system is breaking",
-    description:
-      "A 72-hour async diagnosis of where your Web3 growth system is breaking, across six connected surfaces. Every finding arrives with the evidence behind it.",
-    kind: "audit-lp",
-    noindex: true,
-  });
+  const AUDIT_LPS: { outPath: string; title: string; description: string; lp: string }[] = [
+    {
+      outPath: "lp/web3-growth-audit-v2",
+      lp: "v2",
+      title: "Web3 Growth Audit | Find where your growth system is breaking",
+      description:
+        "A 72-hour async diagnosis of where your Web3 growth system is breaking, across six connected surfaces. Every finding arrives with the evidence behind it.",
+    },
+    {
+      outPath: "lp/web3-growth-audit-v3",
+      lp: "v3",
+      title: "Web3 Growth Audit | Find the handoff where your growth system breaks",
+      description:
+        "A 72-hour async diagnosis of the handoffs between your six growth surfaces, where the leak usually sits. You get a Miro evidence board, a Loom walkthrough and a Notion operating report.",
+    },
+  ];
+  for (const lp of AUDIT_LPS) {
+    routes.push({
+      outPath: lp.outPath,
+      locale: "en",
+      canonical: `${BASE_URL}/${lp.outPath}`,
+      alternates: {},
+      title: lp.title,
+      description: lp.description,
+      kind: "audit-lp",
+      noindex: true,
+      bodyExtra: { lp: lp.lp },
+    });
+  }
 
   return routes;
 }
@@ -1149,6 +1167,9 @@ function buildSectionContent(spec: RouteSpec): string {
         ["Search & AEO", "The demand already looking for what you built, and whether ChatGPT, Perplexity and Google's AI answers name you."],
         ["Paid & PR", "Where spend and coverage land, and whether the traffic they buy meets a surface built to receive it."],
       ];
+      // v3 adds the handoff argument, the real-audit proof and the operator block
+      // (text mirror of AuditLandingV3.tsx; bots never run the React tree).
+      const isV3 = spec.bodyExtra?.lp === "v3";
       const surfacesHtml = surfaces
         .map(([n, d]) => `<li><strong>${escapeHtml(n)}</strong> — ${escapeHtml(d)}</li>`)
         .join("\n        ");
@@ -1156,10 +1177,18 @@ function buildSectionContent(spec: RouteSpec): string {
     <section>
       <h2>Find where your Web3 growth system is breaking, in 72 hours.</h2>
       <p>${escapeHtml(spec.description)}</p>
+      ${isV3 ? `<h2>The leak is almost never inside a channel. It is in the handoff between two.</h2>
+      <p>A website audit reads your website. A UX audit reads your dApp. Neither can see that your hero promises one action and your dApp opens on another, because that break does not live inside either surface. I inspect all six separately, then read them as one system. That second pass is the product.</p>` : ""}
       <h3>The six surfaces</h3>
       <ul>
         ${surfacesHtml}
       </ul>
+      ${isV3 ? `<h3>From a real audit</h3>
+      <p>The board shown on this page is from an actual six-surface audit, run against EigenLayer ($EIGEN), a live restaking protocol. Six frames, one per surface, each holding the captured evidence the findings were drawn from. Shown with permission.</p>
+      <h3>Who does the work</h3>
+      <p>One senior operator does the entire audit. No juniors, no account manager, no handoff. Gabriel Mangabeira: ten years running growth inside other people's systems, paid and community at Binance LATAM, SEO at scale at Neil Patel Brasil, sponsorship activation for Coca-Cola and the IOC.</p>
+      <h3>Can't Dune already tell me this?</h3>
+      <p>Dune tells you where users stopped. It cannot tell you why the ones who arrived were primed for the wrong first action, because the cause sits in copy, sequence and expectation, none of which is on-chain. Dashboards measure inside one surface; the breaks that matter live in the gap between two.</p>` : ""}
       <h3>What lands in your workspace</h3>
       <ul>
         <li><strong>Miro evidence board</strong> — every surface inspected, captured and connected.</li>
@@ -1171,7 +1200,7 @@ function buildSectionContent(spec: RouteSpec): string {
       <p><strong>Starter, $97</strong> — know what is wrong. Six-surface audit and synthesis, evidence-backed findings, Miro board, Loom walkthrough, private skills, Notion report.</p>
       <p><strong>Pro, $397</strong> — know what to fix first. Everything in Starter plus prioritised findings, an experiment backlog, a Growth Sprint board and a 30-day execution calendar.</p>
       <p>Delivered in 72 hours, async, no calls. At least 3 meaningful, actionable insights or a full refund within 7 days.</p>
-      <p>Built for post-TGE DeFi, DePIN, stablecoin, wallet, dApp, exchange, DeFAI and RWA teams with initial distribution already in motion.</p>
+      ${isV3 ? `<p>Built for post-TGE DeFi, DePIN, stablecoin, wallet, dApp, exchange, DeFAI and RWA teams already carrying real traffic: roughly 5,000+ monthly visitors, 500+ monthly wallet connects, or live paid spend.</p>` : `<p>Built for post-TGE DeFi, DePIN, stablecoin, wallet, dApp, exchange, DeFAI and RWA teams with initial distribution already in motion.</p>`}
       <p><a href="${spec.canonical}">Open the full landing page</a></p>
     </section>`;
       break;
