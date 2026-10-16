@@ -771,5 +771,26 @@
     "read_time": "8 min",
     "is_system_page": false,
     "preserve_styles": false
+  },
+  {
+    "id": "083eeec7-29fe-4f30-ac1d-b4ed465de25e",
+    "slug": "web3-seo-review-options",
+    "category": "Web3 SEO & AEO",
+    "status": "published",
+    "created_at": "2026-10-16T12:14:20.301Z",
+    "updated_at": "2026-10-16T12:14:20.301Z",
+    "featured_image": "https://mangabeira.net/media/web3-seo-review-options-cover.png",
+    "author_name": "Gabriel Mangabeira",
+    "reading_time": null,
+    "tags": [
+      "Web3 SEO",
+      "SEO audit",
+      "Search Console"
+    ],
+    "view_count": 0,
+    "is_featured": false,
+    "read_time": "9 min",
+    "is_system_page": false,
+    "preserve_styles": false
   }
 ]
