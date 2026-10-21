@@ -827,5 +827,26 @@
     "read_time": "9 min",
     "is_system_page": false,
     "preserve_styles": false
+  },
+  {
+    "id": "43f12df9-e793-404a-a178-ea2d7606b362",
+    "slug": "uniswap-growth-audit-evidence",
+    "category": "Arena: Weekly Protocol Audits",
+    "status": "published",
+    "created_at": "2026-10-21T18:08:49.667Z",
+    "updated_at": "2026-10-21T18:08:49.667Z",
+    "featured_image": "https://mangabeira.net/media/uniswap-growth-audit-evidence-cover.png",
+    "author_name": "Gabriel Mangabeira",
+    "reading_time": null,
+    "tags": [
+      "DeFi",
+      "Uniswap",
+      "growth audit",
+      "analytics"
+    ],
+    "view_count": 0,
+    "read_time": "8 min",
+    "is_system_page": false,
+    "preserve_styles": false
   }
 ]
