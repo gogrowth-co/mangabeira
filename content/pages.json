@@ -848,5 +848,25 @@
     "read_time": "8 min",
     "is_system_page": false,
     "preserve_styles": false
+  },
+  {
+    "id": "efd1704f-262d-4828-9c1c-8cc11b5995cd",
+    "slug": "community-led-growth-defi-measurement",
+    "category": "DeFi Launch & Growth",
+    "status": "published",
+    "created_at": "2026-10-22T03:08:17.068Z",
+    "updated_at": "2026-10-22T03:08:17.068Z",
+    "featured_image": "https://mangabeira.net/media/community-led-growth-defi-measurement-cover.png",
+    "author_name": "Gabriel Mangabeira",
+    "reading_time": null,
+    "tags": [
+      "DeFi",
+      "community growth",
+      "analytics"
+    ],
+    "view_count": 0,
+    "read_time": "8 min",
+    "is_system_page": false,
+    "preserve_styles": false
   }
 ]
