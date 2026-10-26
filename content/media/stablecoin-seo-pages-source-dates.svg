@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+<title id="title">Two Circle source dates checked seven days apart</title>
+<desc id="desc">A timeline marks Circle USDC Terms last updated October 15, 2026, and the Circle Transparency page as of October 22, 2026. The seven-day gap is calculated from the two displayed dates.</desc>
+<rect width="1200" height="675" fill="#ffffff"/>
+<rect x="0" y="0" width="1200" height="12" fill="#0A2540"/>
+<text x="72" y="96" fill="#0A2540" font-family="Inter,Arial,sans-serif" font-size="52" font-weight="700">Date sources before citing</text>
+<text x="72" y="144" fill="#34495e" font-family="Inter,Arial,sans-serif" font-size="39">Checked 25 Oct 2026</text>
+<line x1="160" y1="360" x2="280" y2="360" stroke="#0A2540" stroke-width="8"/><line x1="280" y1="360" x2="920" y2="360" stroke="#FFB800" stroke-width="24"/><line x1="920" y1="360" x2="1040" y2="360" stroke="#0A2540" stroke-width="8"/>
+<circle cx="280" cy="360" r="22" fill="#FFB800" stroke="#0A2540" stroke-width="5"/>
+<circle cx="920" cy="360" r="22" fill="#FFB800" stroke="#0A2540" stroke-width="5"/>
+<text x="160" y="272" fill="#0A2540" font-family="Inter,Arial,sans-serif" font-size="29" font-weight="700">15 Oct 2026</text>
+<text x="160" y="432" fill="#0A2540" font-family="Inter,Arial,sans-serif" font-size="29">USDC Terms</text>
+<text x="160" y="480" fill="#34495e" font-family="Inter,Arial,sans-serif" font-size="22">“Last Updated” date</text>
+<text x="800" y="272" fill="#0A2540" font-family="Inter,Arial,sans-serif" font-size="29" font-weight="700">22 Oct 2026</text>
+<text x="800" y="432" fill="#0A2540" font-family="Inter,Arial,sans-serif" font-size="29">Transparency page</text>
+<text x="800" y="480" fill="#34495e" font-family="Inter,Arial,sans-serif" font-size="22">“As of” reserve date</text>
+<rect x="464" y="304" width="272" height="112" rx="8" fill="#0A2540"/>
+<text x="600" y="352" text-anchor="middle" fill="#ffffff" font-family="Inter,Arial,sans-serif" font-size="29" font-weight="700">7 days apart</text>
+<text x="600" y="392" text-anchor="middle" fill="#ffffff" font-family="Inter,Arial,sans-serif" font-size="22">date subtraction</text>
+<text x="72" y="592" fill="#34495e" font-family="Inter,Arial,sans-serif" font-size="22">This is a source-freshness example, not a reserve balance or performance chart.</text>
+<text x="72" y="632" fill="#34495e" font-family="Inter,Arial,sans-serif" font-size="22">Sources: circle.com/legal/usdc-terms and circle.com/transparency</text>
+</svg>

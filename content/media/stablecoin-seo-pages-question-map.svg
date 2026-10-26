@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="t d">
+<title id="t">Four stablecoin reader questions and issuer source types</title><desc id="d">Four labeled columns connect reserve questions to transparency reports, redemption questions to current terms, network questions to developer documentation, and product questions to product documentation.</desc>
+<rect width="1200" height="675" fill="#ffffff"/><rect width="1200" height="12" fill="#0A2540"/>
+<text x="56" y="96" font-family="Inter,Arial,sans-serif" font-size="52" font-weight="700" fill="#0A2540">Stablecoin issuer question map</text>
+<text x="56" y="144" font-family="Inter,Arial,sans-serif" font-size="39" fill="#34495e">Four routes to issuer sources</text>
+<g font-family="Inter,Arial,sans-serif">
+<rect x="56" y="224" width="248" height="368" fill="#f4f7fa" stroke="#0A2540" stroke-width="3"/><rect x="56" y="224" width="248" height="32" fill="#FFB800"/>
+<text x="80" y="288" font-size="29" font-weight="700" fill="#0A2540">Reserve</text><text x="80" y="336" font-size="29" fill="#0A2540">Where is the</text><text x="80" y="384" font-size="29" fill="#0A2540">disclosure?</text><line x1="80" y1="480" x2="280" y2="480" stroke="#c6d1db" stroke-width="2"/><text x="80" y="520" font-size="22" fill="#34495e">Transparency page</text><text x="80" y="552" font-size="22" fill="#34495e">and dated report</text>
+<rect x="336" y="224" width="248" height="368" fill="#f4f7fa" stroke="#0A2540" stroke-width="3"/><rect x="336" y="224" width="248" height="32" fill="#FFB800"/>
+<text x="360" y="288" font-size="29" font-weight="700" fill="#0A2540">Redemption</text><text x="360" y="336" font-size="29" fill="#0A2540">Who can redeem</text><text x="360" y="384" font-size="29" fill="#0A2540">and how?</text><line x1="360" y1="480" x2="560" y2="480" stroke="#c6d1db" stroke-width="2"/><text x="360" y="520" font-size="22" fill="#34495e">Current legal</text><text x="360" y="552" font-size="22" fill="#34495e">terms and fees</text>
+<rect x="616" y="224" width="248" height="368" fill="#f4f7fa" stroke="#0A2540" stroke-width="3"/><rect x="616" y="224" width="248" height="32" fill="#FFB800"/>
+<text x="640" y="288" font-size="29" font-weight="700" fill="#0A2540">Networks</text><text x="640" y="336" font-size="29" fill="#0A2540">Where is the</text><text x="640" y="384" font-size="29" fill="#0A2540">asset</text><text x="640" y="432" font-size="29" fill="#0A2540">supported?</text><line x1="640" y1="480" x2="840" y2="480" stroke="#c6d1db" stroke-width="2"/><text x="640" y="520" font-size="22" fill="#34495e">Official developer</text><text x="640" y="552" font-size="22" fill="#34495e">documentation</text>
+<rect x="896" y="224" width="248" height="368" fill="#f4f7fa" stroke="#0A2540" stroke-width="3"/><rect x="896" y="224" width="248" height="32" fill="#FFB800"/>
+<text x="920" y="288" font-size="29" font-weight="700" fill="#0A2540">Product</text><text x="920" y="336" font-size="29" fill="#0A2540">How does the</text><text x="920" y="384" font-size="29" fill="#0A2540">service work?</text><line x1="920" y1="480" x2="1120" y2="480" stroke="#c6d1db" stroke-width="2"/><text x="920" y="520" font-size="22" fill="#34495e">Product and</text><text x="920" y="552" font-size="22" fill="#34495e">API docs</text>
+</g>
+<text x="56" y="632" font-family="Inter,Arial,sans-serif" font-size="29" fill="#34495e">Keep each claim beside its owner, scope, date, and source link.</text>
+</svg>

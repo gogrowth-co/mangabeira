@@ -868,5 +868,25 @@
     "read_time": "8 min",
     "is_system_page": false,
     "preserve_styles": false
+  },
+  {
+    "id": "87ec8e8a-4167-41f4-8d2a-f59c8ad01c9d",
+    "slug": "stablecoin-seo-pages",
+    "category": "Web3 SEO & AEO",
+    "status": "published",
+    "created_at": "2026-10-26T13:07:05.707Z",
+    "updated_at": "2026-10-26T13:07:05.707Z",
+    "featured_image": "https://mangabeira.net/media/stablecoin-seo-pages-cover.png",
+    "author_name": "Gabriel Mangabeira",
+    "reading_time": null,
+    "tags": [
+      "stablecoin",
+      "Web3 SEO",
+      "issuer information architecture"
+    ],
+    "view_count": 0,
+    "read_time": "10 min",
+    "is_system_page": false,
+    "preserve_styles": false
   }
 ]
