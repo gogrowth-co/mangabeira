@@ -888,5 +888,25 @@
     "read_time": "10 min",
     "is_system_page": false,
     "preserve_styles": false
+  },
+  {
+    "id": "b16026de-7c89-48be-835a-ac72ee2afecd",
+    "slug": "web3-documentation-url-migration",
+    "category": "Web3 SEO & AEO",
+    "status": "published",
+    "created_at": "2026-11-10T13:10:17.892Z",
+    "updated_at": "2026-11-10T13:10:17.892Z",
+    "featured_image": "https://mangabeira.net/media/web3-documentation-url-migration-cover.jpg",
+    "author_name": "Gabriel Mangabeira",
+    "reading_time": null,
+    "tags": [
+      "Web3",
+      "SEO",
+      "growth"
+    ],
+    "view_count": 0,
+    "read_time": "8 min",
+    "is_system_page": false,
+    "preserve_styles": false
   }
 ]
