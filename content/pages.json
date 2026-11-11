@@ -908,5 +908,25 @@
     "read_time": "8 min",
     "is_system_page": false,
     "preserve_styles": false
+  },
+  {
+    "id": "d622c960-c22e-4107-aa69-355b00eb2f6b",
+    "slug": "verify-token-vesting-contract-evidence",
+    "category": "Tokenomics & Token Design",
+    "status": "published",
+    "created_at": "2026-11-11T03:09:50.016Z",
+    "updated_at": "2026-11-11T03:09:50.016Z",
+    "featured_image": "https://mangabeira.net/media/verify-token-vesting-contract-evidence-cover.jpg",
+    "author_name": "Gabriel Mangabeira",
+    "reading_time": null,
+    "tags": [
+      "Web3",
+      "SEO",
+      "growth"
+    ],
+    "view_count": 0,
+    "read_time": "7 min",
+    "is_system_page": false,
+    "preserve_styles": false
   }
 ]
