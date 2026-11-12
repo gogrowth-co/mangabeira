@@ -928,5 +928,25 @@
     "read_time": "7 min",
     "is_system_page": false,
     "preserve_styles": false
+  },
+  {
+    "id": "d5e67f81-d9e9-4008-bf9e-b2ab5dd0d433",
+    "slug": "defi-token-launch-readiness-checklist",
+    "category": "DeFi Launch & Growth",
+    "status": "published",
+    "created_at": "2026-11-12T03:09:37.354Z",
+    "updated_at": "2026-11-12T03:09:37.354Z",
+    "featured_image": "https://mangabeira.net/media/defi-token-launch-readiness-checklist-cover.jpg",
+    "author_name": "Gabriel Mangabeira",
+    "reading_time": null,
+    "tags": [
+      "Web3",
+      "SEO",
+      "growth"
+    ],
+    "view_count": 0,
+    "read_time": "7 min",
+    "is_system_page": false,
+    "preserve_styles": false
   }
 ]
