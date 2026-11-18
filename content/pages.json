@@ -948,5 +948,25 @@
     "read_time": "7 min",
     "is_system_page": false,
     "preserve_styles": false
+  },
+  {
+    "id": "4bee099a-be10-418b-9de0-415bb53215a0",
+    "slug": "curve-uniswap-aave-tokenomics-comparison",
+    "category": "Tokenomics & Token Design",
+    "status": "published",
+    "created_at": "2026-11-18T10:41:01.045Z",
+    "updated_at": "2026-11-18T10:41:01.045Z",
+    "featured_image": "https://mangabeira.net/media/curve-uniswap-aave-tokenomics-comparison-cover.png",
+    "author_name": "Gabriel Mangabeira",
+    "reading_time": null,
+    "tags": [
+      "Curve vs Uniswap vs Aave tokenomics",
+      "DeFi token incentives",
+      "protocol governance mechanisms"
+    ],
+    "view_count": 0,
+    "read_time": "7 min",
+    "is_system_page": false,
+    "preserve_styles": false
   }
 ]
