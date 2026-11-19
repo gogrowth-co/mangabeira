@@ -968,5 +968,25 @@
     "read_time": "7 min",
     "is_system_page": false,
     "preserve_styles": false
+  },
+  {
+    "id": "4030aa68-8b9e-4720-95ca-f6a87ad41e38",
+    "slug": "stablecoin-supply-chain-adoption",
+    "category": "DeFi Launch & Growth",
+    "status": "published",
+    "created_at": "2026-11-19T03:12:23.264Z",
+    "updated_at": "2026-11-19T03:12:23.264Z",
+    "featured_image": "https://mangabeira.net/media/stablecoin-supply-chain-adoption-cover.png",
+    "author_name": "Gabriel Mangabeira",
+    "reading_time": null,
+    "tags": [
+      "stablecoin supply by chain",
+      "stablecoin adoption metrics",
+      "stablecoin product activity"
+    ],
+    "view_count": 0,
+    "read_time": "8 min",
+    "is_system_page": false,
+    "preserve_styles": false
   }
 ]
